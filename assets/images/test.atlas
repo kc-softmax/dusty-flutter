@@ -1,0 +1,81 @@
+test-0.png
+size: 2048, 2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+yellow_body
+  rotate: false
+  xy: 0, 0
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: 0
+yellow_body
+  rotate: false
+  xy: 0, 1024
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: 1
+yellow_body
+  rotate: false
+  xy: 1024, 0
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: 2
+yellow_body
+  rotate: false
+  xy: 1024, 1024
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: 3
+yellow_body
+  rotate: false
+  xy: 1024, 0
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: 4
+yellow_body
+  rotate: false
+  xy: 0, 1024
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: 5
+yellow_body
+  rotate: false
+  xy: 0, 0
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: 6
+
+test-1.png
+size: 2048, 1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+yellow_body
+  rotate: false
+  xy: 0, 0
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: 7
+yellow_body
+  rotate: false
+  xy: 1024, 0
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: 8
+yellow_body
+  rotate: false
+  xy: 0, 0
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: 9
