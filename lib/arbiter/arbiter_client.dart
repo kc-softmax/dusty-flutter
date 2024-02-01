@@ -1,4 +1,4 @@
-import 'package:dusty_flutter/arbiter/api/clinet.dart';
+import 'package:dusty_flutter/arbiter/api/client.dart';
 import 'package:dusty_flutter/arbiter/live_service/mobile.dart'
     if (dart.library.html) 'package:dusty_flutter/arbiter/live_service/browser.dart';
 
