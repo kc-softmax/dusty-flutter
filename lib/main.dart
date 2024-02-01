@@ -1,3 +1,4 @@
+import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/components.dart';
@@ -39,6 +40,7 @@ class SpaceShooterGame extends FlameGame with PanDetector {
     await super.onLoad();
     player = Player();
     add(player);
+    overlays.add("TestButton");
   }
 
   @override
@@ -48,5 +50,21 @@ class SpaceShooterGame extends FlameGame with PanDetector {
 }
 
 void main() {
-  runApp(GameWidget(game: SpaceShooterGame()));
+  runApp(GameWidget(
+    game: SpaceShooterGame(),
+    overlayBuilderMap: {
+      "TestButton": (BuildContext context, SpaceShooterGame game) {
+        return FilledButton(
+            onPressed: () {
+              Arbiter.liveService.on(
+                "/di/ws?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDcxMDQyMzYsInN1YiI6IjE1In0.SqJrXhDWl-eQVMyY1m02dm8e1OZqOV1iSY0LSkkP0i0",
+                (message) {
+                  debugPrint(message.toString());
+                },
+              );
+            },
+            child: const Text("TEST"));
+      }
+    },
+  ));
 }
