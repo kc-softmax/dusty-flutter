@@ -1,12 +1,9 @@
-import 'package:dusty_flutter/arbiter/arbiter_client.dart';
-import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
-import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:flame_tiled/flame_tiled.dart';
-import 'package:flutter/material.dart';
+import 'package:flame_tiled/flame_tiled.dart' hide Text;
+import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/atlas/texture_atlas.dart';
 import 'package:dusty_flutter/flame_texturepacker.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
@@ -65,14 +62,6 @@ class DustyIsland extends FlameGame with HasCollisionDetection {
       onPressed: player.flipHorizontally,
     );
 
-    @override
-    Future<void> onLoad() async {
-      await super.onLoad();
-      player = Player();
-      add(player);
-      overlays.add("TestButton");
-    }
-
     final boostButton = HudButtonComponent(
       button: SpriteComponent(
         sprite: atlas.findSpriteByName('small_circle_button'),
@@ -121,6 +110,8 @@ class DustyIsland extends FlameGame with HasCollisionDetection {
       onPressed: player.flipHorizontally,
     );
 
+    // overlays.add("TestButton");
+
     world.addAll([player]);
     camera.follow(player);
     camera.viewport.addAll([
@@ -135,9 +126,9 @@ class DustyIsland extends FlameGame with HasCollisionDetection {
 
 void main() {
   runApp(GameWidget(
-    game: SpaceShooterGame(),
+    game: DustyIsland(),
     overlayBuilderMap: {
-      "TestButton": (BuildContext context, SpaceShooterGame game) {
+      "TestButton": (BuildContext context, DustyIsland game) {
         return FilledButton(
             onPressed: () {
               Arbiter.liveService.on(
