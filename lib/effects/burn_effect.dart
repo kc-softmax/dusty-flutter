@@ -1,7 +1,8 @@
+import 'package:dusty_flutter/game.dart';
 import 'package:flame/components.dart';
-import 'package:dusty_flutter/main.dart';
 
-class BurnEffect extends SpriteAnimationComponent with HasGameRef<DustyIsland> {
+class BurnEffect extends SpriteAnimationComponent
+    with HasGameRef<DustyIslandGame> {
   BurnEffect()
       : super(
           anchor: Anchor.center,

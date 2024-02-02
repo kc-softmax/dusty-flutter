@@ -1,12 +1,12 @@
 import 'package:dusty_flutter/extensions/sync_animation.dart';
+import 'package:dusty_flutter/game.dart';
 import 'package:flame/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:dusty_flutter/characters/const.dart';
-import 'package:dusty_flutter/main.dart';
 
 class DustyBodyEffect extends SpriteAnimationGroupComponent<DustyBodyEffectType>
-    with HasGameRef<DustyIsland>, CollisionCallbacks {
+    with HasGameRef<DustyIslandGame>, CollisionCallbacks {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -21,7 +21,7 @@ class DustyBodyEffect extends SpriteAnimationGroupComponent<DustyBodyEffectType>
 }
 
 class DustyGlasses extends SpriteAnimationGroupComponent<DustyGlassesType>
-    with HasGameRef<DustyIsland>, CollisionCallbacks {
+    with HasGameRef<DustyIslandGame>, CollisionCallbacks {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -41,7 +41,7 @@ class DustyGlasses extends SpriteAnimationGroupComponent<DustyGlassesType>
 }
 
 class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
-    with HasGameRef<DustyIsland>, CollisionCallbacks {
+    with HasGameRef<DustyIslandGame>, CollisionCallbacks {
   late final DustyGlasses glasses;
   late final DustyBodyEffect bodyEffect;
   late final Vector2 _lastSize = size.clone();
