@@ -1,9 +1,9 @@
+import 'package:dusty_flutter/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:dusty_flutter/main.dart';
 
 class DustyMissaile extends SpriteAnimationComponent
-    with HasGameRef<DustyIsland>, CollisionCallbacks {
+    with HasGameRef<DustyIslandGame>, CollisionCallbacks {
   Vector2 direction;
 
   DustyMissaile({

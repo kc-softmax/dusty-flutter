@@ -3,12 +3,12 @@ import 'package:dusty_flutter/characters/const.dart';
 import 'package:dusty_flutter/effects/const.dart';
 import 'package:dusty_flutter/effects/default_explosion.dart';
 import 'package:dusty_flutter/effects/thunder_effect.dart';
-import 'package:dusty_flutter/main.dart';
+import 'package:dusty_flutter/game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 
-class HudScene extends Component with HasGameRef<DustyIsland> {
+class HudScene extends Component with HasGameRef<DustyIslandGame> {
   static const routerName = 'hud';
   static final buttonSize = Vector2(56, 59);
   static final smallButtonSize = Vector2(44, 46);

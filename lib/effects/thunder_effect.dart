@@ -1,8 +1,8 @@
+import 'package:dusty_flutter/game.dart';
 import 'package:flame/components.dart';
-import 'package:dusty_flutter/main.dart';
 
 class ThunderEffect extends SpriteAnimationComponent
-    with HasGameRef<DustyIsland> {
+    with HasGameRef<DustyIslandGame> {
   ThunderEffect()
       : super(
           anchor: Anchor.bottomCenter,

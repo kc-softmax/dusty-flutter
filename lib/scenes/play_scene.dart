@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:dusty_flutter/characters/dusty.dart';
-import 'package:dusty_flutter/main.dart';
+import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/scenes/hud_scene.dart';
 import 'package:flame/components.dart';
 
-class PlayScene extends Component with HasGameRef<DustyIsland> {
+class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   static const routerName = 'play';
 
   late final Dusty player;
