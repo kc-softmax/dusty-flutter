@@ -1,0 +1,1 @@
+enum DefaultExplosionType { red, blue }
