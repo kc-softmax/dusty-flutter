@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:dusty_flutter/game.dart';
-import 'package:dusty_flutter/scenes/play_scene.dart';
+import 'package:dusty_flutter/scenes/lobby_scene.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class LoadingScene extends Component with HasGameRef<DustyIslandGame> {
   static const routerName = 'loading';
   static const progressPeriod = 10;
   static const finishProgress = 100;
-  static const minimumHoldingTime = progressPeriod * finishProgress * 0.5;
+  static const minimumHoldingTime = progressPeriod * finishProgress * 0.3;
 
   int currnetProgress = 0;
 
@@ -56,7 +56,7 @@ class LoadingScene extends Component with HasGameRef<DustyIslandGame> {
     tb.text = currnetProgress.toString();
     if (gameRef.isFinishLoadAllResource && currnetProgress >= finishProgress) {
       await Future.delayed(const Duration(milliseconds: 500),
-          () => gameRef.router.pushReplacementNamed(PlayScene.routerName));
+          () => gameRef.router.pushReplacementNamed(LobbyScene.routerName));
     }
   }
 }
