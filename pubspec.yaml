@@ -15,6 +15,7 @@ dependencies:
   web_socket_channel: ^2.4.0
   flame_tiled: ^1.18.3
   flame_splash_screen: ^0.2.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
