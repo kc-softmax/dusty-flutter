@@ -3,6 +3,7 @@ import 'package:dusty_flutter/atlas/texture_atlas.dart';
 import 'package:dusty_flutter/flame_texturepacker.dart';
 import 'package:dusty_flutter/scenes/hud_scene.dart';
 import 'package:dusty_flutter/scenes/loading_scene.dart';
+import 'package:dusty_flutter/scenes/lobby_scene.dart';
 import 'package:dusty_flutter/scenes/play_scene.dart';
 import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
@@ -15,6 +16,7 @@ class DustyIslandGame extends FlameGame with HasCollisionDetection {
   late final PlayScene playScene;
   late final HudScene hudScene;
   late final LoadingScene loadingScene;
+  late final LobbyScene lobbyScene;
 
   bool isLoadedAtlas = false;
   bool isLoadedMap = false;
@@ -25,9 +27,10 @@ class DustyIslandGame extends FlameGame with HasCollisionDetection {
     add(
       router = RouterComponent(
         routes: {
-          HudScene.routerName: Route(buildHudScene),
-          PlayScene.routerName: Route(buildPlayScene),
           LoadingScene.routerName: Route(buildLoadingScene),
+          LobbyScene.routerName: Route(buildLobbyScene),
+          PlayScene.routerName: Route(buildPlayScene),
+          HudScene.routerName: Route(buildHudScene),
         },
         initialRoute: LoadingScene.routerName,
       ),
@@ -57,5 +60,10 @@ class DustyIslandGame extends FlameGame with HasCollisionDetection {
   HudScene buildHudScene() {
     hudScene = HudScene();
     return hudScene;
+  }
+
+  LobbyScene buildLobbyScene() {
+    lobbyScene = LobbyScene();
+    return lobbyScene;
   }
 }

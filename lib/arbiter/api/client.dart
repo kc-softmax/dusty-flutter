@@ -25,7 +25,7 @@ class ArbiterApi {
 
   Future<GameUser> loginByUserName(RequestLoginByUserName requestBody) async {
     final response = await _dio.post<Map>(
-      '$gameUserApiPath/lgoin/username',
+      '$gameUserApiPath/login/username',
       data: requestBody.toJson(),
     );
     return GameUser.fromJson(response.data!.cast());
