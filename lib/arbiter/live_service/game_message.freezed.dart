@@ -739,6 +739,142 @@ abstract class _DustyMessage implements DustyMessage {
       throw _privateConstructorUsedError;
 }
 
+TowerMessage _$TowerMessageFromJson(Map<String, dynamic> json) {
+  return _TowerMessage.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TowerMessage {
+  int get id => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $TowerMessageCopyWith<TowerMessage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TowerMessageCopyWith<$Res> {
+  factory $TowerMessageCopyWith(
+          TowerMessage value, $Res Function(TowerMessage) then) =
+      _$TowerMessageCopyWithImpl<$Res, TowerMessage>;
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class _$TowerMessageCopyWithImpl<$Res, $Val extends TowerMessage>
+    implements $TowerMessageCopyWith<$Res> {
+  _$TowerMessageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TowerMessageImplCopyWith<$Res>
+    implements $TowerMessageCopyWith<$Res> {
+  factory _$$TowerMessageImplCopyWith(
+          _$TowerMessageImpl value, $Res Function(_$TowerMessageImpl) then) =
+      __$$TowerMessageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int id});
+}
+
+/// @nodoc
+class __$$TowerMessageImplCopyWithImpl<$Res>
+    extends _$TowerMessageCopyWithImpl<$Res, _$TowerMessageImpl>
+    implements _$$TowerMessageImplCopyWith<$Res> {
+  __$$TowerMessageImplCopyWithImpl(
+      _$TowerMessageImpl _value, $Res Function(_$TowerMessageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+  }) {
+    return _then(_$TowerMessageImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TowerMessageImpl implements _TowerMessage {
+  const _$TowerMessageImpl({required this.id});
+
+  factory _$TowerMessageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TowerMessageImplFromJson(json);
+
+  @override
+  final int id;
+
+  @override
+  String toString() {
+    return 'TowerMessage(id: $id)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TowerMessageImpl &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TowerMessageImplCopyWith<_$TowerMessageImpl> get copyWith =>
+      __$$TowerMessageImplCopyWithImpl<_$TowerMessageImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TowerMessageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TowerMessage implements TowerMessage {
+  const factory _TowerMessage({required final int id}) = _$TowerMessageImpl;
+
+  factory _TowerMessage.fromJson(Map<String, dynamic> json) =
+      _$TowerMessageImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(ignore: true)
+  _$$TowerMessageImplCopyWith<_$TowerMessageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ActiveObjectMessage _$ActiveObjectMessageFromJson(Map<String, dynamic> json) {
   return _ActiveObjectMessage.fromJson(json);
 }

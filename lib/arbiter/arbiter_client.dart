@@ -3,8 +3,8 @@ import 'package:dusty_flutter/arbiter/live_service/mobile.dart'
     if (dart.library.html) 'package:dusty_flutter/arbiter/live_service/browser.dart';
 
 // env
-const baseUrl = 'http://192.168.0.66:9991';
-const baseSocketUrl = 'ws://192.168.0.66:9991';
+const baseUrl = 'http://192.168.0.55:9991';
+const baseSocketUrl = 'ws://192.168.0.55:9991';
 
 class Arbiter {
   Arbiter._internal();

@@ -46,6 +46,16 @@ class DustyMessage with _$DustyMessage {
 }
 
 @freezed
+class TowerMessage with _$TowerMessage {
+  const factory TowerMessage({
+    required int id,
+  }) = _TowerMessage;
+
+  factory TowerMessage.fromJson(Map<String, dynamic> json) =>
+      _$TowerMessageFromJson(json);
+}
+
+@freezed
 class ActiveObjectMessage with _$ActiveObjectMessage {
   const factory ActiveObjectMessage({
     required int id,

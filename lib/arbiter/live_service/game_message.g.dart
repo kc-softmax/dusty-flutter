@@ -69,6 +69,16 @@ Map<String, dynamic> _$$DustyMessageImplToJson(_$DustyMessageImpl instance) =>
       'id': instance.id,
     };
 
+_$TowerMessageImpl _$$TowerMessageImplFromJson(Map<String, dynamic> json) =>
+    _$TowerMessageImpl(
+      id: json['id'] as int,
+    );
+
+Map<String, dynamic> _$$TowerMessageImplToJson(_$TowerMessageImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
 _$ActiveObjectMessageImpl _$$ActiveObjectMessageImplFromJson(
         Map<String, dynamic> json) =>
     _$ActiveObjectMessageImpl(
