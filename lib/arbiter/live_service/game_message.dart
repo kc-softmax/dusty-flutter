@@ -40,6 +40,7 @@ class GameConfig with _$GameConfig {
 class DustyMessage with _$DustyMessage {
   const factory DustyMessage({
     required int dustyId,
+    required int eventType,
     String? name,
     int? team,
     int? status,
@@ -57,6 +58,7 @@ class DustyMessage with _$DustyMessage {
 class TowerMessage with _$TowerMessage {
   const factory TowerMessage({
     required int towerId,
+    required int eventType,
     int? team,
     int? shape,
     int? position,
@@ -72,6 +74,7 @@ class TowerMessage with _$TowerMessage {
 class ActiveObjectMessage with _$ActiveObjectMessage {
   const factory ActiveObjectMessage({
     required int objectId,
+    required int eventType,
     int? team,
     int? directionX,
     int? directionY,
@@ -92,6 +95,7 @@ class ActiveObjectMessage with _$ActiveObjectMessage {
 class PassiveObjectMessage with _$PassiveObjectMessage {
   const factory PassiveObjectMessage({
     required int objectId,
+    required int eventType,
     int? team,
     int? size,
     int? position,
@@ -106,7 +110,10 @@ class PassiveObjectMessage with _$PassiveObjectMessage {
 @freezed
 class TileMessage with _$TileMessage {
   const factory TileMessage(
-      {required int address, int? team, int? activatorId}) = _TileMessage;
+      {required int address,
+      required int eventType,
+      int? team,
+      int? activatorId}) = _TileMessage;
 
   factory TileMessage.fromJson(Map<String, dynamic> json) =>
       _$TileMessageFromJson(json);
