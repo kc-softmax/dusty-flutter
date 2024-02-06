@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/atlas/texture_atlas.dart';
 import 'package:dusty_flutter/flame_texturepacker.dart';
-import 'package:dusty_flutter/scenes/hud_scene.dart';
 import 'package:dusty_flutter/scenes/loading_scene.dart';
 import 'package:dusty_flutter/scenes/lobby_scene.dart';
 import 'package:dusty_flutter/scenes/play_scene.dart';
@@ -13,15 +11,12 @@ import 'package:flame_tiled/flame_tiled.dart' hide Text;
 import 'package:flutter/material.dart' hide Route, OverlayRoute;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'arbiter/live_service/game_message.dart';
-
 class DustyIslandGame extends FlameGame with HasCollisionDetection {
   late final TiledComponent mapComponent;
   late final TextureAtlas atlas;
   late final RouterComponent router;
 
   late final PlayScene playScene;
-  late final HudScene hudScene;
   late final LoadingScene loadingScene;
   late final LobbyScene lobbyScene;
 
@@ -39,7 +34,6 @@ class DustyIslandGame extends FlameGame with HasCollisionDetection {
           LoadingScene.routerName: Route(_buildLoadingScene),
           LobbyScene.routerName: Route(_buildLobbyScene),
           PlayScene.routerName: Route(_buildPlayScene),
-          HudScene.routerName: Route(_buildHudScene),
           "login-dialog": OverlayRoute((context, game) {
             final controller = TextEditingController();
             return Center(
@@ -94,27 +88,6 @@ class DustyIslandGame extends FlameGame with HasCollisionDetection {
     });
   }
 
-  @override
-  void onRemove() {
-    super.onRemove();
-    Arbiter.liveService.close();
-  }
-
-  Future<void> startGame() async {
-    router.pushReplacementNamed(PlayScene.routerName);
-
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString("token");
-    Arbiter.liveService.on(
-      "/di/ws?token=$token",
-      (message) {
-        final decoded = const Utf8Decoder().convert(message);
-        final gameMessage = GameMessage.fromJson(jsonDecode(decoded));
-        debugPrint(gameMessage.toString());
-      },
-    );
-  }
-
   PlayScene _buildPlayScene() {
     playScene = PlayScene();
     return playScene;
@@ -123,11 +96,6 @@ class DustyIslandGame extends FlameGame with HasCollisionDetection {
   LoadingScene _buildLoadingScene() {
     loadingScene = LoadingScene();
     return loadingScene;
-  }
-
-  HudScene _buildHudScene() {
-    hudScene = HudScene();
-    return hudScene;
   }
 
   LobbyScene _buildLobbyScene() {

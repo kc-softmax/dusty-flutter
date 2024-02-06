@@ -1,3 +1,4 @@
+import 'package:dusty_flutter/scenes/play_scene.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:dusty_flutter/game.dart';
@@ -26,7 +27,7 @@ GameWidget<DustyIslandGame> buildGame() {
           child: FilledButton(
               onPressed: () async {
                 game.overlays.remove("StartButton");
-                await game.startGame();
+                game.router.pushReplacementNamed(PlayScene.routerName);
               },
               child: const Text("시작")),
         );
