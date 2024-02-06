@@ -18,7 +18,7 @@ class LoadingScene extends Component with HasGameRef<DustyIslandGame> {
   static const routerName = 'loading';
   static const progressPeriod = 10;
   static const finishProgress = 100;
-  static const minimumHoldingTime = progressPeriod * finishProgress * 0.3;
+  static const minimumHoldingTime = progressPeriod * finishProgress * 0.1;
 
   int currnetProgress = 0;
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:dusty_flutter/game.dart';
-import 'package:dusty_flutter/widgets/splash_screen.dart';
 
 class DustyIslandApp extends StatelessWidget {
   const DustyIslandApp({super.key});
@@ -9,9 +8,11 @@ class DustyIslandApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark(),
-      home: GameSplashScreen(
-        gameWidget: buildGame(),
-      ),
+      // 일시적으로 스플래시 스크린 off
+      // home: GameSplashScreen(
+      //   gameWidget: buildGame(),
+      // )
+      home: buildGame(),
     );
   }
 }
