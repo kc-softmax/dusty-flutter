@@ -8,20 +8,24 @@ part of 'game_message.dart';
 
 _$GameMessageImpl _$$GameMessageImplFromJson(Map<String, dynamic> json) =>
     _$GameMessageImpl(
-      prepare: json['prepare'] as bool,
-      gameConfig:
-          GameConfig.fromJson(json['game_config'] as Map<String, dynamic>),
-      dusties: (json['dusties'] as List<dynamic>)
-          .map((e) => DustyMessage.fromJson(e as Map<String, dynamic>))
+      prepare: json['prepare'] as bool?,
+      gameConfig: json['game_config'] == null
+          ? null
+          : GameConfig.fromJson(json['game_config'] as Map<String, dynamic>),
+      dusties: (json['dusties'] as List<dynamic>?)
+          ?.map((e) => DustyMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
-      activeObjects: (json['active_objects'] as List<dynamic>)
-          .map((e) => ActiveObjectMessage.fromJson(e as Map<String, dynamic>))
+      towers: (json['towers'] as List<dynamic>?)
+          ?.map((e) => TowerMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
-      passiveObjects: (json['passive_objects'] as List<dynamic>)
-          .map((e) => PassiveObjectMessage.fromJson(e as Map<String, dynamic>))
+      actives: (json['actives'] as List<dynamic>?)
+          ?.map((e) => ActiveObjectMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
-      tiles: (json['tiles'] as List<dynamic>)
-          .map((e) => TileMessage.fromJson(e as Map<String, dynamic>))
+      passives: (json['passives'] as List<dynamic>?)
+          ?.map((e) => PassiveObjectMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tiles: (json['tiles'] as List<dynamic>?)
+          ?.map((e) => TileMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -30,8 +34,9 @@ Map<String, dynamic> _$$GameMessageImplToJson(_$GameMessageImpl instance) =>
       'prepare': instance.prepare,
       'game_config': instance.gameConfig,
       'dusties': instance.dusties,
-      'active_objects': instance.activeObjects,
-      'passive_objects': instance.passiveObjects,
+      'towers': instance.towers,
+      'actives': instance.actives,
+      'passives': instance.passives,
       'tiles': instance.tiles,
     };
 
@@ -61,54 +66,112 @@ Map<String, dynamic> _$$GameConfigImplToJson(_$GameConfigImpl instance) =>
 
 _$DustyMessageImpl _$$DustyMessageImplFromJson(Map<String, dynamic> json) =>
     _$DustyMessageImpl(
-      id: json['id'] as int,
+      dustyId: json['dusty_id'] as int,
+      name: json['name'] as String?,
+      team: json['team'] as int?,
+      status: json['status'] as int?,
+      position: json['position'] as int?,
+      target: json['target'] as int?,
+      defence: json['defence'] as int?,
+      deathInfo: json['death_info'] as int?,
     );
 
 Map<String, dynamic> _$$DustyMessageImplToJson(_$DustyMessageImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'dusty_id': instance.dustyId,
+      'name': instance.name,
+      'team': instance.team,
+      'status': instance.status,
+      'position': instance.position,
+      'target': instance.target,
+      'defence': instance.defence,
+      'death_info': instance.deathInfo,
     };
 
 _$TowerMessageImpl _$$TowerMessageImplFromJson(Map<String, dynamic> json) =>
     _$TowerMessageImpl(
-      id: json['id'] as int,
+      towerId: json['tower_id'] as int,
+      team: json['team'] as int?,
+      shape: json['shape'] as int?,
+      position: json['position'] as int?,
+      target: json['target'] as int?,
+      removeType: json['remove_type'] as int?,
     );
 
 Map<String, dynamic> _$$TowerMessageImplToJson(_$TowerMessageImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'tower_id': instance.towerId,
+      'team': instance.team,
+      'shape': instance.shape,
+      'position': instance.position,
+      'target': instance.target,
+      'remove_type': instance.removeType,
     };
 
 _$ActiveObjectMessageImpl _$$ActiveObjectMessageImplFromJson(
         Map<String, dynamic> json) =>
     _$ActiveObjectMessageImpl(
-      id: json['id'] as int,
+      objectId: json['object_id'] as int,
+      team: json['team'] as int?,
+      directionX: json['direction_x'] as int?,
+      directionY: json['direction_y'] as int?,
+      stride: json['stride'] as int?,
+      size: json['size'] as int?,
+      life: json['life'] as int?,
+      position: json['position'] as int?,
+      target: json['target'] as int?,
+      objectType: json['object_type'] as int?,
+      removeType: json['remove_type'] as int?,
     );
 
 Map<String, dynamic> _$$ActiveObjectMessageImplToJson(
         _$ActiveObjectMessageImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'object_id': instance.objectId,
+      'team': instance.team,
+      'direction_x': instance.directionX,
+      'direction_y': instance.directionY,
+      'stride': instance.stride,
+      'size': instance.size,
+      'life': instance.life,
+      'position': instance.position,
+      'target': instance.target,
+      'object_type': instance.objectType,
+      'remove_type': instance.removeType,
     };
 
 _$PassiveObjectMessageImpl _$$PassiveObjectMessageImplFromJson(
         Map<String, dynamic> json) =>
     _$PassiveObjectMessageImpl(
-      id: json['id'] as int,
+      objectId: json['object_id'] as int,
+      team: json['team'] as int?,
+      size: json['size'] as int?,
+      position: json['position'] as int?,
+      objectType: json['object_type'] as int?,
+      removeType: json['remove_type'] as int?,
     );
 
 Map<String, dynamic> _$$PassiveObjectMessageImplToJson(
         _$PassiveObjectMessageImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'object_id': instance.objectId,
+      'team': instance.team,
+      'size': instance.size,
+      'position': instance.position,
+      'object_type': instance.objectType,
+      'remove_type': instance.removeType,
     };
 
 _$TileMessageImpl _$$TileMessageImplFromJson(Map<String, dynamic> json) =>
     _$TileMessageImpl(
       address: json['address'] as int,
+      team: json['team'] as int?,
+      activatorId: json['activator_id'] as int?,
     );
 
 Map<String, dynamic> _$$TileMessageImplToJson(_$TileMessageImpl instance) =>
     <String, dynamic>{
       'address': instance.address,
+      'team': instance.team,
+      'activator_id': instance.activatorId,
     };
