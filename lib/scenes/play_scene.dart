@@ -11,7 +11,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   @override
   FutureOr<void> onLoad() {
-    gameRef.overlays.add('TestButton');
     player = Dusty()
       ..x = 500
       ..y = 500;

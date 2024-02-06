@@ -8,6 +8,6 @@ class LobbyScene extends Component with HasGameRef<DustyIslandGame> {
 
   @override
   FutureOr<void> onLoad() {
-    gameRef.overlays.add('TestInputNickname');
+    gameRef.overlays.add('StartButton');
   }
 }

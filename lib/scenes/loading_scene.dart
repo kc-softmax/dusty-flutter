@@ -55,8 +55,11 @@ class LoadingScene extends Component with HasGameRef<DustyIslandGame> {
   void update(double dt) async {
     tb.text = currnetProgress.toString();
     if (gameRef.isFinishLoadAllResource && currnetProgress >= finishProgress) {
-      await Future.delayed(const Duration(milliseconds: 500),
-          () => gameRef.router.pushReplacementNamed(LobbyScene.routerName));
+      if (gameRef.isVerified) {
+        gameRef.router.pushReplacementNamed(LobbyScene.routerName);
+      } else {
+        gameRef.router.pushOverlay('login-dialog');
+      }
     }
   }
 }
