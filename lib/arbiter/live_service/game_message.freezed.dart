@@ -649,6 +649,7 @@ DustyMessage _$DustyMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$DustyMessage {
   int get dustyId => throw _privateConstructorUsedError;
+  int get eventType => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get status => throw _privateConstructorUsedError;
@@ -671,6 +672,7 @@ abstract class $DustyMessageCopyWith<$Res> {
   @useResult
   $Res call(
       {int dustyId,
+      int eventType,
       String? name,
       int? team,
       int? status,
@@ -694,6 +696,7 @@ class _$DustyMessageCopyWithImpl<$Res, $Val extends DustyMessage>
   @override
   $Res call({
     Object? dustyId = null,
+    Object? eventType = null,
     Object? name = freezed,
     Object? team = freezed,
     Object? status = freezed,
@@ -706,6 +709,10 @@ class _$DustyMessageCopyWithImpl<$Res, $Val extends DustyMessage>
       dustyId: null == dustyId
           ? _value.dustyId
           : dustyId // ignore: cast_nullable_to_non_nullable
+              as int,
+      eventType: null == eventType
+          ? _value.eventType
+          : eventType // ignore: cast_nullable_to_non_nullable
               as int,
       name: freezed == name
           ? _value.name
@@ -749,6 +756,7 @@ abstract class _$$DustyMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {int dustyId,
+      int eventType,
       String? name,
       int? team,
       int? status,
@@ -770,6 +778,7 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? dustyId = null,
+    Object? eventType = null,
     Object? name = freezed,
     Object? team = freezed,
     Object? status = freezed,
@@ -782,6 +791,10 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
       dustyId: null == dustyId
           ? _value.dustyId
           : dustyId // ignore: cast_nullable_to_non_nullable
+              as int,
+      eventType: null == eventType
+          ? _value.eventType
+          : eventType // ignore: cast_nullable_to_non_nullable
               as int,
       name: freezed == name
           ? _value.name
@@ -820,6 +833,7 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
 class _$DustyMessageImpl implements _DustyMessage {
   const _$DustyMessageImpl(
       {required this.dustyId,
+      required this.eventType,
       this.name,
       this.team,
       this.status,
@@ -833,6 +847,8 @@ class _$DustyMessageImpl implements _DustyMessage {
 
   @override
   final int dustyId;
+  @override
+  final int eventType;
   @override
   final String? name;
   @override
@@ -850,7 +866,7 @@ class _$DustyMessageImpl implements _DustyMessage {
 
   @override
   String toString() {
-    return 'DustyMessage(dustyId: $dustyId, name: $name, team: $team, status: $status, position: $position, target: $target, defence: $defence, deathInfo: $deathInfo)';
+    return 'DustyMessage(dustyId: $dustyId, eventType: $eventType, name: $name, team: $team, status: $status, position: $position, target: $target, defence: $defence, deathInfo: $deathInfo)';
   }
 
   @override
@@ -859,6 +875,8 @@ class _$DustyMessageImpl implements _DustyMessage {
         (other.runtimeType == runtimeType &&
             other is _$DustyMessageImpl &&
             (identical(other.dustyId, dustyId) || other.dustyId == dustyId) &&
+            (identical(other.eventType, eventType) ||
+                other.eventType == eventType) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.status, status) || other.status == status) &&
@@ -872,8 +890,8 @@ class _$DustyMessageImpl implements _DustyMessage {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, dustyId, name, team, status,
-      position, target, defence, deathInfo);
+  int get hashCode => Object.hash(runtimeType, dustyId, eventType, name, team,
+      status, position, target, defence, deathInfo);
 
   @JsonKey(ignore: true)
   @override
@@ -892,6 +910,7 @@ class _$DustyMessageImpl implements _DustyMessage {
 abstract class _DustyMessage implements DustyMessage {
   const factory _DustyMessage(
       {required final int dustyId,
+      required final int eventType,
       final String? name,
       final int? team,
       final int? status,
@@ -905,6 +924,8 @@ abstract class _DustyMessage implements DustyMessage {
 
   @override
   int get dustyId;
+  @override
+  int get eventType;
   @override
   String? get name;
   @override
@@ -932,6 +953,7 @@ TowerMessage _$TowerMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TowerMessage {
   int get towerId => throw _privateConstructorUsedError;
+  int get eventType => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get shape => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
@@ -952,6 +974,7 @@ abstract class $TowerMessageCopyWith<$Res> {
   @useResult
   $Res call(
       {int towerId,
+      int eventType,
       int? team,
       int? shape,
       int? position,
@@ -973,6 +996,7 @@ class _$TowerMessageCopyWithImpl<$Res, $Val extends TowerMessage>
   @override
   $Res call({
     Object? towerId = null,
+    Object? eventType = null,
     Object? team = freezed,
     Object? shape = freezed,
     Object? position = freezed,
@@ -983,6 +1007,10 @@ class _$TowerMessageCopyWithImpl<$Res, $Val extends TowerMessage>
       towerId: null == towerId
           ? _value.towerId
           : towerId // ignore: cast_nullable_to_non_nullable
+              as int,
+      eventType: null == eventType
+          ? _value.eventType
+          : eventType // ignore: cast_nullable_to_non_nullable
               as int,
       team: freezed == team
           ? _value.team
@@ -1018,6 +1046,7 @@ abstract class _$$TowerMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {int towerId,
+      int eventType,
       int? team,
       int? shape,
       int? position,
@@ -1037,6 +1066,7 @@ class __$$TowerMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? towerId = null,
+    Object? eventType = null,
     Object? team = freezed,
     Object? shape = freezed,
     Object? position = freezed,
@@ -1047,6 +1077,10 @@ class __$$TowerMessageImplCopyWithImpl<$Res>
       towerId: null == towerId
           ? _value.towerId
           : towerId // ignore: cast_nullable_to_non_nullable
+              as int,
+      eventType: null == eventType
+          ? _value.eventType
+          : eventType // ignore: cast_nullable_to_non_nullable
               as int,
       team: freezed == team
           ? _value.team
@@ -1077,6 +1111,7 @@ class __$$TowerMessageImplCopyWithImpl<$Res>
 class _$TowerMessageImpl implements _TowerMessage {
   const _$TowerMessageImpl(
       {required this.towerId,
+      required this.eventType,
       this.team,
       this.shape,
       this.position,
@@ -1088,6 +1123,8 @@ class _$TowerMessageImpl implements _TowerMessage {
 
   @override
   final int towerId;
+  @override
+  final int eventType;
   @override
   final int? team;
   @override
@@ -1101,7 +1138,7 @@ class _$TowerMessageImpl implements _TowerMessage {
 
   @override
   String toString() {
-    return 'TowerMessage(towerId: $towerId, team: $team, shape: $shape, position: $position, target: $target, removeType: $removeType)';
+    return 'TowerMessage(towerId: $towerId, eventType: $eventType, team: $team, shape: $shape, position: $position, target: $target, removeType: $removeType)';
   }
 
   @override
@@ -1110,6 +1147,8 @@ class _$TowerMessageImpl implements _TowerMessage {
         (other.runtimeType == runtimeType &&
             other is _$TowerMessageImpl &&
             (identical(other.towerId, towerId) || other.towerId == towerId) &&
+            (identical(other.eventType, eventType) ||
+                other.eventType == eventType) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.shape, shape) || other.shape == shape) &&
             (identical(other.position, position) ||
@@ -1121,8 +1160,8 @@ class _$TowerMessageImpl implements _TowerMessage {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, towerId, team, shape, position, target, removeType);
+  int get hashCode => Object.hash(runtimeType, towerId, eventType, team, shape,
+      position, target, removeType);
 
   @JsonKey(ignore: true)
   @override
@@ -1141,6 +1180,7 @@ class _$TowerMessageImpl implements _TowerMessage {
 abstract class _TowerMessage implements TowerMessage {
   const factory _TowerMessage(
       {required final int towerId,
+      required final int eventType,
       final int? team,
       final int? shape,
       final int? position,
@@ -1152,6 +1192,8 @@ abstract class _TowerMessage implements TowerMessage {
 
   @override
   int get towerId;
+  @override
+  int get eventType;
   @override
   int? get team;
   @override
@@ -1175,6 +1217,7 @@ ActiveObjectMessage _$ActiveObjectMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ActiveObjectMessage {
   int get objectId => throw _privateConstructorUsedError;
+  int get eventType => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get directionX => throw _privateConstructorUsedError;
   int? get directionY => throw _privateConstructorUsedError;
@@ -1200,6 +1243,7 @@ abstract class $ActiveObjectMessageCopyWith<$Res> {
   @useResult
   $Res call(
       {int objectId,
+      int eventType,
       int? team,
       int? directionX,
       int? directionY,
@@ -1226,6 +1270,7 @@ class _$ActiveObjectMessageCopyWithImpl<$Res, $Val extends ActiveObjectMessage>
   @override
   $Res call({
     Object? objectId = null,
+    Object? eventType = null,
     Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
@@ -1241,6 +1286,10 @@ class _$ActiveObjectMessageCopyWithImpl<$Res, $Val extends ActiveObjectMessage>
       objectId: null == objectId
           ? _value.objectId
           : objectId // ignore: cast_nullable_to_non_nullable
+              as int,
+      eventType: null == eventType
+          ? _value.eventType
+          : eventType // ignore: cast_nullable_to_non_nullable
               as int,
       team: freezed == team
           ? _value.team
@@ -1296,6 +1345,7 @@ abstract class _$$ActiveObjectMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {int objectId,
+      int eventType,
       int? team,
       int? directionX,
       int? directionY,
@@ -1320,6 +1370,7 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? objectId = null,
+    Object? eventType = null,
     Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
@@ -1335,6 +1386,10 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
       objectId: null == objectId
           ? _value.objectId
           : objectId // ignore: cast_nullable_to_non_nullable
+              as int,
+      eventType: null == eventType
+          ? _value.eventType
+          : eventType // ignore: cast_nullable_to_non_nullable
               as int,
       team: freezed == team
           ? _value.team
@@ -1385,6 +1440,7 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
 class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
   const _$ActiveObjectMessageImpl(
       {required this.objectId,
+      required this.eventType,
       this.team,
       this.directionX,
       this.directionY,
@@ -1401,6 +1457,8 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
 
   @override
   final int objectId;
+  @override
+  final int eventType;
   @override
   final int? team;
   @override
@@ -1424,7 +1482,7 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
 
   @override
   String toString() {
-    return 'ActiveObjectMessage(objectId: $objectId, team: $team, directionX: $directionX, directionY: $directionY, stride: $stride, size: $size, life: $life, position: $position, target: $target, objectType: $objectType, removeType: $removeType)';
+    return 'ActiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, directionX: $directionX, directionY: $directionY, stride: $stride, size: $size, life: $life, position: $position, target: $target, objectType: $objectType, removeType: $removeType)';
   }
 
   @override
@@ -1434,6 +1492,8 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
             other is _$ActiveObjectMessageImpl &&
             (identical(other.objectId, objectId) ||
                 other.objectId == objectId) &&
+            (identical(other.eventType, eventType) ||
+                other.eventType == eventType) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.directionX, directionX) ||
                 other.directionX == directionX) &&
@@ -1453,8 +1513,20 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, objectId, team, directionX,
-      directionY, stride, size, life, position, target, objectType, removeType);
+  int get hashCode => Object.hash(
+      runtimeType,
+      objectId,
+      eventType,
+      team,
+      directionX,
+      directionY,
+      stride,
+      size,
+      life,
+      position,
+      target,
+      objectType,
+      removeType);
 
   @JsonKey(ignore: true)
   @override
@@ -1474,6 +1546,7 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
 abstract class _ActiveObjectMessage implements ActiveObjectMessage {
   const factory _ActiveObjectMessage(
       {required final int objectId,
+      required final int eventType,
       final int? team,
       final int? directionX,
       final int? directionY,
@@ -1490,6 +1563,8 @@ abstract class _ActiveObjectMessage implements ActiveObjectMessage {
 
   @override
   int get objectId;
+  @override
+  int get eventType;
   @override
   int? get team;
   @override
@@ -1523,6 +1598,7 @@ PassiveObjectMessage _$PassiveObjectMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PassiveObjectMessage {
   int get objectId => throw _privateConstructorUsedError;
+  int get eventType => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get size => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
@@ -1543,6 +1619,7 @@ abstract class $PassiveObjectMessageCopyWith<$Res> {
   @useResult
   $Res call(
       {int objectId,
+      int eventType,
       int? team,
       int? size,
       int? position,
@@ -1565,6 +1642,7 @@ class _$PassiveObjectMessageCopyWithImpl<$Res,
   @override
   $Res call({
     Object? objectId = null,
+    Object? eventType = null,
     Object? team = freezed,
     Object? size = freezed,
     Object? position = freezed,
@@ -1575,6 +1653,10 @@ class _$PassiveObjectMessageCopyWithImpl<$Res,
       objectId: null == objectId
           ? _value.objectId
           : objectId // ignore: cast_nullable_to_non_nullable
+              as int,
+      eventType: null == eventType
+          ? _value.eventType
+          : eventType // ignore: cast_nullable_to_non_nullable
               as int,
       team: freezed == team
           ? _value.team
@@ -1610,6 +1692,7 @@ abstract class _$$PassiveObjectMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {int objectId,
+      int eventType,
       int? team,
       int? size,
       int? position,
@@ -1629,6 +1712,7 @@ class __$$PassiveObjectMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? objectId = null,
+    Object? eventType = null,
     Object? team = freezed,
     Object? size = freezed,
     Object? position = freezed,
@@ -1639,6 +1723,10 @@ class __$$PassiveObjectMessageImplCopyWithImpl<$Res>
       objectId: null == objectId
           ? _value.objectId
           : objectId // ignore: cast_nullable_to_non_nullable
+              as int,
+      eventType: null == eventType
+          ? _value.eventType
+          : eventType // ignore: cast_nullable_to_non_nullable
               as int,
       team: freezed == team
           ? _value.team
@@ -1669,6 +1757,7 @@ class __$$PassiveObjectMessageImplCopyWithImpl<$Res>
 class _$PassiveObjectMessageImpl implements _PassiveObjectMessage {
   const _$PassiveObjectMessageImpl(
       {required this.objectId,
+      required this.eventType,
       this.team,
       this.size,
       this.position,
@@ -1680,6 +1769,8 @@ class _$PassiveObjectMessageImpl implements _PassiveObjectMessage {
 
   @override
   final int objectId;
+  @override
+  final int eventType;
   @override
   final int? team;
   @override
@@ -1693,7 +1784,7 @@ class _$PassiveObjectMessageImpl implements _PassiveObjectMessage {
 
   @override
   String toString() {
-    return 'PassiveObjectMessage(objectId: $objectId, team: $team, size: $size, position: $position, objectType: $objectType, removeType: $removeType)';
+    return 'PassiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, size: $size, position: $position, objectType: $objectType, removeType: $removeType)';
   }
 
   @override
@@ -1703,6 +1794,8 @@ class _$PassiveObjectMessageImpl implements _PassiveObjectMessage {
             other is _$PassiveObjectMessageImpl &&
             (identical(other.objectId, objectId) ||
                 other.objectId == objectId) &&
+            (identical(other.eventType, eventType) ||
+                other.eventType == eventType) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.size, size) || other.size == size) &&
             (identical(other.position, position) ||
@@ -1715,8 +1808,8 @@ class _$PassiveObjectMessageImpl implements _PassiveObjectMessage {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, objectId, team, size, position, objectType, removeType);
+  int get hashCode => Object.hash(runtimeType, objectId, eventType, team, size,
+      position, objectType, removeType);
 
   @JsonKey(ignore: true)
   @override
@@ -1737,6 +1830,7 @@ class _$PassiveObjectMessageImpl implements _PassiveObjectMessage {
 abstract class _PassiveObjectMessage implements PassiveObjectMessage {
   const factory _PassiveObjectMessage(
       {required final int objectId,
+      required final int eventType,
       final int? team,
       final int? size,
       final int? position,
@@ -1748,6 +1842,8 @@ abstract class _PassiveObjectMessage implements PassiveObjectMessage {
 
   @override
   int get objectId;
+  @override
+  int get eventType;
   @override
   int? get team;
   @override
@@ -1771,6 +1867,7 @@ TileMessage _$TileMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TileMessage {
   int get address => throw _privateConstructorUsedError;
+  int get eventType => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get activatorId => throw _privateConstructorUsedError;
 
@@ -1786,7 +1883,7 @@ abstract class $TileMessageCopyWith<$Res> {
           TileMessage value, $Res Function(TileMessage) then) =
       _$TileMessageCopyWithImpl<$Res, TileMessage>;
   @useResult
-  $Res call({int address, int? team, int? activatorId});
+  $Res call({int address, int eventType, int? team, int? activatorId});
 }
 
 /// @nodoc
@@ -1803,6 +1900,7 @@ class _$TileMessageCopyWithImpl<$Res, $Val extends TileMessage>
   @override
   $Res call({
     Object? address = null,
+    Object? eventType = null,
     Object? team = freezed,
     Object? activatorId = freezed,
   }) {
@@ -1810,6 +1908,10 @@ class _$TileMessageCopyWithImpl<$Res, $Val extends TileMessage>
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
+              as int,
+      eventType: null == eventType
+          ? _value.eventType
+          : eventType // ignore: cast_nullable_to_non_nullable
               as int,
       team: freezed == team
           ? _value.team
@@ -1831,7 +1933,7 @@ abstract class _$$TileMessageImplCopyWith<$Res>
       __$$TileMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int address, int? team, int? activatorId});
+  $Res call({int address, int eventType, int? team, int? activatorId});
 }
 
 /// @nodoc
@@ -1846,6 +1948,7 @@ class __$$TileMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? address = null,
+    Object? eventType = null,
     Object? team = freezed,
     Object? activatorId = freezed,
   }) {
@@ -1853,6 +1956,10 @@ class __$$TileMessageImplCopyWithImpl<$Res>
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
+              as int,
+      eventType: null == eventType
+          ? _value.eventType
+          : eventType // ignore: cast_nullable_to_non_nullable
               as int,
       team: freezed == team
           ? _value.team
@@ -1869,7 +1976,11 @@ class __$$TileMessageImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$TileMessageImpl implements _TileMessage {
-  const _$TileMessageImpl({required this.address, this.team, this.activatorId});
+  const _$TileMessageImpl(
+      {required this.address,
+      required this.eventType,
+      this.team,
+      this.activatorId});
 
   factory _$TileMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$TileMessageImplFromJson(json);
@@ -1877,13 +1988,15 @@ class _$TileMessageImpl implements _TileMessage {
   @override
   final int address;
   @override
+  final int eventType;
+  @override
   final int? team;
   @override
   final int? activatorId;
 
   @override
   String toString() {
-    return 'TileMessage(address: $address, team: $team, activatorId: $activatorId)';
+    return 'TileMessage(address: $address, eventType: $eventType, team: $team, activatorId: $activatorId)';
   }
 
   @override
@@ -1892,6 +2005,8 @@ class _$TileMessageImpl implements _TileMessage {
         (other.runtimeType == runtimeType &&
             other is _$TileMessageImpl &&
             (identical(other.address, address) || other.address == address) &&
+            (identical(other.eventType, eventType) ||
+                other.eventType == eventType) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.activatorId, activatorId) ||
                 other.activatorId == activatorId));
@@ -1899,7 +2014,8 @@ class _$TileMessageImpl implements _TileMessage {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, address, team, activatorId);
+  int get hashCode =>
+      Object.hash(runtimeType, address, eventType, team, activatorId);
 
   @JsonKey(ignore: true)
   @override
@@ -1918,6 +2034,7 @@ class _$TileMessageImpl implements _TileMessage {
 abstract class _TileMessage implements TileMessage {
   const factory _TileMessage(
       {required final int address,
+      required final int eventType,
       final int? team,
       final int? activatorId}) = _$TileMessageImpl;
 
@@ -1926,6 +2043,8 @@ abstract class _TileMessage implements TileMessage {
 
   @override
   int get address;
+  @override
+  int get eventType;
   @override
   int? get team;
   @override

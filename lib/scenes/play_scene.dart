@@ -151,6 +151,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
       (message) {
         final decoded = const Utf8Decoder().convert(message);
         final gameMessage = GameMessage.fromJson(jsonDecode(decoded));
+
         debugPrint(gameMessage.toString());
       },
     );
