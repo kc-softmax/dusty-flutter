@@ -6,22 +6,22 @@ import 'package:dusty_flutter/game.dart';
 import 'package:flame/components.dart';
 
 mixin HandleGameMessage<T> on Component {
-  final ListQueue<T> _messages = ListQueue<T>();
+  final _messagesChunk = ListQueue<List<T>>();
 
   @override
   void update(double dt) {
     super.update(dt);
 
-    if (_messages.isEmpty) return;
-    final message = _messages.removeFirst();
-    _handleMessage(message);
+    if (_messagesChunk.isEmpty) return;
+    final message = _messagesChunk.removeFirst();
+    _handleMessages(message);
   }
 
-  void addMessage(List<T> message) {
-    _messages.addAll(message);
+  void addMessages(List<T> messages) {
+    _messagesChunk.add(messages);
   }
 
-  void _handleMessage(T message) {
+  void _handleMessages(List<T> messages) {
     throw UnimplementedError();
   }
 }
@@ -47,14 +47,16 @@ abstract class ObjectFactoryComponent<OT, MT extends BaseMessage>
   }
 
   @override
-  void _handleMessage(MT message) {
-    switch (message.eventType) {
-      case EventType.generate:
-        onGenerateObject(message);
-      case EventType.update:
-        onUpdateObject(message);
-      case EventType.remove:
-        onRemoveObject(message);
+  void _handleMessages(List<MT> messages) {
+    for (var message in messages) {
+      switch (message.eventType) {
+        case EventType.generate:
+          onGenerateObject(message);
+        case EventType.update:
+          onUpdateObject(message);
+        case EventType.remove:
+          onRemoveObject(message);
+      }
     }
   }
 
