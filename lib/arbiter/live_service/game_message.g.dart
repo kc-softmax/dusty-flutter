@@ -67,7 +67,7 @@ Map<String, dynamic> _$$GameConfigImplToJson(_$GameConfigImpl instance) =>
 _$DustyMessageImpl _$$DustyMessageImplFromJson(Map<String, dynamic> json) =>
     _$DustyMessageImpl(
       dustyId: json['dusty_id'] as int,
-      eventType: json['event_type'] as int,
+      eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
       name: json['name'] as String?,
       team: json['team'] as int?,
       status: json['status'] as int?,
@@ -80,7 +80,7 @@ _$DustyMessageImpl _$$DustyMessageImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$DustyMessageImplToJson(_$DustyMessageImpl instance) =>
     <String, dynamic>{
       'dusty_id': instance.dustyId,
-      'event_type': instance.eventType,
+      'event_type': _$EventTypeEnumMap[instance.eventType]!,
       'name': instance.name,
       'team': instance.team,
       'status': instance.status,
@@ -90,10 +90,16 @@ Map<String, dynamic> _$$DustyMessageImplToJson(_$DustyMessageImpl instance) =>
       'death_info': instance.deathInfo,
     };
 
+const _$EventTypeEnumMap = {
+  EventType.generate: 1,
+  EventType.update: 2,
+  EventType.remove: 3,
+};
+
 _$TowerMessageImpl _$$TowerMessageImplFromJson(Map<String, dynamic> json) =>
     _$TowerMessageImpl(
       towerId: json['tower_id'] as int,
-      eventType: json['event_type'] as int,
+      eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
       team: json['team'] as int?,
       shape: json['shape'] as int?,
       position: json['position'] as int?,
@@ -104,7 +110,7 @@ _$TowerMessageImpl _$$TowerMessageImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$TowerMessageImplToJson(_$TowerMessageImpl instance) =>
     <String, dynamic>{
       'tower_id': instance.towerId,
-      'event_type': instance.eventType,
+      'event_type': _$EventTypeEnumMap[instance.eventType]!,
       'team': instance.team,
       'shape': instance.shape,
       'position': instance.position,
@@ -116,7 +122,7 @@ _$ActiveObjectMessageImpl _$$ActiveObjectMessageImplFromJson(
         Map<String, dynamic> json) =>
     _$ActiveObjectMessageImpl(
       objectId: json['object_id'] as int,
-      eventType: json['event_type'] as int,
+      eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
       team: json['team'] as int?,
       directionX: json['direction_x'] as int?,
       directionY: json['direction_y'] as int?,
@@ -133,7 +139,7 @@ Map<String, dynamic> _$$ActiveObjectMessageImplToJson(
         _$ActiveObjectMessageImpl instance) =>
     <String, dynamic>{
       'object_id': instance.objectId,
-      'event_type': instance.eventType,
+      'event_type': _$EventTypeEnumMap[instance.eventType]!,
       'team': instance.team,
       'direction_x': instance.directionX,
       'direction_y': instance.directionY,
@@ -150,7 +156,7 @@ _$PassiveObjectMessageImpl _$$PassiveObjectMessageImplFromJson(
         Map<String, dynamic> json) =>
     _$PassiveObjectMessageImpl(
       objectId: json['object_id'] as int,
-      eventType: json['event_type'] as int,
+      eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
       team: json['team'] as int?,
       size: json['size'] as int?,
       position: json['position'] as int?,
@@ -162,7 +168,7 @@ Map<String, dynamic> _$$PassiveObjectMessageImplToJson(
         _$PassiveObjectMessageImpl instance) =>
     <String, dynamic>{
       'object_id': instance.objectId,
-      'event_type': instance.eventType,
+      'event_type': _$EventTypeEnumMap[instance.eventType]!,
       'team': instance.team,
       'size': instance.size,
       'position': instance.position,
@@ -173,7 +179,7 @@ Map<String, dynamic> _$$PassiveObjectMessageImplToJson(
 _$TileMessageImpl _$$TileMessageImplFromJson(Map<String, dynamic> json) =>
     _$TileMessageImpl(
       address: json['address'] as int,
-      eventType: json['event_type'] as int,
+      eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
       team: json['team'] as int?,
       activatorId: json['activator_id'] as int?,
     );
@@ -181,7 +187,7 @@ _$TileMessageImpl _$$TileMessageImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$TileMessageImplToJson(_$TileMessageImpl instance) =>
     <String, dynamic>{
       'address': instance.address,
-      'event_type': instance.eventType,
+      'event_type': _$EventTypeEnumMap[instance.eventType]!,
       'team': instance.team,
       'activator_id': instance.activatorId,
     };
