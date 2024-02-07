@@ -163,7 +163,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
           gameConfig = gameMessage.gameConfig!;
         }
         if (gameMessage.dusties != null) {
-          exampleDustyFactory.addMessage(gameMessage.dusties!);
+          exampleDustyFactory.addMessages(gameMessage.dusties!);
         }
       },
     );
