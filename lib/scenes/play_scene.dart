@@ -8,6 +8,7 @@ import 'package:dusty_flutter/effects/const.dart';
 import 'package:dusty_flutter/effects/default_explosion.dart';
 import 'package:dusty_flutter/effects/thunder_effect.dart';
 import 'package:dusty_flutter/game.dart';
+import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,12 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   late final Dusty player;
   late final JoystickComponent joystick;
 
+  final exampleDustyFactory = ExampleDustyFactory();
+
   @override
   FutureOr<void> onLoad() async {
+    await add(exampleDustyFactory);
+
     player = Dusty()
       ..x = 500
       ..y = 500;
@@ -153,6 +158,9 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
         final gameMessage = GameMessage.fromJson(jsonDecode(decoded));
 
         debugPrint(gameMessage.toString());
+        if (gameMessage.dusties != null) {
+          exampleDustyFactory.addMessage(gameMessage.dusties!);
+        }
       },
     );
   }

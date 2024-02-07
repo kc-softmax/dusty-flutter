@@ -649,7 +649,7 @@ DustyMessage _$DustyMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$DustyMessage {
   int get dustyId => throw _privateConstructorUsedError;
-  int get eventType => throw _privateConstructorUsedError;
+  EventType get eventType => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get status => throw _privateConstructorUsedError;
@@ -672,7 +672,7 @@ abstract class $DustyMessageCopyWith<$Res> {
   @useResult
   $Res call(
       {int dustyId,
-      int eventType,
+      EventType eventType,
       String? name,
       int? team,
       int? status,
@@ -713,7 +713,7 @@ class _$DustyMessageCopyWithImpl<$Res, $Val extends DustyMessage>
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as EventType,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -756,7 +756,7 @@ abstract class _$$DustyMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {int dustyId,
-      int eventType,
+      EventType eventType,
       String? name,
       int? team,
       int? status,
@@ -795,7 +795,7 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as EventType,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -848,7 +848,7 @@ class _$DustyMessageImpl implements _DustyMessage {
   @override
   final int dustyId;
   @override
-  final int eventType;
+  final EventType eventType;
   @override
   final String? name;
   @override
@@ -910,7 +910,7 @@ class _$DustyMessageImpl implements _DustyMessage {
 abstract class _DustyMessage implements DustyMessage {
   const factory _DustyMessage(
       {required final int dustyId,
-      required final int eventType,
+      required final EventType eventType,
       final String? name,
       final int? team,
       final int? status,
@@ -925,7 +925,7 @@ abstract class _DustyMessage implements DustyMessage {
   @override
   int get dustyId;
   @override
-  int get eventType;
+  EventType get eventType;
   @override
   String? get name;
   @override
@@ -953,7 +953,7 @@ TowerMessage _$TowerMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TowerMessage {
   int get towerId => throw _privateConstructorUsedError;
-  int get eventType => throw _privateConstructorUsedError;
+  EventType get eventType => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get shape => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
@@ -974,7 +974,7 @@ abstract class $TowerMessageCopyWith<$Res> {
   @useResult
   $Res call(
       {int towerId,
-      int eventType,
+      EventType eventType,
       int? team,
       int? shape,
       int? position,
@@ -1011,7 +1011,7 @@ class _$TowerMessageCopyWithImpl<$Res, $Val extends TowerMessage>
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as EventType,
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -1046,7 +1046,7 @@ abstract class _$$TowerMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {int towerId,
-      int eventType,
+      EventType eventType,
       int? team,
       int? shape,
       int? position,
@@ -1081,7 +1081,7 @@ class __$$TowerMessageImplCopyWithImpl<$Res>
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as EventType,
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -1124,7 +1124,7 @@ class _$TowerMessageImpl implements _TowerMessage {
   @override
   final int towerId;
   @override
-  final int eventType;
+  final EventType eventType;
   @override
   final int? team;
   @override
@@ -1180,7 +1180,7 @@ class _$TowerMessageImpl implements _TowerMessage {
 abstract class _TowerMessage implements TowerMessage {
   const factory _TowerMessage(
       {required final int towerId,
-      required final int eventType,
+      required final EventType eventType,
       final int? team,
       final int? shape,
       final int? position,
@@ -1193,7 +1193,7 @@ abstract class _TowerMessage implements TowerMessage {
   @override
   int get towerId;
   @override
-  int get eventType;
+  EventType get eventType;
   @override
   int? get team;
   @override
@@ -1217,7 +1217,7 @@ ActiveObjectMessage _$ActiveObjectMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ActiveObjectMessage {
   int get objectId => throw _privateConstructorUsedError;
-  int get eventType => throw _privateConstructorUsedError;
+  EventType get eventType => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get directionX => throw _privateConstructorUsedError;
   int? get directionY => throw _privateConstructorUsedError;
@@ -1243,7 +1243,7 @@ abstract class $ActiveObjectMessageCopyWith<$Res> {
   @useResult
   $Res call(
       {int objectId,
-      int eventType,
+      EventType eventType,
       int? team,
       int? directionX,
       int? directionY,
@@ -1290,7 +1290,7 @@ class _$ActiveObjectMessageCopyWithImpl<$Res, $Val extends ActiveObjectMessage>
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as EventType,
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -1345,7 +1345,7 @@ abstract class _$$ActiveObjectMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {int objectId,
-      int eventType,
+      EventType eventType,
       int? team,
       int? directionX,
       int? directionY,
@@ -1390,7 +1390,7 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as EventType,
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -1458,7 +1458,7 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
   @override
   final int objectId;
   @override
-  final int eventType;
+  final EventType eventType;
   @override
   final int? team;
   @override
@@ -1546,7 +1546,7 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
 abstract class _ActiveObjectMessage implements ActiveObjectMessage {
   const factory _ActiveObjectMessage(
       {required final int objectId,
-      required final int eventType,
+      required final EventType eventType,
       final int? team,
       final int? directionX,
       final int? directionY,
@@ -1564,7 +1564,7 @@ abstract class _ActiveObjectMessage implements ActiveObjectMessage {
   @override
   int get objectId;
   @override
-  int get eventType;
+  EventType get eventType;
   @override
   int? get team;
   @override
@@ -1598,7 +1598,7 @@ PassiveObjectMessage _$PassiveObjectMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PassiveObjectMessage {
   int get objectId => throw _privateConstructorUsedError;
-  int get eventType => throw _privateConstructorUsedError;
+  EventType get eventType => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get size => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
@@ -1619,7 +1619,7 @@ abstract class $PassiveObjectMessageCopyWith<$Res> {
   @useResult
   $Res call(
       {int objectId,
-      int eventType,
+      EventType eventType,
       int? team,
       int? size,
       int? position,
@@ -1657,7 +1657,7 @@ class _$PassiveObjectMessageCopyWithImpl<$Res,
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as EventType,
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -1692,7 +1692,7 @@ abstract class _$$PassiveObjectMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {int objectId,
-      int eventType,
+      EventType eventType,
       int? team,
       int? size,
       int? position,
@@ -1727,7 +1727,7 @@ class __$$PassiveObjectMessageImplCopyWithImpl<$Res>
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as EventType,
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -1770,7 +1770,7 @@ class _$PassiveObjectMessageImpl implements _PassiveObjectMessage {
   @override
   final int objectId;
   @override
-  final int eventType;
+  final EventType eventType;
   @override
   final int? team;
   @override
@@ -1830,7 +1830,7 @@ class _$PassiveObjectMessageImpl implements _PassiveObjectMessage {
 abstract class _PassiveObjectMessage implements PassiveObjectMessage {
   const factory _PassiveObjectMessage(
       {required final int objectId,
-      required final int eventType,
+      required final EventType eventType,
       final int? team,
       final int? size,
       final int? position,
@@ -1843,7 +1843,7 @@ abstract class _PassiveObjectMessage implements PassiveObjectMessage {
   @override
   int get objectId;
   @override
-  int get eventType;
+  EventType get eventType;
   @override
   int? get team;
   @override
@@ -1867,7 +1867,7 @@ TileMessage _$TileMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TileMessage {
   int get address => throw _privateConstructorUsedError;
-  int get eventType => throw _privateConstructorUsedError;
+  EventType get eventType => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get activatorId => throw _privateConstructorUsedError;
 
@@ -1883,7 +1883,7 @@ abstract class $TileMessageCopyWith<$Res> {
           TileMessage value, $Res Function(TileMessage) then) =
       _$TileMessageCopyWithImpl<$Res, TileMessage>;
   @useResult
-  $Res call({int address, int eventType, int? team, int? activatorId});
+  $Res call({int address, EventType eventType, int? team, int? activatorId});
 }
 
 /// @nodoc
@@ -1912,7 +1912,7 @@ class _$TileMessageCopyWithImpl<$Res, $Val extends TileMessage>
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as EventType,
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -1933,7 +1933,7 @@ abstract class _$$TileMessageImplCopyWith<$Res>
       __$$TileMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int address, int eventType, int? team, int? activatorId});
+  $Res call({int address, EventType eventType, int? team, int? activatorId});
 }
 
 /// @nodoc
@@ -1960,7 +1960,7 @@ class __$$TileMessageImplCopyWithImpl<$Res>
       eventType: null == eventType
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
-              as int,
+              as EventType,
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -1988,7 +1988,7 @@ class _$TileMessageImpl implements _TileMessage {
   @override
   final int address;
   @override
-  final int eventType;
+  final EventType eventType;
   @override
   final int? team;
   @override
@@ -2034,7 +2034,7 @@ class _$TileMessageImpl implements _TileMessage {
 abstract class _TileMessage implements TileMessage {
   const factory _TileMessage(
       {required final int address,
-      required final int eventType,
+      required final EventType eventType,
       final int? team,
       final int? activatorId}) = _$TileMessageImpl;
 
@@ -2044,7 +2044,7 @@ abstract class _TileMessage implements TileMessage {
   @override
   int get address;
   @override
-  int get eventType;
+  EventType get eventType;
   @override
   int? get team;
   @override
