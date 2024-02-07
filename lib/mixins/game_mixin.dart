@@ -27,8 +27,24 @@ mixin HandleGameMessage<T> on Component {
 }
 
 abstract class ObjectFactoryComponent<OT, MT extends BaseMessage>
-    extends Component with HandleGameMessage<MT> {
+    extends Component with HasGameRef<DustyIslandGame>, HandleGameMessage<MT> {
   final List<OT> objects = [];
+
+  double _lastUpdateTime = 0;
+  double? _frameDuration;
+
+  @override
+  void update(double dt) {
+    if (gameRef.playScene.gameConfig == null) return;
+    _frameDuration ??= 1 / gameRef.playScene.gameConfig!.frameRate;
+
+    _lastUpdateTime += dt;
+    if (_lastUpdateTime < _frameDuration!) return;
+
+    super.update(dt);
+
+    _lastUpdateTime = 0;
+  }
 
   @override
   void _handleMessage(MT message) {
@@ -47,8 +63,7 @@ abstract class ObjectFactoryComponent<OT, MT extends BaseMessage>
   void onRemoveObject(MT message);
 }
 
-class ExampleDustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage>
-    with HasGameRef<DustyIslandGame> {
+class ExampleDustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
   @override
   void onGenerateObject(DustyMessage message) {
     final player = Dusty()

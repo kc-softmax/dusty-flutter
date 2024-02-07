@@ -19,6 +19,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   static final buttonSize = Vector2(56, 59);
   static final smallButtonSize = Vector2(44, 46);
 
+  GameConfig? gameConfig;
   late final Dusty player;
   late final JoystickComponent joystick;
 
@@ -158,6 +159,9 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
         final gameMessage = GameMessage.fromJson(jsonDecode(decoded));
 
         debugPrint(gameMessage.toString());
+        if (gameMessage.gameConfig != null) {
+          gameConfig = gameMessage.gameConfig!;
+        }
         if (gameMessage.dusties != null) {
           exampleDustyFactory.addMessage(gameMessage.dusties!);
         }
