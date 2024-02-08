@@ -7,8 +7,8 @@ import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/effects/const.dart';
 import 'package:dusty_flutter/effects/default_explosion.dart';
 import 'package:dusty_flutter/effects/thunder_effect.dart';
+import 'package:dusty_flutter/factories/dusty_factory.dart';
 import 'package:dusty_flutter/game.dart';
-import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +23,11 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   late final Dusty player;
   late final JoystickComponent joystick;
 
-  final exampleDustyFactory = ExampleDustyFactory();
+  final dustyFactory = DustyFactory();
 
   @override
   FutureOr<void> onLoad() async {
-    await add(exampleDustyFactory);
+    await add(dustyFactory);
 
     gameRef.overlays.addEntry("RestartButton", ((context, game) {
       return FilledButton(
@@ -175,7 +175,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   Future<void> _resetGame() async {
     _closeGame();
-    exampleDustyFactory.clear();
+    dustyFactory.clear();
     await _startGame();
   }
 
@@ -189,7 +189,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
       gameConfig = gameMessage.gameConfig!;
     }
     if (gameMessage.dusties != null) {
-      exampleDustyFactory.addMessages(gameMessage.dusties!);
+      dustyFactory.addMessages(gameMessage.dusties!);
     }
   }
 }
