@@ -5,13 +5,6 @@ import 'package:dusty_flutter/mixins/game_mixin.dart';
 
 class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
   @override
-  Dusty facotry(DustyMessage message) {
-    return Dusty()
-      ..x = Random().nextInt(400) + 300
-      ..y = Random().nextInt(400) + 300;
-  }
-
-  @override
   void onGenerateObject(DustyMessage message) {
     final player = facotry(message);
     objects[message.dustyId] = player;
@@ -27,5 +20,12 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     //.. 비교
     //.. 이벤트 도출
     // .. 호출 dusty.updateSkin();
+  }
+
+  @override
+  Dusty facotry(DustyMessage message) {
+    return Dusty()
+      ..x = Random().nextInt(400) + 300
+      ..y = Random().nextInt(400) + 300;
   }
 }
