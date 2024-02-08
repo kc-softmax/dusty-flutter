@@ -33,6 +33,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
       return FilledButton(
         onPressed: () async {
           debugPrint("restart!!");
+          await _resetGame();
         },
         child: const Text("다시 시작"),
       );
@@ -170,6 +171,12 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   void _closeGame() {
     Arbiter.liveService.close();
+  }
+
+  Future<void> _resetGame() async {
+    _closeGame();
+    exampleDustyFactory.clear();
+    await _startGame();
   }
 
   void _parseGameMessage(message) {

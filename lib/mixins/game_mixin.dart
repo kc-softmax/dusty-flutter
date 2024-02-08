@@ -26,10 +26,10 @@ mixin HandleGameMessage<T> on Component {
   }
 }
 
-abstract class ObjectFactoryComponent<OT, MT extends BaseMessage>
-    extends Component with HasGameRef<DustyIslandGame>, HandleGameMessage<MT> {
+abstract class ObjectFactoryComponent<OT extends Component,
+        MT extends BaseMessage> extends Component
+    with HasGameRef<DustyIslandGame>, HandleGameMessage<MT> {
   final Map<int, OT> objects = {};
-
   double _lastUpdateTime = 0;
   double? _frameDuration;
 
@@ -58,6 +58,15 @@ abstract class ObjectFactoryComponent<OT, MT extends BaseMessage>
           onRemoveObject(message);
       }
     }
+  }
+
+  void clear() {
+    for (var element in objects.values) {
+      if (element.parent != null) {
+        element.removeFromParent();
+      }
+    }
+    objects.clear();
   }
 
   OT facotry(MT message);
