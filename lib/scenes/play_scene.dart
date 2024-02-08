@@ -159,6 +159,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
         final gameMessage = GameMessage.fromJson(jsonDecode(decoded));
 
         debugPrint(gameMessage.toString());
+
         if (gameMessage.gameConfig != null) {
           gameConfig = gameMessage.gameConfig!;
         }

@@ -28,7 +28,7 @@ mixin HandleGameMessage<T> on Component {
 
 abstract class ObjectFactoryComponent<OT, MT extends BaseMessage>
     extends Component with HasGameRef<DustyIslandGame>, HandleGameMessage<MT> {
-  final List<OT> objects = [];
+  final Map<int, OT> objects = {};
 
   double _lastUpdateTime = 0;
   double? _frameDuration;
@@ -60,6 +60,7 @@ abstract class ObjectFactoryComponent<OT, MT extends BaseMessage>
     }
   }
 
+  OT facotry(MT message);
   void onGenerateObject(MT message);
   void onUpdateObject(MT message);
   void onRemoveObject(MT message);
@@ -67,10 +68,16 @@ abstract class ObjectFactoryComponent<OT, MT extends BaseMessage>
 
 class ExampleDustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
   @override
-  void onGenerateObject(DustyMessage message) {
-    final player = Dusty()
+  Dusty facotry(DustyMessage message) {
+    return Dusty()
       ..x = Random().nextInt(400) + 300
       ..y = Random().nextInt(400) + 300;
+  }
+
+  @override
+  void onGenerateObject(DustyMessage message) {
+    final player = facotry(message);
+    objects[message.dustyId] = player;
     gameRef.world.add(player);
   }
 
@@ -78,5 +85,10 @@ class ExampleDustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
   void onRemoveObject(DustyMessage message) {}
 
   @override
-  void onUpdateObject(DustyMessage message) {}
+  void onUpdateObject(DustyMessage message) {
+    // final dusty = objects[message.dustyId];
+    //.. 비교
+    //.. 이벤트 도출
+    // .. 호출 dusty.updateSkin();
+  }
 }
