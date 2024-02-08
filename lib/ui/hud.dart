@@ -5,6 +5,7 @@ import 'package:dusty_flutter/effects/const.dart';
 import 'package:dusty_flutter/effects/default_explosion.dart';
 import 'package:dusty_flutter/effects/thunder_effect.dart';
 import 'package:dusty_flutter/game.dart';
+import 'package:dusty_flutter/ui/joystick.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   FutureOr<void> onLoad() {
     final player = gameRef.playScene.player;
 
-    joystick = JoystickComponent(
+    joystick = NotifiableJoyStick(
       knob: SpriteComponent(
         sprite: game.atlas.findSpriteByName('knob'),
         size: Vector2.all(40),
