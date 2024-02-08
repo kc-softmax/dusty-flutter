@@ -104,18 +104,17 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   @override
   void update(double dt) {
     super.update(dt);
-    if (!gameRef.playScene.joystick.delta.isZero() &&
-        activeCollisions.isEmpty) {
+    final joystick = gameRef.playScene.hud.joystick;
+    if (joystick == null) return;
+
+    if (!joystick.delta.isZero() && activeCollisions.isEmpty) {
       _lastSize.setFrom(size);
       _lastTransform.setFrom(transform);
-      position.add(
-          gameRef.playScene.joystick.relativeDelta.normalized() * 300 * dt);
-      if (gameRef.playScene.joystick.relativeDelta.screenAngle() >= 0 &&
-          isFlippedHorizontally) {
+      position.add(joystick.relativeDelta.normalized() * 300 * dt);
+      if (joystick.relativeDelta.screenAngle() >= 0 && isFlippedHorizontally) {
         flipHorizontally();
       }
-      if (gameRef.playScene.joystick.relativeDelta.screenAngle() < 0 &&
-          !isFlippedHorizontally) {
+      if (joystick.relativeDelta.screenAngle() < 0 && !isFlippedHorizontally) {
         flipHorizontally();
       }
     }
