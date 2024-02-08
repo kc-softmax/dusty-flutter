@@ -29,6 +29,16 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   FutureOr<void> onLoad() async {
     await add(exampleDustyFactory);
 
+    gameRef.overlays.addEntry("RestartButton", ((context, game) {
+      return FilledButton(
+        onPressed: () async {
+          debugPrint("restart!!");
+        },
+        child: const Text("다시 시작"),
+      );
+    }));
+    gameRef.overlays.add("RestartButton");
+
     player = Dusty()
       ..x = 500
       ..y = 500;
@@ -154,23 +164,25 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     final token = prefs.getString("token");
     Arbiter.liveService.on(
       "/di/ws?token=$token",
-      (message) {
-        final decoded = const Utf8Decoder().convert(message);
-        final gameMessage = GameMessage.fromJson(jsonDecode(decoded));
-
-        debugPrint(gameMessage.toString());
-
-        if (gameMessage.gameConfig != null) {
-          gameConfig = gameMessage.gameConfig!;
-        }
-        if (gameMessage.dusties != null) {
-          exampleDustyFactory.addMessages(gameMessage.dusties!);
-        }
-      },
+      _parseGameMessage,
     );
   }
 
   void _closeGame() {
     Arbiter.liveService.close();
+  }
+
+  void _parseGameMessage(message) {
+    final decoded = const Utf8Decoder().convert(message);
+    final gameMessage = GameMessage.fromJson(jsonDecode(decoded));
+
+    debugPrint(gameMessage.toString());
+
+    if (gameMessage.gameConfig != null) {
+      gameConfig = gameMessage.gameConfig!;
+    }
+    if (gameMessage.dusties != null) {
+      exampleDustyFactory.addMessages(gameMessage.dusties!);
+    }
   }
 }

@@ -1,4 +1,3 @@
-import 'package:dusty_flutter/scenes/play_scene.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:dusty_flutter/game.dart';
@@ -19,20 +18,8 @@ class DustyIslandApp extends StatelessWidget {
 }
 
 GameWidget<DustyIslandGame> buildGame() {
-  return GameWidget.controlled(
+  return const GameWidget.controlled(
     gameFactory: DustyIslandGame.new,
-    overlayBuilderMap: {
-      "StartButton": (BuildContext context, DustyIslandGame game) {
-        return Center(
-          child: FilledButton(
-              onPressed: () async {
-                game.overlays.remove("StartButton");
-                game.router.pushReplacementNamed(PlayScene.routerName);
-              },
-              child: const Text("시작")),
-        );
-      },
-    },
   );
 }
 
