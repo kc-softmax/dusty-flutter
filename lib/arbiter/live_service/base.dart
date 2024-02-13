@@ -6,6 +6,6 @@ abstract class BaseArbiterLiveService {
   BaseArbiterLiveService({required this.baseSocketUrl});
 
   Future<void> on(String url, Function(dynamic message) onMessage);
-  void send(ByteBuffer message);
+  void sendByte(ByteBuffer message);
   void close();
 }
