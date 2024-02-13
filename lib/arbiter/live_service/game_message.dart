@@ -19,7 +19,6 @@ mixin BaseMessage {
 @freezed
 class GameMessage with _$GameMessage {
   const factory GameMessage({
-    bool? prepare,
     GameConfig? gameConfig,
     List<DustyMessage>? dusties,
     List<TowerMessage>? towers,

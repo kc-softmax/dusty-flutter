@@ -8,7 +8,6 @@ part of 'game_message.dart';
 
 _$GameMessageImpl _$$GameMessageImplFromJson(Map<String, dynamic> json) =>
     _$GameMessageImpl(
-      prepare: json['prepare'] as bool?,
       gameConfig: json['game_config'] == null
           ? null
           : GameConfig.fromJson(json['game_config'] as Map<String, dynamic>),
@@ -31,7 +30,6 @@ _$GameMessageImpl _$$GameMessageImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$GameMessageImplToJson(_$GameMessageImpl instance) =>
     <String, dynamic>{
-      'prepare': instance.prepare,
       'game_config': instance.gameConfig,
       'dusties': instance.dusties,
       'towers': instance.towers,

@@ -20,7 +20,6 @@ GameMessage _$GameMessageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GameMessage {
-  bool? get prepare => throw _privateConstructorUsedError;
   GameConfig? get gameConfig => throw _privateConstructorUsedError;
   List<DustyMessage>? get dusties => throw _privateConstructorUsedError;
   List<TowerMessage>? get towers => throw _privateConstructorUsedError;
@@ -42,8 +41,7 @@ abstract class $GameMessageCopyWith<$Res> {
       _$GameMessageCopyWithImpl<$Res, GameMessage>;
   @useResult
   $Res call(
-      {bool? prepare,
-      GameConfig? gameConfig,
+      {GameConfig? gameConfig,
       List<DustyMessage>? dusties,
       List<TowerMessage>? towers,
       List<ActiveObjectMessage>? actives,
@@ -66,7 +64,6 @@ class _$GameMessageCopyWithImpl<$Res, $Val extends GameMessage>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? prepare = freezed,
     Object? gameConfig = freezed,
     Object? dusties = freezed,
     Object? towers = freezed,
@@ -75,10 +72,6 @@ class _$GameMessageCopyWithImpl<$Res, $Val extends GameMessage>
     Object? tiles = freezed,
   }) {
     return _then(_value.copyWith(
-      prepare: freezed == prepare
-          ? _value.prepare
-          : prepare // ignore: cast_nullable_to_non_nullable
-              as bool?,
       gameConfig: freezed == gameConfig
           ? _value.gameConfig
           : gameConfig // ignore: cast_nullable_to_non_nullable
@@ -128,8 +121,7 @@ abstract class _$$GameMessageImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool? prepare,
-      GameConfig? gameConfig,
+      {GameConfig? gameConfig,
       List<DustyMessage>? dusties,
       List<TowerMessage>? towers,
       List<ActiveObjectMessage>? actives,
@@ -151,7 +143,6 @@ class __$$GameMessageImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? prepare = freezed,
     Object? gameConfig = freezed,
     Object? dusties = freezed,
     Object? towers = freezed,
@@ -160,10 +151,6 @@ class __$$GameMessageImplCopyWithImpl<$Res>
     Object? tiles = freezed,
   }) {
     return _then(_$GameMessageImpl(
-      prepare: freezed == prepare
-          ? _value.prepare
-          : prepare // ignore: cast_nullable_to_non_nullable
-              as bool?,
       gameConfig: freezed == gameConfig
           ? _value.gameConfig
           : gameConfig // ignore: cast_nullable_to_non_nullable
@@ -196,8 +183,7 @@ class __$$GameMessageImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GameMessageImpl implements _GameMessage {
   const _$GameMessageImpl(
-      {this.prepare,
-      this.gameConfig,
+      {this.gameConfig,
       final List<DustyMessage>? dusties,
       final List<TowerMessage>? towers,
       final List<ActiveObjectMessage>? actives,
@@ -212,8 +198,6 @@ class _$GameMessageImpl implements _GameMessage {
   factory _$GameMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$GameMessageImplFromJson(json);
 
-  @override
-  final bool? prepare;
   @override
   final GameConfig? gameConfig;
   final List<DustyMessage>? _dusties;
@@ -268,7 +252,7 @@ class _$GameMessageImpl implements _GameMessage {
 
   @override
   String toString() {
-    return 'GameMessage(prepare: $prepare, gameConfig: $gameConfig, dusties: $dusties, towers: $towers, actives: $actives, passives: $passives, tiles: $tiles)';
+    return 'GameMessage(gameConfig: $gameConfig, dusties: $dusties, towers: $towers, actives: $actives, passives: $passives, tiles: $tiles)';
   }
 
   @override
@@ -276,7 +260,6 @@ class _$GameMessageImpl implements _GameMessage {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GameMessageImpl &&
-            (identical(other.prepare, prepare) || other.prepare == prepare) &&
             (identical(other.gameConfig, gameConfig) ||
                 other.gameConfig == gameConfig) &&
             const DeepCollectionEquality().equals(other._dusties, _dusties) &&
@@ -290,7 +273,6 @@ class _$GameMessageImpl implements _GameMessage {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      prepare,
       gameConfig,
       const DeepCollectionEquality().hash(_dusties),
       const DeepCollectionEquality().hash(_towers),
@@ -314,8 +296,7 @@ class _$GameMessageImpl implements _GameMessage {
 
 abstract class _GameMessage implements GameMessage {
   const factory _GameMessage(
-      {final bool? prepare,
-      final GameConfig? gameConfig,
+      {final GameConfig? gameConfig,
       final List<DustyMessage>? dusties,
       final List<TowerMessage>? towers,
       final List<ActiveObjectMessage>? actives,
@@ -325,8 +306,6 @@ abstract class _GameMessage implements GameMessage {
   factory _GameMessage.fromJson(Map<String, dynamic> json) =
       _$GameMessageImpl.fromJson;
 
-  @override
-  bool? get prepare;
   @override
   GameConfig? get gameConfig;
   @override
