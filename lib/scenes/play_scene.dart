@@ -17,8 +17,8 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   final hud = Hud();
   final dustyFactory = DustyFactory();
+
   late final Dusty player;
-  late final ComponentsNotifier<JoystickComponent> _joystickNotifier;
 
   @override
   FutureOr<void> onLoad() async {
@@ -40,13 +40,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     gameRef.world.add(gameRef.mapComponent);
     gameRef.world.addAll([player]);
     gameRef.camera.follow(player);
-
-    _joystickNotifier = gameRef.componentsNotifier<JoystickComponent>()
-      ..addListener(() {
-        final joyStickComponent = _joystickNotifier.single;
-        if (joyStickComponent == null) return;
-        print("jostick moved!!! ${joyStickComponent.direction}");
-      });
 
     await addAll([
       hud,

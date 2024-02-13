@@ -1,7 +1,9 @@
 import 'package:flame/components.dart';
 
-class NotifiableJoyStick extends JoystickComponent with Notifier {
-  NotifiableJoyStick({
+class Joystick extends JoystickComponent {
+  Function() onMovedJoystick;
+
+  Joystick({
     super.knob,
     super.background,
     super.margin,
@@ -12,6 +14,7 @@ class NotifiableJoyStick extends JoystickComponent with Notifier {
     super.children,
     super.priority,
     super.key,
+    required this.onMovedJoystick,
   });
 
   @override
@@ -25,7 +28,7 @@ class NotifiableJoyStick extends JoystickComponent with Notifier {
     if (oldIntensity != intensity &&
         (oldDelta.x != delta.x || oldDelta.y != delta.y) &&
         oldDirection != direction) {
-      notifyListeners();
+      onMovedJoystick();
     }
   }
 }
