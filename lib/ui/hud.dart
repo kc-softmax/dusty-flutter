@@ -108,6 +108,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   }
 
   void _onPressedShieldButton() {
+    // Arbiter.liveService.sendByte('{"hello": 2}'.toByteBuffer());
     debugPrint("press shield button");
   }
 

@@ -3,24 +3,28 @@ import 'dart:typed_data';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
+import 'package:dusty_flutter/extensions/json.dart';
+
 class ArbiterLiveService extends BaseArbiterLiveService {
   late WebSocket _webSocket;
 
   ArbiterLiveService({required super.baseSocketUrl});
 
   @override
-  Future<void> on(String url, Function(dynamic) onMessage) async {
+  Future<void> on(
+      String url, Function(Map<String, dynamic> json) onMessage) async {
     _webSocket = WebSocket('$baseSocketUrl$url')..binaryType = 'arraybuffer';
     _webSocket.onMessage.listen((event) {
-      if (event.data is ByteBuffer) {
-        onMessage(Uint8List.view(event.data as ByteBuffer));
+      final data = event.data;
+      if (data is ByteBuffer) {
+        onMessage(data.toJson());
       }
     });
   }
 
   @override
-  void send(ByteBuffer message) {
-    _webSocket.send(message);
+  void sendByte(ByteBuffer message) {
+    _webSocket.sendByteBuffer(message);
   }
 
   @override

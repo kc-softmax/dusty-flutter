@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
@@ -78,9 +77,8 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     await _startGame();
   }
 
-  void _parseGameMessage(message) {
-    final decoded = const Utf8Decoder().convert(message);
-    final gameMessage = GameMessage.fromJson(jsonDecode(decoded));
+  void _parseGameMessage(Map<String, dynamic> json) {
+    final gameMessage = GameMessage.fromJson(json);
 
     debugPrint(gameMessage.toString());
 
