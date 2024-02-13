@@ -1,9 +1,4 @@
 import 'dart:async';
-
-import 'package:dusty_flutter/characters/const.dart';
-import 'package:dusty_flutter/effects/const.dart';
-import 'package:dusty_flutter/effects/default_explosion.dart';
-import 'package:dusty_flutter/effects/thunder_effect.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/ui/joystick.dart';
 import 'package:flame/components.dart';
@@ -18,8 +13,6 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
 
   @override
   FutureOr<void> onLoad() {
-    final player = gameRef.playScene.player;
-
     joystick = NotifiableJoyStick(
       knob: SpriteComponent(
         sprite: game.atlas.findSpriteByName('knob'),
@@ -45,8 +38,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
         right: 68,
         bottom: 65,
       ),
-      onPressed: () =>
-          {game.world.add(ThunderEffect.generate(player.position))},
+      onPressed: () => {},
     );
 
     final boostButton = HudButtonComponent(
@@ -62,12 +54,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 144,
           bottom: 38,
         ),
-        onPressed: () => {
-              if (player.bodyEffectType == DustyBodyEffectType.none)
-                player.bodyEffectType = DustyBodyEffectType.electricShock
-              else
-                player.bodyEffectType = DustyBodyEffectType.none
-            });
+        onPressed: () => {});
 
     final activeButton = HudButtonComponent(
         button: SpriteComponent(
@@ -82,12 +69,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 144,
           bottom: 108,
         ),
-        onPressed: () => {
-              if (player.glassesType == DustyGlassesType.idle)
-                player.glassesType = DustyGlassesType.boost
-              else
-                player.glassesType = DustyGlassesType.idle
-            });
+        onPressed: () => {});
 
     final specialButton = HudButtonComponent(
       button: SpriteComponent(
@@ -102,14 +84,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
         right: 88,
         bottom: 150,
       ),
-      onPressed: () => {
-        game.playScene.add(
-          DefaultExplosion.generate(
-            DefaultExplosionType.red,
-            player.position,
-          ),
-        )
-      },
+      onPressed: () => {},
     );
 
     gameRef.camera.viewport.addAll([
