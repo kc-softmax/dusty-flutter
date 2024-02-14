@@ -1,5 +1,10 @@
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:math';
+import 'package:dusty_flutter/arbiter/arbiter_client.dart';
+import 'package:dusty_flutter/extensions/json.dart';
 import 'package:dusty_flutter/game.dart';
+import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:dusty_flutter/ui/joystick.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
@@ -104,11 +109,60 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   }
 
   void _onMovedJoyStick() {
-    debugPrint("jostick moved!!! ${joystick?.direction}");
+    // TODO refactor this to use a more elegant solution
+    // Since screenAngle and angleTo doesn't care about "direction" of the angle
+    // we have to use angleToSigned and create an only increasing angle by
+    // removing negative angles from 2*pi.
+    final delta = joystick?.delta;
+    if (delta == null) {
+      return;
+    }
+
+    int action = -1;
+    if (delta.isZero()) {
+      action = DustyAction.stop;
+    } else {
+      const double twelveOfPi = pi / 12;
+      var knobAngle = delta.screenAngle();
+      knobAngle = knobAngle < 0 ? 2 * pi + knobAngle : knobAngle;
+      if (knobAngle >= 0 && knobAngle <= twelveOfPi) {
+        action = 12; // top
+      } else if (knobAngle > 1 * twelveOfPi && knobAngle <= 3 * twelveOfPi) {
+        action = 1;
+      } else if (knobAngle > 3 * twelveOfPi && knobAngle <= 5 * twelveOfPi) {
+        action = 2;
+      } else if (knobAngle > 5 * twelveOfPi && knobAngle <= 7 * twelveOfPi) {
+        action = 3;
+      } else if (knobAngle > 7 * twelveOfPi && knobAngle <= 9 * twelveOfPi) {
+        action = 4;
+      } else if (knobAngle > 9 * twelveOfPi && knobAngle <= 11 * twelveOfPi) {
+        action = 5;
+      } else if (knobAngle > 11 * twelveOfPi && knobAngle <= 13 * twelveOfPi) {
+        action = 6;
+      } else if (knobAngle > 13 * twelveOfPi && knobAngle <= 15 * twelveOfPi) {
+        action = 7;
+      } else if (knobAngle > 15 * twelveOfPi && knobAngle <= 17 * twelveOfPi) {
+        action = 8;
+      } else if (knobAngle > 17 * twelveOfPi && knobAngle <= 19 * twelveOfPi) {
+        action = 9;
+      } else if (knobAngle > 19 * twelveOfPi && knobAngle <= 21 * twelveOfPi) {
+        action = 10;
+      } else if (knobAngle > 21 * twelveOfPi && knobAngle <= 23 * twelveOfPi) {
+        action = 11;
+      } else if (knobAngle > 23 * twelveOfPi) {
+        action = 12;
+      } else {
+        action = DustyAction.stop;
+      }
+    }
+    if (action > 0) {
+      Arbiter.liveService.sendByte(Uint8List.fromList([action]).buffer);
+    }
   }
 
   void _onPressedShieldButton() {
-    // Arbiter.liveService.sendByte('{"hello": 2}'.toByteBuffer());
+    Arbiter.liveService
+        .sendByte(Uint8List.fromList([DustyAction.shield]).buffer);
     debugPrint("press shield button");
   }
 

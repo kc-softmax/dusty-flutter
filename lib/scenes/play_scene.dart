@@ -17,7 +17,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   final hud = Hud();
   final dustyFactory = DustyFactory();
 
-  late final Dusty player;
+  late final Dusty? player;
 
   @override
   FutureOr<void> onLoad() async {
@@ -32,13 +32,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     }));
     gameRef.overlays.add("RestartButton");
 
-    player = Dusty()
-      ..x = 500
-      ..y = 500;
-
     gameRef.world.add(gameRef.mapComponent);
-    gameRef.world.addAll([player]);
-    gameRef.camera.follow(player);
 
     await addAll([
       hud,
@@ -80,7 +74,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   void _parseGameMessage(Map<String, dynamic> json) {
     final gameMessage = GameMessage.fromJson(json);
 
-    debugPrint(gameMessage.toString());
+    // debugPrint(gameMessage.toString());
 
     if (gameMessage.gameConfig != null) {
       gameConfig = gameMessage.gameConfig!;

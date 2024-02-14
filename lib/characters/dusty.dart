@@ -46,6 +46,8 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   late final DustyBodyEffect bodyEffect;
   late final Vector2 _lastSize = size.clone();
   late final Transform2D _lastTransform = transform.clone();
+  Vector2? nextPosition;
+  double speed = 0;
 
   DustyBodyType _bodyType = DustyBodyType.red;
   DustyBodyType get bodyType => _bodyType;
@@ -104,17 +106,27 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   @override
   void update(double dt) {
     super.update(dt);
-    final joystick = gameRef.playScene.hud.joystick;
-    if (joystick == null) return;
-
-    if (!joystick.delta.isZero() && activeCollisions.isEmpty) {
-      _lastSize.setFrom(size);
-      _lastTransform.setFrom(transform);
-      position.add(joystick.relativeDelta.normalized() * 300 * dt);
-      if (joystick.relativeDelta.screenAngle() >= 0 && isFlippedHorizontally) {
+    // nextposition이 있으면 이동
+    if (speed < 1) {
+      return;
+    }
+    if (nextPosition != null) {
+      final remainingDistance = (nextPosition! - position).length;
+      final toMoveDirection = (nextPosition! - position).normalized();
+      if (remainingDistance < 1) {
+        position.setFrom(nextPosition!);
+        return;
+      }
+      double currentSpeed = speed * remainingDistance / 180;
+      if (remainingDistance > speed * 0.2) {
+        currentSpeed = speed;
+      }
+      //일정 거리 이하로 가면 멈춤
+      position.add(toMoveDirection * currentSpeed * dt);
+      if (toMoveDirection.screenAngle() >= 0 && isFlippedHorizontally) {
         flipHorizontally();
       }
-      if (joystick.relativeDelta.screenAngle() < 0 && !isFlippedHorizontally) {
+      if (toMoveDirection.screenAngle() < 0 && !isFlippedHorizontally) {
         flipHorizontally();
       }
     }
@@ -128,6 +140,17 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     super.onCollisionStart(intersectionPoints, other);
     transform.setFrom(_lastTransform);
     size.setFrom(_lastSize);
+  }
+
+  void updateSpeed() {
+    if (gameRef.playScene.gameConfig != null) {
+      final remainingDistance = (nextPosition! - position).length;
+      if (remainingDistance < 1) {
+        speed = 0;
+      } else {
+        speed = remainingDistance * gameRef.playScene.gameConfig!.frameRate;
+      }
+    }
   }
 
   void updateState() {
