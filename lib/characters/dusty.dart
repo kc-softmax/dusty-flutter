@@ -187,14 +187,18 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   void updateStatus(int status) {
     // TODO change data class
     final direction = status & 0x3;
+
     final activeAvailable = (status >> 4) & 0x1;
     final specialAvailable = (status >> 5) & 0x1;
     final finishAvailable = (status >> 6) & 0x1;
-    final finishing = (status >> 7) & 0x1;
-    final punching = (status >> 8) & 0x1;
-    final dustyState = (status >> 9) & 0x3;
-    final rafting = (status >> 12) & 0x1;
-    final finishType = (status >> 13) & 0x3;
+    final boostAvailable = (status >> 7) & 0x1;
+    final shieldAvailable = (status >> 8) & 0x1;
+
+    final finishing = (status >> 9) & 0x1;
+    final punching = (status >> 10) & 0x1;
+    final dustyState = (status >> 11) & 0x3;
+    final rafting = (status >> 14) & 0x1;
+    final finishType = (status >> 15) & 0x3;
 
     updateDustyState(dustyState);
   }
