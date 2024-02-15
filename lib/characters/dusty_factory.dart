@@ -23,10 +23,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     Dusty? dusty = objects[message.dustyId];
     if (dusty != null) {
       if (message.position != null) {
-        dusty.nextPosition = Vector2(
-          (message.position! & 0xFFFF) as double,
-          message.position! >> 16 as double,
-        );
+        dusty.nextPosition = Vector2(message.x, message.y);
         dusty.updateSpeed();
       }
       if (message.status != null) {
@@ -44,8 +41,8 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     // position = math.floor(self.anchor.y) << 16 | math.floor(self.anchor.x)
     assert(message.position != null, "position is null");
     final dusty = Dusty()
-      ..x = (message.position! & 0xFFFF) as double
-      ..y = message.position! >> 16 as double;
+      ..x = message.x
+      ..y = message.y;
     // print(dusty.x);
     // print(message.dustyId);
     // print(message.name);
