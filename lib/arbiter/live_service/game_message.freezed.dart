@@ -809,7 +809,7 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DustyMessageImpl implements _DustyMessage {
+class _$DustyMessageImpl extends _DustyMessage {
   const _$DustyMessageImpl(
       {required this.dustyId,
       required this.eventType,
@@ -819,7 +819,8 @@ class _$DustyMessageImpl implements _DustyMessage {
       this.position,
       this.target,
       this.defence,
-      this.deathInfo});
+      this.deathInfo})
+      : super._();
 
   factory _$DustyMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$DustyMessageImplFromJson(json);
@@ -886,7 +887,7 @@ class _$DustyMessageImpl implements _DustyMessage {
   }
 }
 
-abstract class _DustyMessage implements DustyMessage {
+abstract class _DustyMessage extends DustyMessage {
   const factory _DustyMessage(
       {required final int dustyId,
       required final EventType eventType,
@@ -897,6 +898,7 @@ abstract class _DustyMessage implements DustyMessage {
       final int? target,
       final int? defence,
       final int? deathInfo}) = _$DustyMessageImpl;
+  const _DustyMessage._() : super._();
 
   factory _DustyMessage.fromJson(Map<String, dynamic> json) =
       _$DustyMessageImpl.fromJson;
@@ -1200,9 +1202,7 @@ mixin _$ActiveObjectMessage {
   int? get team => throw _privateConstructorUsedError;
   int? get directionX => throw _privateConstructorUsedError;
   int? get directionY => throw _privateConstructorUsedError;
-  int? get stride => throw _privateConstructorUsedError;
-  int? get size => throw _privateConstructorUsedError;
-  int? get life => throw _privateConstructorUsedError;
+  int? get status => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
   int? get target => throw _privateConstructorUsedError;
   int? get objectType => throw _privateConstructorUsedError;
@@ -1226,9 +1226,7 @@ abstract class $ActiveObjectMessageCopyWith<$Res> {
       int? team,
       int? directionX,
       int? directionY,
-      int? stride,
-      int? size,
-      int? life,
+      int? status,
       int? position,
       int? target,
       int? objectType,
@@ -1253,9 +1251,7 @@ class _$ActiveObjectMessageCopyWithImpl<$Res, $Val extends ActiveObjectMessage>
     Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
-    Object? stride = freezed,
-    Object? size = freezed,
-    Object? life = freezed,
+    Object? status = freezed,
     Object? position = freezed,
     Object? target = freezed,
     Object? objectType = freezed,
@@ -1282,17 +1278,9 @@ class _$ActiveObjectMessageCopyWithImpl<$Res, $Val extends ActiveObjectMessage>
           ? _value.directionY
           : directionY // ignore: cast_nullable_to_non_nullable
               as int?,
-      stride: freezed == stride
-          ? _value.stride
-          : stride // ignore: cast_nullable_to_non_nullable
-              as int?,
-      size: freezed == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as int?,
-      life: freezed == life
-          ? _value.life
-          : life // ignore: cast_nullable_to_non_nullable
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
               as int?,
       position: freezed == position
           ? _value.position
@@ -1328,9 +1316,7 @@ abstract class _$$ActiveObjectMessageImplCopyWith<$Res>
       int? team,
       int? directionX,
       int? directionY,
-      int? stride,
-      int? size,
-      int? life,
+      int? status,
       int? position,
       int? target,
       int? objectType,
@@ -1353,9 +1339,7 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
     Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
-    Object? stride = freezed,
-    Object? size = freezed,
-    Object? life = freezed,
+    Object? status = freezed,
     Object? position = freezed,
     Object? target = freezed,
     Object? objectType = freezed,
@@ -1382,17 +1366,9 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
           ? _value.directionY
           : directionY // ignore: cast_nullable_to_non_nullable
               as int?,
-      stride: freezed == stride
-          ? _value.stride
-          : stride // ignore: cast_nullable_to_non_nullable
-              as int?,
-      size: freezed == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
-              as int?,
-      life: freezed == life
-          ? _value.life
-          : life // ignore: cast_nullable_to_non_nullable
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
               as int?,
       position: freezed == position
           ? _value.position
@@ -1423,9 +1399,7 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
       this.team,
       this.directionX,
       this.directionY,
-      this.stride,
-      this.size,
-      this.life,
+      this.status,
       this.position,
       this.target,
       this.objectType,
@@ -1445,11 +1419,7 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
   @override
   final int? directionY;
   @override
-  final int? stride;
-  @override
-  final int? size;
-  @override
-  final int? life;
+  final int? status;
   @override
   final int? position;
   @override
@@ -1461,7 +1431,7 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
 
   @override
   String toString() {
-    return 'ActiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, directionX: $directionX, directionY: $directionY, stride: $stride, size: $size, life: $life, position: $position, target: $target, objectType: $objectType, removeType: $removeType)';
+    return 'ActiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, directionX: $directionX, directionY: $directionY, status: $status, position: $position, target: $target, objectType: $objectType, removeType: $removeType)';
   }
 
   @override
@@ -1478,9 +1448,7 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
                 other.directionX == directionX) &&
             (identical(other.directionY, directionY) ||
                 other.directionY == directionY) &&
-            (identical(other.stride, stride) || other.stride == stride) &&
-            (identical(other.size, size) || other.size == size) &&
-            (identical(other.life, life) || other.life == life) &&
+            (identical(other.status, status) || other.status == status) &&
             (identical(other.position, position) ||
                 other.position == position) &&
             (identical(other.target, target) || other.target == target) &&
@@ -1492,20 +1460,8 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      objectId,
-      eventType,
-      team,
-      directionX,
-      directionY,
-      stride,
-      size,
-      life,
-      position,
-      target,
-      objectType,
-      removeType);
+  int get hashCode => Object.hash(runtimeType, objectId, eventType, team,
+      directionX, directionY, status, position, target, objectType, removeType);
 
   @JsonKey(ignore: true)
   @override
@@ -1529,9 +1485,7 @@ abstract class _ActiveObjectMessage implements ActiveObjectMessage {
       final int? team,
       final int? directionX,
       final int? directionY,
-      final int? stride,
-      final int? size,
-      final int? life,
+      final int? status,
       final int? position,
       final int? target,
       final int? objectType,
@@ -1551,11 +1505,7 @@ abstract class _ActiveObjectMessage implements ActiveObjectMessage {
   @override
   int? get directionY;
   @override
-  int? get stride;
-  @override
-  int? get size;
-  @override
-  int? get life;
+  int? get status;
   @override
   int? get position;
   @override

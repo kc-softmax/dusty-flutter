@@ -33,21 +33,6 @@ abstract class ObjectFactoryComponent<OT extends Component,
   void onRemoveObject(MT message);
 
   final Map<int, OT> objects = {};
-  double _lastUpdateTime = 0;
-  double? _frameDuration;
-
-  @override
-  void update(double dt) {
-    if (gameRef.playScene.gameConfig == null) return;
-    _frameDuration ??= 1 / gameRef.playScene.gameConfig!.frameRate;
-
-    _lastUpdateTime += dt;
-    if (_lastUpdateTime < _frameDuration!) return;
-
-    super.update(dt);
-
-    _lastUpdateTime = 0;
-  }
 
   @override
   void _handleMessages(List<MT> messages) {

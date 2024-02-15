@@ -1,3 +1,5 @@
+import 'package:dusty_flutter/models/protocols/const.dart';
+import 'package:dusty_flutter/models/protocols/parser.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'game_message.freezed.dart';
@@ -50,6 +52,8 @@ class GameConfig with _$GameConfig {
 
 @freezed
 class DustyMessage with _$DustyMessage, BaseMessage {
+  const DustyMessage._();
+
   const factory DustyMessage({
     required int dustyId,
     required EventType eventType,
@@ -61,6 +65,18 @@ class DustyMessage with _$DustyMessage, BaseMessage {
     int? defence,
     int? deathInfo,
   }) = _DustyMessage;
+
+  get direction => StatusParser.direction(status!);
+  get activeAvailable => StatusParser.activeAvailable(status!);
+  get specialAvailable => StatusParser.specialAvailable(status!);
+  get finishAvailable => StatusParser.finishAvailable(status!);
+  get boostAvailable => StatusParser.boostAvailable(status!);
+  get shieldAvailable => StatusParser.shieldAvailable(status!);
+  get finishing => StatusParser.finishing(status!);
+  get punching => StatusParser.punching(status!);
+  DustyState get dustyState => StatusParser.dustyState(status!);
+  get rafting => StatusParser.rafting(status!);
+  get finishType => StatusParser.finishType(status!);
 
   factory DustyMessage.fromJson(Map<String, dynamic> json) =>
       _$DustyMessageFromJson(json);
@@ -90,9 +106,7 @@ class ActiveObjectMessage with _$ActiveObjectMessage, BaseMessage {
     int? team,
     int? directionX,
     int? directionY,
-    int? stride,
-    int? size,
-    int? life,
+    int? status,
     int? position,
     int? target,
     int? objectType,
