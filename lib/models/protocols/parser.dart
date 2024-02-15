@@ -14,3 +14,8 @@ class StatusParser {
   static rafting(int status) => (status >> 12) & 0x1;
   static finishType(int status) => (status >> 13) & 0x3;
 }
+
+class PositionParser {
+  static double x(int position) => (position & 0xFFFF) as double;
+  static double y(int position) => (position >> 16) as double;
+}

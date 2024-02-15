@@ -1,9 +1,10 @@
+import 'package:dusty_flutter/active_objects/active_objects_factory.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
 class DustyMissaile extends SpriteAnimationComponent
-    with HasGameRef<DustyIslandGame>, CollisionCallbacks {
+    with HasGameRef<DustyIslandGame>, CollisionCallbacks, ActiveObjects {
   Vector2 direction;
 
   DustyMissaile({
@@ -23,7 +24,7 @@ class DustyMissaile extends SpriteAnimationComponent
   @override
   void update(double dt) {
     super.update(dt);
-    position.add(direction * 300 * dt);
+    position.add(direction * 20 * dt);
   }
 }
 

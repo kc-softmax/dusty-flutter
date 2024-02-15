@@ -127,8 +127,9 @@ _$ActiveObjectMessageImpl _$$ActiveObjectMessageImplFromJson(
       status: json['status'] as int?,
       position: json['position'] as int?,
       target: json['target'] as int?,
-      objectType: json['object_type'] as int?,
-      removeType: json['remove_type'] as int?,
+      objectType:
+          $enumDecodeNullable(_$ActiveObjectTypeEnumMap, json['object_type']),
+      removeType: $enumDecodeNullable(_$RemoveTypeEnumMap, json['remove_type']),
     );
 
 Map<String, dynamic> _$$ActiveObjectMessageImplToJson(
@@ -142,9 +143,28 @@ Map<String, dynamic> _$$ActiveObjectMessageImplToJson(
       'status': instance.status,
       'position': instance.position,
       'target': instance.target,
-      'object_type': instance.objectType,
-      'remove_type': instance.removeType,
+      'object_type': _$ActiveObjectTypeEnumMap[instance.objectType],
+      'remove_type': _$RemoveTypeEnumMap[instance.removeType],
     };
+
+const _$ActiveObjectTypeEnumMap = {
+  ActiveObjectType.towerBullet: 1,
+  ActiveObjectType.dustyMissaile: 2,
+  ActiveObjectType.flame: 3,
+};
+
+const _$RemoveTypeEnumMap = {
+  RemoveType.disappear: 1,
+  RemoveType.defaultExplosion: 2,
+  RemoveType.alphaExplosion: 3,
+  RemoveType.betaExplosion: 4,
+  RemoveType.defence: 5,
+  RemoveType.burn: 6,
+  RemoveType.removeFlame: 7,
+  RemoveType.first: 8,
+  RemoveType.shock: 9,
+  RemoveType.earnItem: 10,
+};
 
 _$PassiveObjectMessageImpl _$$PassiveObjectMessageImplFromJson(
         Map<String, dynamic> json) =>

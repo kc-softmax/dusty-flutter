@@ -1205,8 +1205,8 @@ mixin _$ActiveObjectMessage {
   int? get status => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
   int? get target => throw _privateConstructorUsedError;
-  int? get objectType => throw _privateConstructorUsedError;
-  int? get removeType => throw _privateConstructorUsedError;
+  ActiveObjectType? get objectType => throw _privateConstructorUsedError;
+  RemoveType? get removeType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1229,8 +1229,8 @@ abstract class $ActiveObjectMessageCopyWith<$Res> {
       int? status,
       int? position,
       int? target,
-      int? objectType,
-      int? removeType});
+      ActiveObjectType? objectType,
+      RemoveType? removeType});
 }
 
 /// @nodoc
@@ -1293,11 +1293,11 @@ class _$ActiveObjectMessageCopyWithImpl<$Res, $Val extends ActiveObjectMessage>
       objectType: freezed == objectType
           ? _value.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as ActiveObjectType?,
       removeType: freezed == removeType
           ? _value.removeType
           : removeType // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as RemoveType?,
     ) as $Val);
   }
 }
@@ -1319,8 +1319,8 @@ abstract class _$$ActiveObjectMessageImplCopyWith<$Res>
       int? status,
       int? position,
       int? target,
-      int? objectType,
-      int? removeType});
+      ActiveObjectType? objectType,
+      RemoveType? removeType});
 }
 
 /// @nodoc
@@ -1381,18 +1381,18 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
       objectType: freezed == objectType
           ? _value.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as ActiveObjectType?,
       removeType: freezed == removeType
           ? _value.removeType
           : removeType // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as RemoveType?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
+class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
   const _$ActiveObjectMessageImpl(
       {required this.objectId,
       required this.eventType,
@@ -1403,7 +1403,8 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
       this.position,
       this.target,
       this.objectType,
-      this.removeType});
+      this.removeType})
+      : super._();
 
   factory _$ActiveObjectMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$ActiveObjectMessageImplFromJson(json);
@@ -1425,9 +1426,9 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
   @override
   final int? target;
   @override
-  final int? objectType;
+  final ActiveObjectType? objectType;
   @override
-  final int? removeType;
+  final RemoveType? removeType;
 
   @override
   String toString() {
@@ -1478,7 +1479,7 @@ class _$ActiveObjectMessageImpl implements _ActiveObjectMessage {
   }
 }
 
-abstract class _ActiveObjectMessage implements ActiveObjectMessage {
+abstract class _ActiveObjectMessage extends ActiveObjectMessage {
   const factory _ActiveObjectMessage(
       {required final int objectId,
       required final EventType eventType,
@@ -1488,8 +1489,9 @@ abstract class _ActiveObjectMessage implements ActiveObjectMessage {
       final int? status,
       final int? position,
       final int? target,
-      final int? objectType,
-      final int? removeType}) = _$ActiveObjectMessageImpl;
+      final ActiveObjectType? objectType,
+      final RemoveType? removeType}) = _$ActiveObjectMessageImpl;
+  const _ActiveObjectMessage._() : super._();
 
   factory _ActiveObjectMessage.fromJson(Map<String, dynamic> json) =
       _$ActiveObjectMessageImpl.fromJson;
@@ -1511,9 +1513,9 @@ abstract class _ActiveObjectMessage implements ActiveObjectMessage {
   @override
   int? get target;
   @override
-  int? get objectType;
+  ActiveObjectType? get objectType;
   @override
-  int? get removeType;
+  RemoveType? get removeType;
   @override
   @JsonKey(ignore: true)
   _$$ActiveObjectMessageImplCopyWith<_$ActiveObjectMessageImpl> get copyWith =>
