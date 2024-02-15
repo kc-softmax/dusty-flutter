@@ -100,18 +100,17 @@ _$TowerMessageImpl _$$TowerMessageImplFromJson(Map<String, dynamic> json) =>
       eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
       team: json['team'] as int?,
       shape: json['shape'] as int?,
-      position: json['position'] as int?,
       target: json['target'] as int?,
       removeType: $enumDecodeNullable(_$RemoveTypeEnumMap, json['remove_type']),
-    );
+    )..position = json['position'] as int?;
 
 Map<String, dynamic> _$$TowerMessageImplToJson(_$TowerMessageImpl instance) =>
     <String, dynamic>{
+      'position': instance.position,
       'tower_id': instance.towerId,
       'event_type': _$EventTypeEnumMap[instance.eventType]!,
       'team': instance.team,
       'shape': instance.shape,
-      'position': instance.position,
       'target': instance.target,
       'remove_type': _$RemoveTypeEnumMap[instance.removeType],
     };

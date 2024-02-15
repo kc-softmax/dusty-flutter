@@ -50,6 +50,12 @@ mixin BaseMessage {
   EventType get eventType;
 }
 
+mixin HasPosition {
+  int? position;
+  double get x => PositionParser.x(position!);
+  double get y => PositionParser.y(position!);
+}
+
 @freezed
 class GameMessage with _$GameMessage {
   const factory GameMessage({
@@ -83,10 +89,10 @@ class GameConfig with _$GameConfig {
 }
 
 @freezed
-class DustyMessage with _$DustyMessage, BaseMessage {
-  const DustyMessage._();
+class DustyMessage with _$DustyMessage, BaseMessage, HasPosition {
+  DustyMessage._();
 
-  const factory DustyMessage({
+  factory DustyMessage({
     required int dustyId,
     required EventType eventType,
     String? name,
@@ -115,31 +121,27 @@ class DustyMessage with _$DustyMessage, BaseMessage {
 }
 
 @freezed
-class TowerMessage with _$TowerMessage, BaseMessage {
-  const TowerMessage._();
+class TowerMessage with _$TowerMessage, BaseMessage, HasPosition {
+  TowerMessage._();
 
-  const factory TowerMessage({
+  factory TowerMessage({
     required int towerId,
     required EventType eventType,
     int? team,
     int? shape,
-    int? position,
     int? target,
     RemoveType? removeType,
   }) = _TowerMessage;
-
-  double get x => PositionParser.x(position!);
-  double get y => PositionParser.y(position!);
 
   factory TowerMessage.fromJson(Map<String, dynamic> json) =>
       _$TowerMessageFromJson(json);
 }
 
 @freezed
-class ActiveObjectMessage with _$ActiveObjectMessage, BaseMessage {
-  const ActiveObjectMessage._();
+class ActiveObjectMessage with _$ActiveObjectMessage, BaseMessage, HasPosition {
+  ActiveObjectMessage._();
 
-  const factory ActiveObjectMessage({
+  factory ActiveObjectMessage({
     required int objectId,
     required EventType eventType,
     int? team,
@@ -152,16 +154,16 @@ class ActiveObjectMessage with _$ActiveObjectMessage, BaseMessage {
     RemoveType? removeType,
   }) = _ActiveObjectMessage;
 
-  double get x => PositionParser.x(position!);
-  double get y => PositionParser.y(position!);
-
   factory ActiveObjectMessage.fromJson(Map<String, dynamic> json) =>
       _$ActiveObjectMessageFromJson(json);
 }
 
 @freezed
-class PassiveObjectMessage with _$PassiveObjectMessage, BaseMessage {
-  const factory PassiveObjectMessage({
+class PassiveObjectMessage
+    with _$PassiveObjectMessage, BaseMessage, HasPosition {
+  PassiveObjectMessage._();
+
+  factory PassiveObjectMessage({
     required int objectId,
     required EventType eventType,
     int? team,

@@ -810,7 +810,7 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DustyMessageImpl extends _DustyMessage {
-  const _$DustyMessageImpl(
+  _$DustyMessageImpl(
       {required this.dustyId,
       required this.eventType,
       this.name,
@@ -888,7 +888,7 @@ class _$DustyMessageImpl extends _DustyMessage {
 }
 
 abstract class _DustyMessage extends DustyMessage {
-  const factory _DustyMessage(
+  factory _DustyMessage(
       {required final int dustyId,
       required final EventType eventType,
       final String? name,
@@ -898,7 +898,7 @@ abstract class _DustyMessage extends DustyMessage {
       final int? target,
       final int? defence,
       final int? deathInfo}) = _$DustyMessageImpl;
-  const _DustyMessage._() : super._();
+  _DustyMessage._() : super._();
 
   factory _DustyMessage.fromJson(Map<String, dynamic> json) =
       _$DustyMessageImpl.fromJson;
@@ -937,7 +937,6 @@ mixin _$TowerMessage {
   EventType get eventType => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get shape => throw _privateConstructorUsedError;
-  int? get position => throw _privateConstructorUsedError;
   int? get target => throw _privateConstructorUsedError;
   RemoveType? get removeType => throw _privateConstructorUsedError;
 
@@ -958,7 +957,6 @@ abstract class $TowerMessageCopyWith<$Res> {
       EventType eventType,
       int? team,
       int? shape,
-      int? position,
       int? target,
       RemoveType? removeType});
 }
@@ -980,7 +978,6 @@ class _$TowerMessageCopyWithImpl<$Res, $Val extends TowerMessage>
     Object? eventType = null,
     Object? team = freezed,
     Object? shape = freezed,
-    Object? position = freezed,
     Object? target = freezed,
     Object? removeType = freezed,
   }) {
@@ -1000,10 +997,6 @@ class _$TowerMessageCopyWithImpl<$Res, $Val extends TowerMessage>
       shape: freezed == shape
           ? _value.shape
           : shape // ignore: cast_nullable_to_non_nullable
-              as int?,
-      position: freezed == position
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
               as int?,
       target: freezed == target
           ? _value.target
@@ -1030,7 +1023,6 @@ abstract class _$$TowerMessageImplCopyWith<$Res>
       EventType eventType,
       int? team,
       int? shape,
-      int? position,
       int? target,
       RemoveType? removeType});
 }
@@ -1050,7 +1042,6 @@ class __$$TowerMessageImplCopyWithImpl<$Res>
     Object? eventType = null,
     Object? team = freezed,
     Object? shape = freezed,
-    Object? position = freezed,
     Object? target = freezed,
     Object? removeType = freezed,
   }) {
@@ -1071,10 +1062,6 @@ class __$$TowerMessageImplCopyWithImpl<$Res>
           ? _value.shape
           : shape // ignore: cast_nullable_to_non_nullable
               as int?,
-      position: freezed == position
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as int?,
       target: freezed == target
           ? _value.target
           : target // ignore: cast_nullable_to_non_nullable
@@ -1090,12 +1077,11 @@ class __$$TowerMessageImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$TowerMessageImpl extends _TowerMessage {
-  const _$TowerMessageImpl(
+  _$TowerMessageImpl(
       {required this.towerId,
       required this.eventType,
       this.team,
       this.shape,
-      this.position,
       this.target,
       this.removeType})
       : super._();
@@ -1112,15 +1098,13 @@ class _$TowerMessageImpl extends _TowerMessage {
   @override
   final int? shape;
   @override
-  final int? position;
-  @override
   final int? target;
   @override
   final RemoveType? removeType;
 
   @override
   String toString() {
-    return 'TowerMessage(towerId: $towerId, eventType: $eventType, team: $team, shape: $shape, position: $position, target: $target, removeType: $removeType)';
+    return 'TowerMessage(towerId: $towerId, eventType: $eventType, team: $team, shape: $shape, target: $target, removeType: $removeType)';
   }
 
   @override
@@ -1133,8 +1117,6 @@ class _$TowerMessageImpl extends _TowerMessage {
                 other.eventType == eventType) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.shape, shape) || other.shape == shape) &&
-            (identical(other.position, position) ||
-                other.position == position) &&
             (identical(other.target, target) || other.target == target) &&
             (identical(other.removeType, removeType) ||
                 other.removeType == removeType));
@@ -1142,8 +1124,8 @@ class _$TowerMessageImpl extends _TowerMessage {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, towerId, eventType, team, shape,
-      position, target, removeType);
+  int get hashCode => Object.hash(
+      runtimeType, towerId, eventType, team, shape, target, removeType);
 
   @JsonKey(ignore: true)
   @override
@@ -1160,15 +1142,14 @@ class _$TowerMessageImpl extends _TowerMessage {
 }
 
 abstract class _TowerMessage extends TowerMessage {
-  const factory _TowerMessage(
+  factory _TowerMessage(
       {required final int towerId,
       required final EventType eventType,
       final int? team,
       final int? shape,
-      final int? position,
       final int? target,
       final RemoveType? removeType}) = _$TowerMessageImpl;
-  const _TowerMessage._() : super._();
+  _TowerMessage._() : super._();
 
   factory _TowerMessage.fromJson(Map<String, dynamic> json) =
       _$TowerMessageImpl.fromJson;
@@ -1181,8 +1162,6 @@ abstract class _TowerMessage extends TowerMessage {
   int? get team;
   @override
   int? get shape;
-  @override
-  int? get position;
   @override
   int? get target;
   @override
@@ -1395,7 +1374,7 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
-  const _$ActiveObjectMessageImpl(
+  _$ActiveObjectMessageImpl(
       {required this.objectId,
       required this.eventType,
       this.team,
@@ -1482,7 +1461,7 @@ class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
 }
 
 abstract class _ActiveObjectMessage extends ActiveObjectMessage {
-  const factory _ActiveObjectMessage(
+  factory _ActiveObjectMessage(
       {required final int objectId,
       required final EventType eventType,
       final int? team,
@@ -1493,7 +1472,7 @@ abstract class _ActiveObjectMessage extends ActiveObjectMessage {
       final int? target,
       final ActiveObjectType? objectType,
       final RemoveType? removeType}) = _$ActiveObjectMessageImpl;
-  const _ActiveObjectMessage._() : super._();
+  _ActiveObjectMessage._() : super._();
 
   factory _ActiveObjectMessage.fromJson(Map<String, dynamic> json) =
       _$ActiveObjectMessageImpl.fromJson;
@@ -1687,15 +1666,16 @@ class __$$PassiveObjectMessageImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PassiveObjectMessageImpl implements _PassiveObjectMessage {
-  const _$PassiveObjectMessageImpl(
+class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
+  _$PassiveObjectMessageImpl(
       {required this.objectId,
       required this.eventType,
       this.team,
       this.size,
       this.position,
       this.objectType,
-      this.removeType});
+      this.removeType})
+      : super._();
 
   factory _$PassiveObjectMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$PassiveObjectMessageImplFromJson(json);
@@ -1760,8 +1740,8 @@ class _$PassiveObjectMessageImpl implements _PassiveObjectMessage {
   }
 }
 
-abstract class _PassiveObjectMessage implements PassiveObjectMessage {
-  const factory _PassiveObjectMessage(
+abstract class _PassiveObjectMessage extends PassiveObjectMessage {
+  factory _PassiveObjectMessage(
       {required final int objectId,
       required final EventType eventType,
       final int? team,
@@ -1769,6 +1749,7 @@ abstract class _PassiveObjectMessage implements PassiveObjectMessage {
       final int? position,
       final int? objectType,
       final int? removeType}) = _$PassiveObjectMessageImpl;
+  _PassiveObjectMessage._() : super._();
 
   factory _PassiveObjectMessage.fromJson(Map<String, dynamic> json) =
       _$PassiveObjectMessageImpl.fromJson;
