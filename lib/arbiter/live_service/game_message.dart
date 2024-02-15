@@ -14,6 +14,38 @@ enum EventType {
   remove
 }
 
+enum ActiveObjectType {
+  @JsonValue(1)
+  towerBullet,
+  @JsonValue(2)
+  dustyMissaile,
+  @JsonValue(3)
+  flame
+}
+
+enum RemoveType {
+  @JsonValue(1)
+  disappear,
+  @JsonValue(2)
+  defaultExplosion,
+  @JsonValue(3)
+  alphaExplosion,
+  @JsonValue(4)
+  betaExplosion,
+  @JsonValue(5)
+  defence,
+  @JsonValue(6)
+  burn,
+  @JsonValue(7)
+  removeFlame,
+  @JsonValue(8)
+  first,
+  @JsonValue(9)
+  shock,
+  @JsonValue(10)
+  earnItem
+}
+
 mixin BaseMessage {
   EventType get eventType;
 }
@@ -100,6 +132,8 @@ class TowerMessage with _$TowerMessage, BaseMessage {
 
 @freezed
 class ActiveObjectMessage with _$ActiveObjectMessage, BaseMessage {
+  const ActiveObjectMessage._();
+
   const factory ActiveObjectMessage({
     required int objectId,
     required EventType eventType,
@@ -109,9 +143,12 @@ class ActiveObjectMessage with _$ActiveObjectMessage, BaseMessage {
     int? status,
     int? position,
     int? target,
-    int? objectType,
-    int? removeType,
+    ActiveObjectType? objectType,
+    RemoveType? removeType,
   }) = _ActiveObjectMessage;
+
+  double get x => PositionParser.x(position!);
+  double get y => PositionParser.y(position!);
 
   factory ActiveObjectMessage.fromJson(Map<String, dynamic> json) =>
       _$ActiveObjectMessageFromJson(json);

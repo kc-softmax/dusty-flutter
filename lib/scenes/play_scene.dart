@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dusty_flutter/active_objects/active_objects_factory.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
@@ -16,6 +17,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   final hud = Hud();
   final dustyFactory = DustyFactory();
+  final activeObjectsFactory = ActiveObjectsFactory();
 
   late final Dusty? player;
 
@@ -37,6 +39,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     await addAll([
       hud,
       dustyFactory,
+      activeObjectsFactory,
     ]);
   }
 
@@ -68,6 +71,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   Future<void> _resetGame() async {
     _closeGame();
     dustyFactory.clear();
+    activeObjectsFactory.clear();
     await _startGame();
   }
 
@@ -81,6 +85,12 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     }
     if (gameMessage.dusties != null) {
       dustyFactory.addMessages(gameMessage.dusties!);
+    }
+    if (gameMessage.actives != null) {
+      gameMessage.actives!.forEach((element) {
+        debugPrint(element.toString());
+      });
+      activeObjectsFactory.addMessages(gameMessage.actives!);
     }
   }
 }
