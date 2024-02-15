@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
-import 'package:dusty_flutter/factories/dusty_factory.dart';
+import 'package:dusty_flutter/characters/dusty_factory.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/ui/hud.dart';
 import 'package:flame/components.dart';
