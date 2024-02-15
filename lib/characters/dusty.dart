@@ -16,6 +16,10 @@ class DustyBodyEffect extends SpriteAnimationGroupComponent<DustyBodyEffectType>
         gameRef.atlas.findSpritesByName('electric_shock'),
         stepTime: 0.05,
       ),
+      DustyBodyEffectType.shield: SpriteAnimation.spriteList(
+        gameRef.atlas.findSpritesByName('shield'),
+        stepTime: 0.05,
+      ),
     };
   }
 }
@@ -46,6 +50,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   late final DustyBodyEffect bodyEffect;
   late final Vector2 _lastSize = size.clone();
   late final Transform2D _lastTransform = transform.clone();
+  DustyState dustyState = DustyState.normal;
   Vector2? nextPosition;
   double speed = 0;
 
@@ -53,7 +58,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   DustyBodyType get bodyType => _bodyType;
   set bodyType(DustyBodyType type) {
     _bodyType = type;
-    updateState();
+    updateUIState();
   }
 
   DustyBodyEffectType _bodyEffectType = DustyBodyEffectType.none;
@@ -64,20 +69,24 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         bodyEffect.position.x = -5;
         bodyEffect.position.y = -5;
         break;
+      case DustyBodyEffectType.shield:
+        bodyEffect.position.x = -7;
+        bodyEffect.position.y = -10;
+        break;
       default:
         bodyEffect.position.x = 0;
         bodyEffect.position.y = 0;
         break;
     }
     _bodyEffectType = type;
-    updateState();
+    updateUIState();
   }
 
   DustyGlassesType _glassesType = DustyGlassesType.idle;
   DustyGlassesType get glassesType => _glassesType;
   set glassesType(DustyGlassesType type) {
     _glassesType = type;
-    updateState();
+    updateUIState();
   }
 
   Dusty() : super(size: Vector2(48, 48), anchor: Anchor.center);
@@ -153,7 +162,44 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
   }
 
-  void updateState() {
+  void updateDustyState(int state) {
+    DustyState newState = dustyStateFromValue(state);
+    if (newState == dustyState) {
+      return;
+    }
+    switch (newState) {
+      case DustyState.boost:
+        glassesType = DustyGlassesType.boost;
+        break;
+      case DustyState.shield:
+        bodyEffectType = DustyBodyEffectType.shield;
+        break;
+      case DustyState.normal:
+        glassesType = DustyGlassesType.idle;
+        bodyEffectType = DustyBodyEffectType.none;
+        break;
+      default:
+        break;
+    }
+    dustyState = newState;
+  }
+
+  void updateStatus(int status) {
+    // TODO change data class
+    final direction = status & 0x3;
+    final activeAvailable = (status >> 4) & 0x1;
+    final specialAvailable = (status >> 5) & 0x1;
+    final finishAvailable = (status >> 6) & 0x1;
+    final finishing = (status >> 7) & 0x1;
+    final punching = (status >> 8) & 0x1;
+    final dustyState = (status >> 9) & 0x3;
+    final rafting = (status >> 12) & 0x1;
+    final finishType = (status >> 13) & 0x3;
+
+    updateDustyState(dustyState);
+  }
+
+  void updateUIState() {
     // using animation sync
     int? currentIndex = animationTickers?[bodyType]?.currentIndex;
     glasses.changeState(glassesType, currentIndex);

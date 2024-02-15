@@ -29,6 +29,9 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
         );
         dusty.updateSpeed();
       }
+      if (message.status != null) {
+        dusty.updateStatus(message.status!);
+      }
     }
     //.. 비교
     //.. 이벤트 도출
