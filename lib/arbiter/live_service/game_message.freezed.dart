@@ -809,7 +809,7 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DustyMessageImpl implements _DustyMessage {
+class _$DustyMessageImpl extends _DustyMessage {
   const _$DustyMessageImpl(
       {required this.dustyId,
       required this.eventType,
@@ -819,7 +819,8 @@ class _$DustyMessageImpl implements _DustyMessage {
       this.position,
       this.target,
       this.defence,
-      this.deathInfo});
+      this.deathInfo})
+      : super._();
 
   factory _$DustyMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$DustyMessageImplFromJson(json);
@@ -886,7 +887,7 @@ class _$DustyMessageImpl implements _DustyMessage {
   }
 }
 
-abstract class _DustyMessage implements DustyMessage {
+abstract class _DustyMessage extends DustyMessage {
   const factory _DustyMessage(
       {required final int dustyId,
       required final EventType eventType,
@@ -897,6 +898,7 @@ abstract class _DustyMessage implements DustyMessage {
       final int? target,
       final int? defence,
       final int? deathInfo}) = _$DustyMessageImpl;
+  const _DustyMessage._() : super._();
 
   factory _DustyMessage.fromJson(Map<String, dynamic> json) =
       _$DustyMessageImpl.fromJson;

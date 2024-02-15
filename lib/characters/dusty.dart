@@ -1,5 +1,6 @@
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game.dart';
+import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:flame/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -162,8 +163,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
   }
 
-  void updateDustyState(int state) {
-    DustyState newState = dustyStateFromValue(state);
+  void updateDustyState(DustyState newState) {
     if (newState == dustyState) {
       return;
     }
@@ -182,25 +182,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         break;
     }
     dustyState = newState;
-  }
-
-  void updateStatus(int status) {
-    // TODO change data class
-    final direction = status & 0x3;
-
-    final activeAvailable = (status >> 4) & 0x1;
-    final specialAvailable = (status >> 5) & 0x1;
-    final finishAvailable = (status >> 6) & 0x1;
-    final boostAvailable = (status >> 7) & 0x1;
-    final shieldAvailable = (status >> 8) & 0x1;
-
-    final finishing = (status >> 9) & 0x1;
-    final punching = (status >> 10) & 0x1;
-    final dustyState = (status >> 11) & 0x3;
-    final rafting = (status >> 14) & 0x1;
-    final finishType = (status >> 15) & 0x3;
-
-    updateDustyState(dustyState);
   }
 
   void updateUIState() {

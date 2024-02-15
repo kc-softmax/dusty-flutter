@@ -30,7 +30,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
         dusty.updateSpeed();
       }
       if (message.status != null) {
-        dusty.updateStatus(message.status!);
+        dusty.updateDustyState(message.dustyState);
       }
     }
     //.. 비교
