@@ -7,12 +7,12 @@ class StatusParser {
   static finishAvailable(int status) => (status >> 6) & 0x1;
   static boostAvailable(int status) => (status >> 7) & 0x1;
   static shieldAvailable(int status) => (status >> 8) & 0x1;
-  static finishing(int status) => (status >> 7) & 0x1;
-  static punching(int status) => (status >> 8) & 0x1;
+  static finishing(int status) => (status >> 9) & 0x1;
+  static punching(int status) => (status >> 10) & 0x1;
   static DustyState dustyState(int status) =>
-      DustyState.parse((status >> 9) & 0x3);
-  static rafting(int status) => (status >> 12) & 0x1;
-  static finishType(int status) => (status >> 13) & 0x3;
+      DustyState.parse((status >> 11) & 0x3);
+  static rafting(int status) => (status >> 14) & 0x1;
+  static finishType(int status) => (status >> 15) & 0x3;
 }
 
 class PositionParser {
