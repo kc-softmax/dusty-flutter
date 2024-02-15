@@ -175,6 +175,6 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
 
   void _onPressedSpecialButton() {
     debugPrint("press special button");
-    Arbiter.liveService.sendByte(DustyAction.activeSkill.encode());
+    Arbiter.liveService.sendByte(DustyAction.specialSkill.encode());
   }
 }

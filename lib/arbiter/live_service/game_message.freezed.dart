@@ -939,7 +939,7 @@ mixin _$TowerMessage {
   int? get shape => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
   int? get target => throw _privateConstructorUsedError;
-  int? get removeType => throw _privateConstructorUsedError;
+  RemoveType? get removeType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -960,7 +960,7 @@ abstract class $TowerMessageCopyWith<$Res> {
       int? shape,
       int? position,
       int? target,
-      int? removeType});
+      RemoveType? removeType});
 }
 
 /// @nodoc
@@ -1012,7 +1012,7 @@ class _$TowerMessageCopyWithImpl<$Res, $Val extends TowerMessage>
       removeType: freezed == removeType
           ? _value.removeType
           : removeType // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as RemoveType?,
     ) as $Val);
   }
 }
@@ -1032,7 +1032,7 @@ abstract class _$$TowerMessageImplCopyWith<$Res>
       int? shape,
       int? position,
       int? target,
-      int? removeType});
+      RemoveType? removeType});
 }
 
 /// @nodoc
@@ -1082,14 +1082,14 @@ class __$$TowerMessageImplCopyWithImpl<$Res>
       removeType: freezed == removeType
           ? _value.removeType
           : removeType // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as RemoveType?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$TowerMessageImpl implements _TowerMessage {
+class _$TowerMessageImpl extends _TowerMessage {
   const _$TowerMessageImpl(
       {required this.towerId,
       required this.eventType,
@@ -1097,7 +1097,8 @@ class _$TowerMessageImpl implements _TowerMessage {
       this.shape,
       this.position,
       this.target,
-      this.removeType});
+      this.removeType})
+      : super._();
 
   factory _$TowerMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$TowerMessageImplFromJson(json);
@@ -1115,7 +1116,7 @@ class _$TowerMessageImpl implements _TowerMessage {
   @override
   final int? target;
   @override
-  final int? removeType;
+  final RemoveType? removeType;
 
   @override
   String toString() {
@@ -1158,7 +1159,7 @@ class _$TowerMessageImpl implements _TowerMessage {
   }
 }
 
-abstract class _TowerMessage implements TowerMessage {
+abstract class _TowerMessage extends TowerMessage {
   const factory _TowerMessage(
       {required final int towerId,
       required final EventType eventType,
@@ -1166,7 +1167,8 @@ abstract class _TowerMessage implements TowerMessage {
       final int? shape,
       final int? position,
       final int? target,
-      final int? removeType}) = _$TowerMessageImpl;
+      final RemoveType? removeType}) = _$TowerMessageImpl;
+  const _TowerMessage._() : super._();
 
   factory _TowerMessage.fromJson(Map<String, dynamic> json) =
       _$TowerMessageImpl.fromJson;
@@ -1184,7 +1186,7 @@ abstract class _TowerMessage implements TowerMessage {
   @override
   int? get target;
   @override
-  int? get removeType;
+  RemoveType? get removeType;
   @override
   @JsonKey(ignore: true)
   _$$TowerMessageImplCopyWith<_$TowerMessageImpl> get copyWith =>

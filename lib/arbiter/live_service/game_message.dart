@@ -116,6 +116,8 @@ class DustyMessage with _$DustyMessage, BaseMessage {
 
 @freezed
 class TowerMessage with _$TowerMessage, BaseMessage {
+  const TowerMessage._();
+
   const factory TowerMessage({
     required int towerId,
     required EventType eventType,
@@ -123,8 +125,11 @@ class TowerMessage with _$TowerMessage, BaseMessage {
     int? shape,
     int? position,
     int? target,
-    int? removeType,
+    RemoveType? removeType,
   }) = _TowerMessage;
+
+  double get x => PositionParser.x(position!);
+  double get y => PositionParser.y(position!);
 
   factory TowerMessage.fromJson(Map<String, dynamic> json) =>
       _$TowerMessageFromJson(json);
