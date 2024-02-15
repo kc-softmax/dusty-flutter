@@ -102,7 +102,7 @@ _$TowerMessageImpl _$$TowerMessageImplFromJson(Map<String, dynamic> json) =>
       shape: json['shape'] as int?,
       position: json['position'] as int?,
       target: json['target'] as int?,
-      removeType: json['remove_type'] as int?,
+      removeType: $enumDecodeNullable(_$RemoveTypeEnumMap, json['remove_type']),
     );
 
 Map<String, dynamic> _$$TowerMessageImplToJson(_$TowerMessageImpl instance) =>
@@ -113,8 +113,21 @@ Map<String, dynamic> _$$TowerMessageImplToJson(_$TowerMessageImpl instance) =>
       'shape': instance.shape,
       'position': instance.position,
       'target': instance.target,
-      'remove_type': instance.removeType,
+      'remove_type': _$RemoveTypeEnumMap[instance.removeType],
     };
+
+const _$RemoveTypeEnumMap = {
+  RemoveType.disappear: 1,
+  RemoveType.defaultExplosion: 2,
+  RemoveType.alphaExplosion: 3,
+  RemoveType.betaExplosion: 4,
+  RemoveType.defence: 5,
+  RemoveType.burn: 6,
+  RemoveType.removeFlame: 7,
+  RemoveType.first: 8,
+  RemoveType.shock: 9,
+  RemoveType.earnItem: 10,
+};
 
 _$ActiveObjectMessageImpl _$$ActiveObjectMessageImplFromJson(
         Map<String, dynamic> json) =>
@@ -151,19 +164,6 @@ const _$ActiveObjectTypeEnumMap = {
   ActiveObjectType.towerBullet: 1,
   ActiveObjectType.dustyMissaile: 2,
   ActiveObjectType.flame: 3,
-};
-
-const _$RemoveTypeEnumMap = {
-  RemoveType.disappear: 1,
-  RemoveType.defaultExplosion: 2,
-  RemoveType.alphaExplosion: 3,
-  RemoveType.betaExplosion: 4,
-  RemoveType.defence: 5,
-  RemoveType.burn: 6,
-  RemoveType.removeFlame: 7,
-  RemoveType.first: 8,
-  RemoveType.shock: 9,
-  RemoveType.earnItem: 10,
 };
 
 _$PassiveObjectMessageImpl _$$PassiveObjectMessageImplFromJson(
