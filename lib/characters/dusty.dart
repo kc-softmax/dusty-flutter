@@ -1,12 +1,11 @@
 import 'dart:math';
-import 'dart:ui';
+
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
+import 'package:dusty_flutter/ui/const.dart';
+import 'package:dusty_flutter/ui/gauge_bar.dart';
 import 'package:dusty_flutter/ui/name_label.dart';
-import 'package:flame/effects.dart';
-import 'package:flame/events.dart';
-import 'package:flame/experimental.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:dusty_flutter/characters/const.dart';
@@ -55,6 +54,8 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   late final DustyGlasses glasses;
   late final DustyBodyEffect bodyEffect;
   late final DustyNameLabel nameLabel;
+  late final HorizontalGaugeBar topGaugeBar;
+  late final VerticalGaugeBar rightGaugeBar;
 
   final String dustyName;
 
@@ -118,19 +119,16 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     glasses = DustyGlasses()..size = size;
     bodyEffect = DustyBodyEffect()..size = size * 1.3;
     nameLabel = DustyNameLabel(dustyName);
+    topGaugeBar = HorizontalGaugeBar()
+      ..size = Vector2(48, 10)
+      ..position = Vector2(0, -10);
 
-    addAll([glasses, bodyEffect, nameLabel]);
+    rightGaugeBar = VerticalGaugeBar()
+      ..size = Vector2(10, 48)
+      ..position = Vector2(-5, 48)
+      ..angle = pi;
 
-    final tempGauge = RectangleComponent(
-      size: Vector2(48, 10),
-      position: Vector2(0, -10),
-      // angle: -pi / 2,
-    );
-    tempGauge.add(ScaleEffect.to(
-      Vector2(0, 1),
-      EffectController(duration: 0.5, startDelay: 1),
-    ));
-    addAll([glasses, bodyEffect, tempGauge]);
+    addAll([glasses, bodyEffect, nameLabel, topGaugeBar, rightGaugeBar]);
   }
 
   @override
@@ -186,9 +184,15 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     switch (newState) {
       case DustyState.boost:
         glassesType = DustyGlassesType.boost;
+        topGaugeBar.decreaseWithDuration(
+            gameRef.playScene.gameConfig!.boostSkillReloadTime as double,
+            boostColor);
         break;
       case DustyState.shield:
         bodyEffectType = DustyBodyEffectType.shield;
+        rightGaugeBar.decreaseWithDuration(
+            gameRef.playScene.gameConfig!.shieldSkillReloadTime as double,
+            shieldColor);
         break;
       case DustyState.normal:
         glassesType = DustyGlassesType.idle;
