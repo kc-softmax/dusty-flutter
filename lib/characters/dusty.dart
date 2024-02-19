@@ -1,6 +1,7 @@
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
+import 'package:dusty_flutter/ui/name_label.dart';
 import 'package:flame/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -49,8 +50,12 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     with HasGameRef<DustyIslandGame>, CollisionCallbacks {
   late final DustyGlasses glasses;
   late final DustyBodyEffect bodyEffect;
+  late final DustyNameLabel nameLabel;
   late final Vector2 _lastSize = size.clone();
   late final Transform2D _lastTransform = transform.clone();
+
+  final String dustyName;
+
   DustyState dustyState = DustyState.normal;
   Vector2? nextPosition;
   double speed = 0;
@@ -90,7 +95,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     updateUIState();
   }
 
-  Dusty() : super(size: Vector2(48, 48), anchor: Anchor.center);
+  Dusty(this.dustyName) : super(size: Vector2(48, 48), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
@@ -110,7 +115,9 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
 
     glasses = DustyGlasses()..size = size;
     bodyEffect = DustyBodyEffect()..size = size * 1.3;
-    addAll([glasses, bodyEffect]);
+    nameLabel = DustyNameLabel(dustyName);
+
+    addAll([glasses, bodyEffect, nameLabel]);
   }
 
   @override
@@ -161,6 +168,12 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         speed = remainingDistance * gameRef.playScene.gameConfig!.frameRate;
       }
     }
+  }
+
+  @override
+  void flipHorizontally() {
+    super.flipHorizontally();
+    nameLabel.flipHorizontally();
   }
 
   void updateDustyState(DustyState newState) {

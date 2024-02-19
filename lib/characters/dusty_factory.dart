@@ -40,7 +40,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
   Dusty facotry(DustyMessage message) {
     // position = math.floor(self.anchor.y) << 16 | math.floor(self.anchor.x)
     assert(message.position != null, "position is null");
-    final dusty = Dusty()
+    final dusty = Dusty(message.dustyId.toString())
       ..x = message.x
       ..y = message.y;
     // print(dusty.x);
