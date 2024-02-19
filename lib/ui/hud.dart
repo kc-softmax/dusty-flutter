@@ -7,9 +7,7 @@ import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:dusty_flutter/ui/joystick.dart';
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 class Hud extends Component with HasGameRef<DustyIslandGame> {
   static final buttonSize = Vector2(56, 59);
@@ -109,56 +107,6 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       activeButton!,
       specialButton!,
     ]);
-
-    gameRef.overlays.addEntry('counter', (context, game) {
-      return Padding(
-          padding: const EdgeInsets.only(
-            right: 144,
-            bottom: 38,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const SizedBox(width: 64.0, height: 32),
-              DefaultTextStyle(
-                style: const TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'Horizon',
-                ),
-                child: AnimatedTextKit(
-                  animatedTexts: [
-                    RotateAnimatedText(
-                      '5',
-                      transitionHeight: 32,
-                      duration: const Duration(milliseconds: 1000),
-                    ),
-                    RotateAnimatedText(
-                      '4',
-                      transitionHeight: 32,
-                      duration: const Duration(milliseconds: 1000),
-                    ),
-                    RotateAnimatedText(
-                      '3',
-                      transitionHeight: 32,
-                      duration: const Duration(milliseconds: 1000),
-                    ),
-                    RotateAnimatedText(
-                      '2',
-                      transitionHeight: 32,
-                      duration: const Duration(milliseconds: 1000),
-                    ),
-                    RotateAnimatedText(
-                      '1',
-                      transitionHeight: 32,
-                      duration: const Duration(milliseconds: 1000),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ));
-    });
-    gameRef.overlays.add('counter');
   }
 
   void updateHud(DustyMessage message) {
