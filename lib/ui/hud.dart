@@ -1,22 +1,26 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
+import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
+import 'package:dusty_flutter/buttons/dusty_hud_button.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:dusty_flutter/ui/joystick.dart';
 import 'package:flame/components.dart';
-import 'package:flame/input.dart';
+import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class Hud extends Component with HasGameRef<DustyIslandGame> {
   static final buttonSize = Vector2(56, 59);
   static final smallButtonSize = Vector2(44, 46);
 
   Joystick? joystick;
-  HudButtonComponent? shieldButton;
-  HudButtonComponent? boostButton;
-  HudButtonComponent? activeButton;
-  HudButtonComponent? specialButton;
+  DustyHudButton? shieldButton;
+  DustyHudButton? boostButton;
+  DustyHudButton? activeButton;
+  DustyHudButton? specialButton;
+  DustyAction lastAction = DustyAction.idle;
 
   @override
   FutureOr<void> onLoad() {
@@ -33,7 +37,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       onMovedJoystick: _onMovedJoyStick,
     );
 
-    shieldButton = HudButtonComponent(
+    shieldButton = DustyHudButton(
       button: SpriteComponent(
         sprite: game.atlas.findSpriteByName('circle_button'),
         size: buttonSize,
@@ -48,8 +52,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       ),
       onPressed: _onPressedShieldButton,
     );
-
-    boostButton = HudButtonComponent(
+    boostButton = DustyHudButton(
       button: SpriteComponent(
         sprite: game.atlas.findSpriteByName('small_circle_button'),
         size: smallButtonSize,
@@ -65,7 +68,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       onPressed: _onPressedBoostButton,
     );
 
-    activeButton = HudButtonComponent(
+    activeButton = DustyHudButton(
       button: SpriteComponent(
         sprite: game.atlas.findSpriteByName('small_circle_button'),
         size: smallButtonSize,
@@ -80,8 +83,9 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       ),
       onPressed: _onPressedActiveButton,
     );
+    // ..anchor = Anchor.center;
 
-    specialButton = HudButtonComponent(
+    specialButton = DustyHudButton(
       button: SpriteComponent(
         sprite: game.atlas.findSpriteByName('small_circle_button'),
         size: smallButtonSize,
@@ -96,6 +100,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       ),
       onPressed: _onPressedSpecialButton,
     );
+    // ..anchor = Anchor.center;
 
     gameRef.camera.viewport.addAll([
       joystick!,
@@ -104,6 +109,63 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       activeButton!,
       specialButton!,
     ]);
+
+    gameRef.overlays.addEntry('counter', (context, game) {
+      return Padding(
+          padding: const EdgeInsets.only(
+            right: 144,
+            bottom: 38,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const SizedBox(width: 64.0, height: 32),
+              DefaultTextStyle(
+                style: const TextStyle(
+                  fontSize: 24.0,
+                  fontFamily: 'Horizon',
+                ),
+                child: AnimatedTextKit(
+                  animatedTexts: [
+                    RotateAnimatedText(
+                      '5',
+                      transitionHeight: 32,
+                      duration: const Duration(milliseconds: 1000),
+                    ),
+                    RotateAnimatedText(
+                      '4',
+                      transitionHeight: 32,
+                      duration: const Duration(milliseconds: 1000),
+                    ),
+                    RotateAnimatedText(
+                      '3',
+                      transitionHeight: 32,
+                      duration: const Duration(milliseconds: 1000),
+                    ),
+                    RotateAnimatedText(
+                      '2',
+                      transitionHeight: 32,
+                      duration: const Duration(milliseconds: 1000),
+                    ),
+                    RotateAnimatedText(
+                      '1',
+                      transitionHeight: 32,
+                      duration: const Duration(milliseconds: 1000),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ));
+    });
+    gameRef.overlays.add('counter');
+  }
+
+  void updateHud(DustyMessage message) {
+    activeButton?.updateAvailable(message.activeAvailable);
+    specialButton?.updateAvailable(message.specialAvailable);
+    boostButton?.updateAvailable(message.boostAvailable);
+    shieldButton?.updateAvailable(message.shieldAvailable);
   }
 
   void _onMovedJoyStick() {
@@ -153,7 +215,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
         action = DustyAction.stop;
       }
     }
-    if (action != DustyAction.idle) {
+    if (action != DustyAction.idle && action != lastAction) {
+      lastAction = action;
       Arbiter.liveService.sendByte(action.encode());
     }
   }

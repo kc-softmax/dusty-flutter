@@ -28,6 +28,10 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
       }
       if (message.status != null) {
         dusty.updateDustyState(message.dustyState);
+        if (dusty == user) {
+          gameRef.playScene.hud.updateHud(message);
+          //.. update hud
+        }
       }
     }
     //.. 비교
