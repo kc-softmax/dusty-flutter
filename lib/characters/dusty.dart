@@ -1,8 +1,12 @@
+import 'dart:math';
+import 'dart:ui';
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:dusty_flutter/ui/name_label.dart';
-import 'package:flame/game.dart';
+import 'package:flame/effects.dart';
+import 'package:flame/events.dart';
+import 'package:flame/experimental.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:dusty_flutter/characters/const.dart';
@@ -47,12 +51,10 @@ class DustyGlasses extends SpriteAnimationGroupComponent<DustyGlassesType>
 }
 
 class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
-    with HasGameRef<DustyIslandGame>, CollisionCallbacks {
+    with HasGameRef<DustyIslandGame> {
   late final DustyGlasses glasses;
   late final DustyBodyEffect bodyEffect;
   late final DustyNameLabel nameLabel;
-  late final Vector2 _lastSize = size.clone();
-  late final Transform2D _lastTransform = transform.clone();
 
   final String dustyName;
 
@@ -118,6 +120,17 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     nameLabel = DustyNameLabel(dustyName);
 
     addAll([glasses, bodyEffect, nameLabel]);
+
+    final tempGauge = RectangleComponent(
+      size: Vector2(48, 10),
+      position: Vector2(0, -10),
+      // angle: -pi / 2,
+    );
+    tempGauge.add(ScaleEffect.to(
+      Vector2(0, 1),
+      EffectController(duration: 0.5, startDelay: 1),
+    ));
+    addAll([glasses, bodyEffect, tempGauge]);
   }
 
   @override
@@ -147,16 +160,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         flipHorizontally();
       }
     }
-  }
-
-  @override
-  void onCollisionStart(
-    Set<Vector2> intersectionPoints,
-    PositionComponent other,
-  ) {
-    super.onCollisionStart(intersectionPoints, other);
-    transform.setFrom(_lastTransform);
-    size.setFrom(_lastSize);
   }
 
   void updateSpeed() {

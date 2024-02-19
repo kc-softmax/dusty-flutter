@@ -4,7 +4,9 @@ import 'package:dusty_flutter/towers/normal/normal_tower.dart';
 import 'package:flame/components.dart';
 
 abstract mixin class Towers implements SpriteAnimationComponent {
-  factory Towers.normal() => NormalTower();
+  factory Towers.normal() => NormalTower()
+    ..size = Vector2(64, 64)
+    ..anchor = Anchor.center;
 }
 
 class TowerFactory extends ObjectFactoryComponent<Towers, TowerMessage> {

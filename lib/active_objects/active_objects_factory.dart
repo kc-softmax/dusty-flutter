@@ -1,11 +1,12 @@
-import 'package:dusty_flutter/active_objects/missaile/dust_ball.dart';
+import 'package:dusty_flutter/active_objects/missaile/dusty_missaile.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:flame/components.dart';
 
 abstract mixin class ActiveObjects implements SpriteAnimationComponent {
-  factory ActiveObjects.missaile({required Vector2 direction}) =>
-      DustyMissaile(direction: direction);
+  factory ActiveObjects.missaile(
+          {required double stride, required Vector2 direction}) =>
+      DustyMissaile(stride: stride, direction: direction);
 }
 
 class ActiveObjectsFactory
@@ -14,16 +15,18 @@ class ActiveObjectsFactory
   ActiveObjects facotry(ActiveObjectMessage message) {
     assert(message.objectType != null, "objectType is null");
     assert(message.position != null, "position is null");
-
     switch (message.objectType) {
       case ActiveObjectType.dustyMissaile:
         return ActiveObjects.missaile(
-            direction:
-                Vector2(message.directionX! * 0.01, message.directionY! * 0.01))
+            stride: message.stride!,
+            direction: Vector2(
+                message.directionX! * 0.001, message.directionY! * 0.001))
           ..x = message.x
-          ..y = message.y;
+          ..y = message.y
+          ..size = Vector2(message.size!, message.size!);
       default:
-        return ActiveObjects.missaile(direction: Vector2.zero());
+        return ActiveObjects.missaile(
+            stride: message.stride!, direction: Vector2.zero());
     }
   }
 

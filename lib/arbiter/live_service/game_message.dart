@@ -154,6 +154,10 @@ class ActiveObjectMessage with _$ActiveObjectMessage, BaseMessage, HasPosition {
     RemoveType? removeType,
   }) = _ActiveObjectMessage;
 
+  get size => ActiveStatusParser.size(status!);
+  get stride => ActiveStatusParser.stride(status!);
+  get life => ActiveStatusParser.life(status!);
+
   factory ActiveObjectMessage.fromJson(Map<String, dynamic> json) =>
       _$ActiveObjectMessageFromJson(json);
 }

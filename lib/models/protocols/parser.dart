@@ -19,3 +19,9 @@ class PositionParser {
   static double x(int position) => (position & 0xFFFF) as double;
   static double y(int position) => (position >> 16) as double;
 }
+
+class ActiveStatusParser {
+  static double size(int status) => (status & 0xff) as double;
+  static double stride(int status) => (status >> 8 & 0xff) as double;
+  static double life(int status) => (status >> 16) as double;
+}
