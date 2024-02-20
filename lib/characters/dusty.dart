@@ -185,13 +185,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       case DustyState.boost:
         glassesType = DustyGlassesType.boost;
         topGaugeBar.decreaseWithDuration(
-            gameRef.playScene.gameConfig!.boostSkillReloadTime as double,
+            gameRef.playScene.gameConfig!.boostSkillReloadTime.toDouble(),
             boostColor);
         break;
       case DustyState.shield:
         bodyEffectType = DustyBodyEffectType.shield;
         rightGaugeBar.decreaseWithDuration(
-            gameRef.playScene.gameConfig!.shieldSkillReloadTime as double,
+            gameRef.playScene.gameConfig!.shieldSkillReloadTime.toDouble(),
             shieldColor);
         break;
       case DustyState.normal:
