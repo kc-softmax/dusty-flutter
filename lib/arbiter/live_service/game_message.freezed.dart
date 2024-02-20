@@ -1181,8 +1181,8 @@ mixin _$ActiveObjectMessage {
   int get objectId => throw _privateConstructorUsedError;
   EventType get eventType => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
-  int? get directionX => throw _privateConstructorUsedError;
-  int? get directionY => throw _privateConstructorUsedError;
+  double? get directionX => throw _privateConstructorUsedError;
+  double? get directionY => throw _privateConstructorUsedError;
   int? get status => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
   int? get target => throw _privateConstructorUsedError;
@@ -1205,8 +1205,8 @@ abstract class $ActiveObjectMessageCopyWith<$Res> {
       {int objectId,
       EventType eventType,
       int? team,
-      int? directionX,
-      int? directionY,
+      double? directionX,
+      double? directionY,
       int? status,
       int? position,
       int? target,
@@ -1254,11 +1254,11 @@ class _$ActiveObjectMessageCopyWithImpl<$Res, $Val extends ActiveObjectMessage>
       directionX: freezed == directionX
           ? _value.directionX
           : directionX // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       directionY: freezed == directionY
           ? _value.directionY
           : directionY // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -1295,8 +1295,8 @@ abstract class _$$ActiveObjectMessageImplCopyWith<$Res>
       {int objectId,
       EventType eventType,
       int? team,
-      int? directionX,
-      int? directionY,
+      double? directionX,
+      double? directionY,
       int? status,
       int? position,
       int? target,
@@ -1342,11 +1342,11 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
       directionX: freezed == directionX
           ? _value.directionX
           : directionX // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       directionY: freezed == directionY
           ? _value.directionY
           : directionY // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -1397,9 +1397,9 @@ class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
   @override
   final int? team;
   @override
-  final int? directionX;
+  final double? directionX;
   @override
-  final int? directionY;
+  final double? directionY;
   @override
   final int? status;
   @override
@@ -1465,8 +1465,8 @@ abstract class _ActiveObjectMessage extends ActiveObjectMessage {
       {required final int objectId,
       required final EventType eventType,
       final int? team,
-      final int? directionX,
-      final int? directionY,
+      final double? directionX,
+      final double? directionY,
       final int? status,
       final int? position,
       final int? target,
@@ -1484,9 +1484,9 @@ abstract class _ActiveObjectMessage extends ActiveObjectMessage {
   @override
   int? get team;
   @override
-  int? get directionX;
+  double? get directionX;
   @override
-  int? get directionY;
+  double? get directionY;
   @override
   int? get status;
   @override
