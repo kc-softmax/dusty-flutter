@@ -1,6 +1,6 @@
+import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame/effects.dart';
-import 'package:flame/timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dusty_flutter/ui/arc_animation.dart';
@@ -8,7 +8,7 @@ import 'package:dusty_flutter/ui/arc_animation.dart';
 /// HudButtonComponent를 모방해서 만들었다.
 class DustyHudButton extends HudButtonComponent {
   static const Color deactivateColor = Color(0xFFC7C1BA);
-  static const Color activateColor = Color(0xFFffffff);
+  static const Color activateColor = Color(0xffffffff);
 
   late ArcAnimationComponent reloadAnimation;
   int _available = 1;
@@ -37,8 +37,9 @@ class DustyHudButton extends HudButtonComponent {
         paint: Paint()
           ..color = activateColor
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 2)
-      ..size = size;
+          ..strokeWidth = 4)
+      ..size = Vector2(size.x + 4, size.y + 4)
+      ..position = -Vector2.all(2);
     add(reloadAnimation);
   }
 
