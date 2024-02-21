@@ -40,10 +40,13 @@ abstract class ObjectFactoryComponent<OT extends Component,
       switch (message.eventType) {
         case EventType.generate:
           onGenerateObject(message);
+          break;
         case EventType.update:
           onUpdateObject(message);
+          break;
         case EventType.remove:
           onRemoveObject(message);
+          break;
       }
     }
   }

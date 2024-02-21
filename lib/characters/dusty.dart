@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game.dart';
@@ -103,7 +104,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-
     animations = {
       DustyBodyType.red: SpriteAnimation.spriteList(
         gameRef.atlas.findSpritesByName('red_body'),
@@ -115,7 +115,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       ),
     };
     current = DustyBodyType.red;
-
     glasses = DustyGlasses()..size = size;
     bodyEffect = DustyBodyEffect()..size = size * 1.3;
     nameLabel = DustyNameLabel(dustyName);
@@ -146,9 +145,8 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         return;
       }
       double currentSpeed = speed * remainingDistance / 180;
-      if (remainingDistance > speed * 0.2) {
-        currentSpeed = speed;
-      }
+      if (remainingDistance > speed * 0.2) {}
+      currentSpeed = speed;
       //일정 거리 이하로 가면 멈춤
       position.add(toMoveDirection * currentSpeed * dt);
       if (toMoveDirection.screenAngle() >= 0 && isFlippedHorizontally) {
@@ -184,8 +182,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     switch (newState) {
       case DustyState.boost:
         glassesType = DustyGlassesType.boost;
+<<<<<<< Updated upstream
         topGaugeBar.decreaseWithDuration(
             gameRef.playScene.gameConfig!.boostSkillReloadTime.toDouble(),
+=======
+        rightGaugeBar.decreaseWithDuration(
+            gameRef.playScene.gameConfig!.boostSkillReloadTime as double,
+>>>>>>> Stashed changes
             boostColor);
         break;
       case DustyState.shield:
