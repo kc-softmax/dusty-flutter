@@ -183,11 +183,16 @@ class PassiveObjectMessage
 
 @freezed
 class TileMessage with _$TileMessage, BaseMessage {
-  const factory TileMessage(
+  TileMessage._();
+
+  factory TileMessage(
       {required int address,
       required EventType eventType,
       int? team,
       int? activatorId}) = _TileMessage;
+
+  get col => TileAddressParser.col(address!);
+  get row => TileAddressParser.row(address!);
 
   factory TileMessage.fromJson(Map<String, dynamic> json) =>
       _$TileMessageFromJson(json);

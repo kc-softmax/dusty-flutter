@@ -20,6 +20,11 @@ class PositionParser {
   static double y(int position) => (position >> 16).toDouble();
 }
 
+class TileAddressParser {
+  static int col(int address) => address & 0xff;
+  static int row(int address) => address >> 8;
+}
+
 class ActiveStatusParser {
   static double size(int status) => (status & 0xff).toDouble();
   static double stride(int status) => (status >> 8 & 0xff).toDouble();

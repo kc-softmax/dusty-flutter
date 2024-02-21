@@ -1889,12 +1889,13 @@ class __$$TileMessageImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$TileMessageImpl implements _TileMessage {
-  const _$TileMessageImpl(
+class _$TileMessageImpl extends _TileMessage {
+  _$TileMessageImpl(
       {required this.address,
       required this.eventType,
       this.team,
-      this.activatorId});
+      this.activatorId})
+      : super._();
 
   factory _$TileMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$TileMessageImplFromJson(json);
@@ -1945,12 +1946,13 @@ class _$TileMessageImpl implements _TileMessage {
   }
 }
 
-abstract class _TileMessage implements TileMessage {
-  const factory _TileMessage(
+abstract class _TileMessage extends TileMessage {
+  factory _TileMessage(
       {required final int address,
       required final EventType eventType,
       final int? team,
       final int? activatorId}) = _$TileMessageImpl;
+  _TileMessage._() : super._();
 
   factory _TileMessage.fromJson(Map<String, dynamic> json) =
       _$TileMessageImpl.fromJson;

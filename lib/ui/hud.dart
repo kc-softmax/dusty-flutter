@@ -18,6 +18,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   DustyHudButton? boostButton;
   DustyHudButton? activeButton;
   DustyHudButton? specialButton;
+  DustyHudButton? finishingButton;
+
   DustyAction lastAction = DustyAction.idle;
 
   @override
@@ -35,6 +37,22 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       onMovedJoystick: _onMovedJoyStick,
     );
 
+    finishingButton = DustyHudButton(
+      button: SpriteComponent(
+        sprite: game.atlas.findSpriteByName('circle_button'),
+        size: buttonSize,
+      ),
+      buttonDown: SpriteComponent(
+        sprite: game.atlas.findSpriteByName('press_circle_button'),
+        size: buttonSize,
+      ),
+      margin: const EdgeInsets.only(
+        right: 208,
+        bottom: 65,
+      ),
+      onPressed: _onPressedFinishingButton,
+    );
+
     shieldButton = DustyHudButton(
       button: SpriteComponent(
         sprite: game.atlas.findSpriteByName('circle_button'),
@@ -50,6 +68,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       ),
       onPressed: _onPressedShieldButton,
     );
+
     boostButton = DustyHudButton(
       button: SpriteComponent(
         sprite: game.atlas.findSpriteByName('small_circle_button'),
@@ -81,7 +100,6 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       ),
       onPressed: _onPressedActiveButton,
     );
-    // ..anchor = Anchor.center;
 
     specialButton = DustyHudButton(
       button: SpriteComponent(
@@ -98,7 +116,6 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       ),
       onPressed: _onPressedSpecialButton,
     );
-    // ..anchor = Anchor.center;
 
     gameRef.camera.viewport.addAll([
       joystick!,
@@ -106,14 +123,21 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       boostButton!,
       activeButton!,
       specialButton!,
+      finishingButton!,
     ]);
   }
 
   void updateHud(DustyMessage message) {
-    activeButton?.updateAvailable(message.activeAvailable);
-    specialButton?.updateAvailable(message.specialAvailable);
-    boostButton?.updateAvailable(message.boostAvailable);
-    shieldButton?.updateAvailable(message.shieldAvailable);
+    activeButton?.updateAvailable(message.activeAvailable,
+        gameRef.playScene.gameConfig!.activeSkillReloadTime + 1);
+    specialButton?.updateAvailable(message.specialAvailable,
+        gameRef.playScene.gameConfig!.specialSkillReloadTime + 1);
+    boostButton?.updateAvailable(message.boostAvailable,
+        gameRef.playScene.gameConfig!.boostSkillReloadTime + 1);
+    shieldButton?.updateAvailable(message.shieldAvailable,
+        gameRef.playScene.gameConfig!.shieldSkillReloadTime + 1);
+    finishingButton?.updateAvailable(message.finishAvailable,
+        gameRef.playScene.gameConfig!.finishSkillReloadTime + 1);
   }
 
   void _onMovedJoyStick() {
@@ -167,6 +191,11 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       lastAction = action;
       Arbiter.liveService.sendByte(action.encode());
     }
+  }
+
+  void _onPressedFinishingButton() {
+    Arbiter.liveService.sendByte(DustyAction.finishing.encode());
+    debugPrint("press finishing button");
   }
 
   void _onPressedShieldButton() {
