@@ -1,15 +1,17 @@
-import 'package:flame/timer.dart';
-import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame/effects.dart';
+import 'package:flame/timer.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:dusty_flutter/ui/arc_animation.dart';
 
 /// HudButtonComponent를 모방해서 만들었다.
 class DustyHudButton extends HudButtonComponent {
   static const Color deactivateColor = Color(0xFFC7C1BA);
-  late TextBoxComponent reloadCountLabel;
+  static const Color activateColor = Color(0xFFffffff);
+
+  late ArcAnimationComponent reloadAnimation;
   int _available = 1;
-  TimerComponent? reloadTimer;
 
   DustyHudButton({
     super.button,
@@ -28,22 +30,16 @@ class DustyHudButton extends HudButtonComponent {
   });
 
   @override
-  Future<void> onLoad() {
-    reloadCountLabel = TextBoxComponent(
-        text: '',
-        boxConfig: TextBoxConfig(
-          maxWidth: 16,
-          // margins: const EdgeInsets.only(top: 20),
-        ),
-        textRenderer: TextPaint(
-          style: const TextStyle(fontSize: 24),
-        ),
-        priority: 2)
-      ..anchor = Anchor.center
-      ..x = size.x / 2
-      ..y = size.y / 2;
-    add(reloadCountLabel);
-    return super.onLoad();
+  Future<void> onLoad() async {
+    super.onLoad();
+    reloadAnimation = ArcAnimationComponent(
+        timer: Timer(1, autoStart: false),
+        paint: Paint()
+          ..color = activateColor
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2)
+      ..size = size;
+    add(reloadAnimation);
   }
 
   void updateAvailable(int available, int reloadDuration) {
@@ -53,6 +49,7 @@ class DustyHudButton extends HudButtonComponent {
     _available = available;
     if (_available > 0) {
       // available
+      reloadAnimation.stop();
       button!.add(ColorEffect(
         deactivateColor,
         EffectController(duration: 0.5),
@@ -61,20 +58,7 @@ class DustyHudButton extends HudButtonComponent {
       ));
     } else {
       // not available
-      reloadCountLabel.text = reloadDuration.toString();
-      reloadTimer = TimerComponent(
-          period: 1,
-          repeat: true,
-          onTick: () {
-            reloadDuration--;
-            reloadCountLabel.text = reloadDuration.toString();
-            if (reloadDuration <= 0) {
-              reloadCountLabel.text = '';
-              reloadTimer!.removeFromParent();
-              reloadTimer = null;
-            }
-          });
-      add(reloadTimer!);
+      reloadAnimation.start(reloadDuration);
       button!.add(ColorEffect(
         deactivateColor,
         EffectController(duration: 0.5),

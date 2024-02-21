@@ -182,13 +182,8 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     switch (newState) {
       case DustyState.boost:
         glassesType = DustyGlassesType.boost;
-<<<<<<< Updated upstream
         topGaugeBar.decreaseWithDuration(
             gameRef.playScene.gameConfig!.boostSkillReloadTime.toDouble(),
-=======
-        rightGaugeBar.decreaseWithDuration(
-            gameRef.playScene.gameConfig!.boostSkillReloadTime as double,
->>>>>>> Stashed changes
             boostColor);
         break;
       case DustyState.shield:

@@ -10,12 +10,10 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 class Hud extends Component with HasGameRef<DustyIslandGame> {
-  static final buttonSize = Vector2(56, 59);
-  static final smallButtonSize = Vector2(44, 46);
+  static final buttonSize = Vector2(44, 46);
 
   Joystick? joystick;
   DustyHudButton? shieldButton;
-  DustyHudButton? boostButton;
   DustyHudButton? activeButton;
   DustyHudButton? specialButton;
   DustyHudButton? finishingButton;
@@ -47,8 +45,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
         size: buttonSize,
       ),
       margin: const EdgeInsets.only(
-        right: 208,
-        bottom: 65,
+        right: 178,
+        bottom: 30,
       ),
       onPressed: _onPressedFinishingButton,
     );
@@ -63,56 +61,40 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
         size: buttonSize,
       ),
       margin: const EdgeInsets.only(
-        right: 68,
-        bottom: 65,
+        right: 44,
+        bottom: 44,
       ),
       onPressed: _onPressedShieldButton,
     );
 
-    boostButton = DustyHudButton(
-      button: SpriteComponent(
-        sprite: game.atlas.findSpriteByName('small_circle_button'),
-        size: smallButtonSize,
-      ),
-      buttonDown: SpriteComponent(
-        sprite: game.atlas.findSpriteByName('press_small_circle_button'),
-        size: smallButtonSize,
-      ),
-      margin: const EdgeInsets.only(
-        right: 144,
-        bottom: 38,
-      ),
-      onPressed: _onPressedBoostButton,
-    );
-
     activeButton = DustyHudButton(
       button: SpriteComponent(
-        sprite: game.atlas.findSpriteByName('small_circle_button'),
-        size: smallButtonSize,
+        sprite: game.atlas.findSpriteByName('circle_button'),
+        size: buttonSize,
       ),
       buttonDown: SpriteComponent(
-        sprite: game.atlas.findSpriteByName('press_small_circle_button'),
-        size: smallButtonSize,
+        sprite: game.atlas.findSpriteByName('press_circle_button'),
+        size: buttonSize,
       ),
       margin: const EdgeInsets.only(
-        right: 144,
-        bottom: 108,
+        right: 37,
+        bottom: 124,
       ),
       onPressed: _onPressedActiveButton,
     );
 
     specialButton = DustyHudButton(
       button: SpriteComponent(
-        sprite: game.atlas.findSpriteByName('small_circle_button'),
-        size: smallButtonSize,
+        sprite: game.atlas.findSpriteByName('circle_button'),
+        size: buttonSize,
       ),
       buttonDown: SpriteComponent(
-        sprite: game.atlas.findSpriteByName('press_small_circle_button'),
-        size: smallButtonSize,
+        sprite: game.atlas.findSpriteByName('press_circle_button'),
+        size: buttonSize,
       ),
       margin: const EdgeInsets.only(
-        right: 88,
-        bottom: 150,
+        right: 102,
+        bottom: 98,
       ),
       onPressed: _onPressedSpecialButton,
     );
@@ -120,7 +102,6 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     gameRef.camera.viewport.addAll([
       joystick!,
       shieldButton!,
-      boostButton!,
       activeButton!,
       specialButton!,
       finishingButton!,
@@ -132,8 +113,6 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
         gameRef.playScene.gameConfig!.activeSkillReloadTime + 1);
     specialButton?.updateAvailable(message.specialAvailable,
         gameRef.playScene.gameConfig!.specialSkillReloadTime + 1);
-    boostButton?.updateAvailable(message.boostAvailable,
-        gameRef.playScene.gameConfig!.boostSkillReloadTime + 1);
     shieldButton?.updateAvailable(message.shieldAvailable,
         gameRef.playScene.gameConfig!.shieldSkillReloadTime + 1);
     finishingButton?.updateAvailable(message.finishAvailable,
