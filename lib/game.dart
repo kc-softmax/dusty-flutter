@@ -85,9 +85,6 @@ class DustyIslandGame extends FlameGame with HasCollisionDetection {
     TiledComponent.load('single_map.tmx', Vector2.all(64)).then((value) {
       mapComponent = value;
       isLoadedMap = true;
-      for (final layer in mapComponent.tileMap.map.layers) {
-        print('${layer.name}, ${layer.id}');
-      }
     });
   }
 

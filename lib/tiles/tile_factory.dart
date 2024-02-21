@@ -36,5 +36,7 @@ class TileFactory extends ObjectFactoryComponent<DustyTiles, TileMessage> {
         .getTileData(layerId: 5, x: message.col, y: message.row);
     mapComponent.tileMap
         .setTileData(layerId: 1, x: message.col, y: message.row, gid: tile!);
+
+    gameRef.playScene.hud.minimap!.updateTile(message.col, message.row, 1);
   }
 }

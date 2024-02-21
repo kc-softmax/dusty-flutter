@@ -6,6 +6,7 @@ import 'package:dusty_flutter/buttons/dusty_hud_button.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:dusty_flutter/ui/joystick.dart';
+import 'package:dusty_flutter/ui/minimap.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   DustyHudButton? activeButton;
   DustyHudButton? specialButton;
   DustyHudButton? finishingButton;
+  Minimap? minimap;
 
   DustyAction lastAction = DustyAction.idle;
 
@@ -29,7 +31,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       ),
       background: SpriteComponent(
         sprite: game.atlas.findSpriteByName('joystick_bg'),
-        size: Vector2.all(136),
+        size: Vector2.all(96),
       ),
       margin: const EdgeInsets.only(left: 44, bottom: 44),
       onMovedJoystick: _onMovedJoyStick,
@@ -99,12 +101,15 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       onPressed: _onPressedSpecialButton,
     );
 
+    minimap = Minimap();
+
     gameRef.camera.viewport.addAll([
       joystick!,
       shieldButton!,
       activeButton!,
       specialButton!,
       finishingButton!,
+      minimap!
     ]);
   }
 
