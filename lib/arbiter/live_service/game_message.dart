@@ -16,38 +16,27 @@ enum EventType {
 
 enum ActiveObjectType {
   @JsonValue(1)
-  towerBullet,
+  normalMissaile,
   @JsonValue(2)
-  dustyMissaile,
-  @JsonValue(3)
-  flame
+  normalPunch
 }
 
-enum RemoveType {
+enum RemoveBy {
   @JsonValue(1)
-  disappear,
+  unknown,
   @JsonValue(2)
-  defaultExplosion,
+  flame,
   @JsonValue(3)
-  alphaExplosion,
+  missaile,
   @JsonValue(4)
-  betaExplosion,
+  punch,
   @JsonValue(5)
-  defence,
-  @JsonValue(6)
-  burn,
-  @JsonValue(7)
-  removeFlame,
-  @JsonValue(8)
-  first,
-  @JsonValue(9)
-  shock,
-  @JsonValue(10)
-  earnItem
+  lithning
 }
 
 mixin BaseMessage {
   EventType get eventType;
+  RemoveBy? get removeBy;
 }
 
 mixin HasPosition {
@@ -75,13 +64,11 @@ class GameMessage with _$GameMessage {
 class GameConfig with _$GameConfig {
   const factory GameConfig({
     required int frameRate,
-    required int punchingReloadTime,
-    required int activeSkillReloadTime,
+    required int activeSkillDuration,
     required int specialSkillReloadTime,
-    required int finishSkillReloadTime,
-    required int boostSkillReloadTime,
     required int shieldSkillReloadTime,
     required int raftSkillReloadTime,
+    required int respawnTime,
   }) = _GameConfig;
 
   factory GameConfig.fromJson(Map<String, dynamic> json) =>
@@ -99,22 +86,22 @@ class DustyMessage with _$DustyMessage, BaseMessage, HasPosition {
     int? team,
     int? status,
     int? position,
-    int? target,
+    int? targetId,
+    int? killerId,
     int? defence,
-    int? deathInfo,
+    RemoveBy? removeBy,
   }) = _DustyMessage;
 
   get direction => StatusParser.direction(status!);
   get activeAvailable => StatusParser.activeAvailable(status!);
   get specialAvailable => StatusParser.specialAvailable(status!);
   get finishAvailable => StatusParser.finishAvailable(status!);
-  get boostAvailable => StatusParser.boostAvailable(status!);
   get shieldAvailable => StatusParser.shieldAvailable(status!);
-  get finishing => StatusParser.finishing(status!);
-  get punching => StatusParser.punching(status!);
-  DustyState get dustyState => StatusParser.dustyState(status!);
-  get rafting => StatusParser.rafting(status!);
+  get isFinishing => StatusParser.isFinishing(status!);
+  get isRiding => StatusParser.isRiding(status!);
   get finishType => StatusParser.finishType(status!);
+  get finishGauge => StatusParser.finishGauge(status!);
+  DustyState get dustyState => StatusParser.dustyState(status!);
 
   factory DustyMessage.fromJson(Map<String, dynamic> json) =>
       _$DustyMessageFromJson(json);
@@ -130,7 +117,7 @@ class TowerMessage with _$TowerMessage, BaseMessage, HasPosition {
     int? team,
     int? shape,
     int? target,
-    RemoveType? removeType,
+    RemoveBy? removeBy,
   }) = _TowerMessage;
 
   factory TowerMessage.fromJson(Map<String, dynamic> json) =>
@@ -149,9 +136,10 @@ class ActiveObjectMessage with _$ActiveObjectMessage, BaseMessage, HasPosition {
     double? directionY,
     int? status,
     int? position,
-    int? target,
+    int? targetId,
+    int? ownerId,
     ActiveObjectType? objectType,
-    RemoveType? removeType,
+    RemoveBy? removeBy,
   }) = _ActiveObjectMessage;
 
   get size => ActiveStatusParser.size(status!);
@@ -174,7 +162,7 @@ class PassiveObjectMessage
     int? size,
     int? position,
     int? objectType,
-    int? removeType,
+    RemoveBy? removeBy,
   }) = _PassiveObjectMessage;
 
   factory PassiveObjectMessage.fromJson(Map<String, dynamic> json) =>
@@ -189,7 +177,8 @@ class TileMessage with _$TileMessage, BaseMessage {
       {required int address,
       required EventType eventType,
       int? team,
-      int? activatorId}) = _TileMessage;
+      int? activatorId,
+      RemoveBy? removeBy}) = _TileMessage;
 
   get col => TileAddressParser.col(address!);
   get row => TileAddressParser.row(address!);

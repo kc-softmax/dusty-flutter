@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game.dart';
@@ -131,6 +130,12 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   }
 
   @override
+  void flipHorizontally() {
+    super.flipHorizontally();
+    nameLabel.flipHorizontally();
+  }
+
+  @override
   void update(double dt) {
     super.update(dt);
     // nextposition이 있으면 이동
@@ -169,12 +174,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
   }
 
-  @override
-  void flipHorizontally() {
-    super.flipHorizontally();
-    nameLabel.flipHorizontally();
-  }
-
   void updateDustyState(DustyState newState) {
     if (newState == dustyState) {
       return;
@@ -182,9 +181,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     switch (newState) {
       case DustyState.boost:
         glassesType = DustyGlassesType.boost;
-        topGaugeBar.decreaseWithDuration(
-            gameRef.playScene.gameConfig!.boostSkillReloadTime.toDouble(),
-            boostColor);
         break;
       case DustyState.shield:
         bodyEffectType = DustyBodyEffectType.shield;
@@ -215,5 +211,9 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       bodyEffect.setOpacity(0);
     }
     changeState(bodyType, currentIndex);
+  }
+
+  void dead() {
+    removeFromParent();
   }
 }

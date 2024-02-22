@@ -1,4 +1,6 @@
 import 'package:flame/game.dart';
+import 'package:dusty_flutter/effects/const.dart';
+import 'package:dusty_flutter/effects/default_explosion.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
@@ -16,7 +18,27 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
   }
 
   @override
-  void onRemoveObject(DustyMessage message) {}
+  void onRemoveObject(DustyMessage message) {
+    Dusty? deathDusty = objects[message.dustyId];
+    if (deathDusty != null) {
+      Dusty? killer = objects[message.killerId];
+      if (killer != null) {
+        // killer.updateKillCount();
+      }
+      switch (message.removeBy) {
+        case RemoveBy.missaile:
+          gameRef.world.add(DefaultExplosion(DefaultExplosionType.blue)
+            ..x = deathDusty.x
+            ..y = deathDusty.y
+            ..size = deathDusty.size * 2);
+          break;
+        default:
+          break;
+      }
+      deathDusty.dead();
+      objects.remove(message.dustyId);
+    }
+  }
 
   @override
   void onUpdateObject(DustyMessage message) {

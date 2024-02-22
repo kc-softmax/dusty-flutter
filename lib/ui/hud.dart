@@ -115,13 +115,13 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
 
   void updateHud(DustyMessage message) {
     activeButton?.updateAvailable(message.activeAvailable,
-        gameRef.playScene.gameConfig!.activeSkillReloadTime + 1);
+        gameRef.playScene.gameConfig!.activeSkillDuration);
     specialButton?.updateAvailable(message.specialAvailable,
-        gameRef.playScene.gameConfig!.specialSkillReloadTime + 1);
+        gameRef.playScene.gameConfig!.specialSkillReloadTime);
     shieldButton?.updateAvailable(message.shieldAvailable,
-        gameRef.playScene.gameConfig!.shieldSkillReloadTime + 1);
-    finishingButton?.updateAvailable(message.finishAvailable,
-        gameRef.playScene.gameConfig!.finishSkillReloadTime + 1);
+        gameRef.playScene.gameConfig!.shieldSkillReloadTime);
+    // finishingButton?.updateAvailable(message.finishAvailable,
+    //     gameRef.playScene.gameConfig!.finishSkillReloadTime);
   }
 
   void _onMovedJoyStick() {
