@@ -11,10 +11,14 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
 
   @override
   void onGenerateObject(DustyMessage message) {
-    final player = facotry(message);
-    objects[message.dustyId] = player;
-    gameRef.world.add(player);
-    setUser(message.dustyId);
+    final dusty = facotry(message);
+    objects[message.dustyId] = dusty;
+    gameRef.world.add(dusty);
+    print(message.dustyId);
+    print(message.name);
+    if (message.dustyId == gameRef.playScene.followerId) {
+      setFollowUser(message.dustyId);
+    }
   }
 
   @override
@@ -33,6 +37,10 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
             ..size = deathDusty.size * 2);
           break;
         default:
+          gameRef.world.add(DefaultExplosion(DefaultExplosionType.red)
+            ..x = deathDusty.x
+            ..y = deathDusty.y
+            ..size = deathDusty.size * 2);
           break;
       }
       deathDusty.dead();
@@ -55,6 +63,10 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
           //.. update hud
         }
       }
+      if (message.targetId != null && message.targetId != 0) {
+        print("targetId: ${message.targetId}");
+        // dusty.target = objects[message.targetId];
+      }
     }
     //.. 비교
     //.. 이벤트 도출
@@ -66,7 +78,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
   Dusty facotry(DustyMessage message) {
     // position = math.floor(self.anchor.y) << 16 | math.floor(self.anchor.x)
     assert(message.position != null, "position is null");
-    final dusty = Dusty(message.dustyId.toString())
+    final dusty = Dusty(message.name!)
       ..x = message.x
       ..y = message.y;
     // print(dusty.x);
@@ -75,7 +87,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     return dusty;
   }
 
-  void setUser(int userId) {
+  void setFollowUser(int userId) {
     user = objects[userId];
     assert(user != null, "user not found");
     gameRef.camera.follow(user!);

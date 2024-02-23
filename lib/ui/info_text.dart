@@ -2,12 +2,12 @@ import 'dart:math' as math;
 import 'dart:ui';
 import 'package:flame/components.dart';
 
-class KillLogComponent extends PositionComponent {
+class InfoTextComponent extends PositionComponent {
   Paint paint;
   Timer timer;
   double progress = 0;
 
-  KillLogComponent({
+  InfoTextComponent({
     required this.timer,
     required this.paint,
   }) : super();

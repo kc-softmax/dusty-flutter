@@ -58,7 +58,10 @@ class DustyIslandGame extends FlameGame with HasCollisionDetection {
                                 RequestLoginByUserName(
                                     userName: controller.value.text));
                             final prefs = await SharedPreferences.getInstance();
+                            await prefs.setInt("playerId", result.id);
                             await prefs.setString("token", result.accessToken);
+                            await prefs.setString("userName", result.userName);
+
                             router.pop();
                             router.pushReplacementNamed(LobbyScene.routerName);
                           },
@@ -75,6 +78,7 @@ class DustyIslandGame extends FlameGame with HasCollisionDetection {
     );
 
     final token = (await SharedPreferences.getInstance()).getString('token');
+
     isVerified = token != null && await Arbiter.api.verifyToken(token);
 
     fromAtlas('images/dusty-island.atlas').then((value) {
@@ -102,4 +106,43 @@ class DustyIslandGame extends FlameGame with HasCollisionDetection {
     lobbyScene = LobbyScene();
     return lobbyScene;
   }
+
+  // @override
+  // KeyEventResult onKeyEvent(
+  //   KeyEvent event,
+  //   Set<LogicalKeyboardKey> keysPressed,
+  // ) {
+  //   final isKeyDown = event is KeyDownEvent;
+  //   final isKeyUp = event is KeyUpEvent;
+  //   if (isKeyDown) {
+  //     if (keysPressed.contains(LogicalKeyboardKey.arrowUp)) {
+  //       Arbiter.liveService.sendByte(DustyAction.forward.encode());
+  //     }
+  //     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
+  //       Arbiter.liveService.sendByte(DustyAction.rotateLeft.encode());
+  //     }
+  //     if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
+  //       Arbiter.liveService.sendByte(DustyAction.rotateRight.encode());
+  //     }
+  //     if (keysPressed.contains(LogicalKeyboardKey.digit1)) {
+  //       Arbiter.liveService.sendByte(DustyAction.activeSkill.encode());
+  //     }
+
+  //     return KeyEventResult.handled;
+  //   }
+  //   if (isKeyUp) {
+  //     if (keysPressed.contains(LogicalKeyboardKey.arrowUp)) {
+  //       Arbiter.liveService.sendByte(DustyAction.stop.encode());
+  //     }
+  //     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
+  //       Arbiter.liveService.sendByte(DustyAction.stop.encode());
+  //     }
+  //     if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
+  //       Arbiter.liveService.sendByte(DustyAction.stop.encode());
+  //     }
+  //     return KeyEventResult.handled;
+  //   }
+
+  //   return KeyEventResult.ignored;
+  // }
 }

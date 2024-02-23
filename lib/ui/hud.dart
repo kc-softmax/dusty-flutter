@@ -9,6 +9,7 @@ import 'package:dusty_flutter/ui/joystick.dart';
 import 'package:dusty_flutter/ui/minimap.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Hud extends Component with HasGameRef<DustyIslandGame> {
   static final buttonSize = Vector2(44, 46);
@@ -24,16 +25,18 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
 
   @override
   FutureOr<void> onLoad() {
+    final size = gameRef.size;
+    final joystickMargin = size.y * 0.1;
     joystick = Joystick(
       knob: SpriteComponent(
         sprite: game.atlas.findSpriteByName('knob'),
-        size: Vector2.all(40),
+        size: Vector2.all(size.y * 0.1),
       ),
       background: SpriteComponent(
         sprite: game.atlas.findSpriteByName('joystick_bg'),
-        size: Vector2.all(96),
+        size: Vector2.all(size.y * 0.3),
       ),
-      margin: const EdgeInsets.only(left: 44, bottom: 44),
+      margin: EdgeInsets.only(left: joystickMargin, bottom: joystickMargin),
       onMovedJoystick: _onMovedJoyStick,
     );
 
@@ -103,8 +106,10 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
 
     minimap = Minimap();
 
+    gameRef.camera.viewport.add(joystick!);
+    // joystick
+
     gameRef.camera.viewport.addAll([
-      joystick!,
       shieldButton!,
       activeButton!,
       specialButton!,
@@ -185,11 +190,6 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   void _onPressedShieldButton() {
     Arbiter.liveService.sendByte(DustyAction.shield.encode());
     debugPrint("press shield button");
-  }
-
-  void _onPressedBoostButton() {
-    debugPrint("press boost button");
-    Arbiter.liveService.sendByte(DustyAction.boost.encode());
   }
 
   void _onPressedActiveButton() {

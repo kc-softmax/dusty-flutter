@@ -1,4 +1,5 @@
-import 'dart:ui';
+import 'package:flame/palette.dart';
+import 'package:flame/text.dart';
 
 enum HudButtonType { circle, smallCircle }
 
@@ -12,3 +13,10 @@ const Color darkSeaColor = Color(0xFF1A708B);
 
 const Color alphaTeamColor = Color(0xFF4DAA13);
 const Color betaTeamColor = Color(0xFF4D1518);
+
+final regularText = TextPaint(
+  style: TextStyle(
+    fontSize: 16.0,
+    color: BasicPalette.white.color,
+  ),
+);

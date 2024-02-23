@@ -330,6 +330,7 @@ GameConfig _$GameConfigFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GameConfig {
+  int get playerId => throw _privateConstructorUsedError;
   int get frameRate => throw _privateConstructorUsedError;
   int get activeSkillDuration => throw _privateConstructorUsedError;
   int get specialSkillReloadTime => throw _privateConstructorUsedError;
@@ -350,7 +351,8 @@ abstract class $GameConfigCopyWith<$Res> {
       _$GameConfigCopyWithImpl<$Res, GameConfig>;
   @useResult
   $Res call(
-      {int frameRate,
+      {int playerId,
+      int frameRate,
       int activeSkillDuration,
       int specialSkillReloadTime,
       int shieldSkillReloadTime,
@@ -371,6 +373,7 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? playerId = null,
     Object? frameRate = null,
     Object? activeSkillDuration = null,
     Object? specialSkillReloadTime = null,
@@ -379,6 +382,10 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
     Object? respawnTime = null,
   }) {
     return _then(_value.copyWith(
+      playerId: null == playerId
+          ? _value.playerId
+          : playerId // ignore: cast_nullable_to_non_nullable
+              as int,
       frameRate: null == frameRate
           ? _value.frameRate
           : frameRate // ignore: cast_nullable_to_non_nullable
@@ -416,7 +423,8 @@ abstract class _$$GameConfigImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int frameRate,
+      {int playerId,
+      int frameRate,
       int activeSkillDuration,
       int specialSkillReloadTime,
       int shieldSkillReloadTime,
@@ -435,6 +443,7 @@ class __$$GameConfigImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? playerId = null,
     Object? frameRate = null,
     Object? activeSkillDuration = null,
     Object? specialSkillReloadTime = null,
@@ -443,6 +452,10 @@ class __$$GameConfigImplCopyWithImpl<$Res>
     Object? respawnTime = null,
   }) {
     return _then(_$GameConfigImpl(
+      playerId: null == playerId
+          ? _value.playerId
+          : playerId // ignore: cast_nullable_to_non_nullable
+              as int,
       frameRate: null == frameRate
           ? _value.frameRate
           : frameRate // ignore: cast_nullable_to_non_nullable
@@ -475,7 +488,8 @@ class __$$GameConfigImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GameConfigImpl implements _GameConfig {
   const _$GameConfigImpl(
-      {required this.frameRate,
+      {required this.playerId,
+      required this.frameRate,
       required this.activeSkillDuration,
       required this.specialSkillReloadTime,
       required this.shieldSkillReloadTime,
@@ -485,6 +499,8 @@ class _$GameConfigImpl implements _GameConfig {
   factory _$GameConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$GameConfigImplFromJson(json);
 
+  @override
+  final int playerId;
   @override
   final int frameRate;
   @override
@@ -500,7 +516,7 @@ class _$GameConfigImpl implements _GameConfig {
 
   @override
   String toString() {
-    return 'GameConfig(frameRate: $frameRate, activeSkillDuration: $activeSkillDuration, specialSkillReloadTime: $specialSkillReloadTime, shieldSkillReloadTime: $shieldSkillReloadTime, raftSkillReloadTime: $raftSkillReloadTime, respawnTime: $respawnTime)';
+    return 'GameConfig(playerId: $playerId, frameRate: $frameRate, activeSkillDuration: $activeSkillDuration, specialSkillReloadTime: $specialSkillReloadTime, shieldSkillReloadTime: $shieldSkillReloadTime, raftSkillReloadTime: $raftSkillReloadTime, respawnTime: $respawnTime)';
   }
 
   @override
@@ -508,6 +524,8 @@ class _$GameConfigImpl implements _GameConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GameConfigImpl &&
+            (identical(other.playerId, playerId) ||
+                other.playerId == playerId) &&
             (identical(other.frameRate, frameRate) ||
                 other.frameRate == frameRate) &&
             (identical(other.activeSkillDuration, activeSkillDuration) ||
@@ -526,6 +544,7 @@ class _$GameConfigImpl implements _GameConfig {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      playerId,
       frameRate,
       activeSkillDuration,
       specialSkillReloadTime,
@@ -549,7 +568,8 @@ class _$GameConfigImpl implements _GameConfig {
 
 abstract class _GameConfig implements GameConfig {
   const factory _GameConfig(
-      {required final int frameRate,
+      {required final int playerId,
+      required final int frameRate,
       required final int activeSkillDuration,
       required final int specialSkillReloadTime,
       required final int shieldSkillReloadTime,
@@ -559,6 +579,8 @@ abstract class _GameConfig implements GameConfig {
   factory _GameConfig.fromJson(Map<String, dynamic> json) =
       _$GameConfigImpl.fromJson;
 
+  @override
+  int get playerId;
   @override
   int get frameRate;
   @override
@@ -586,7 +608,7 @@ mixin _$DustyMessage {
   int get dustyId => throw _privateConstructorUsedError;
   EventType get eventType => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  int? get team => throw _privateConstructorUsedError;
+  Team? get team => throw _privateConstructorUsedError;
   int? get status => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
   int? get targetId => throw _privateConstructorUsedError;
@@ -610,7 +632,7 @@ abstract class $DustyMessageCopyWith<$Res> {
       {int dustyId,
       EventType eventType,
       String? name,
-      int? team,
+      Team? team,
       int? status,
       int? position,
       int? targetId,
@@ -659,7 +681,7 @@ class _$DustyMessageCopyWithImpl<$Res, $Val extends DustyMessage>
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as Team?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -700,7 +722,7 @@ abstract class _$$DustyMessageImplCopyWith<$Res>
       {int dustyId,
       EventType eventType,
       String? name,
-      int? team,
+      Team? team,
       int? status,
       int? position,
       int? targetId,
@@ -747,7 +769,7 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as Team?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -802,7 +824,7 @@ class _$DustyMessageImpl extends _DustyMessage {
   @override
   final String? name;
   @override
-  final int? team;
+  final Team? team;
   @override
   final int? status;
   @override
@@ -867,7 +889,7 @@ abstract class _DustyMessage extends DustyMessage {
       {required final int dustyId,
       required final EventType eventType,
       final String? name,
-      final int? team,
+      final Team? team,
       final int? status,
       final int? position,
       final int? targetId,
@@ -886,7 +908,7 @@ abstract class _DustyMessage extends DustyMessage {
   @override
   String? get name;
   @override
-  int? get team;
+  Team? get team;
   @override
   int? get status;
   @override

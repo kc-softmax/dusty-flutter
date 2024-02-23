@@ -14,6 +14,13 @@ enum EventType {
   remove
 }
 
+enum Team {
+  @JsonValue(501)
+  alpha,
+  @JsonValue(502)
+  beta,
+}
+
 enum ActiveObjectType {
   @JsonValue(1)
   normalMissaile,
@@ -63,6 +70,7 @@ class GameMessage with _$GameMessage {
 @freezed
 class GameConfig with _$GameConfig {
   const factory GameConfig({
+    required int playerId,
     required int frameRate,
     required int activeSkillDuration,
     required int specialSkillReloadTime,
@@ -83,7 +91,7 @@ class DustyMessage with _$DustyMessage, BaseMessage, HasPosition {
     required int dustyId,
     required EventType eventType,
     String? name,
-    int? team,
+    Team? team,
     int? status,
     int? position,
     int? targetId,

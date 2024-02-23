@@ -40,6 +40,7 @@ Map<String, dynamic> _$$GameMessageImplToJson(_$GameMessageImpl instance) =>
 
 _$GameConfigImpl _$$GameConfigImplFromJson(Map<String, dynamic> json) =>
     _$GameConfigImpl(
+      playerId: json['player_id'] as int,
       frameRate: json['frame_rate'] as int,
       activeSkillDuration: json['active_skill_duration'] as int,
       specialSkillReloadTime: json['special_skill_reload_time'] as int,
@@ -50,6 +51,7 @@ _$GameConfigImpl _$$GameConfigImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$GameConfigImplToJson(_$GameConfigImpl instance) =>
     <String, dynamic>{
+      'player_id': instance.playerId,
       'frame_rate': instance.frameRate,
       'active_skill_duration': instance.activeSkillDuration,
       'special_skill_reload_time': instance.specialSkillReloadTime,
@@ -63,7 +65,7 @@ _$DustyMessageImpl _$$DustyMessageImplFromJson(Map<String, dynamic> json) =>
       dustyId: json['dusty_id'] as int,
       eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
       name: json['name'] as String?,
-      team: json['team'] as int?,
+      team: $enumDecodeNullable(_$TeamEnumMap, json['team']),
       status: json['status'] as int?,
       position: json['position'] as int?,
       targetId: json['target_id'] as int?,
@@ -77,7 +79,7 @@ Map<String, dynamic> _$$DustyMessageImplToJson(_$DustyMessageImpl instance) =>
       'dusty_id': instance.dustyId,
       'event_type': _$EventTypeEnumMap[instance.eventType]!,
       'name': instance.name,
-      'team': instance.team,
+      'team': _$TeamEnumMap[instance.team],
       'status': instance.status,
       'position': instance.position,
       'target_id': instance.targetId,
@@ -90,6 +92,11 @@ const _$EventTypeEnumMap = {
   EventType.generate: 1,
   EventType.update: 2,
   EventType.remove: 3,
+};
+
+const _$TeamEnumMap = {
+  Team.alpha: 501,
+  Team.beta: 502,
 };
 
 const _$RemoveByEnumMap = {
