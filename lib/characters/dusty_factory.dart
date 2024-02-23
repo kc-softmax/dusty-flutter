@@ -14,8 +14,6 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     final dusty = facotry(message);
     objects[message.dustyId] = dusty;
     gameRef.world.add(dusty);
-    print(message.dustyId);
-    print(message.name);
     if (message.dustyId == gameRef.playScene.followerId) {
       setFollowUser(message.dustyId);
     }
@@ -64,7 +62,6 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
         }
       }
       if (message.targetId != null && message.targetId != 0) {
-        print("targetId: ${message.targetId}");
         // dusty.target = objects[message.targetId];
       }
     }
@@ -81,9 +78,6 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     final dusty = Dusty(message.name!)
       ..x = message.x
       ..y = message.y;
-    // print(dusty.x);
-    // print(message.dustyId);
-    // print(message.name);
     return dusty;
   }
 

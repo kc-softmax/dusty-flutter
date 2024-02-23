@@ -36,7 +36,6 @@ class NormalPunch extends SpriteAnimationComponent
   void update(double dt) {
     super.update(dt);
     final rangeRatio = (life / message.life!) - 0.3;
-    // print('life: $life, rangeRatio: $rangeRatio');
     if (rangeRatio < 0) {
       // change direction
       final toDirection = Vector2(owner.x - x, owner.y - y);

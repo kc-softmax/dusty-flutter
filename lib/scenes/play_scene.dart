@@ -89,7 +89,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     if (gameMessage.gameConfig != null) {
       gameConfig = gameMessage.gameConfig!;
       followerId = gameConfig?.playerId;
-      print(followerId);
     }
 
     if (gameMessage.dusties != null) {
