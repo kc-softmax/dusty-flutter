@@ -9,7 +9,6 @@ class DefaultExplosion extends SpriteAnimationComponent
   DefaultExplosion(this.explosionType)
       : super(
           anchor: Anchor.center,
-          size: Vector2(96, 96),
         );
 
   @override

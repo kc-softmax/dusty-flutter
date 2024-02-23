@@ -17,9 +17,9 @@ enum DustyAction {
   rotateLeft(13),
   rotateRight(14),
   stop(15),
+  forward(16),
   activeSkill(18),
   specialSkill(19),
-  boost(20),
   shield(21),
   finishing(22);
 

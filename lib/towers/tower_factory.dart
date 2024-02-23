@@ -1,4 +1,6 @@
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
+import 'package:dusty_flutter/effects/const.dart';
+import 'package:dusty_flutter/effects/default_explosion.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:dusty_flutter/towers/normal/normal_tower.dart';
 import 'package:flame/components.dart';
@@ -26,7 +28,27 @@ class TowerFactory extends ObjectFactoryComponent<Towers, TowerMessage> {
   }
 
   @override
-  void onRemoveObject(TowerMessage message) {}
+  void onRemoveObject(TowerMessage message) {
+    final tower = objects[message.towerId];
+    if (tower != null) {
+      switch (message.removeBy) {
+        case RemoveBy.missaile:
+          gameRef.world.add(DefaultExplosion(DefaultExplosionType.blue)
+            ..x = tower.x
+            ..y = tower.y
+            ..size = tower.size * 2);
+          break;
+        default:
+          gameRef.world.add(DefaultExplosion(DefaultExplosionType.red)
+            ..x = tower.x
+            ..y = tower.y
+            ..size = tower.size * 2);
+          break;
+      }
+      gameRef.world.remove(tower);
+      objects.remove(message.towerId);
+    }
+  }
 
   @override
   void onUpdateObject(TowerMessage message) {}

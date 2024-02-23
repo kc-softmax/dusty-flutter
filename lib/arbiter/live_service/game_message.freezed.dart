@@ -330,14 +330,13 @@ GameConfig _$GameConfigFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$GameConfig {
+  int get playerId => throw _privateConstructorUsedError;
   int get frameRate => throw _privateConstructorUsedError;
-  int get punchingReloadTime => throw _privateConstructorUsedError;
-  int get activeSkillReloadTime => throw _privateConstructorUsedError;
+  int get activeSkillDuration => throw _privateConstructorUsedError;
   int get specialSkillReloadTime => throw _privateConstructorUsedError;
-  int get finishSkillReloadTime => throw _privateConstructorUsedError;
-  int get boostSkillReloadTime => throw _privateConstructorUsedError;
   int get shieldSkillReloadTime => throw _privateConstructorUsedError;
   int get raftSkillReloadTime => throw _privateConstructorUsedError;
+  int get respawnTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -352,14 +351,13 @@ abstract class $GameConfigCopyWith<$Res> {
       _$GameConfigCopyWithImpl<$Res, GameConfig>;
   @useResult
   $Res call(
-      {int frameRate,
-      int punchingReloadTime,
-      int activeSkillReloadTime,
+      {int playerId,
+      int frameRate,
+      int activeSkillDuration,
       int specialSkillReloadTime,
-      int finishSkillReloadTime,
-      int boostSkillReloadTime,
       int shieldSkillReloadTime,
-      int raftSkillReloadTime});
+      int raftSkillReloadTime,
+      int respawnTime});
 }
 
 /// @nodoc
@@ -375,39 +373,30 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? playerId = null,
     Object? frameRate = null,
-    Object? punchingReloadTime = null,
-    Object? activeSkillReloadTime = null,
+    Object? activeSkillDuration = null,
     Object? specialSkillReloadTime = null,
-    Object? finishSkillReloadTime = null,
-    Object? boostSkillReloadTime = null,
     Object? shieldSkillReloadTime = null,
     Object? raftSkillReloadTime = null,
+    Object? respawnTime = null,
   }) {
     return _then(_value.copyWith(
+      playerId: null == playerId
+          ? _value.playerId
+          : playerId // ignore: cast_nullable_to_non_nullable
+              as int,
       frameRate: null == frameRate
           ? _value.frameRate
           : frameRate // ignore: cast_nullable_to_non_nullable
               as int,
-      punchingReloadTime: null == punchingReloadTime
-          ? _value.punchingReloadTime
-          : punchingReloadTime // ignore: cast_nullable_to_non_nullable
-              as int,
-      activeSkillReloadTime: null == activeSkillReloadTime
-          ? _value.activeSkillReloadTime
-          : activeSkillReloadTime // ignore: cast_nullable_to_non_nullable
+      activeSkillDuration: null == activeSkillDuration
+          ? _value.activeSkillDuration
+          : activeSkillDuration // ignore: cast_nullable_to_non_nullable
               as int,
       specialSkillReloadTime: null == specialSkillReloadTime
           ? _value.specialSkillReloadTime
           : specialSkillReloadTime // ignore: cast_nullable_to_non_nullable
-              as int,
-      finishSkillReloadTime: null == finishSkillReloadTime
-          ? _value.finishSkillReloadTime
-          : finishSkillReloadTime // ignore: cast_nullable_to_non_nullable
-              as int,
-      boostSkillReloadTime: null == boostSkillReloadTime
-          ? _value.boostSkillReloadTime
-          : boostSkillReloadTime // ignore: cast_nullable_to_non_nullable
               as int,
       shieldSkillReloadTime: null == shieldSkillReloadTime
           ? _value.shieldSkillReloadTime
@@ -416,6 +405,10 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
       raftSkillReloadTime: null == raftSkillReloadTime
           ? _value.raftSkillReloadTime
           : raftSkillReloadTime // ignore: cast_nullable_to_non_nullable
+              as int,
+      respawnTime: null == respawnTime
+          ? _value.respawnTime
+          : respawnTime // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -430,14 +423,13 @@ abstract class _$$GameConfigImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int frameRate,
-      int punchingReloadTime,
-      int activeSkillReloadTime,
+      {int playerId,
+      int frameRate,
+      int activeSkillDuration,
       int specialSkillReloadTime,
-      int finishSkillReloadTime,
-      int boostSkillReloadTime,
       int shieldSkillReloadTime,
-      int raftSkillReloadTime});
+      int raftSkillReloadTime,
+      int respawnTime});
 }
 
 /// @nodoc
@@ -451,39 +443,30 @@ class __$$GameConfigImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? playerId = null,
     Object? frameRate = null,
-    Object? punchingReloadTime = null,
-    Object? activeSkillReloadTime = null,
+    Object? activeSkillDuration = null,
     Object? specialSkillReloadTime = null,
-    Object? finishSkillReloadTime = null,
-    Object? boostSkillReloadTime = null,
     Object? shieldSkillReloadTime = null,
     Object? raftSkillReloadTime = null,
+    Object? respawnTime = null,
   }) {
     return _then(_$GameConfigImpl(
+      playerId: null == playerId
+          ? _value.playerId
+          : playerId // ignore: cast_nullable_to_non_nullable
+              as int,
       frameRate: null == frameRate
           ? _value.frameRate
           : frameRate // ignore: cast_nullable_to_non_nullable
               as int,
-      punchingReloadTime: null == punchingReloadTime
-          ? _value.punchingReloadTime
-          : punchingReloadTime // ignore: cast_nullable_to_non_nullable
-              as int,
-      activeSkillReloadTime: null == activeSkillReloadTime
-          ? _value.activeSkillReloadTime
-          : activeSkillReloadTime // ignore: cast_nullable_to_non_nullable
+      activeSkillDuration: null == activeSkillDuration
+          ? _value.activeSkillDuration
+          : activeSkillDuration // ignore: cast_nullable_to_non_nullable
               as int,
       specialSkillReloadTime: null == specialSkillReloadTime
           ? _value.specialSkillReloadTime
           : specialSkillReloadTime // ignore: cast_nullable_to_non_nullable
-              as int,
-      finishSkillReloadTime: null == finishSkillReloadTime
-          ? _value.finishSkillReloadTime
-          : finishSkillReloadTime // ignore: cast_nullable_to_non_nullable
-              as int,
-      boostSkillReloadTime: null == boostSkillReloadTime
-          ? _value.boostSkillReloadTime
-          : boostSkillReloadTime // ignore: cast_nullable_to_non_nullable
               as int,
       shieldSkillReloadTime: null == shieldSkillReloadTime
           ? _value.shieldSkillReloadTime
@@ -493,6 +476,10 @@ class __$$GameConfigImplCopyWithImpl<$Res>
           ? _value.raftSkillReloadTime
           : raftSkillReloadTime // ignore: cast_nullable_to_non_nullable
               as int,
+      respawnTime: null == respawnTime
+          ? _value.respawnTime
+          : respawnTime // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -501,38 +488,35 @@ class __$$GameConfigImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GameConfigImpl implements _GameConfig {
   const _$GameConfigImpl(
-      {required this.frameRate,
-      required this.punchingReloadTime,
-      required this.activeSkillReloadTime,
+      {required this.playerId,
+      required this.frameRate,
+      required this.activeSkillDuration,
       required this.specialSkillReloadTime,
-      required this.finishSkillReloadTime,
-      required this.boostSkillReloadTime,
       required this.shieldSkillReloadTime,
-      required this.raftSkillReloadTime});
+      required this.raftSkillReloadTime,
+      required this.respawnTime});
 
   factory _$GameConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$GameConfigImplFromJson(json);
 
   @override
+  final int playerId;
+  @override
   final int frameRate;
   @override
-  final int punchingReloadTime;
-  @override
-  final int activeSkillReloadTime;
+  final int activeSkillDuration;
   @override
   final int specialSkillReloadTime;
-  @override
-  final int finishSkillReloadTime;
-  @override
-  final int boostSkillReloadTime;
   @override
   final int shieldSkillReloadTime;
   @override
   final int raftSkillReloadTime;
+  @override
+  final int respawnTime;
 
   @override
   String toString() {
-    return 'GameConfig(frameRate: $frameRate, punchingReloadTime: $punchingReloadTime, activeSkillReloadTime: $activeSkillReloadTime, specialSkillReloadTime: $specialSkillReloadTime, finishSkillReloadTime: $finishSkillReloadTime, boostSkillReloadTime: $boostSkillReloadTime, shieldSkillReloadTime: $shieldSkillReloadTime, raftSkillReloadTime: $raftSkillReloadTime)';
+    return 'GameConfig(playerId: $playerId, frameRate: $frameRate, activeSkillDuration: $activeSkillDuration, specialSkillReloadTime: $specialSkillReloadTime, shieldSkillReloadTime: $shieldSkillReloadTime, raftSkillReloadTime: $raftSkillReloadTime, respawnTime: $respawnTime)';
   }
 
   @override
@@ -540,36 +524,33 @@ class _$GameConfigImpl implements _GameConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GameConfigImpl &&
+            (identical(other.playerId, playerId) ||
+                other.playerId == playerId) &&
             (identical(other.frameRate, frameRate) ||
                 other.frameRate == frameRate) &&
-            (identical(other.punchingReloadTime, punchingReloadTime) ||
-                other.punchingReloadTime == punchingReloadTime) &&
-            (identical(other.activeSkillReloadTime, activeSkillReloadTime) ||
-                other.activeSkillReloadTime == activeSkillReloadTime) &&
+            (identical(other.activeSkillDuration, activeSkillDuration) ||
+                other.activeSkillDuration == activeSkillDuration) &&
             (identical(other.specialSkillReloadTime, specialSkillReloadTime) ||
                 other.specialSkillReloadTime == specialSkillReloadTime) &&
-            (identical(other.finishSkillReloadTime, finishSkillReloadTime) ||
-                other.finishSkillReloadTime == finishSkillReloadTime) &&
-            (identical(other.boostSkillReloadTime, boostSkillReloadTime) ||
-                other.boostSkillReloadTime == boostSkillReloadTime) &&
             (identical(other.shieldSkillReloadTime, shieldSkillReloadTime) ||
                 other.shieldSkillReloadTime == shieldSkillReloadTime) &&
             (identical(other.raftSkillReloadTime, raftSkillReloadTime) ||
-                other.raftSkillReloadTime == raftSkillReloadTime));
+                other.raftSkillReloadTime == raftSkillReloadTime) &&
+            (identical(other.respawnTime, respawnTime) ||
+                other.respawnTime == respawnTime));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      playerId,
       frameRate,
-      punchingReloadTime,
-      activeSkillReloadTime,
+      activeSkillDuration,
       specialSkillReloadTime,
-      finishSkillReloadTime,
-      boostSkillReloadTime,
       shieldSkillReloadTime,
-      raftSkillReloadTime);
+      raftSkillReloadTime,
+      respawnTime);
 
   @JsonKey(ignore: true)
   @override
@@ -587,34 +568,31 @@ class _$GameConfigImpl implements _GameConfig {
 
 abstract class _GameConfig implements GameConfig {
   const factory _GameConfig(
-      {required final int frameRate,
-      required final int punchingReloadTime,
-      required final int activeSkillReloadTime,
+      {required final int playerId,
+      required final int frameRate,
+      required final int activeSkillDuration,
       required final int specialSkillReloadTime,
-      required final int finishSkillReloadTime,
-      required final int boostSkillReloadTime,
       required final int shieldSkillReloadTime,
-      required final int raftSkillReloadTime}) = _$GameConfigImpl;
+      required final int raftSkillReloadTime,
+      required final int respawnTime}) = _$GameConfigImpl;
 
   factory _GameConfig.fromJson(Map<String, dynamic> json) =
       _$GameConfigImpl.fromJson;
 
   @override
+  int get playerId;
+  @override
   int get frameRate;
   @override
-  int get punchingReloadTime;
-  @override
-  int get activeSkillReloadTime;
+  int get activeSkillDuration;
   @override
   int get specialSkillReloadTime;
-  @override
-  int get finishSkillReloadTime;
-  @override
-  int get boostSkillReloadTime;
   @override
   int get shieldSkillReloadTime;
   @override
   int get raftSkillReloadTime;
+  @override
+  int get respawnTime;
   @override
   @JsonKey(ignore: true)
   _$$GameConfigImplCopyWith<_$GameConfigImpl> get copyWith =>
@@ -630,12 +608,13 @@ mixin _$DustyMessage {
   int get dustyId => throw _privateConstructorUsedError;
   EventType get eventType => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  int? get team => throw _privateConstructorUsedError;
+  Team? get team => throw _privateConstructorUsedError;
   int? get status => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
-  int? get target => throw _privateConstructorUsedError;
+  int? get targetId => throw _privateConstructorUsedError;
+  int? get killerId => throw _privateConstructorUsedError;
   int? get defence => throw _privateConstructorUsedError;
-  int? get deathInfo => throw _privateConstructorUsedError;
+  RemoveBy? get removeBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -653,12 +632,13 @@ abstract class $DustyMessageCopyWith<$Res> {
       {int dustyId,
       EventType eventType,
       String? name,
-      int? team,
+      Team? team,
       int? status,
       int? position,
-      int? target,
+      int? targetId,
+      int? killerId,
       int? defence,
-      int? deathInfo});
+      RemoveBy? removeBy});
 }
 
 /// @nodoc
@@ -680,9 +660,10 @@ class _$DustyMessageCopyWithImpl<$Res, $Val extends DustyMessage>
     Object? team = freezed,
     Object? status = freezed,
     Object? position = freezed,
-    Object? target = freezed,
+    Object? targetId = freezed,
+    Object? killerId = freezed,
     Object? defence = freezed,
-    Object? deathInfo = freezed,
+    Object? removeBy = freezed,
   }) {
     return _then(_value.copyWith(
       dustyId: null == dustyId
@@ -700,7 +681,7 @@ class _$DustyMessageCopyWithImpl<$Res, $Val extends DustyMessage>
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as Team?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -709,18 +690,22 @@ class _$DustyMessageCopyWithImpl<$Res, $Val extends DustyMessage>
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as int?,
-      target: freezed == target
-          ? _value.target
-          : target // ignore: cast_nullable_to_non_nullable
+      targetId: freezed == targetId
+          ? _value.targetId
+          : targetId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      killerId: freezed == killerId
+          ? _value.killerId
+          : killerId // ignore: cast_nullable_to_non_nullable
               as int?,
       defence: freezed == defence
           ? _value.defence
           : defence // ignore: cast_nullable_to_non_nullable
               as int?,
-      deathInfo: freezed == deathInfo
-          ? _value.deathInfo
-          : deathInfo // ignore: cast_nullable_to_non_nullable
-              as int?,
+      removeBy: freezed == removeBy
+          ? _value.removeBy
+          : removeBy // ignore: cast_nullable_to_non_nullable
+              as RemoveBy?,
     ) as $Val);
   }
 }
@@ -737,12 +722,13 @@ abstract class _$$DustyMessageImplCopyWith<$Res>
       {int dustyId,
       EventType eventType,
       String? name,
-      int? team,
+      Team? team,
       int? status,
       int? position,
-      int? target,
+      int? targetId,
+      int? killerId,
       int? defence,
-      int? deathInfo});
+      RemoveBy? removeBy});
 }
 
 /// @nodoc
@@ -762,9 +748,10 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
     Object? team = freezed,
     Object? status = freezed,
     Object? position = freezed,
-    Object? target = freezed,
+    Object? targetId = freezed,
+    Object? killerId = freezed,
     Object? defence = freezed,
-    Object? deathInfo = freezed,
+    Object? removeBy = freezed,
   }) {
     return _then(_$DustyMessageImpl(
       dustyId: null == dustyId
@@ -782,7 +769,7 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as Team?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -791,18 +778,22 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as int?,
-      target: freezed == target
-          ? _value.target
-          : target // ignore: cast_nullable_to_non_nullable
+      targetId: freezed == targetId
+          ? _value.targetId
+          : targetId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      killerId: freezed == killerId
+          ? _value.killerId
+          : killerId // ignore: cast_nullable_to_non_nullable
               as int?,
       defence: freezed == defence
           ? _value.defence
           : defence // ignore: cast_nullable_to_non_nullable
               as int?,
-      deathInfo: freezed == deathInfo
-          ? _value.deathInfo
-          : deathInfo // ignore: cast_nullable_to_non_nullable
-              as int?,
+      removeBy: freezed == removeBy
+          ? _value.removeBy
+          : removeBy // ignore: cast_nullable_to_non_nullable
+              as RemoveBy?,
     ));
   }
 }
@@ -817,9 +808,10 @@ class _$DustyMessageImpl extends _DustyMessage {
       this.team,
       this.status,
       this.position,
-      this.target,
+      this.targetId,
+      this.killerId,
       this.defence,
-      this.deathInfo})
+      this.removeBy})
       : super._();
 
   factory _$DustyMessageImpl.fromJson(Map<String, dynamic> json) =>
@@ -832,21 +824,23 @@ class _$DustyMessageImpl extends _DustyMessage {
   @override
   final String? name;
   @override
-  final int? team;
+  final Team? team;
   @override
   final int? status;
   @override
   final int? position;
   @override
-  final int? target;
+  final int? targetId;
+  @override
+  final int? killerId;
   @override
   final int? defence;
   @override
-  final int? deathInfo;
+  final RemoveBy? removeBy;
 
   @override
   String toString() {
-    return 'DustyMessage(dustyId: $dustyId, eventType: $eventType, name: $name, team: $team, status: $status, position: $position, target: $target, defence: $defence, deathInfo: $deathInfo)';
+    return 'DustyMessage(dustyId: $dustyId, eventType: $eventType, name: $name, team: $team, status: $status, position: $position, targetId: $targetId, killerId: $killerId, defence: $defence, removeBy: $removeBy)';
   }
 
   @override
@@ -862,16 +856,19 @@ class _$DustyMessageImpl extends _DustyMessage {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.position, position) ||
                 other.position == position) &&
-            (identical(other.target, target) || other.target == target) &&
+            (identical(other.targetId, targetId) ||
+                other.targetId == targetId) &&
+            (identical(other.killerId, killerId) ||
+                other.killerId == killerId) &&
             (identical(other.defence, defence) || other.defence == defence) &&
-            (identical(other.deathInfo, deathInfo) ||
-                other.deathInfo == deathInfo));
+            (identical(other.removeBy, removeBy) ||
+                other.removeBy == removeBy));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, dustyId, eventType, name, team,
-      status, position, target, defence, deathInfo);
+      status, position, targetId, killerId, defence, removeBy);
 
   @JsonKey(ignore: true)
   @override
@@ -892,12 +889,13 @@ abstract class _DustyMessage extends DustyMessage {
       {required final int dustyId,
       required final EventType eventType,
       final String? name,
-      final int? team,
+      final Team? team,
       final int? status,
       final int? position,
-      final int? target,
+      final int? targetId,
+      final int? killerId,
       final int? defence,
-      final int? deathInfo}) = _$DustyMessageImpl;
+      final RemoveBy? removeBy}) = _$DustyMessageImpl;
   _DustyMessage._() : super._();
 
   factory _DustyMessage.fromJson(Map<String, dynamic> json) =
@@ -910,17 +908,19 @@ abstract class _DustyMessage extends DustyMessage {
   @override
   String? get name;
   @override
-  int? get team;
+  Team? get team;
   @override
   int? get status;
   @override
   int? get position;
   @override
-  int? get target;
+  int? get targetId;
+  @override
+  int? get killerId;
   @override
   int? get defence;
   @override
-  int? get deathInfo;
+  RemoveBy? get removeBy;
   @override
   @JsonKey(ignore: true)
   _$$DustyMessageImplCopyWith<_$DustyMessageImpl> get copyWith =>
@@ -938,7 +938,7 @@ mixin _$TowerMessage {
   int? get team => throw _privateConstructorUsedError;
   int? get shape => throw _privateConstructorUsedError;
   int? get target => throw _privateConstructorUsedError;
-  RemoveType? get removeType => throw _privateConstructorUsedError;
+  RemoveBy? get removeBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -958,7 +958,7 @@ abstract class $TowerMessageCopyWith<$Res> {
       int? team,
       int? shape,
       int? target,
-      RemoveType? removeType});
+      RemoveBy? removeBy});
 }
 
 /// @nodoc
@@ -979,7 +979,7 @@ class _$TowerMessageCopyWithImpl<$Res, $Val extends TowerMessage>
     Object? team = freezed,
     Object? shape = freezed,
     Object? target = freezed,
-    Object? removeType = freezed,
+    Object? removeBy = freezed,
   }) {
     return _then(_value.copyWith(
       towerId: null == towerId
@@ -1002,10 +1002,10 @@ class _$TowerMessageCopyWithImpl<$Res, $Val extends TowerMessage>
           ? _value.target
           : target // ignore: cast_nullable_to_non_nullable
               as int?,
-      removeType: freezed == removeType
-          ? _value.removeType
-          : removeType // ignore: cast_nullable_to_non_nullable
-              as RemoveType?,
+      removeBy: freezed == removeBy
+          ? _value.removeBy
+          : removeBy // ignore: cast_nullable_to_non_nullable
+              as RemoveBy?,
     ) as $Val);
   }
 }
@@ -1024,7 +1024,7 @@ abstract class _$$TowerMessageImplCopyWith<$Res>
       int? team,
       int? shape,
       int? target,
-      RemoveType? removeType});
+      RemoveBy? removeBy});
 }
 
 /// @nodoc
@@ -1043,7 +1043,7 @@ class __$$TowerMessageImplCopyWithImpl<$Res>
     Object? team = freezed,
     Object? shape = freezed,
     Object? target = freezed,
-    Object? removeType = freezed,
+    Object? removeBy = freezed,
   }) {
     return _then(_$TowerMessageImpl(
       towerId: null == towerId
@@ -1066,10 +1066,10 @@ class __$$TowerMessageImplCopyWithImpl<$Res>
           ? _value.target
           : target // ignore: cast_nullable_to_non_nullable
               as int?,
-      removeType: freezed == removeType
-          ? _value.removeType
-          : removeType // ignore: cast_nullable_to_non_nullable
-              as RemoveType?,
+      removeBy: freezed == removeBy
+          ? _value.removeBy
+          : removeBy // ignore: cast_nullable_to_non_nullable
+              as RemoveBy?,
     ));
   }
 }
@@ -1083,7 +1083,7 @@ class _$TowerMessageImpl extends _TowerMessage {
       this.team,
       this.shape,
       this.target,
-      this.removeType})
+      this.removeBy})
       : super._();
 
   factory _$TowerMessageImpl.fromJson(Map<String, dynamic> json) =>
@@ -1100,11 +1100,11 @@ class _$TowerMessageImpl extends _TowerMessage {
   @override
   final int? target;
   @override
-  final RemoveType? removeType;
+  final RemoveBy? removeBy;
 
   @override
   String toString() {
-    return 'TowerMessage(towerId: $towerId, eventType: $eventType, team: $team, shape: $shape, target: $target, removeType: $removeType)';
+    return 'TowerMessage(towerId: $towerId, eventType: $eventType, team: $team, shape: $shape, target: $target, removeBy: $removeBy)';
   }
 
   @override
@@ -1118,14 +1118,14 @@ class _$TowerMessageImpl extends _TowerMessage {
             (identical(other.team, team) || other.team == team) &&
             (identical(other.shape, shape) || other.shape == shape) &&
             (identical(other.target, target) || other.target == target) &&
-            (identical(other.removeType, removeType) ||
-                other.removeType == removeType));
+            (identical(other.removeBy, removeBy) ||
+                other.removeBy == removeBy));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, towerId, eventType, team, shape, target, removeType);
+      runtimeType, towerId, eventType, team, shape, target, removeBy);
 
   @JsonKey(ignore: true)
   @override
@@ -1148,7 +1148,7 @@ abstract class _TowerMessage extends TowerMessage {
       final int? team,
       final int? shape,
       final int? target,
-      final RemoveType? removeType}) = _$TowerMessageImpl;
+      final RemoveBy? removeBy}) = _$TowerMessageImpl;
   _TowerMessage._() : super._();
 
   factory _TowerMessage.fromJson(Map<String, dynamic> json) =
@@ -1165,7 +1165,7 @@ abstract class _TowerMessage extends TowerMessage {
   @override
   int? get target;
   @override
-  RemoveType? get removeType;
+  RemoveBy? get removeBy;
   @override
   @JsonKey(ignore: true)
   _$$TowerMessageImplCopyWith<_$TowerMessageImpl> get copyWith =>
@@ -1185,9 +1185,10 @@ mixin _$ActiveObjectMessage {
   double? get directionY => throw _privateConstructorUsedError;
   int? get status => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
-  int? get target => throw _privateConstructorUsedError;
+  int? get targetId => throw _privateConstructorUsedError;
+  int? get ownerId => throw _privateConstructorUsedError;
   ActiveObjectType? get objectType => throw _privateConstructorUsedError;
-  RemoveType? get removeType => throw _privateConstructorUsedError;
+  RemoveBy? get removeBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1209,9 +1210,10 @@ abstract class $ActiveObjectMessageCopyWith<$Res> {
       double? directionY,
       int? status,
       int? position,
-      int? target,
+      int? targetId,
+      int? ownerId,
       ActiveObjectType? objectType,
-      RemoveType? removeType});
+      RemoveBy? removeBy});
 }
 
 /// @nodoc
@@ -1234,9 +1236,10 @@ class _$ActiveObjectMessageCopyWithImpl<$Res, $Val extends ActiveObjectMessage>
     Object? directionY = freezed,
     Object? status = freezed,
     Object? position = freezed,
-    Object? target = freezed,
+    Object? targetId = freezed,
+    Object? ownerId = freezed,
     Object? objectType = freezed,
-    Object? removeType = freezed,
+    Object? removeBy = freezed,
   }) {
     return _then(_value.copyWith(
       objectId: null == objectId
@@ -1267,18 +1270,22 @@ class _$ActiveObjectMessageCopyWithImpl<$Res, $Val extends ActiveObjectMessage>
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as int?,
-      target: freezed == target
-          ? _value.target
-          : target // ignore: cast_nullable_to_non_nullable
+      targetId: freezed == targetId
+          ? _value.targetId
+          : targetId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      ownerId: freezed == ownerId
+          ? _value.ownerId
+          : ownerId // ignore: cast_nullable_to_non_nullable
               as int?,
       objectType: freezed == objectType
           ? _value.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
               as ActiveObjectType?,
-      removeType: freezed == removeType
-          ? _value.removeType
-          : removeType // ignore: cast_nullable_to_non_nullable
-              as RemoveType?,
+      removeBy: freezed == removeBy
+          ? _value.removeBy
+          : removeBy // ignore: cast_nullable_to_non_nullable
+              as RemoveBy?,
     ) as $Val);
   }
 }
@@ -1299,9 +1306,10 @@ abstract class _$$ActiveObjectMessageImplCopyWith<$Res>
       double? directionY,
       int? status,
       int? position,
-      int? target,
+      int? targetId,
+      int? ownerId,
       ActiveObjectType? objectType,
-      RemoveType? removeType});
+      RemoveBy? removeBy});
 }
 
 /// @nodoc
@@ -1322,9 +1330,10 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
     Object? directionY = freezed,
     Object? status = freezed,
     Object? position = freezed,
-    Object? target = freezed,
+    Object? targetId = freezed,
+    Object? ownerId = freezed,
     Object? objectType = freezed,
-    Object? removeType = freezed,
+    Object? removeBy = freezed,
   }) {
     return _then(_$ActiveObjectMessageImpl(
       objectId: null == objectId
@@ -1355,18 +1364,22 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as int?,
-      target: freezed == target
-          ? _value.target
-          : target // ignore: cast_nullable_to_non_nullable
+      targetId: freezed == targetId
+          ? _value.targetId
+          : targetId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      ownerId: freezed == ownerId
+          ? _value.ownerId
+          : ownerId // ignore: cast_nullable_to_non_nullable
               as int?,
       objectType: freezed == objectType
           ? _value.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
               as ActiveObjectType?,
-      removeType: freezed == removeType
-          ? _value.removeType
-          : removeType // ignore: cast_nullable_to_non_nullable
-              as RemoveType?,
+      removeBy: freezed == removeBy
+          ? _value.removeBy
+          : removeBy // ignore: cast_nullable_to_non_nullable
+              as RemoveBy?,
     ));
   }
 }
@@ -1382,9 +1395,10 @@ class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
       this.directionY,
       this.status,
       this.position,
-      this.target,
+      this.targetId,
+      this.ownerId,
       this.objectType,
-      this.removeType})
+      this.removeBy})
       : super._();
 
   factory _$ActiveObjectMessageImpl.fromJson(Map<String, dynamic> json) =>
@@ -1405,15 +1419,17 @@ class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
   @override
   final int? position;
   @override
-  final int? target;
+  final int? targetId;
+  @override
+  final int? ownerId;
   @override
   final ActiveObjectType? objectType;
   @override
-  final RemoveType? removeType;
+  final RemoveBy? removeBy;
 
   @override
   String toString() {
-    return 'ActiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, directionX: $directionX, directionY: $directionY, status: $status, position: $position, target: $target, objectType: $objectType, removeType: $removeType)';
+    return 'ActiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, directionX: $directionX, directionY: $directionY, status: $status, position: $position, targetId: $targetId, ownerId: $ownerId, objectType: $objectType, removeBy: $removeBy)';
   }
 
   @override
@@ -1433,17 +1449,30 @@ class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.position, position) ||
                 other.position == position) &&
-            (identical(other.target, target) || other.target == target) &&
+            (identical(other.targetId, targetId) ||
+                other.targetId == targetId) &&
+            (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
             (identical(other.objectType, objectType) ||
                 other.objectType == objectType) &&
-            (identical(other.removeType, removeType) ||
-                other.removeType == removeType));
+            (identical(other.removeBy, removeBy) ||
+                other.removeBy == removeBy));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, objectId, eventType, team,
-      directionX, directionY, status, position, target, objectType, removeType);
+  int get hashCode => Object.hash(
+      runtimeType,
+      objectId,
+      eventType,
+      team,
+      directionX,
+      directionY,
+      status,
+      position,
+      targetId,
+      ownerId,
+      objectType,
+      removeBy);
 
   @JsonKey(ignore: true)
   @override
@@ -1469,9 +1498,10 @@ abstract class _ActiveObjectMessage extends ActiveObjectMessage {
       final double? directionY,
       final int? status,
       final int? position,
-      final int? target,
+      final int? targetId,
+      final int? ownerId,
       final ActiveObjectType? objectType,
-      final RemoveType? removeType}) = _$ActiveObjectMessageImpl;
+      final RemoveBy? removeBy}) = _$ActiveObjectMessageImpl;
   _ActiveObjectMessage._() : super._();
 
   factory _ActiveObjectMessage.fromJson(Map<String, dynamic> json) =
@@ -1492,11 +1522,13 @@ abstract class _ActiveObjectMessage extends ActiveObjectMessage {
   @override
   int? get position;
   @override
-  int? get target;
+  int? get targetId;
+  @override
+  int? get ownerId;
   @override
   ActiveObjectType? get objectType;
   @override
-  RemoveType? get removeType;
+  RemoveBy? get removeBy;
   @override
   @JsonKey(ignore: true)
   _$$ActiveObjectMessageImplCopyWith<_$ActiveObjectMessageImpl> get copyWith =>
@@ -1515,7 +1547,7 @@ mixin _$PassiveObjectMessage {
   int? get size => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
   int? get objectType => throw _privateConstructorUsedError;
-  int? get removeType => throw _privateConstructorUsedError;
+  RemoveBy? get removeBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1536,7 +1568,7 @@ abstract class $PassiveObjectMessageCopyWith<$Res> {
       int? size,
       int? position,
       int? objectType,
-      int? removeType});
+      RemoveBy? removeBy});
 }
 
 /// @nodoc
@@ -1559,7 +1591,7 @@ class _$PassiveObjectMessageCopyWithImpl<$Res,
     Object? size = freezed,
     Object? position = freezed,
     Object? objectType = freezed,
-    Object? removeType = freezed,
+    Object? removeBy = freezed,
   }) {
     return _then(_value.copyWith(
       objectId: null == objectId
@@ -1586,10 +1618,10 @@ class _$PassiveObjectMessageCopyWithImpl<$Res,
           ? _value.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
               as int?,
-      removeType: freezed == removeType
-          ? _value.removeType
-          : removeType // ignore: cast_nullable_to_non_nullable
-              as int?,
+      removeBy: freezed == removeBy
+          ? _value.removeBy
+          : removeBy // ignore: cast_nullable_to_non_nullable
+              as RemoveBy?,
     ) as $Val);
   }
 }
@@ -1609,7 +1641,7 @@ abstract class _$$PassiveObjectMessageImplCopyWith<$Res>
       int? size,
       int? position,
       int? objectType,
-      int? removeType});
+      RemoveBy? removeBy});
 }
 
 /// @nodoc
@@ -1629,7 +1661,7 @@ class __$$PassiveObjectMessageImplCopyWithImpl<$Res>
     Object? size = freezed,
     Object? position = freezed,
     Object? objectType = freezed,
-    Object? removeType = freezed,
+    Object? removeBy = freezed,
   }) {
     return _then(_$PassiveObjectMessageImpl(
       objectId: null == objectId
@@ -1656,10 +1688,10 @@ class __$$PassiveObjectMessageImplCopyWithImpl<$Res>
           ? _value.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
               as int?,
-      removeType: freezed == removeType
-          ? _value.removeType
-          : removeType // ignore: cast_nullable_to_non_nullable
-              as int?,
+      removeBy: freezed == removeBy
+          ? _value.removeBy
+          : removeBy // ignore: cast_nullable_to_non_nullable
+              as RemoveBy?,
     ));
   }
 }
@@ -1674,7 +1706,7 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
       this.size,
       this.position,
       this.objectType,
-      this.removeType})
+      this.removeBy})
       : super._();
 
   factory _$PassiveObjectMessageImpl.fromJson(Map<String, dynamic> json) =>
@@ -1693,11 +1725,11 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
   @override
   final int? objectType;
   @override
-  final int? removeType;
+  final RemoveBy? removeBy;
 
   @override
   String toString() {
-    return 'PassiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, size: $size, position: $position, objectType: $objectType, removeType: $removeType)';
+    return 'PassiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, size: $size, position: $position, objectType: $objectType, removeBy: $removeBy)';
   }
 
   @override
@@ -1715,14 +1747,14 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
                 other.position == position) &&
             (identical(other.objectType, objectType) ||
                 other.objectType == objectType) &&
-            (identical(other.removeType, removeType) ||
-                other.removeType == removeType));
+            (identical(other.removeBy, removeBy) ||
+                other.removeBy == removeBy));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, objectId, eventType, team, size,
-      position, objectType, removeType);
+      position, objectType, removeBy);
 
   @JsonKey(ignore: true)
   @override
@@ -1748,7 +1780,7 @@ abstract class _PassiveObjectMessage extends PassiveObjectMessage {
       final int? size,
       final int? position,
       final int? objectType,
-      final int? removeType}) = _$PassiveObjectMessageImpl;
+      final RemoveBy? removeBy}) = _$PassiveObjectMessageImpl;
   _PassiveObjectMessage._() : super._();
 
   factory _PassiveObjectMessage.fromJson(Map<String, dynamic> json) =
@@ -1767,7 +1799,7 @@ abstract class _PassiveObjectMessage extends PassiveObjectMessage {
   @override
   int? get objectType;
   @override
-  int? get removeType;
+  RemoveBy? get removeBy;
   @override
   @JsonKey(ignore: true)
   _$$PassiveObjectMessageImplCopyWith<_$PassiveObjectMessageImpl>
@@ -1784,6 +1816,7 @@ mixin _$TileMessage {
   EventType get eventType => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   int? get activatorId => throw _privateConstructorUsedError;
+  RemoveBy? get removeBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1797,7 +1830,12 @@ abstract class $TileMessageCopyWith<$Res> {
           TileMessage value, $Res Function(TileMessage) then) =
       _$TileMessageCopyWithImpl<$Res, TileMessage>;
   @useResult
-  $Res call({int address, EventType eventType, int? team, int? activatorId});
+  $Res call(
+      {int address,
+      EventType eventType,
+      int? team,
+      int? activatorId,
+      RemoveBy? removeBy});
 }
 
 /// @nodoc
@@ -1817,6 +1855,7 @@ class _$TileMessageCopyWithImpl<$Res, $Val extends TileMessage>
     Object? eventType = null,
     Object? team = freezed,
     Object? activatorId = freezed,
+    Object? removeBy = freezed,
   }) {
     return _then(_value.copyWith(
       address: null == address
@@ -1835,6 +1874,10 @@ class _$TileMessageCopyWithImpl<$Res, $Val extends TileMessage>
           ? _value.activatorId
           : activatorId // ignore: cast_nullable_to_non_nullable
               as int?,
+      removeBy: freezed == removeBy
+          ? _value.removeBy
+          : removeBy // ignore: cast_nullable_to_non_nullable
+              as RemoveBy?,
     ) as $Val);
   }
 }
@@ -1847,7 +1890,12 @@ abstract class _$$TileMessageImplCopyWith<$Res>
       __$$TileMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int address, EventType eventType, int? team, int? activatorId});
+  $Res call(
+      {int address,
+      EventType eventType,
+      int? team,
+      int? activatorId,
+      RemoveBy? removeBy});
 }
 
 /// @nodoc
@@ -1865,6 +1913,7 @@ class __$$TileMessageImplCopyWithImpl<$Res>
     Object? eventType = null,
     Object? team = freezed,
     Object? activatorId = freezed,
+    Object? removeBy = freezed,
   }) {
     return _then(_$TileMessageImpl(
       address: null == address
@@ -1883,6 +1932,10 @@ class __$$TileMessageImplCopyWithImpl<$Res>
           ? _value.activatorId
           : activatorId // ignore: cast_nullable_to_non_nullable
               as int?,
+      removeBy: freezed == removeBy
+          ? _value.removeBy
+          : removeBy // ignore: cast_nullable_to_non_nullable
+              as RemoveBy?,
     ));
   }
 }
@@ -1894,7 +1947,8 @@ class _$TileMessageImpl extends _TileMessage {
       {required this.address,
       required this.eventType,
       this.team,
-      this.activatorId})
+      this.activatorId,
+      this.removeBy})
       : super._();
 
   factory _$TileMessageImpl.fromJson(Map<String, dynamic> json) =>
@@ -1908,10 +1962,12 @@ class _$TileMessageImpl extends _TileMessage {
   final int? team;
   @override
   final int? activatorId;
+  @override
+  final RemoveBy? removeBy;
 
   @override
   String toString() {
-    return 'TileMessage(address: $address, eventType: $eventType, team: $team, activatorId: $activatorId)';
+    return 'TileMessage(address: $address, eventType: $eventType, team: $team, activatorId: $activatorId, removeBy: $removeBy)';
   }
 
   @override
@@ -1924,13 +1980,15 @@ class _$TileMessageImpl extends _TileMessage {
                 other.eventType == eventType) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.activatorId, activatorId) ||
-                other.activatorId == activatorId));
+                other.activatorId == activatorId) &&
+            (identical(other.removeBy, removeBy) ||
+                other.removeBy == removeBy));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, address, eventType, team, activatorId);
+      Object.hash(runtimeType, address, eventType, team, activatorId, removeBy);
 
   @JsonKey(ignore: true)
   @override
@@ -1951,7 +2009,8 @@ abstract class _TileMessage extends TileMessage {
       {required final int address,
       required final EventType eventType,
       final int? team,
-      final int? activatorId}) = _$TileMessageImpl;
+      final int? activatorId,
+      final RemoveBy? removeBy}) = _$TileMessageImpl;
   _TileMessage._() : super._();
 
   factory _TileMessage.fromJson(Map<String, dynamic> json) =
@@ -1965,6 +2024,8 @@ abstract class _TileMessage extends TileMessage {
   int? get team;
   @override
   int? get activatorId;
+  @override
+  RemoveBy? get removeBy;
   @override
   @JsonKey(ignore: true)
   _$$TileMessageImplCopyWith<_$TileMessageImpl> get copyWith =>

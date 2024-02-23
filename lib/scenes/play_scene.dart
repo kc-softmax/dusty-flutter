@@ -23,6 +23,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   final towerFactory = TowerFactory();
   final tileFactory = TileFactory();
   late final Dusty? player;
+  late final int? followerId;
 
   @override
   FutureOr<void> onLoad() async {
@@ -85,10 +86,11 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     final gameMessage = GameMessage.fromJson(json);
 
     // debugPrint(gameMessage.toString());
-
     if (gameMessage.gameConfig != null) {
       gameConfig = gameMessage.gameConfig!;
+      followerId = gameConfig?.playerId;
     }
+
     if (gameMessage.dusties != null) {
       dustyFactory.addMessages(gameMessage.dusties!);
     }
