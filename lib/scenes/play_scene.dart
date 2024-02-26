@@ -16,26 +16,28 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   static const routerName = 'play';
 
   GameConfig? gameConfig;
+  Dusty? player;
 
   final hud = Hud();
   final dustyFactory = DustyFactory();
   final activeObjectsFactory = ActiveObjectsFactory();
   final towerFactory = TowerFactory();
   final tileFactory = TileFactory();
-  late final Dusty? player;
   late final int? followerId;
+  late final int? playerId;
 
   @override
   FutureOr<void> onLoad() async {
-    gameRef.overlays.addEntry("RestartButton", ((context, game) {
-      return FilledButton(
-        onPressed: () async {
-          _closeGame();
-          gameRef.world = DustyIslandWorld();
-        },
-        child: const Text("다시 시작"),
-      );
-    }));
+    // gameRef.overlays.addEntry("RestartButton", ((context, game) {
+    //   return FilledButton(
+    //     onPressed: () async {
+    //       debugPrint("restart!!");
+    //       await _resetGame();
+    //     },
+    //     child: const Text("다시 시작"),
+    //   );
+    // }));
+    // gameRef.overlays.add("RestartButton");
 
     gameRef.world.add(gameRef.mapComponent);
 
@@ -65,6 +67,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   Future<void> _startGame() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("token");
+    playerId = (await SharedPreferences.getInstance()).getInt('playerId');
     Arbiter.liveService.on(
       "/di/ws?token=$token",
       _parseGameMessage,
@@ -103,6 +106,35 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     }
     if (gameMessage.tiles != null) {
       tileFactory.addMessages(gameMessage.tiles!);
+    }
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (player != null) {
+      // && player?.targetId != null
+      if (player?.targetId != null) {
+        if (player!.targetId! > 0) {
+          //lock on target
+          if (player!.targetId! != player?.lockOnId) {
+            final target = dustyFactory.objects[player?.targetId];
+            if (target != null) {
+              target.setAim(true);
+              player?.lockOnId = player?.targetId; //
+            }
+          }
+        } else {
+          // release target
+          if (player?.lockOnId != null) {
+            final lockOnTarget = dustyFactory.objects[player?.lockOnId];
+            if (lockOnTarget != null) {
+              lockOnTarget.setAim(false);
+            }
+            player?.lockOnId = null;
+          }
+        }
+      }
     }
   }
 }

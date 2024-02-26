@@ -8,7 +8,7 @@ import 'package:dusty_flutter/ui/arc_animation.dart';
 /// HudButtonComponent를 모방해서 만들었다.
 class DustyHudButton extends HudButtonComponent {
   static const Color deactivateColor = Color(0xFFC7C1BA);
-  static const Color activateColor = Color(0xffffffff);
+  static const Color activateColor = Color(0x00ffffff);
 
   late ArcAnimationComponent reloadAnimation;
   int _available = 1;

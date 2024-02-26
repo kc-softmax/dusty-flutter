@@ -1,7 +1,10 @@
 import 'dart:ui';
+import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/components.dart';
 import 'package:dusty_flutter/game.dart';
+import 'package:flame/experimental.dart';
+import 'package:flame_tiled/flame_tiled.dart';
 
 class Minimap extends RectangleComponent with HasGameRef<DustyIslandGame> {
   late Color borderColor;
@@ -25,16 +28,22 @@ class Minimap extends RectangleComponent with HasGameRef<DustyIslandGame> {
     ..color = neturalColor
     ..style = PaintingStyle.fill;
 
-  void updateTile(int x, int y, int team) {
+  void updateTile(int x, int y, Team team) {
     final mapWidth = gameRef.mapComponent.tileMap.map.width;
     final mapHeight = gameRef.mapComponent.tileMap.map.height;
     final xRatio = size.x / mapWidth.toDouble();
     final yRatio = size.y / mapHeight.toDouble();
     final rect = Rect.fromLTWH(x * xRatio, y * yRatio, xRatio, yRatio);
-    if (team == 1) {
-      alphaTiles.add(rect);
-    } else if (team == 2) {
-      betaTiles.add(rect);
+    switch (team) {
+      case Team.alpha:
+        alphaTiles.add(rect);
+        break;
+      case Team.beta:
+        betaTiles.add(rect);
+        break;
+      default:
+        islands.add(rect);
+        break;
     }
   }
 
@@ -42,25 +51,30 @@ class Minimap extends RectangleComponent with HasGameRef<DustyIslandGame> {
   Future<void> onLoad() async {
     super.onLoad();
     // minimap ratio should be 3:2
+    // 80 vs 60
     assert(gameRef.mapComponent.tileMap.map.width /
             gameRef.mapComponent.tileMap.map.height ==
-        3 / 2);
+        4 / 3);
     final mapWidth = gameRef.mapComponent.tileMap.map.width;
     final mapHeight = gameRef.mapComponent.tileMap.map.height;
-    size = Vector2(144, 96); // const value
+    size = Vector2(144, 108); // const value
     position = Vector2(gameRef.size.x - size.x - 16, 16);
     // change the color of the minimap
     paint.color = normalSeaColor;
+    final islandLayer =
+        gameRef.mapComponent.tileMap.getLayer('island') as TileLayer;
 
-    // draw default island get from mapcomponent
-    // currently, it's not implemented
-    // so just draw hard-coded island
-    // lt - 11,7
-    xRatio = size.x / mapWidth.toDouble();
-    yRatio = size.y / mapHeight.toDouble();
-    islands.add(
-      Rect.fromLTWH(11 * xRatio, 7 * yRatio, 25 * xRatio, 17 * yRatio),
-    );
+    for (var row = 0; row < islandLayer.tileData!.length; row++) {
+      for (var col = 0; col < islandLayer.tileData![row].length; col++) {
+        final tile = islandLayer.tileData![row][col];
+        if (tile.tile > 0) {
+          updateTile(col, row, Team.neutral);
+        }
+      }
+    }
+    for (final rect in islands) {
+      // add(RectangleComponent.fromRect(rect));
+    }
   }
 
   @override
@@ -70,9 +84,9 @@ class Minimap extends RectangleComponent with HasGameRef<DustyIslandGame> {
     canvas.drawRect(Rect.fromLTWH(0, 0, size.x, size.y), borderPaint);
 
     // draw islands maybe TODO update polygon?
-    for (final rect in islands) {
-      canvas.drawRect(rect, islandPaint);
-    }
+    // for (final rect in islands) {
+    //   canvas.drawRect(rect, islandPaint);
+    // }
     // draw alpha tiles
     for (final rect in alphaTiles) {
       canvas.drawRect(rect, alphaTilePaint);

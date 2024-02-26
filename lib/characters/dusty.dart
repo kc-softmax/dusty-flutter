@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
@@ -56,12 +57,16 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   late final DustyNameLabel nameLabel;
   late final HorizontalGaugeBar topGaugeBar;
   late final VerticalGaugeBar rightGaugeBar;
-
+  late final SpriteAnimationComponent aim;
   final String dustyName;
+  final Team team;
 
-  DustyState dustyState = DustyState.normal;
   Vector2? nextPosition;
+  int? targetId;
+  int? lockOnId;
+  DustyState dustyState = DustyState.normal;
   double speed = 0;
+  bool isPlayer = false;
 
   DustyBodyType _bodyType = DustyBodyType.red;
   DustyBodyType get bodyType => _bodyType;
@@ -98,11 +103,21 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     updateUIState();
   }
 
-  Dusty(this.dustyName) : super(size: Vector2(48, 48), anchor: Anchor.center);
+  Dusty(this.dustyName, this.team)
+      : super(size: Vector2(42, 42), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    aim = SpriteAnimationComponent(
+        animation: SpriteAnimation.spriteList(
+      gameRef.atlas.findSpritesByName('aim'),
+      stepTime: 0.05,
+    ))
+      ..size = size
+      ..opacity = 0
+      ..y = 4;
+
     animations = {
       DustyBodyType.red: SpriteAnimation.spriteList(
         gameRef.atlas.findSpritesByName('red_body'),
@@ -126,7 +141,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       ..position = Vector2(-5, 48)
       ..angle = pi;
 
-    addAll([glasses, bodyEffect, nameLabel, topGaugeBar, rightGaugeBar]);
+    addAll([glasses, bodyEffect, nameLabel, topGaugeBar, rightGaugeBar, aim]);
   }
 
   @override
@@ -160,6 +175,14 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       if (toMoveDirection.screenAngle() < 0 && !isFlippedHorizontally) {
         flipHorizontally();
       }
+    }
+  }
+
+  void setAim(bool lock) {
+    if (lock) {
+      aim.opacity = 1;
+    } else {
+      aim.opacity = 0;
     }
   }
 

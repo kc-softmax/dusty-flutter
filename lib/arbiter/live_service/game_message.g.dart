@@ -97,6 +97,7 @@ const _$EventTypeEnumMap = {
 const _$TeamEnumMap = {
   Team.alpha: 501,
   Team.beta: 502,
+  Team.neutral: 503,
 };
 
 const _$RemoveByEnumMap = {
