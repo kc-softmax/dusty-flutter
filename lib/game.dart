@@ -11,7 +11,8 @@ import 'package:flame_tiled/flame_tiled.dart' hide Text;
 import 'package:flutter/material.dart' hide Route, OverlayRoute;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DustyIslandGame extends FlameGame with HasCollisionDetection {
+class DustyIslandGame extends FlameGame
+    with HasCollisionDetection, SingleGameInstance {
   late final TiledComponent mapComponent;
   late final TextureAtlas atlas;
   late final RouterComponent router;
