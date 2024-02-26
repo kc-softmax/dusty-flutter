@@ -9,7 +9,6 @@ import 'package:dusty_flutter/ui/joystick.dart';
 import 'package:dusty_flutter/ui/minimap.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class Hud extends Component with HasGameRef<DustyIslandGame> {
   static final buttonSize = Vector2(44, 46);
