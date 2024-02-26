@@ -117,6 +117,12 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     ]);
   }
 
+  @override
+  void onRemove() {
+    gameRef.camera.viewport.removeAll([...gameRef.camera.viewport.children]);
+    super.onRemove();
+  }
+
   void updateHud(DustyMessage message) {
     activeButton?.updateAvailable(message.activeAvailable,
         gameRef.playScene.gameConfig!.activeSkillDuration);
