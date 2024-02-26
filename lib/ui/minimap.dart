@@ -1,9 +1,7 @@
-import 'dart:math' as math;
 import 'dart:ui';
 import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/components.dart';
 import 'package:dusty_flutter/game.dart';
-import 'package:flame/experimental.dart';
 
 class Minimap extends RectangleComponent with HasGameRef<DustyIslandGame> {
   late Color borderColor;

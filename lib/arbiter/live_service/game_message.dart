@@ -188,8 +188,8 @@ class TileMessage with _$TileMessage, BaseMessage {
       int? activatorId,
       RemoveBy? removeBy}) = _TileMessage;
 
-  get col => TileAddressParser.col(address!);
-  get row => TileAddressParser.row(address!);
+  get col => TileAddressParser.col(address);
+  get row => TileAddressParser.row(address);
 
   factory TileMessage.fromJson(Map<String, dynamic> json) =>
       _$TileMessageFromJson(json);

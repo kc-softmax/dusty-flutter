@@ -2,8 +2,6 @@ import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:dusty_flutter/tiles/normal/normal_tile.dart';
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
-import 'package:flame_noise/flame_noise.dart';
 
 abstract mixin class DustyTiles implements SpriteAnimationComponent {
   factory DustyTiles.normal() => NormalTile()

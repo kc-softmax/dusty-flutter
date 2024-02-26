@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/scenes/play_scene.dart';
-import 'package:dusty_flutter/ui/kill_logs.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
