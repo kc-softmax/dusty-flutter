@@ -16,11 +16,14 @@ enum EventType {
 
 enum Team {
   @JsonValue(501)
-  alpha,
+  alpha(501),
   @JsonValue(502)
-  beta,
+  beta(502),
   @JsonValue(503)
-  neutral,
+  neutral(503);
+
+  final int code;
+  const Team(this.code);
 }
 
 enum ActiveObjectType {

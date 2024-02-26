@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   static const routerName = 'play';
-
+  static Team? selectedTeam;
   GameConfig? gameConfig;
   Dusty? player;
 
@@ -86,11 +86,13 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   }
 
   Future<void> _startGame() async {
+    assert(PlayScene.selectedTeam != null);
+
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("token");
     playerId = (await SharedPreferences.getInstance()).getInt('playerId');
     Arbiter.liveService.on(
-      "/di/ws?token=$token",
+      "/di/ws?token=$token&team=${selectedTeam!.code}",
       _parseGameMessage,
     );
   }
