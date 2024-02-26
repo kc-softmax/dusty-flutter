@@ -6,13 +6,13 @@ import 'package:dusty_flutter/flame_texturepacker.dart';
 import 'package:dusty_flutter/scenes/loading_scene.dart';
 import 'package:dusty_flutter/scenes/lobby_scene.dart';
 import 'package:dusty_flutter/scenes/play_scene.dart';
+import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart' hide Text;
 import 'package:flutter/material.dart' hide Route, OverlayRoute;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DustyIslandGame extends FlameGame
-    with HasCollisionDetection, SingleGameInstance {
+class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
   late final TiledComponent mapComponent;
   late final TextureAtlas atlas;
   late final RouterComponent router;
@@ -21,11 +21,9 @@ class DustyIslandGame extends FlameGame
   late final LoadingScene loadingScene;
   late final LobbyScene lobbyScene;
 
+  bool isVerified = false;
   bool isLoadedAtlas = false;
   bool isLoadedMap = false;
-  bool get isFinishLoadAllResource => isLoadedAtlas && isLoadedMap;
-
-  bool isVerified = false;
 
   @override
   Future<void> onLoad() async {
@@ -82,7 +80,7 @@ class DustyIslandGame extends FlameGame
 
     isVerified = token != null && await Arbiter.api.verifyToken(token);
 
-    fromAtlas('images/dusty-island.atlas').then((value) {
+    game.fromAtlas('images/dusty-island.atlas').then((value) {
       atlas = value;
       isLoadedAtlas = true;
     });
@@ -107,6 +105,24 @@ class DustyIslandGame extends FlameGame
     lobbyScene = LobbyScene();
     return lobbyScene;
   }
+}
+
+class DustyIslandGame extends FlameGame
+    with HasCollisionDetection, SingleGameInstance {
+  DustyIslandGame() : super(world: DustyIslandWorld());
+
+  // 이전 코드들과 호환성을 위한 getters
+  PlayScene get playScene => world.playScene;
+  LoadingScene get loadingScene => world.loadingScene;
+  LobbyScene get lobbyScene => world.lobbyScene;
+  RouterComponent get router => world.router;
+  TextureAtlas get atlas => world.atlas;
+  TiledComponent get mapComponent => world.mapComponent;
+  bool get isVerified => world.isVerified;
+  bool get isFinishLoadAllResource => world.isLoadedAtlas && world.isLoadedMap;
+
+  @override
+  DustyIslandWorld get world => super.world as DustyIslandWorld;
 
   // @override
   // KeyEventResult onKeyEvent(

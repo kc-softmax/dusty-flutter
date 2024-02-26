@@ -30,13 +30,12 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     gameRef.overlays.addEntry("RestartButton", ((context, game) {
       return FilledButton(
         onPressed: () async {
-          debugPrint("restart!!");
-          await _resetGame();
+          _closeGame();
+          gameRef.world = DustyIslandWorld();
         },
         child: const Text("다시 시작"),
       );
     }));
-    gameRef.overlays.add("RestartButton");
 
     gameRef.world.add(gameRef.mapComponent);
 
@@ -52,12 +51,14 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   @override
   void onMount() {
     super.onMount();
+    gameRef.overlays.add("RestartButton");
     _startGame();
   }
 
   @override
   void onRemove() {
     super.onRemove();
+    gameRef.overlays.remove("RestartButton");
     _closeGame();
   }
 
@@ -74,13 +75,13 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     Arbiter.liveService.close();
   }
 
-  Future<void> _resetGame() async {
-    _closeGame();
-    dustyFactory.clear();
-    activeObjectsFactory.clear();
-    towerFactory.clear();
-    await _startGame();
-  }
+  // Future<void> _resetGame() async {
+  //   _closeGame();
+  //   dustyFactory.clear();
+  //   activeObjectsFactory.clear();
+  //   towerFactory.clear();
+  //   await _startGame();
+  // }
 
   void _parseGameMessage(Map<String, dynamic> json) {
     final gameMessage = GameMessage.fromJson(json);
