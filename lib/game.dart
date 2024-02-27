@@ -85,7 +85,7 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
       isLoadedAtlas = true;
     });
 
-    TiledComponent.load('single_map.tmx', Vector2.all(64)).then((value) {
+    TiledComponent.load('new_map_32.tmx', Vector2.all(32)).then((value) {
       mapComponent = value;
       isLoadedMap = true;
     });

@@ -1,17 +1,17 @@
+import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
-import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:dusty_flutter/ui/arc_animation.dart';
 
 /// HudButtonComponent를 모방해서 만들었다.
 class DustyHudButton extends HudButtonComponent {
-  static const Color deactivateColor = Color(0xFFC7C1BA);
-  static const Color activateColor = Color(0xffffffff);
+  static const Color deactivateColor = Color(0xff111736);
 
-  late ArcAnimationComponent reloadAnimation;
+  late Timer timer;
+  late Paint paint;
   int _available = 1;
+  double progress = 0;
 
   DustyHudButton({
     super.button,
@@ -32,15 +32,14 @@ class DustyHudButton extends HudButtonComponent {
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    reloadAnimation = ArcAnimationComponent(
-        timer: Timer(1, autoStart: false),
-        paint: Paint()
-          ..color = activateColor
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 4)
-      ..size = Vector2(size.x + 4, size.y + 4)
-      ..position = -Vector2.all(2);
-    add(reloadAnimation);
+    timer = Timer(1, autoStart: false);
+    paint = Paint()
+      ..color = deactivateColor
+      ..style = PaintingStyle.fill;
+  }
+
+  void updateManual(double progress) {
+    this.progress = progress;
   }
 
   void updateAvailable(int available, int reloadDuration) {
@@ -50,22 +49,33 @@ class DustyHudButton extends HudButtonComponent {
     _available = available;
     if (_available > 0) {
       // available
-      reloadAnimation.stop();
-      button!.add(ColorEffect(
-        deactivateColor,
-        EffectController(duration: 0.5),
-        opacityFrom: 0.8,
-        opacityTo: 0,
-      ));
+      timer.stop();
     } else {
       // not available
-      reloadAnimation.start(reloadDuration);
-      button!.add(ColorEffect(
-        deactivateColor,
-        EffectController(duration: 0.5),
-        opacityFrom: 0,
-        opacityTo: 0.8,
-      ));
+      timer.limit = reloadDuration.toDouble();
+      timer.start();
     }
+  }
+
+  @override
+  void update(double dt) {
+    if (timer.isRunning()) {
+      timer.update(dt);
+      progress = timer.progress;
+    } else {
+      progress = 0;
+    }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    if (progress == 0) {
+      return;
+    }
+    final startAngle = -math.pi / 2 + math.pi * 2 * progress;
+    final sweepAngle = math.pi * 2 - math.pi * 2 * progress;
+    final rect = Rect.fromLTWH(0, 0, size.x, size.y);
+    canvas.drawArc(rect, startAngle, sweepAngle, true, paint);
   }
 }

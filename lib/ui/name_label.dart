@@ -1,9 +1,8 @@
 import 'package:dusty_flutter/characters/dusty.dart';
+import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
 
 class DustyNameLabel extends TextBoxComponent {
-  static const textStyle = TextStyle(fontSize: 16);
   static const maxWidth = 100.0;
   static const topMargin = -16.0;
 
@@ -13,7 +12,7 @@ class DustyNameLabel extends TextBoxComponent {
   }) : super(
           text: text,
           align: Anchor.center,
-          textRenderer: TextPaint(style: textStyle),
+          textRenderer: regularText,
           boxConfig: TextBoxConfig(maxWidth: maxWidth),
         );
 

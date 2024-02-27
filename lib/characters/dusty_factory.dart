@@ -4,6 +4,7 @@ import 'package:dusty_flutter/effects/default_explosion.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
+import 'package:flutter/material.dart';
 
 class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
 // 사용자 플레이어 저장해두기
@@ -14,8 +15,13 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     final dusty = facotry(message);
     objects[message.dustyId] = dusty;
     gameRef.world.add(dusty);
+    debugPrint("onGenerateObject ${message.dustyId} ${message.name}");
     if (message.dustyId == gameRef.playScene.followerId) {
       setFollowUser(message.dustyId);
+    }
+    if (message.dustyId == gameRef.playScene.playerId) {
+      dusty.isPlayer = true;
+      gameRef.playScene.player = dusty;
     }
   }
 
@@ -24,7 +30,11 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     Dusty? deathDusty = objects[message.dustyId];
     if (deathDusty != null) {
       Dusty? killer = objects[message.killerId];
-      if (killer != null) {
+      debugPrint("onRemoveObject ${message.dustyId} ${message.killerId}");
+      if (killer != null && killer.isPlayer) {
+        if (killer.isPlayer) {}
+        // gameRef.playScene.hud.playerKillLogs
+        //     ?.addKillLog(deathDusty.dustyName, message.removeBy!);
         // killer.updateKillCount();
       }
       switch (message.removeBy) {
@@ -61,8 +71,16 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
           //.. update hud
         }
       }
-      if (message.targetId != null && message.targetId != 0) {
-        // dusty.target = objects[message.targetId];
+      // for only player
+      if (dusty.isPlayer) {
+        if (message.targetId != null) {
+          dusty.targetId = message.targetId;
+          // Dusty? targetDusty = objects[message.targetId];
+          // // Tower? targetTower = gameRef.playScene.towerFactory.objects[message.targetId];
+          // if (targetDusty != null) {
+          //   // dusty.target = targetDusty;
+          // }
+        }
       }
     }
     //.. 비교
@@ -75,7 +93,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
   Dusty facotry(DustyMessage message) {
     // position = math.floor(self.anchor.y) << 16 | math.floor(self.anchor.x)
     assert(message.position != null, "position is null");
-    final dusty = Dusty(message.name!)
+    final dusty = Dusty(message.name!, message.team!)
       ..x = message.x
       ..y = message.y;
     return dusty;
@@ -85,5 +103,6 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     user = objects[userId];
     assert(user != null, "user not found");
     gameRef.camera.follow(user!);
+    debugPrint("setFollowUser ${user!.dustyName}");
   }
 }

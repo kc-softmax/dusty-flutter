@@ -19,6 +19,8 @@ enum Team {
   alpha,
   @JsonValue(502)
   beta,
+  @JsonValue(503)
+  neutral,
 }
 
 enum ActiveObjectType {

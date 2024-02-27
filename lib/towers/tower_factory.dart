@@ -7,7 +7,7 @@ import 'package:flame/components.dart';
 
 abstract mixin class Towers implements SpriteAnimationComponent {
   factory Towers.normal() => NormalTower()
-    ..size = Vector2(64, 64)
+    ..size = Vector2(48, 48)
     ..anchor = Anchor.center;
 }
 

@@ -1,141 +1,151 @@
-import 'dart:ui';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/game.dart';
-import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame/palette.dart';
+import 'package:flutter/material.dart' hide Image;
 
-class KillLogComponent extends PositionComponent
+class KillLogComponent extends RectangleComponent
     with HasGameRef<DustyIslandGame> {
-  Color color;
-  String name;
-  late PolygonComponent panel;
+  final textMargin = 8.0;
+  final leftMargin = 11.0;
+  final avatarSize = 20.0;
+  final killLogText = TextPaint(
+    style: TextStyle(
+      fontSize: 8.0,
+      color: BasicPalette.white.color,
+      shadows: [
+        Shadow(
+          color: BasicPalette.black.color,
+          offset: const Offset(1, 1),
+          blurRadius: 1,
+        ),
+      ],
+    ),
+  );
+
+  String winnerName;
+  String loserName;
+  Sprite winnerAvatar;
+  Sprite loserAvatar;
 
   KillLogComponent({
-    required this.color,
-    required this.name,
+    required this.winnerName,
+    required this.loserName,
+    required this.winnerAvatar,
+    required this.loserAvatar,
   }) : super();
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    size = Vector2(128, 24);
-    panel = PolygonComponent.relative(
-      [
-        Vector2(-0.875, 1.0),
-        Vector2(1.0, 1.0),
-        Vector2(0.875, -1.0),
-        Vector2(-1.0, -1.0),
-      ],
-      parentSize: size,
-    )
-      ..x = -size.x / 2
-      ..y = -size.y / 2;
-    panel.paintLayers = [
-      Paint()..color = color,
-      Paint()
-        ..color = color.withOpacity(0.75)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 3,
-    ];
+    var marginX = leftMargin;
 
-    add(panel);
-    add(TextBoxComponent(
-      text: name,
-      align: Anchor.center,
-      textRenderer: regularText,
-      position: Vector2(-size.x * 0.75, -size.y * 0.75),
-      // boxConfig: TextBoxConfig(timePerChar: 0.05)
-    ));
-    add(
-      SpriteComponent(
-        sprite: gameRef.atlas.findSpriteByName('knob'),
-        size: Vector2.all(size.y),
-      )
-        ..x = -size.x * 0.4
-        ..y = -size.y * 0.5,
+    final winnerImage = SpriteComponent(
+      sprite: winnerAvatar,
+      size: Vector2.all(avatarSize),
+    )..x = marginX;
+
+    marginX += avatarSize + textMargin;
+    final winnerText = TextComponent(
+      text: winnerName,
+      textRenderer: killLogText,
+      position:
+          Vector2(marginX, avatarSize / 2 - killLogText.style.fontSize! / 2),
     );
+
+    marginX += winnerText.size.x + textMargin;
+
+    final killIconImage = SpriteComponent(
+      sprite: gameRef.atlas.findSpriteByName('knob'),
+      size: Vector2.all(avatarSize),
+    )..x = marginX;
+
+    marginX += avatarSize + textMargin;
+    final loserText = TextComponent(
+      text: loserName,
+      textRenderer: killLogText,
+      position:
+          Vector2(marginX, avatarSize / 2 - killLogText.style.fontSize! / 2),
+    );
+
+    marginX += loserText.size.x + textMargin;
+
+    final loserImage = SpriteComponent(
+      sprite: loserAvatar,
+      size: Vector2.all(avatarSize),
+    )..x = marginX;
+
+    addAll([
+      winnerImage,
+      winnerText,
+      killIconImage,
+      loserText,
+      loserImage,
+    ]);
   }
-
-  // @override
-  // void update(double dt) {
-  //   if (timer.isRunning()) {
-  //     timer.update(dt);
-  //     progress = timer.progress;
-  //   } else {
-  //     progress = 1;
-  //   }
-  // }
-
-  // @override
-  // void render(Canvas canvas) {
-  //   super.render(canvas);
-  //   const startAngle = -math.pi / 2;
-  //   final sweepAngle = math.pi * 2 * progress;
-  //   final rect = Rect.fromLTWH(0, 0, size.x, size.y);
-  //   canvas.drawArc(rect, startAngle, sweepAngle, false, paint);
-  // }
 }
 
-class KillLogsComponent extends PositionComponent {
-  List<KillLogComponent> killLogs = [];
+class KillLogsComponent extends PositionComponent
+    with HasGameReference, ComponentViewportMargin {
+  final maxDisplyLogs = 4;
+  final killLogHeight = 22.0;
+  final killLogMargin = 3.0;
+  final killLogs = <KillLogComponent>[];
+  final displayLogs = <KillLogComponent>[];
+  late TimerComponent respawnTimer;
+  KillLogsComponent({
+    EdgeInsets? margin,
+  }) : super() {
+    this.margin = margin;
+  }
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
+    respawnTimer = TimerComponent(
+      period: 0.1,
+      repeat: true,
+      onTick: () => updateKillLogs(),
+    );
+    add(respawnTimer);
   }
 
-  void addKillLog(String name, Team team, RemoveBy removeBy) {
-    final killLog = KillLogComponent(
-        color: team == Team.alpha ? alphaTeamColor : betaTeamColor, name: name);
-    if (killLogs.isNotEmpty) {
-      for (final log in killLogs) {
-        log.addAll([
-          MoveToEffect(
-            Vector2(0, -log.size.y * 0.75),
-            EffectController(duration: 0.25),
-          ),
-          ScaleEffect.by(
-            Vector2(0.8, 0.8),
-            EffectController(duration: 0.25),
-          ),
-        ]);
-      }
+  void addKillLog(String winnerName, String loserName, Sprite winnerAvatar,
+      Sprite loserAvatar, RemoveBy removeBy) {
+    final log = KillLogComponent(
+        winnerName: winnerName,
+        loserName: loserName,
+        winnerAvatar: winnerAvatar,
+        loserAvatar: loserAvatar);
+    killLogs.add(log);
+  }
+
+  void updateKillLogs() {
+    if (killLogs.isEmpty) {
+      return;
     }
-    killLogs.add(killLog);
-    killLog.add(ScaleEffect.by(
-      Vector2(0, 0),
-      DelayedEffectController(EffectController(duration: 0.25), delay: 1.5),
+    if (displayLogs.length >= maxDisplyLogs) {
+      //wait;
+      return;
+    }
+    for (var i = 0; i < displayLogs.length; i++) {
+      final log = displayLogs[i];
+      log.add(MoveByEffect(Vector2(0, -(killLogHeight + killLogMargin)),
+          EffectController(duration: 0.25)));
+    }
+    final log = killLogs.removeAt(0);
+    log.y = (maxDisplyLogs - 1) * (killLogHeight + killLogMargin);
+    //set log Y
+    log.add(ScaleEffect.by(
+      Vector2(1, 0),
+      DelayedEffectController(EffectController(duration: 0.25), delay: 1.25),
       onComplete: () {
-        killLogs.remove(killLog);
-        killLog.removeFromParent();
+        displayLogs.remove(log);
+        log.removeFromParent();
       },
     ));
-    add(killLog);
-
-//     final effect = OpacityEffect.to(
-//   0.2,
-//   EffectController(duration: 0.75),
-// );
-    // DelayedEffectController(LinearEffectController(1), delay: 5);
+    displayLogs.add(log);
+    add(log);
   }
-
-  // @override
-  // void update(double dt) {
-  //   if (timer.isRunning()) {
-  //     timer.update(dt);
-  //     progress = timer.progress;
-  //   } else {
-  //     progress = 1;
-  //   }
-  // }
-
-  // @override
-  // void render(Canvas canvas) {
-  //   super.render(canvas);
-  //   const startAngle = -math.pi / 2;
-  //   final sweepAngle = math.pi * 2 * progress;
-  //   final rect = Rect.fromLTWH(0, 0, size.x, size.y);
-  //   canvas.drawArc(rect, startAngle, sweepAngle, false, paint);
-  // }
 }
