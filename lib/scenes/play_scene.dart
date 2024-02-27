@@ -9,7 +9,7 @@ import 'package:dusty_flutter/tiles/tile_factory.dart';
 import 'package:dusty_flutter/towers/tower_factory.dart';
 import 'package:dusty_flutter/ui/hud.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
+import 'package:flame/experimental.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlayScene extends Component with HasGameRef<DustyIslandGame> {
@@ -39,6 +39,8 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     // }));
     // gameRef.overlays.add("RestartButton");
 
+    _setCameraBound();
+
     gameRef.world.add(gameRef.mapComponent);
 
     await addAll([
@@ -62,6 +64,25 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     super.onRemove();
     // gameRef.overlays.remove("RestartButton");
     _closeGame();
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    _setCameraBound();
+  }
+
+  void _setCameraBound() {
+    final viewportX = gameRef.camera.viewport.size.x;
+    final viewportY = gameRef.camera.viewport.size.y;
+    final mapWidth = gameRef.world.mapComponent.width;
+    final mapHeight = gameRef.world.mapComponent.height;
+    gameRef.camera.setBounds(Rectangle.fromLTWH(
+      viewportX * 0.5,
+      viewportY * 0.5,
+      mapWidth - viewportX,
+      mapHeight - viewportY,
+    ));
   }
 
   Future<void> _startGame() async {
