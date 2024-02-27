@@ -53,14 +53,14 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   @override
   void onMount() {
     super.onMount();
-    gameRef.overlays.add("RestartButton");
+    // gameRef.overlays.add("RestartButton");
     _startGame();
   }
 
   @override
   void onRemove() {
     super.onRemove();
-    gameRef.overlays.remove("RestartButton");
+    // gameRef.overlays.remove("RestartButton");
     _closeGame();
   }
 

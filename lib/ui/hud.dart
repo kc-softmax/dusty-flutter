@@ -155,8 +155,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       specialButton!,
       special2Button!,
       finishingButton!,
-      itemSlot1!,
-      itemSlot2!,
+      // itemSlot1!,
+      // itemSlot2!,
       boostButton!,
       playerKillLogs!,
       killLogs!,
@@ -239,13 +239,16 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   void _onPressedFinishingButton() {
     final avatar = gameRef.atlas.findSpriteByName('raft') as Sprite;
     killLogs!.addKillLog('choichoi', 'ycsycs', avatar, avatar, RemoveBy.flame);
+    finishingButton?.updateAvailable(0, 5);
 
     // Arbiter.liveService.sendByte(DustyAction.finishing.encode());
     debugPrint("press finishing button");
   }
 
   void _onPressedShieldButton() {
-    Arbiter.liveService.sendByte(DustyAction.shield.encode());
+    activeButton?.updateAvailable(0, 5);
+
+    // Arbiter.liveService.sendByte(DustyAction.shield.encode());
     debugPrint("press shield button");
   }
 
