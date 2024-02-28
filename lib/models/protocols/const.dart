@@ -20,7 +20,8 @@ enum DustyAction {
   forward(16),
   activeSkill(18),
   specialSkill(19),
-  shield(21),
+  special2Skill(20),
+  boost(21),
   finishing(22);
 
   final int code;
@@ -31,12 +32,22 @@ enum DustyAction {
 
 enum DustyState {
   normal(0),
-  boost(1),
-  shield(2);
+  boost(1);
 
   final int code;
   const DustyState(this.code);
 
   factory DustyState.parse(int code) =>
       DustyState.values.firstWhere((state) => code == state.code);
+}
+
+enum FinishType {
+  fire(1),
+  lightning(3);
+
+  final int code;
+  const FinishType(this.code);
+
+  factory FinishType.parse(int code) =>
+      FinishType.values.firstWhere((state) => code == state.code);
 }

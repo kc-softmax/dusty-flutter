@@ -4,6 +4,7 @@ import 'package:dusty_flutter/effects/default_explosion.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
+import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 
 class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
@@ -32,10 +33,13 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
       Dusty? killer = objects[message.killerId];
       debugPrint("onRemoveObject ${message.dustyId} ${message.killerId}");
       if (killer != null && killer.isPlayer) {
-        if (killer.isPlayer) {}
-        // gameRef.playScene.hud.playerKillLogs
-        //     ?.addKillLog(deathDusty.dustyName, message.removeBy!);
-        // killer.updateKillCount();
+        final avatar = gameRef.atlas.findSpriteByName('raft') as Sprite;
+        if (killer.isPlayer) {
+          gameRef.playScene.hud.playerKillLogs!
+              .addKillLog(avatar, deathDusty.dustyName, message.removeBy!);
+        }
+        gameRef.playScene.hud.killLogs!.addKillLog(killer.dustyName,
+            deathDusty.dustyName, avatar, avatar, message.removeBy!);
       }
       switch (message.removeBy) {
         case RemoveBy.missaile:
@@ -65,12 +69,15 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
         dusty.updateSpeed();
       }
       if (message.status != null) {
+        dusty.setFinishState(message.isFinishing, message.finishType);
+        dusty.setDustyShield(message.isShield);
         dusty.updateDustyState(message.dustyState);
         if (dusty == user) {
           gameRef.playScene.hud.updateHud(message);
           //.. update hud
         }
       }
+
       // for only player
       if (dusty.isPlayer) {
         if (message.targetId != null) {

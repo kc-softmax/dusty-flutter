@@ -332,10 +332,14 @@ GameConfig _$GameConfigFromJson(Map<String, dynamic> json) {
 mixin _$GameConfig {
   int get playerId => throw _privateConstructorUsedError;
   int get frameRate => throw _privateConstructorUsedError;
+  int get boostDuration => throw _privateConstructorUsedError;
+  int get shieldDuration => throw _privateConstructorUsedError;
+  int get finishDuration => throw _privateConstructorUsedError;
+  int get boostSkillReloadTime => throw _privateConstructorUsedError;
   int get activeSkillDuration => throw _privateConstructorUsedError;
   int get specialSkillReloadTime => throw _privateConstructorUsedError;
-  int get shieldSkillReloadTime => throw _privateConstructorUsedError;
-  int get raftSkillReloadTime => throw _privateConstructorUsedError;
+  int get special2SkillReloadTime => throw _privateConstructorUsedError;
+  int get raftReloadTime => throw _privateConstructorUsedError;
   int get respawnTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -353,10 +357,14 @@ abstract class $GameConfigCopyWith<$Res> {
   $Res call(
       {int playerId,
       int frameRate,
+      int boostDuration,
+      int shieldDuration,
+      int finishDuration,
+      int boostSkillReloadTime,
       int activeSkillDuration,
       int specialSkillReloadTime,
-      int shieldSkillReloadTime,
-      int raftSkillReloadTime,
+      int special2SkillReloadTime,
+      int raftReloadTime,
       int respawnTime});
 }
 
@@ -375,10 +383,14 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
   $Res call({
     Object? playerId = null,
     Object? frameRate = null,
+    Object? boostDuration = null,
+    Object? shieldDuration = null,
+    Object? finishDuration = null,
+    Object? boostSkillReloadTime = null,
     Object? activeSkillDuration = null,
     Object? specialSkillReloadTime = null,
-    Object? shieldSkillReloadTime = null,
-    Object? raftSkillReloadTime = null,
+    Object? special2SkillReloadTime = null,
+    Object? raftReloadTime = null,
     Object? respawnTime = null,
   }) {
     return _then(_value.copyWith(
@@ -390,6 +402,22 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
           ? _value.frameRate
           : frameRate // ignore: cast_nullable_to_non_nullable
               as int,
+      boostDuration: null == boostDuration
+          ? _value.boostDuration
+          : boostDuration // ignore: cast_nullable_to_non_nullable
+              as int,
+      shieldDuration: null == shieldDuration
+          ? _value.shieldDuration
+          : shieldDuration // ignore: cast_nullable_to_non_nullable
+              as int,
+      finishDuration: null == finishDuration
+          ? _value.finishDuration
+          : finishDuration // ignore: cast_nullable_to_non_nullable
+              as int,
+      boostSkillReloadTime: null == boostSkillReloadTime
+          ? _value.boostSkillReloadTime
+          : boostSkillReloadTime // ignore: cast_nullable_to_non_nullable
+              as int,
       activeSkillDuration: null == activeSkillDuration
           ? _value.activeSkillDuration
           : activeSkillDuration // ignore: cast_nullable_to_non_nullable
@@ -398,13 +426,13 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
           ? _value.specialSkillReloadTime
           : specialSkillReloadTime // ignore: cast_nullable_to_non_nullable
               as int,
-      shieldSkillReloadTime: null == shieldSkillReloadTime
-          ? _value.shieldSkillReloadTime
-          : shieldSkillReloadTime // ignore: cast_nullable_to_non_nullable
+      special2SkillReloadTime: null == special2SkillReloadTime
+          ? _value.special2SkillReloadTime
+          : special2SkillReloadTime // ignore: cast_nullable_to_non_nullable
               as int,
-      raftSkillReloadTime: null == raftSkillReloadTime
-          ? _value.raftSkillReloadTime
-          : raftSkillReloadTime // ignore: cast_nullable_to_non_nullable
+      raftReloadTime: null == raftReloadTime
+          ? _value.raftReloadTime
+          : raftReloadTime // ignore: cast_nullable_to_non_nullable
               as int,
       respawnTime: null == respawnTime
           ? _value.respawnTime
@@ -425,10 +453,14 @@ abstract class _$$GameConfigImplCopyWith<$Res>
   $Res call(
       {int playerId,
       int frameRate,
+      int boostDuration,
+      int shieldDuration,
+      int finishDuration,
+      int boostSkillReloadTime,
       int activeSkillDuration,
       int specialSkillReloadTime,
-      int shieldSkillReloadTime,
-      int raftSkillReloadTime,
+      int special2SkillReloadTime,
+      int raftReloadTime,
       int respawnTime});
 }
 
@@ -445,10 +477,14 @@ class __$$GameConfigImplCopyWithImpl<$Res>
   $Res call({
     Object? playerId = null,
     Object? frameRate = null,
+    Object? boostDuration = null,
+    Object? shieldDuration = null,
+    Object? finishDuration = null,
+    Object? boostSkillReloadTime = null,
     Object? activeSkillDuration = null,
     Object? specialSkillReloadTime = null,
-    Object? shieldSkillReloadTime = null,
-    Object? raftSkillReloadTime = null,
+    Object? special2SkillReloadTime = null,
+    Object? raftReloadTime = null,
     Object? respawnTime = null,
   }) {
     return _then(_$GameConfigImpl(
@@ -460,6 +496,22 @@ class __$$GameConfigImplCopyWithImpl<$Res>
           ? _value.frameRate
           : frameRate // ignore: cast_nullable_to_non_nullable
               as int,
+      boostDuration: null == boostDuration
+          ? _value.boostDuration
+          : boostDuration // ignore: cast_nullable_to_non_nullable
+              as int,
+      shieldDuration: null == shieldDuration
+          ? _value.shieldDuration
+          : shieldDuration // ignore: cast_nullable_to_non_nullable
+              as int,
+      finishDuration: null == finishDuration
+          ? _value.finishDuration
+          : finishDuration // ignore: cast_nullable_to_non_nullable
+              as int,
+      boostSkillReloadTime: null == boostSkillReloadTime
+          ? _value.boostSkillReloadTime
+          : boostSkillReloadTime // ignore: cast_nullable_to_non_nullable
+              as int,
       activeSkillDuration: null == activeSkillDuration
           ? _value.activeSkillDuration
           : activeSkillDuration // ignore: cast_nullable_to_non_nullable
@@ -468,13 +520,13 @@ class __$$GameConfigImplCopyWithImpl<$Res>
           ? _value.specialSkillReloadTime
           : specialSkillReloadTime // ignore: cast_nullable_to_non_nullable
               as int,
-      shieldSkillReloadTime: null == shieldSkillReloadTime
-          ? _value.shieldSkillReloadTime
-          : shieldSkillReloadTime // ignore: cast_nullable_to_non_nullable
+      special2SkillReloadTime: null == special2SkillReloadTime
+          ? _value.special2SkillReloadTime
+          : special2SkillReloadTime // ignore: cast_nullable_to_non_nullable
               as int,
-      raftSkillReloadTime: null == raftSkillReloadTime
-          ? _value.raftSkillReloadTime
-          : raftSkillReloadTime // ignore: cast_nullable_to_non_nullable
+      raftReloadTime: null == raftReloadTime
+          ? _value.raftReloadTime
+          : raftReloadTime // ignore: cast_nullable_to_non_nullable
               as int,
       respawnTime: null == respawnTime
           ? _value.respawnTime
@@ -490,10 +542,14 @@ class _$GameConfigImpl implements _GameConfig {
   const _$GameConfigImpl(
       {required this.playerId,
       required this.frameRate,
+      required this.boostDuration,
+      required this.shieldDuration,
+      required this.finishDuration,
+      required this.boostSkillReloadTime,
       required this.activeSkillDuration,
       required this.specialSkillReloadTime,
-      required this.shieldSkillReloadTime,
-      required this.raftSkillReloadTime,
+      required this.special2SkillReloadTime,
+      required this.raftReloadTime,
       required this.respawnTime});
 
   factory _$GameConfigImpl.fromJson(Map<String, dynamic> json) =>
@@ -504,19 +560,27 @@ class _$GameConfigImpl implements _GameConfig {
   @override
   final int frameRate;
   @override
+  final int boostDuration;
+  @override
+  final int shieldDuration;
+  @override
+  final int finishDuration;
+  @override
+  final int boostSkillReloadTime;
+  @override
   final int activeSkillDuration;
   @override
   final int specialSkillReloadTime;
   @override
-  final int shieldSkillReloadTime;
+  final int special2SkillReloadTime;
   @override
-  final int raftSkillReloadTime;
+  final int raftReloadTime;
   @override
   final int respawnTime;
 
   @override
   String toString() {
-    return 'GameConfig(playerId: $playerId, frameRate: $frameRate, activeSkillDuration: $activeSkillDuration, specialSkillReloadTime: $specialSkillReloadTime, shieldSkillReloadTime: $shieldSkillReloadTime, raftSkillReloadTime: $raftSkillReloadTime, respawnTime: $respawnTime)';
+    return 'GameConfig(playerId: $playerId, frameRate: $frameRate, boostDuration: $boostDuration, shieldDuration: $shieldDuration, finishDuration: $finishDuration, boostSkillReloadTime: $boostSkillReloadTime, activeSkillDuration: $activeSkillDuration, specialSkillReloadTime: $specialSkillReloadTime, special2SkillReloadTime: $special2SkillReloadTime, raftReloadTime: $raftReloadTime, respawnTime: $respawnTime)';
   }
 
   @override
@@ -528,14 +592,23 @@ class _$GameConfigImpl implements _GameConfig {
                 other.playerId == playerId) &&
             (identical(other.frameRate, frameRate) ||
                 other.frameRate == frameRate) &&
+            (identical(other.boostDuration, boostDuration) ||
+                other.boostDuration == boostDuration) &&
+            (identical(other.shieldDuration, shieldDuration) ||
+                other.shieldDuration == shieldDuration) &&
+            (identical(other.finishDuration, finishDuration) ||
+                other.finishDuration == finishDuration) &&
+            (identical(other.boostSkillReloadTime, boostSkillReloadTime) ||
+                other.boostSkillReloadTime == boostSkillReloadTime) &&
             (identical(other.activeSkillDuration, activeSkillDuration) ||
                 other.activeSkillDuration == activeSkillDuration) &&
             (identical(other.specialSkillReloadTime, specialSkillReloadTime) ||
                 other.specialSkillReloadTime == specialSkillReloadTime) &&
-            (identical(other.shieldSkillReloadTime, shieldSkillReloadTime) ||
-                other.shieldSkillReloadTime == shieldSkillReloadTime) &&
-            (identical(other.raftSkillReloadTime, raftSkillReloadTime) ||
-                other.raftSkillReloadTime == raftSkillReloadTime) &&
+            (identical(
+                    other.special2SkillReloadTime, special2SkillReloadTime) ||
+                other.special2SkillReloadTime == special2SkillReloadTime) &&
+            (identical(other.raftReloadTime, raftReloadTime) ||
+                other.raftReloadTime == raftReloadTime) &&
             (identical(other.respawnTime, respawnTime) ||
                 other.respawnTime == respawnTime));
   }
@@ -546,10 +619,14 @@ class _$GameConfigImpl implements _GameConfig {
       runtimeType,
       playerId,
       frameRate,
+      boostDuration,
+      shieldDuration,
+      finishDuration,
+      boostSkillReloadTime,
       activeSkillDuration,
       specialSkillReloadTime,
-      shieldSkillReloadTime,
-      raftSkillReloadTime,
+      special2SkillReloadTime,
+      raftReloadTime,
       respawnTime);
 
   @JsonKey(ignore: true)
@@ -570,10 +647,14 @@ abstract class _GameConfig implements GameConfig {
   const factory _GameConfig(
       {required final int playerId,
       required final int frameRate,
+      required final int boostDuration,
+      required final int shieldDuration,
+      required final int finishDuration,
+      required final int boostSkillReloadTime,
       required final int activeSkillDuration,
       required final int specialSkillReloadTime,
-      required final int shieldSkillReloadTime,
-      required final int raftSkillReloadTime,
+      required final int special2SkillReloadTime,
+      required final int raftReloadTime,
       required final int respawnTime}) = _$GameConfigImpl;
 
   factory _GameConfig.fromJson(Map<String, dynamic> json) =
@@ -584,13 +665,21 @@ abstract class _GameConfig implements GameConfig {
   @override
   int get frameRate;
   @override
+  int get boostDuration;
+  @override
+  int get shieldDuration;
+  @override
+  int get finishDuration;
+  @override
+  int get boostSkillReloadTime;
+  @override
   int get activeSkillDuration;
   @override
   int get specialSkillReloadTime;
   @override
-  int get shieldSkillReloadTime;
+  int get special2SkillReloadTime;
   @override
-  int get raftSkillReloadTime;
+  int get raftReloadTime;
   @override
   int get respawnTime;
   @override

@@ -1,17 +1,21 @@
+import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 
 class StatusParser {
   static direction(int status) => status & 0x3;
   static activeAvailable(int status) => (status >> 4) & 0x1;
   static specialAvailable(int status) => (status >> 5) & 0x1;
-  static finishAvailable(int status) => (status >> 6) & 0x1;
-  static shieldAvailable(int status) => (status >> 7) & 0x1;
-  static isFinishing(int status) => (status >> 8) & 0x1;
-  static isRiding(int status) => (status >> 9) & 0x1;
+  static special2Available(int status) => (status >> 6) & 0x1;
+  static finishAvailable(int status) => (status >> 7) & 0x1;
+  static boostAvailable(int status) => (status >> 8) & 0x1;
+  static isFinishing(int status) => (status >> 9) & 0x1;
+  static isShield(int status) => (status >> 10) & 0x1;
+  static isRiding(int status) => (status >> 11) & 0x1;
   static DustyState dustyState(int status) =>
-      DustyState.parse((status >> 10) & 0x3);
-  static finishType(int status) => (status >> 13) & 0x3;
-  static finishGauge(int status) => (status >> 16) & 0x4;
+      DustyState.parse((status >> 12) & 0x3);
+  static FinishType finishType(int status) =>
+      FinishType.parse((status >> 15) & 0x3);
+  static finishGauge(int status) => (status >> 18) & 0xff;
 }
 
 class PositionParser {

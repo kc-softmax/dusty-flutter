@@ -22,8 +22,8 @@ class DustyBodyEffect extends SpriteAnimationGroupComponent<DustyBodyEffectType>
         gameRef.atlas.findSpritesByName('electric_shock'),
         stepTime: 0.05,
       ),
-      DustyBodyEffectType.shield: SpriteAnimation.spriteList(
-        gameRef.atlas.findSpritesByName('shield'),
+      DustyBodyEffectType.fire: SpriteAnimation.spriteList(
+        gameRef.atlas.findSpritesByName('electric_shock'),
         stepTime: 0.05,
       ),
     };
@@ -55,6 +55,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   late final DustyGlasses glasses;
   late final DustyBodyEffect bodyEffect;
   late final DustyNameLabel nameLabel;
+  late final SpriteAnimationComponent shieldEffect;
   late final HorizontalGaugeBar topGaugeBar;
   late final VerticalGaugeBar rightGaugeBar;
   late final SpriteAnimationComponent aim;
@@ -66,9 +67,11 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   int? lockOnId;
   DustyState dustyState = DustyState.normal;
   double speed = 0;
+  int hasShield = 0;
   bool isPlayer = false;
+  int _isFinishing = 0;
 
-  DustyBodyType _bodyType = DustyBodyType.red;
+  DustyBodyType _bodyType = DustyBodyType.yellow;
   DustyBodyType get bodyType => _bodyType;
   set bodyType(DustyBodyType type) {
     _bodyType = type;
@@ -83,7 +86,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         bodyEffect.position.x = -5;
         bodyEffect.position.y = -5;
         break;
-      case DustyBodyEffectType.shield:
+      case DustyBodyEffectType.fire:
         bodyEffect.position.x = -7;
         bodyEffect.position.y = -10;
         break;
@@ -109,6 +112,17 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+
+    shieldEffect = SpriteAnimationComponent(
+        animation: SpriteAnimation.spriteList(
+      gameRef.atlas.findSpritesByName('shield'),
+      stepTime: 0.05,
+    ))
+      ..opacity = 0
+      ..size = size * 1.3
+      ..x = -7
+      ..y = -10;
+    shieldEffect.animationTicker?.paused = true;
     aim = SpriteAnimationComponent(
         animation: SpriteAnimation.spriteList(
       gameRef.atlas.findSpritesByName('aim'),
@@ -127,8 +141,23 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         gameRef.atlas.findSpritesByName('blue_body'),
         stepTime: 0.05,
       ),
+      DustyBodyType.sea: SpriteAnimation.spriteList(
+        gameRef.atlas.findSpritesByName('sea_body'),
+        stepTime: 0.05,
+      ),
+      DustyBodyType.green: SpriteAnimation.spriteList(
+        gameRef.atlas.findSpritesByName('green_body'),
+        stepTime: 0.05,
+      ),
+      DustyBodyType.deepGreen: SpriteAnimation.spriteList(
+        gameRef.atlas.findSpritesByName('deep_green_body'),
+        stepTime: 0.05,
+      ),
+      DustyBodyType.yellow: SpriteAnimation.spriteList(
+        gameRef.atlas.findSpritesByName('yellow_body'),
+        stepTime: 0.05,
+      ),
     };
-    current = DustyBodyType.red;
     glasses = DustyGlasses()..size = size;
     bodyEffect = DustyBodyEffect()..size = size * 1.3;
     nameLabel = DustyNameLabel(dustyName);
@@ -140,8 +169,26 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       ..size = Vector2(10, 48)
       ..position = Vector2(-5, 48)
       ..angle = pi;
-
-    addAll([glasses, bodyEffect, nameLabel, topGaugeBar, rightGaugeBar, aim]);
+    switch (team) {
+      case Team.alpha:
+        bodyType = DustyBodyType.yellow;
+        break;
+      case Team.beta:
+        bodyType = DustyBodyType.sea;
+        break;
+      default:
+        bodyType = DustyBodyType.red;
+        break;
+    }
+    addAll([
+      glasses,
+      bodyEffect,
+      shieldEffect,
+      nameLabel,
+      topGaugeBar,
+      rightGaugeBar,
+      aim
+    ]);
   }
 
   @override
@@ -178,14 +225,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
   }
 
-  void setAim(bool lock) {
-    if (lock) {
-      aim.opacity = 1;
-    } else {
-      aim.opacity = 0;
-    }
-  }
-
   void updateSpeed() {
     if (gameRef.playScene.gameConfig != null) {
       final remainingDistance = (nextPosition! - position).length;
@@ -197,6 +236,56 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
   }
 
+  void setAim(bool lock) {
+    if (lock) {
+      aim.opacity = 1;
+    } else {
+      aim.opacity = 0;
+    }
+  }
+
+  void setFinishState(int isFinishing, FinishType finishType) {
+    if (_isFinishing == isFinishing) {
+      return;
+    }
+    _isFinishing = isFinishing;
+    if (isFinishing > 0) {
+      switch (finishType) {
+        case FinishType.fire:
+          bodyEffectType = DustyBodyEffectType.fire;
+          break;
+        case FinishType.lightning:
+          bodyEffectType = DustyBodyEffectType.electricShock;
+          break;
+        default:
+          break;
+      }
+      topGaugeBar.setOpacity(1);
+      topGaugeBar.decreaseWithDuration(
+          gameRef.playScene.gameConfig!.finishDuration.toDouble(), boostColor);
+    } else {
+      bodyEffectType = DustyBodyEffectType.none;
+      topGaugeBar.setOpacity(0);
+    }
+  }
+
+  void setDustyShield(int shield) {
+    if (hasShield == shield) {
+      return;
+    }
+    if (shield > 0) {
+      shieldEffect.setOpacity(1);
+      rightGaugeBar.setOpacity(1);
+      rightGaugeBar.decreaseWithDuration(
+          gameRef.playScene.gameConfig!.shieldDuration.toDouble(), shieldColor);
+    } else {
+      shieldEffect.setOpacity(0);
+      rightGaugeBar.setOpacity(0);
+    }
+    hasShield = shield;
+    updateUIState();
+  }
+
   void updateDustyState(DustyState newState) {
     if (newState == dustyState) {
       return;
@@ -204,16 +293,11 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     switch (newState) {
       case DustyState.boost:
         glassesType = DustyGlassesType.boost;
-        break;
-      case DustyState.shield:
-        bodyEffectType = DustyBodyEffectType.shield;
         rightGaugeBar.decreaseWithDuration(
-            gameRef.playScene.gameConfig!.shieldSkillReloadTime.toDouble(),
-            shieldColor);
+            gameRef.playScene.gameConfig!.boostDuration.toDouble(), boostColor);
         break;
       case DustyState.normal:
         glassesType = DustyGlassesType.idle;
-        bodyEffectType = DustyBodyEffectType.none;
         break;
       default:
         break;

@@ -11,23 +11,24 @@ class DustyHudButton extends HudButtonComponent {
   late Timer timer;
   late Paint paint;
   int _available = 1;
+  int reloadDuration;
   double progress = 0;
 
-  DustyHudButton({
-    super.button,
-    super.buttonDown,
-    super.margin,
-    super.onPressed,
-    super.onReleased,
-    super.onCancelled,
-    super.position,
-    super.size,
-    super.scale,
-    super.angle,
-    super.anchor,
-    super.children,
-    super.priority,
-  });
+  DustyHudButton(
+      {super.button,
+      super.buttonDown,
+      super.margin,
+      super.onPressed,
+      super.onReleased,
+      super.onCancelled,
+      super.position,
+      super.size,
+      super.scale,
+      super.angle,
+      super.anchor,
+      super.children,
+      super.priority,
+      required this.reloadDuration});
 
   @override
   Future<void> onLoad() async {
@@ -42,7 +43,7 @@ class DustyHudButton extends HudButtonComponent {
     this.progress = progress;
   }
 
-  void updateAvailable(int available, int reloadDuration) {
+  void updateAvailable(int available) {
     if (_available == available) {
       return;
     }
