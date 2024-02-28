@@ -12,12 +12,12 @@ class KillLogComponent extends RectangleComponent
   final avatarSize = 20.0;
   final killLogText = TextPaint(
     style: TextStyle(
-      fontSize: 8.0,
+      fontSize: 9.0,
       color: BasicPalette.white.color,
       shadows: [
         Shadow(
           color: BasicPalette.black.color,
-          offset: const Offset(1, 1),
+          offset: const Offset(2, 2),
           blurRadius: 1,
         ),
       ],

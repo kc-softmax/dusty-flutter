@@ -42,10 +42,14 @@ _$GameConfigImpl _$$GameConfigImplFromJson(Map<String, dynamic> json) =>
     _$GameConfigImpl(
       playerId: json['player_id'] as int,
       frameRate: json['frame_rate'] as int,
+      boostDuration: json['boost_duration'] as int,
+      shieldDuration: json['shield_duration'] as int,
+      finishDuration: json['finish_duration'] as int,
+      boostSkillReloadTime: json['boost_skill_reload_time'] as int,
       activeSkillDuration: json['active_skill_duration'] as int,
       specialSkillReloadTime: json['special_skill_reload_time'] as int,
-      shieldSkillReloadTime: json['shield_skill_reload_time'] as int,
-      raftSkillReloadTime: json['raft_skill_reload_time'] as int,
+      special2SkillReloadTime: json['special2_skill_reload_time'] as int,
+      raftReloadTime: json['raft_reload_time'] as int,
       respawnTime: json['respawn_time'] as int,
     );
 
@@ -53,10 +57,14 @@ Map<String, dynamic> _$$GameConfigImplToJson(_$GameConfigImpl instance) =>
     <String, dynamic>{
       'player_id': instance.playerId,
       'frame_rate': instance.frameRate,
+      'boost_duration': instance.boostDuration,
+      'shield_duration': instance.shieldDuration,
+      'finish_duration': instance.finishDuration,
+      'boost_skill_reload_time': instance.boostSkillReloadTime,
       'active_skill_duration': instance.activeSkillDuration,
       'special_skill_reload_time': instance.specialSkillReloadTime,
-      'shield_skill_reload_time': instance.shieldSkillReloadTime,
-      'raft_skill_reload_time': instance.raftSkillReloadTime,
+      'special2_skill_reload_time': instance.special2SkillReloadTime,
+      'raft_reload_time': instance.raftReloadTime,
       'respawn_time': instance.respawnTime,
     };
 

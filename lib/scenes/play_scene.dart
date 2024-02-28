@@ -18,13 +18,13 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   GameConfig? gameConfig;
   Dusty? player;
 
-  final hud = Hud();
   final dustyFactory = DustyFactory();
   final activeObjectsFactory = ActiveObjectsFactory();
   final towerFactory = TowerFactory();
   final tileFactory = TileFactory();
   late final int? followerId;
   late final int? playerId;
+  late final Hud hud;
 
   @override
   FutureOr<void> onLoad() async {
@@ -44,7 +44,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     gameRef.world.add(gameRef.mapComponent);
 
     await addAll([
-      hud,
       dustyFactory,
       activeObjectsFactory,
       towerFactory,
@@ -114,8 +113,10 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
     // debugPrint(gameMessage.toString());
     if (gameMessage.gameConfig != null) {
+      hud = Hud(gameConfig: gameMessage.gameConfig!);
       gameConfig = gameMessage.gameConfig!;
       followerId = gameConfig?.playerId;
+      add(hud);
     }
 
     if (gameMessage.dusties != null) {

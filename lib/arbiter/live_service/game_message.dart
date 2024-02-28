@@ -77,10 +77,14 @@ class GameConfig with _$GameConfig {
   const factory GameConfig({
     required int playerId,
     required int frameRate,
+    required int boostDuration,
+    required int shieldDuration,
+    required int finishDuration,
+    required int boostSkillReloadTime,
     required int activeSkillDuration,
     required int specialSkillReloadTime,
-    required int shieldSkillReloadTime,
-    required int raftSkillReloadTime,
+    required int special2SkillReloadTime,
+    required int raftReloadTime,
     required int respawnTime,
   }) = _GameConfig;
 
@@ -108,11 +112,13 @@ class DustyMessage with _$DustyMessage, BaseMessage, HasPosition {
   get direction => StatusParser.direction(status!);
   get activeAvailable => StatusParser.activeAvailable(status!);
   get specialAvailable => StatusParser.specialAvailable(status!);
+  get special2Available => StatusParser.special2Available(status!);
   get finishAvailable => StatusParser.finishAvailable(status!);
-  get shieldAvailable => StatusParser.shieldAvailable(status!);
+  get boostAvailable => StatusParser.boostAvailable(status!);
   get isFinishing => StatusParser.isFinishing(status!);
+  get isShield => StatusParser.isShield(status!);
   get isRiding => StatusParser.isRiding(status!);
-  get finishType => StatusParser.finishType(status!);
+  FinishType get finishType => StatusParser.finishType(status!);
   get finishGauge => StatusParser.finishGauge(status!);
   DustyState get dustyState => StatusParser.dustyState(status!);
 

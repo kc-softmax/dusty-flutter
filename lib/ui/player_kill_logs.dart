@@ -66,7 +66,7 @@ class PlayerKillLogsComponent extends PositionComponent {
     super.onLoad();
   }
 
-  void addKillLog(Image avatar, String name, RemoveBy removeBy) {
+  void addKillLog(Sprite avatar, String name, RemoveBy removeBy) {
     final killLog = PlayerKillLogComponent(color: crimsonColor, name: name);
     if (killLogs.isNotEmpty) {
       for (final log in killLogs) {
