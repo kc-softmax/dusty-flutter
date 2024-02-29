@@ -1,3 +1,4 @@
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:dusty_flutter/game.dart';
@@ -24,5 +25,6 @@ GameWidget<DustyIslandGame> buildGame() {
 }
 
 void main() {
+  FlameAudio.audioCache = AudioCache(prefix: 'assets/sounds/');
   runApp(const DustyIslandApp());
 }
