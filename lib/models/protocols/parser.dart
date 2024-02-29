@@ -28,6 +28,13 @@ class TileAddressParser {
   static int row(int address) => address >> 8;
 }
 
+class TileStatusParser {
+  static int tileIndex(int status) => status & 0xff;
+  static Team team(int status) => Team.parse(status >> 8 & 0x3);
+  static TileState state(int status) => TileState.parse(status >> 12 & 0x3);
+  static int occupiedRate(int status) => status >> 16 & 0xff;
+}
+
 class ActiveStatusParser {
   static double size(int status) => (status & 0xff).toDouble();
   static double stride(int status) => (status >> 8 & 0xff).toDouble();

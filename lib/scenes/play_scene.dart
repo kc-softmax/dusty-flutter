@@ -10,6 +10,7 @@ import 'package:dusty_flutter/towers/tower_factory.dart';
 import 'package:dusty_flutter/ui/hud.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlayScene extends Component with HasGameRef<DustyIslandGame> {
@@ -44,10 +45,10 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     gameRef.world.add(gameRef.mapComponent);
 
     await addAll([
+      tileFactory,
       dustyFactory,
       activeObjectsFactory,
       towerFactory,
-      tileFactory,
     ]);
   }
 
@@ -111,7 +112,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   void _parseGameMessage(Map<String, dynamic> json) {
     final gameMessage = GameMessage.fromJson(json);
 
-    // debugPrint(gameMessage.toString());
     if (gameMessage.gameConfig != null) {
       hud = Hud(gameConfig: gameMessage.gameConfig!);
       gameConfig = gameMessage.gameConfig!;
