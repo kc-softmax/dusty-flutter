@@ -13,22 +13,28 @@ class DustyHudButton extends HudButtonComponent {
   int _available = 1;
   int reloadDuration;
   double progress = 0;
+  Function(double)? handleButtonAction;
 
-  DustyHudButton(
-      {super.button,
-      super.buttonDown,
-      super.margin,
-      super.onPressed,
-      super.onReleased,
-      super.onCancelled,
-      super.position,
-      super.size,
-      super.scale,
-      super.angle,
-      super.anchor,
-      super.children,
-      super.priority,
-      required this.reloadDuration});
+  DustyHudButton({
+    super.button,
+    super.buttonDown,
+    super.margin,
+    super.onReleased,
+    super.onCancelled,
+    super.position,
+    super.size,
+    super.scale,
+    super.angle,
+    super.anchor,
+    super.children,
+    super.priority,
+    required this.reloadDuration,
+    this.handleButtonAction,
+  }) {
+    super.onPressed = () {
+      handleButtonAction?.call(progress);
+    };
+  }
 
   @override
   Future<void> onLoad() async {

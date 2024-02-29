@@ -33,12 +33,12 @@ class DustyHudFinishButton extends HudButtonComponent {
   int finishDuration;
   double _progress = 0;
   bool set = false;
+  Function(bool)? handleFinishButtonAction;
 
   DustyHudFinishButton({
     super.button,
     super.buttonDown,
     super.margin,
-    super.onPressed,
     super.onReleased,
     super.onCancelled,
     super.position,
@@ -49,7 +49,12 @@ class DustyHudFinishButton extends HudButtonComponent {
     super.children,
     super.priority,
     required this.finishDuration,
-  });
+    this.handleFinishButtonAction,
+  }) {
+    super.onPressed = () {
+      handleFinishButtonAction?.call(_available >= 1);
+    };
+  }
 
   @override
   Future<void> onLoad() async {

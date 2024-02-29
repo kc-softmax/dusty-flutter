@@ -1,7 +1,7 @@
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:dusty_flutter/game.dart';
+import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 
 class DustyIslandApp extends StatelessWidget {
   const DustyIslandApp({super.key});
@@ -25,6 +25,6 @@ GameWidget<DustyIslandGame> buildGame() {
 }
 
 void main() {
-  FlameAudio.audioCache = AudioCache(prefix: 'assets/sounds/');
+  DustySoundPool.instance.init();
   runApp(const DustyIslandApp());
 }

@@ -1,31 +1,36 @@
 import 'package:flame_audio/flame_audio.dart';
 
-class DustySound {
+class DustySoundPool {
   static final files = [
-    'boost.mp3',
-    'check.mp3',
-    'click.mp3',
-    'death.mp3',
+    'background_intro.mp3',
+    'background_playing.mp3',
+    'bang.mp3',
+    'boat_riding.mp3',
+    'boat_wave.mp3',
+    'crab_scream.mp3',
+    'damaged_bomb.mp3',
+    'electric_zap.mp3',
     'explosion.mp3',
-    'food.mp3',
-    'game_over.mp3',
-    'kill.mp3',
-    'magnet.mp3',
-    'opening.mp3',
-    'ping.mp3',
-    'player_death.mp3',
-    'playing.mp3',
-    'select.mp3',
-    'timer.mp3',
-    'unselect.mp3',
-    'user_death.mp3',
+    'extinguish.mp3',
+    'fire.mp3',
+    'hit_item.mp3',
+    'launch_small.mp3',
+    'lockon.mp3',
+    'moaning.mp3',
+    'punch.mp3',
+    'scream.mp3',
+    'shield_on.mp3',
+    'shield_success.mp3',
+    'shot_missaile.mp3',
+    'sucking.mp3',
+    'tower_install.wav',
   ];
 
   bool isInit;
 
-  DustySound._(this.isInit);
+  DustySoundPool._(this.isInit);
 
-  static final DustySound instance = DustySound._(false);
+  static final DustySoundPool instance = DustySoundPool._(false);
 
   init() {
     FlameAudio.audioCache = AudioCache(prefix: 'assets/sounds/');
@@ -38,15 +43,43 @@ class DustySound {
   }
 
   // bgms
-  bgmOnGamePlaying() => FlameAudio.bgm.play('playing.mp3');
-  bgmOnGameOver() => FlameAudio.bgm.play('playing.mp3');
-  bgmOnGameLobby() => FlameAudio.bgm.play('playing.mp3');
+  bgmOnGamePlaying() =>
+      FlameAudio.bgm.play('background_playing.mp3', volume: 0.5);
+  bgmOnGameLobby() => FlameAudio.bgm.play('background_intro.mp3');
 
   // effects
-  effectOnBoost() => FlameAudio.bgm.play('playing.mp3');
-  effectOnExplosion() => FlameAudio.bgm.play('playing.mp3');
-  effectOnFarming() => FlameAudio.bgm.play('playing.mp3');
-  effectOnKill() => FlameAudio.bgm.play('playing.mp3');
-  effectOnDeath() => FlameAudio.bgm.play('playing.mp3');
-  effectOnPlayerDeath() => FlameAudio.bgm.play('playing.mp3');
+  Future<AudioPlayer> effectOnFinishing() => FlameAudio.play('explosion.mp3');
+  Future<AudioPlayer> effectOnBoost() => FlameAudio.play('explosion.mp3');
+  Future<AudioPlayer> effectOnActiveSkil() => FlameAudio.play('explosion.mp3');
+  Future<AudioPlayer> effectOnSpecialSkil() => FlameAudio.play('explosion.mp3');
+  Future<AudioPlayer> effectOnSecondarySpecialSkil() =>
+      FlameAudio.play('explosion.mp3');
+  Future<AudioPlayer> effectOnDeath() => FlameAudio.play('explosion.mp3');
+  Future<AudioPlayer> effectOnPlayerDeath() => FlameAudio.play('explosion.mp3');
 }
+
+// class DustySound {
+//   String fileName;
+//   bool isBgm;
+//   AudioPlayer? player;
+
+//   DustySound(this.fileName, {this.isBgm = false}) {
+//     print('!!!');
+//   }
+
+//   void play() {
+//     if (isBgm) {
+//       FlameAudio.bgm.play(fileName);
+//     } else {
+//       FlameAudio.play(fileName).then((player) => player = player);
+//     }
+//   }
+
+//   void stop() {
+//     if (isBgm) {
+//       FlameAudio.bgm.stop();
+//     } else {
+//       player?.stop();
+//     }
+//   }
+// }
