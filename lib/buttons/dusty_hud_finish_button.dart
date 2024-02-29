@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:flame/input.dart';
 import 'package:flame/components.dart';
@@ -116,6 +117,14 @@ class DustyHudFinishButton extends HudButtonComponent {
     if (available > 0) {
       paint.style = PaintingStyle.fill;
       percentText.text = '';
+      switch (finishType) {
+        case FinishType.fire:
+          DustySoundPool.instance.effectOnActivateFireFinishing();
+          break;
+        case FinishType.lightning:
+          DustySoundPool.instance.effectOnActivateLightningFinishing();
+        default:
+      }
       // available
       // timer.stop();
     } else {

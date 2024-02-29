@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
+import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
@@ -10,6 +11,7 @@ import 'package:dusty_flutter/ui/name_label.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:dusty_flutter/characters/const.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 class DustyBodyEffect extends SpriteAnimationGroupComponent<DustyBodyEffectType>
     with HasGameRef<DustyIslandGame>, CollisionCallbacks {
@@ -70,6 +72,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   int hasShield = 0;
   bool isPlayer = false;
   int _isFinishing = 0;
+
+  // sounds
+  // 더스티의 state에 해당되는 사운드가 있다.
+  AudioPlayer? finishingStateSound;
+  AudioPlayer? shieldSound;
+  AudioPlayer? dustyStateSound;
+  AudioPlayer? lockOnSound;
 
   DustyBodyType _bodyType = DustyBodyType.yellow;
   DustyBodyType get bodyType => _bodyType;
@@ -236,11 +245,22 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
   }
 
-  void setAim(bool lock) {
+  void setAim(bool lock) async {
     if (lock) {
       aim.opacity = 1;
+      if (!isPlayer) {
+        // 락온 사운드는 루프와 동시에 단발성이기도 함.
+        // 락온이 유지되고 있는 동안 사운드가 재생되어야 하고, 락온이 풀리면 스탑.
+        // 다른 사운드들과 같이 콜백으로 AudioPlayer를 받으면
+        // 순식간에 락온이 풀리는 경우, 스탑을 실행해야할 때 lockOnSound가 null일 수 있다.
+        // 그것을 방지하기 위해 await 사용.
+        lockOnSound = await DustySoundPool.instance.loopOnLockOn();
+      }
     } else {
       aim.opacity = 0;
+      if (!isPlayer) {
+        lockOnSound?.stop();
+      }
     }
   }
 
@@ -253,9 +273,15 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       switch (finishType) {
         case FinishType.fire:
           bodyEffectType = DustyBodyEffectType.fire;
+          DustySoundPool.instance
+              .loopOnFinishingFire()
+              .then((sound) => finishingStateSound = sound);
           break;
         case FinishType.lightning:
           bodyEffectType = DustyBodyEffectType.electricShock;
+          DustySoundPool.instance
+              .loopOnFinishingLightning()
+              .then((sound) => finishingStateSound = sound);
           break;
         default:
           break;
@@ -266,6 +292,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     } else {
       bodyEffectType = DustyBodyEffectType.none;
       topGaugeBar.setOpacity(0);
+      finishingStateSound?.stop();
     }
   }
 
@@ -278,9 +305,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       rightGaugeBar.setOpacity(1);
       rightGaugeBar.decreaseWithDuration(
           gameRef.playScene.gameConfig!.shieldDuration.toDouble(), shieldColor);
+      DustySoundPool.instance
+          .loopOnBoost()
+          .then((sound) => shieldSound = sound);
     } else {
       shieldEffect.setOpacity(0);
       rightGaugeBar.setOpacity(0);
+      shieldSound?.stop();
     }
     hasShield = shield;
     updateUIState();
@@ -295,9 +326,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         glassesType = DustyGlassesType.boost;
         rightGaugeBar.decreaseWithDuration(
             gameRef.playScene.gameConfig!.boostDuration.toDouble(), boostColor);
+        DustySoundPool.instance
+            .loopOnBoost()
+            .then((value) => dustyStateSound = value);
         break;
       case DustyState.normal:
         glassesType = DustyGlassesType.idle;
+        dustyStateSound?.stop();
         break;
       default:
         break;
@@ -322,5 +357,10 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
 
   void dead() {
     removeFromParent();
+    if (isPlayer) {
+      DustySoundPool.instance.effectOnPlayerDeath();
+    } else {
+      DustySoundPool.instance.effectOnDeath();
+    }
   }
 }

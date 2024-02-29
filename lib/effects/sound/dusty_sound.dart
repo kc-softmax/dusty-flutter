@@ -44,18 +44,34 @@ class DustySoundPool {
 
   // bgms
   bgmOnGamePlaying() =>
-      FlameAudio.bgm.play('background_playing.mp3', volume: 0.5);
+      FlameAudio.bgm.play('background_playing.mp3', volume: 0.2);
   bgmOnGameLobby() => FlameAudio.bgm.play('background_intro.mp3');
 
+  // loop
+  // 반복재생이 필요한 사운드들
+  // 추후에 상태에 따라 stop이 되어야한다.
+  Future<AudioPlayer> loopOnFinishingFire() => FlameAudio.loop('explosion.mp3');
+  Future<AudioPlayer> loopOnFinishingLightning() =>
+      FlameAudio.loop('explosion.mp3');
+  Future<AudioPlayer> loopOnBoost() => FlameAudio.loop('explosion.mp3');
+  Future<AudioPlayer> loopOnShield() => FlameAudio.loop('explosion.mp3');
+  Future<AudioPlayer> loopOnLockOn() => FlameAudio.loop('lockon.mp3');
+
   // effects
-  Future<AudioPlayer> effectOnFinishing() => FlameAudio.play('explosion.mp3');
-  Future<AudioPlayer> effectOnBoost() => FlameAudio.play('explosion.mp3');
+  // 단발성 사운드들
+  Future<AudioPlayer> effectOnActivateFireFinishing() =>
+      FlameAudio.play('explosion.mp3');
+  Future<AudioPlayer> effectOnActivateLightningFinishing() =>
+      FlameAudio.play('explosion.mp3');
   Future<AudioPlayer> effectOnActiveSkil() => FlameAudio.play('explosion.mp3');
   Future<AudioPlayer> effectOnSpecialSkil() => FlameAudio.play('explosion.mp3');
   Future<AudioPlayer> effectOnSecondarySpecialSkil() =>
       FlameAudio.play('explosion.mp3');
-  Future<AudioPlayer> effectOnDeath() => FlameAudio.play('explosion.mp3');
-  Future<AudioPlayer> effectOnPlayerDeath() => FlameAudio.play('explosion.mp3');
+  Future<AudioPlayer> effectOnDeath() => FlameAudio.play('crab_scream.mp3');
+  Future<AudioPlayer> effectOnPlayerDeath() => FlameAudio.play('scream.mp3');
+  Future<AudioPlayer> effectOnInstallTower() =>
+      FlameAudio.play('tower_install.wav');
+  Future<AudioPlayer> effectOnRemoveTower() => FlameAudio.play('explosion.mp3');
 }
 
 // class DustySound {

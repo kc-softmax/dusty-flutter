@@ -252,14 +252,12 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
 
   void _onPressedFinishingButton(bool isAvailable) {
     if (!isAvailable) return;
-    DustySoundPool.instance.effectOnFinishing();
     Arbiter.liveService.sendByte(DustyAction.finishing.encode());
   }
 
   void _onPressedBoostButton(double progress) {
     if (progress != 0) return;
     debugPrint("press shield button");
-    DustySoundPool.instance.effectOnBoost();
     Arbiter.liveService.sendByte(DustyAction.boost.encode());
   }
 
