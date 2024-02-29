@@ -1,6 +1,6 @@
 import 'package:flame/game.dart';
-import 'package:dusty_flutter/effects/const.dart';
-import 'package:dusty_flutter/effects/default_explosion.dart';
+import 'package:dusty_flutter/effects/ui/const.dart';
+import 'package:dusty_flutter/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';

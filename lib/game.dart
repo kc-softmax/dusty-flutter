@@ -8,6 +8,7 @@ import 'package:dusty_flutter/scenes/lobby_scene.dart';
 import 'package:dusty_flutter/scenes/play_scene.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart' hide Text;
 import 'package:flutter/material.dart' hide Route, OverlayRoute;
 import 'package:shared_preferences/shared_preferences.dart';
