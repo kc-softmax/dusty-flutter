@@ -15,15 +15,17 @@ enum EventType {
 }
 
 enum Team {
-  @JsonValue(501)
-  alpha(501),
-  @JsonValue(502)
-  beta(502),
-  @JsonValue(503)
-  neutral(503);
+  @JsonValue(1)
+  alpha(1),
+  @JsonValue(2)
+  beta(2),
+  @JsonValue(3)
+  neutral(3);
 
   final int code;
   const Team(this.code);
+  factory Team.parse(int code) =>
+      Team.values.firstWhere((state) => code == state.code);
 }
 
 enum ActiveObjectType {
@@ -80,6 +82,7 @@ class GameConfig with _$GameConfig {
     required int boostDuration,
     required int shieldDuration,
     required int finishDuration,
+    required int tileOccupiedDuration,
     required int boostSkillReloadTime,
     required int activeSkillDuration,
     required int specialSkillReloadTime,
@@ -195,12 +198,17 @@ class TileMessage with _$TileMessage, BaseMessage {
   factory TileMessage(
       {required int address,
       required EventType eventType,
-      int? team,
-      int? activatorId,
+      int? status,
+      int? occupierId,
       RemoveBy? removeBy}) = _TileMessage;
 
   get col => TileAddressParser.col(address);
   get row => TileAddressParser.row(address);
+
+  get tileIndex => TileStatusParser.tileIndex(status!);
+  get occupiedRate => TileStatusParser.occupiedRate(status!);
+  TileState get finishType => TileStatusParser.state(status!);
+  Team get team => TileStatusParser.team(status!);
 
   factory TileMessage.fromJson(Map<String, dynamic> json) =>
       _$TileMessageFromJson(json);

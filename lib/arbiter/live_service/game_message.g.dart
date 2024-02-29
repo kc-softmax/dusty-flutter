@@ -45,6 +45,7 @@ _$GameConfigImpl _$$GameConfigImplFromJson(Map<String, dynamic> json) =>
       boostDuration: json['boost_duration'] as int,
       shieldDuration: json['shield_duration'] as int,
       finishDuration: json['finish_duration'] as int,
+      tileOccupiedDuration: json['tile_occupied_duration'] as int,
       boostSkillReloadTime: json['boost_skill_reload_time'] as int,
       activeSkillDuration: json['active_skill_duration'] as int,
       specialSkillReloadTime: json['special_skill_reload_time'] as int,
@@ -60,6 +61,7 @@ Map<String, dynamic> _$$GameConfigImplToJson(_$GameConfigImpl instance) =>
       'boost_duration': instance.boostDuration,
       'shield_duration': instance.shieldDuration,
       'finish_duration': instance.finishDuration,
+      'tile_occupied_duration': instance.tileOccupiedDuration,
       'boost_skill_reload_time': instance.boostSkillReloadTime,
       'active_skill_duration': instance.activeSkillDuration,
       'special_skill_reload_time': instance.specialSkillReloadTime,
@@ -103,9 +105,9 @@ const _$EventTypeEnumMap = {
 };
 
 const _$TeamEnumMap = {
-  Team.alpha: 501,
-  Team.beta: 502,
-  Team.neutral: 503,
+  Team.alpha: 1,
+  Team.beta: 2,
+  Team.neutral: 3,
 };
 
 const _$RemoveByEnumMap = {
@@ -203,8 +205,8 @@ _$TileMessageImpl _$$TileMessageImplFromJson(Map<String, dynamic> json) =>
     _$TileMessageImpl(
       address: json['address'] as int,
       eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
-      team: json['team'] as int?,
-      activatorId: json['activator_id'] as int?,
+      status: json['status'] as int?,
+      occupierId: json['occupier_id'] as int?,
       removeBy: $enumDecodeNullable(_$RemoveByEnumMap, json['remove_by']),
     );
 
@@ -212,7 +214,7 @@ Map<String, dynamic> _$$TileMessageImplToJson(_$TileMessageImpl instance) =>
     <String, dynamic>{
       'address': instance.address,
       'event_type': _$EventTypeEnumMap[instance.eventType]!,
-      'team': instance.team,
-      'activator_id': instance.activatorId,
+      'status': instance.status,
+      'occupier_id': instance.occupierId,
       'remove_by': _$RemoveByEnumMap[instance.removeBy],
     };

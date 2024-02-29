@@ -335,6 +335,7 @@ mixin _$GameConfig {
   int get boostDuration => throw _privateConstructorUsedError;
   int get shieldDuration => throw _privateConstructorUsedError;
   int get finishDuration => throw _privateConstructorUsedError;
+  int get tileOccupiedDuration => throw _privateConstructorUsedError;
   int get boostSkillReloadTime => throw _privateConstructorUsedError;
   int get activeSkillDuration => throw _privateConstructorUsedError;
   int get specialSkillReloadTime => throw _privateConstructorUsedError;
@@ -360,6 +361,7 @@ abstract class $GameConfigCopyWith<$Res> {
       int boostDuration,
       int shieldDuration,
       int finishDuration,
+      int tileOccupiedDuration,
       int boostSkillReloadTime,
       int activeSkillDuration,
       int specialSkillReloadTime,
@@ -386,6 +388,7 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
     Object? boostDuration = null,
     Object? shieldDuration = null,
     Object? finishDuration = null,
+    Object? tileOccupiedDuration = null,
     Object? boostSkillReloadTime = null,
     Object? activeSkillDuration = null,
     Object? specialSkillReloadTime = null,
@@ -413,6 +416,10 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
       finishDuration: null == finishDuration
           ? _value.finishDuration
           : finishDuration // ignore: cast_nullable_to_non_nullable
+              as int,
+      tileOccupiedDuration: null == tileOccupiedDuration
+          ? _value.tileOccupiedDuration
+          : tileOccupiedDuration // ignore: cast_nullable_to_non_nullable
               as int,
       boostSkillReloadTime: null == boostSkillReloadTime
           ? _value.boostSkillReloadTime
@@ -456,6 +463,7 @@ abstract class _$$GameConfigImplCopyWith<$Res>
       int boostDuration,
       int shieldDuration,
       int finishDuration,
+      int tileOccupiedDuration,
       int boostSkillReloadTime,
       int activeSkillDuration,
       int specialSkillReloadTime,
@@ -480,6 +488,7 @@ class __$$GameConfigImplCopyWithImpl<$Res>
     Object? boostDuration = null,
     Object? shieldDuration = null,
     Object? finishDuration = null,
+    Object? tileOccupiedDuration = null,
     Object? boostSkillReloadTime = null,
     Object? activeSkillDuration = null,
     Object? specialSkillReloadTime = null,
@@ -507,6 +516,10 @@ class __$$GameConfigImplCopyWithImpl<$Res>
       finishDuration: null == finishDuration
           ? _value.finishDuration
           : finishDuration // ignore: cast_nullable_to_non_nullable
+              as int,
+      tileOccupiedDuration: null == tileOccupiedDuration
+          ? _value.tileOccupiedDuration
+          : tileOccupiedDuration // ignore: cast_nullable_to_non_nullable
               as int,
       boostSkillReloadTime: null == boostSkillReloadTime
           ? _value.boostSkillReloadTime
@@ -545,6 +558,7 @@ class _$GameConfigImpl implements _GameConfig {
       required this.boostDuration,
       required this.shieldDuration,
       required this.finishDuration,
+      required this.tileOccupiedDuration,
       required this.boostSkillReloadTime,
       required this.activeSkillDuration,
       required this.specialSkillReloadTime,
@@ -566,6 +580,8 @@ class _$GameConfigImpl implements _GameConfig {
   @override
   final int finishDuration;
   @override
+  final int tileOccupiedDuration;
+  @override
   final int boostSkillReloadTime;
   @override
   final int activeSkillDuration;
@@ -580,7 +596,7 @@ class _$GameConfigImpl implements _GameConfig {
 
   @override
   String toString() {
-    return 'GameConfig(playerId: $playerId, frameRate: $frameRate, boostDuration: $boostDuration, shieldDuration: $shieldDuration, finishDuration: $finishDuration, boostSkillReloadTime: $boostSkillReloadTime, activeSkillDuration: $activeSkillDuration, specialSkillReloadTime: $specialSkillReloadTime, special2SkillReloadTime: $special2SkillReloadTime, raftReloadTime: $raftReloadTime, respawnTime: $respawnTime)';
+    return 'GameConfig(playerId: $playerId, frameRate: $frameRate, boostDuration: $boostDuration, shieldDuration: $shieldDuration, finishDuration: $finishDuration, tileOccupiedDuration: $tileOccupiedDuration, boostSkillReloadTime: $boostSkillReloadTime, activeSkillDuration: $activeSkillDuration, specialSkillReloadTime: $specialSkillReloadTime, special2SkillReloadTime: $special2SkillReloadTime, raftReloadTime: $raftReloadTime, respawnTime: $respawnTime)';
   }
 
   @override
@@ -598,6 +614,8 @@ class _$GameConfigImpl implements _GameConfig {
                 other.shieldDuration == shieldDuration) &&
             (identical(other.finishDuration, finishDuration) ||
                 other.finishDuration == finishDuration) &&
+            (identical(other.tileOccupiedDuration, tileOccupiedDuration) ||
+                other.tileOccupiedDuration == tileOccupiedDuration) &&
             (identical(other.boostSkillReloadTime, boostSkillReloadTime) ||
                 other.boostSkillReloadTime == boostSkillReloadTime) &&
             (identical(other.activeSkillDuration, activeSkillDuration) ||
@@ -622,6 +640,7 @@ class _$GameConfigImpl implements _GameConfig {
       boostDuration,
       shieldDuration,
       finishDuration,
+      tileOccupiedDuration,
       boostSkillReloadTime,
       activeSkillDuration,
       specialSkillReloadTime,
@@ -650,6 +669,7 @@ abstract class _GameConfig implements GameConfig {
       required final int boostDuration,
       required final int shieldDuration,
       required final int finishDuration,
+      required final int tileOccupiedDuration,
       required final int boostSkillReloadTime,
       required final int activeSkillDuration,
       required final int specialSkillReloadTime,
@@ -670,6 +690,8 @@ abstract class _GameConfig implements GameConfig {
   int get shieldDuration;
   @override
   int get finishDuration;
+  @override
+  int get tileOccupiedDuration;
   @override
   int get boostSkillReloadTime;
   @override
@@ -1903,8 +1925,8 @@ TileMessage _$TileMessageFromJson(Map<String, dynamic> json) {
 mixin _$TileMessage {
   int get address => throw _privateConstructorUsedError;
   EventType get eventType => throw _privateConstructorUsedError;
-  int? get team => throw _privateConstructorUsedError;
-  int? get activatorId => throw _privateConstructorUsedError;
+  int? get status => throw _privateConstructorUsedError;
+  int? get occupierId => throw _privateConstructorUsedError;
   RemoveBy? get removeBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1922,8 +1944,8 @@ abstract class $TileMessageCopyWith<$Res> {
   $Res call(
       {int address,
       EventType eventType,
-      int? team,
-      int? activatorId,
+      int? status,
+      int? occupierId,
       RemoveBy? removeBy});
 }
 
@@ -1942,8 +1964,8 @@ class _$TileMessageCopyWithImpl<$Res, $Val extends TileMessage>
   $Res call({
     Object? address = null,
     Object? eventType = null,
-    Object? team = freezed,
-    Object? activatorId = freezed,
+    Object? status = freezed,
+    Object? occupierId = freezed,
     Object? removeBy = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1955,13 +1977,13 @@ class _$TileMessageCopyWithImpl<$Res, $Val extends TileMessage>
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
               as EventType,
-      team: freezed == team
-          ? _value.team
-          : team // ignore: cast_nullable_to_non_nullable
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
               as int?,
-      activatorId: freezed == activatorId
-          ? _value.activatorId
-          : activatorId // ignore: cast_nullable_to_non_nullable
+      occupierId: freezed == occupierId
+          ? _value.occupierId
+          : occupierId // ignore: cast_nullable_to_non_nullable
               as int?,
       removeBy: freezed == removeBy
           ? _value.removeBy
@@ -1982,8 +2004,8 @@ abstract class _$$TileMessageImplCopyWith<$Res>
   $Res call(
       {int address,
       EventType eventType,
-      int? team,
-      int? activatorId,
+      int? status,
+      int? occupierId,
       RemoveBy? removeBy});
 }
 
@@ -2000,8 +2022,8 @@ class __$$TileMessageImplCopyWithImpl<$Res>
   $Res call({
     Object? address = null,
     Object? eventType = null,
-    Object? team = freezed,
-    Object? activatorId = freezed,
+    Object? status = freezed,
+    Object? occupierId = freezed,
     Object? removeBy = freezed,
   }) {
     return _then(_$TileMessageImpl(
@@ -2013,13 +2035,13 @@ class __$$TileMessageImplCopyWithImpl<$Res>
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
               as EventType,
-      team: freezed == team
-          ? _value.team
-          : team // ignore: cast_nullable_to_non_nullable
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
               as int?,
-      activatorId: freezed == activatorId
-          ? _value.activatorId
-          : activatorId // ignore: cast_nullable_to_non_nullable
+      occupierId: freezed == occupierId
+          ? _value.occupierId
+          : occupierId // ignore: cast_nullable_to_non_nullable
               as int?,
       removeBy: freezed == removeBy
           ? _value.removeBy
@@ -2035,8 +2057,8 @@ class _$TileMessageImpl extends _TileMessage {
   _$TileMessageImpl(
       {required this.address,
       required this.eventType,
-      this.team,
-      this.activatorId,
+      this.status,
+      this.occupierId,
       this.removeBy})
       : super._();
 
@@ -2048,15 +2070,15 @@ class _$TileMessageImpl extends _TileMessage {
   @override
   final EventType eventType;
   @override
-  final int? team;
+  final int? status;
   @override
-  final int? activatorId;
+  final int? occupierId;
   @override
   final RemoveBy? removeBy;
 
   @override
   String toString() {
-    return 'TileMessage(address: $address, eventType: $eventType, team: $team, activatorId: $activatorId, removeBy: $removeBy)';
+    return 'TileMessage(address: $address, eventType: $eventType, status: $status, occupierId: $occupierId, removeBy: $removeBy)';
   }
 
   @override
@@ -2067,17 +2089,17 @@ class _$TileMessageImpl extends _TileMessage {
             (identical(other.address, address) || other.address == address) &&
             (identical(other.eventType, eventType) ||
                 other.eventType == eventType) &&
-            (identical(other.team, team) || other.team == team) &&
-            (identical(other.activatorId, activatorId) ||
-                other.activatorId == activatorId) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.occupierId, occupierId) ||
+                other.occupierId == occupierId) &&
             (identical(other.removeBy, removeBy) ||
                 other.removeBy == removeBy));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, address, eventType, team, activatorId, removeBy);
+  int get hashCode => Object.hash(
+      runtimeType, address, eventType, status, occupierId, removeBy);
 
   @JsonKey(ignore: true)
   @override
@@ -2097,8 +2119,8 @@ abstract class _TileMessage extends TileMessage {
   factory _TileMessage(
       {required final int address,
       required final EventType eventType,
-      final int? team,
-      final int? activatorId,
+      final int? status,
+      final int? occupierId,
       final RemoveBy? removeBy}) = _$TileMessageImpl;
   _TileMessage._() : super._();
 
@@ -2110,9 +2132,9 @@ abstract class _TileMessage extends TileMessage {
   @override
   EventType get eventType;
   @override
-  int? get team;
+  int? get status;
   @override
-  int? get activatorId;
+  int? get occupierId;
   @override
   RemoveBy? get removeBy;
   @override

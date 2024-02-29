@@ -51,3 +51,13 @@ enum FinishType {
   factory FinishType.parse(int code) =>
       FinishType.values.firstWhere((state) => code == state.code);
 }
+
+enum TileState {
+  normal(0);
+
+  final int code;
+  const TileState(this.code);
+
+  factory TileState.parse(int code) =>
+      TileState.values.firstWhere((state) => code == state.code);
+}

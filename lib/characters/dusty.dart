@@ -111,8 +111,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
 
   @override
   Future<void> onLoad() async {
-    await super.onLoad();
-
+    priority = 5;
     shieldEffect = SpriteAnimationComponent(
         animation: SpriteAnimation.spriteList(
       gameRef.atlas.findSpritesByName('shield'),
@@ -121,7 +120,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       ..opacity = 0
       ..size = size * 1.3
       ..x = -7
-      ..y = -10;
+      ..y = -5;
     shieldEffect.animationTicker?.paused = true;
     aim = SpriteAnimationComponent(
         animation: SpriteAnimation.spriteList(
@@ -189,6 +188,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       rightGaugeBar,
       aim
     ]);
+    await super.onLoad();
   }
 
   @override
@@ -214,7 +214,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       double currentSpeed = speed * remainingDistance / 180;
       if (remainingDistance > speed * 0.2) {}
       currentSpeed = speed;
-      //일정 거리 이하로 가면 멈춤
+      //일정 거리 이하로 가면 멈춤 # 멈추지 않아야
       position.add(toMoveDirection * currentSpeed * dt);
       if (toMoveDirection.screenAngle() >= 0 && isFlippedHorizontally) {
         flipHorizontally();

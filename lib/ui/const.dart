@@ -15,6 +15,8 @@ const Color darkSeaColor = Color(0xFF1A708B);
 const Color crimsonColor = Color(0xFFD0021B);
 const Color alphaTeamColor = Color(0xFF4DAA13);
 const Color betaTeamColor = Color(0xFF4D1518);
+const Color alphaTileColor = Color(0x884DAA13);
+const Color betaTileColor = Color(0x884D1518);
 
 final regularText = TextPaint(
   style: TextStyle(
