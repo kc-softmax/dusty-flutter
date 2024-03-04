@@ -4,6 +4,7 @@ import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/buttons/dusty_hud_finish_button.dart';
 import 'package:dusty_flutter/buttons/dusty_hud_button.dart';
+import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:dusty_flutter/ui/joystick.dart';
@@ -63,7 +64,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 85,
           bottom: 33,
         ),
-        onPressed: _onPressedActiveButton,
+        handleButtonAction: _onPressedActiveButton,
         reloadDuration: gameConfig.activeSkillDuration);
 
     specialButton = DustyHudButton(
@@ -75,7 +76,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 90,
           bottom: 164,
         ),
-        onPressed: _onPressedSpecialButton,
+        handleButtonAction: _onPressedSpecialButton,
         reloadDuration: gameConfig.specialSkillReloadTime);
 
     special2Button = DustyHudButton(
@@ -87,7 +88,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 182,
           bottom: 114,
         ),
-        onPressed: _onPressedSpecial2Button,
+        handleButtonAction: _onPressedSpecial2Button,
         reloadDuration: gameConfig.special2SkillReloadTime);
 
     finishingButton = DustyHudFinishButton(
@@ -99,7 +100,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 258,
           bottom: 46,
         ),
-        onPressed: _onPressedFinishingButton,
+        handleFinishButtonAction: _onPressedFinishingButton,
         finishDuration: gameConfig.finishDuration);
 
     boostButton = DustyHudButton(
@@ -111,7 +112,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 189,
           bottom: 22,
         ),
-        onPressed: _onPressedBoostButton,
+        handleButtonAction: _onPressedBoostButton,
         reloadDuration: gameConfig.boostSkillReloadTime);
 
     itemSlot1 = DustyHudButton(
@@ -123,7 +124,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 342,
           bottom: 50,
         ),
-        onPressed: _onPressedSpecialButton,
+        handleButtonAction: _onPressedSpecialButton,
         reloadDuration: 1);
 
     itemSlot2 = DustyHudButton(
@@ -135,7 +136,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 412,
           bottom: 50,
         ),
-        onPressed: _onPressedSpecialButton,
+        handleButtonAction: _onPressedSpecialButton,
         reloadDuration: 1);
 
     // minimap = Minimap();
@@ -249,27 +250,35 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   //   debugPrint("press finishing button");
   // }
 
-  void _onPressedFinishingButton() {
+  void _onPressedFinishingButton(bool isAvailable) {
+    if (!isAvailable) return;
     Arbiter.liveService.sendByte(DustyAction.finishing.encode());
   }
 
-  void _onPressedBoostButton() {
-    Arbiter.liveService.sendByte(DustyAction.boost.encode());
+  void _onPressedBoostButton(double progress) {
+    if (progress != 0) return;
     debugPrint("press shield button");
+    Arbiter.liveService.sendByte(DustyAction.boost.encode());
   }
 
-  void _onPressedActiveButton() {
+  void _onPressedActiveButton(double progress) {
+    if (progress != 0) return;
     debugPrint("press active button");
+    DustySoundPool.instance.effectOnActiveSkil();
     Arbiter.liveService.sendByte(DustyAction.activeSkill.encode());
   }
 
-  void _onPressedSpecialButton() {
+  void _onPressedSpecialButton(double progress) {
+    if (progress != 0) return;
     debugPrint("press special button");
+    DustySoundPool.instance.effectOnSpecialSkil();
     Arbiter.liveService.sendByte(DustyAction.specialSkill.encode());
   }
 
-  void _onPressedSpecial2Button() {
+  void _onPressedSpecial2Button(double progress) {
+    if (progress != 0) return;
     debugPrint("press special 2 button");
+    DustySoundPool.instance.effectOnSecondarySpecialSkil();
     Arbiter.liveService.sendByte(DustyAction.special2Skill.encode());
   }
 }

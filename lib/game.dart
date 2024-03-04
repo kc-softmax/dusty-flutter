@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/atlas/texture_atlas.dart';
+import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/flame_texturepacker.dart';
 import 'package:dusty_flutter/scenes/loading_scene.dart';
 import 'package:dusty_flutter/scenes/lobby_scene.dart';
@@ -75,6 +76,8 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
         initialRoute: LoadingScene.routerName,
       ),
     );
+
+    await DustySoundPool.instance.load();
 
     final token = (await SharedPreferences.getInstance()).getString('token');
 

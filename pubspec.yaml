@@ -19,6 +19,7 @@ dependencies:
   freezed_annotation: ^2.4.1
   flame_noise: ^0.3.0
   collection: ^1.18.0
+  flame_audio: ^2.10.0
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +49,7 @@ flutter:
   assets:
     - assets/images/
     - assets/tiles/
+    - assets/sounds/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

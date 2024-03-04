@@ -4,13 +4,13 @@ import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/characters/dusty_factory.dart';
+import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/tiles/tile_factory.dart';
 import 'package:dusty_flutter/towers/tower_factory.dart';
 import 'package:dusty_flutter/ui/hud.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlayScene extends Component with HasGameRef<DustyIslandGame> {
@@ -29,17 +29,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   @override
   FutureOr<void> onLoad() async {
-    // gameRef.overlays.addEntry("RestartButton", ((context, game) {
-    //   return FilledButton(
-    //     onPressed: () async {
-    //       debugPrint("restart!!");
-    //       await _resetGame();
-    //     },
-    //     child: const Text("다시 시작"),
-    //   );
-    // }));
-    // gameRef.overlays.add("RestartButton");
-
     _setCameraBound();
 
     gameRef.world.add(gameRef.mapComponent);
@@ -55,14 +44,12 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   @override
   void onMount() {
     super.onMount();
-    // gameRef.overlays.add("RestartButton");
     _startGame();
   }
 
   @override
   void onRemove() {
     super.onRemove();
-    // gameRef.overlays.remove("RestartButton");
     _closeGame();
   }
 
@@ -95,19 +82,13 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
       "/di/ws?token=$token&team=${selectedTeam!.code}",
       _parseGameMessage,
     );
+
+    DustySoundPool.instance.bgmOnGamePlaying();
   }
 
   void _closeGame() {
     Arbiter.liveService.close();
   }
-
-  // Future<void> _resetGame() async {
-  //   _closeGame();
-  //   dustyFactory.clear();
-  //   activeObjectsFactory.clear();
-  //   towerFactory.clear();
-  //   await _startGame();
-  // }
 
   void _parseGameMessage(Map<String, dynamic> json) {
     final gameMessage = GameMessage.fromJson(json);

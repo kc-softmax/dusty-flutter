@@ -1,6 +1,6 @@
 import 'package:dusty_flutter/game.dart';
 import 'package:flame/components.dart';
-import 'package:dusty_flutter/effects/const.dart';
+import 'package:dusty_flutter/effects/ui/const.dart';
 
 class DefaultExplosion extends SpriteAnimationComponent
     with HasGameRef<DustyIslandGame> {

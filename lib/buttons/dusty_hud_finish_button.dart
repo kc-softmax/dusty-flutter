@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:flame/input.dart';
 import 'package:flame/components.dart';
@@ -33,12 +34,12 @@ class DustyHudFinishButton extends HudButtonComponent {
   int finishDuration;
   double _progress = 0;
   bool set = false;
+  Function(bool)? handleFinishButtonAction;
 
   DustyHudFinishButton({
     super.button,
     super.buttonDown,
     super.margin,
-    super.onPressed,
     super.onReleased,
     super.onCancelled,
     super.position,
@@ -49,7 +50,12 @@ class DustyHudFinishButton extends HudButtonComponent {
     super.children,
     super.priority,
     required this.finishDuration,
-  });
+    this.handleFinishButtonAction,
+  }) {
+    super.onPressed = () {
+      handleFinishButtonAction?.call(_available >= 1);
+    };
+  }
 
   @override
   Future<void> onLoad() async {
@@ -111,6 +117,14 @@ class DustyHudFinishButton extends HudButtonComponent {
     if (available > 0) {
       paint.style = PaintingStyle.fill;
       percentText.text = '';
+      switch (finishType) {
+        case FinishType.fire:
+          DustySoundPool.instance.effectOnActivateFireFinishing();
+          break;
+        case FinishType.lightning:
+          DustySoundPool.instance.effectOnActivateLightningFinishing();
+        default:
+      }
       // available
       // timer.stop();
     } else {
