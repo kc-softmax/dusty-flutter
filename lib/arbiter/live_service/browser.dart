@@ -12,14 +12,22 @@ class ArbiterLiveService extends BaseArbiterLiveService {
 
   @override
   Future<void> on(
-      String url, Function(Map<String, dynamic> json) onMessage) async {
+    String url,
+    Function(Map<String, dynamic> json) onMessage,
+    void Function()? onDone,
+  ) async {
     _webSocket = WebSocket('$baseSocketUrl$url')..binaryType = 'arraybuffer';
-    _webSocket.onMessage.listen((event) {
-      final data = event.data;
-      if (data is ByteBuffer) {
-        onMessage(data.toJson());
-      }
+    _webSocket.onClose.listen((event) {
+      onDone?.call();
     });
+    _webSocket.onMessage.listen(
+      (event) {
+        final data = event.data;
+        if (data is ByteBuffer) {
+          onMessage(data.toJson());
+        }
+      },
+    );
   }
 
   @override
