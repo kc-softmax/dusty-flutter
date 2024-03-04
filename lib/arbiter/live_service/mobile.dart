@@ -10,16 +10,22 @@ class ArbiterLiveService extends BaseArbiterLiveService {
 
   @override
   Future<void> on(
-      String url, Function(Map<String, dynamic> json) onMessage) async {
+    String url,
+    Function(Map<String, dynamic> json) onMessage,
+    void Function()? onDone,
+  ) async {
     _channel = WebSocketChannel.connect(Uri.parse('$baseSocketUrl$url'));
     await _channel.ready;
-    _channel.stream.listen((data) {
-      if (data is Uint8List) {
-        final decoded = const Utf8Decoder().convert(data);
-        final dataJson = jsonDecode(decoded);
-        onMessage(dataJson);
-      }
-    });
+    _channel.stream.listen(
+      (data) {
+        if (data is Uint8List) {
+          final decoded = const Utf8Decoder().convert(data);
+          final dataJson = jsonDecode(decoded);
+          onMessage(dataJson);
+        }
+      },
+      onDone: onDone,
+    );
   }
 
   @override

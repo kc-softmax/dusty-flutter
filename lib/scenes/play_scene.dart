@@ -9,8 +9,9 @@ import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/tiles/tile_factory.dart';
 import 'package:dusty_flutter/towers/tower_factory.dart';
+import 'package:dusty_flutter/ui/game_close_dialog.dart';
 import 'package:dusty_flutter/ui/hud.dart';
-import 'package:flame/components.dart';
+import 'package:flame/components.dart' hide Timer;
 import 'package:flame/experimental.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +20,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   static Team? selectedTeam;
   GameConfig? gameConfig;
   Dusty? player;
+  List<TempRankingData>? rankingList;
 
   final dustyFactory = DustyFactory();
   final activeObjectsFactory = ActiveObjectsFactory();
@@ -48,6 +50,23 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   void onMount() {
     super.onMount();
     _startGame();
+
+    // TODO TEMP
+    // 게임 조기 종료를 위한 타이머
+    // 원래는 게임 엔진에서 종료시켜줘야함.
+    Timer(const Duration(seconds: 3), () {
+      rankingList = [
+        const TempRankingData(1, 100, 10, 20),
+        const TempRankingData(1, 100, 10, 20),
+        const TempRankingData(1, 100, 10, 20),
+        const TempRankingData(1, 100, 10, 20),
+        const TempRankingData(1, 100, 10, 20),
+        const TempRankingData(1, 100, 10, 20),
+        const TempRankingData(1, 100, 10, 20),
+        const TempRankingData(1, 100, 10, 20),
+      ];
+      _closeGame();
+    });
   }
 
   @override
@@ -84,6 +103,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     Arbiter.liveService.on(
       "/di/ws?token=$token&team=${selectedTeam!.code}",
       _parseGameMessage,
+      _onClosedGame,
     );
 
     DustySoundPool.instance.bgmOnGamePlaying();
@@ -117,6 +137,21 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     }
     if (gameMessage.tiles != null) {
       // tileFactory.addMessages(gameMessage.tiles!);
+    }
+  }
+
+  void _restGame() {
+    gameRef.world = DustyIslandWorld();
+  }
+
+  void _onClosedGame() async {
+    // 게임 닫기 다이얼로그를 보여준다.
+    // 게임 닫기 다이얼로그는 랭킹 테이블, 다시하기 버튼, 나가기 버튼 으로 구성되어 있다.
+    // 리턴값에 따라서 다시하기 로직 또는 나가기 로직을 실행한다.
+    final isReGame = await gameRef.router.pushAndWait(GameCloseDialog());
+    if (isReGame) {
+    } else {
+      _restGame();
     }
   }
 

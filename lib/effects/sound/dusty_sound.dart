@@ -5,7 +5,6 @@ class DustySoundPool {
     'background_intro.mp3',
     'background_playing.mp3',
     'bang.mp3',
-    'boat_riding.mp3',
     'boat_wave.mp3',
     'crab_scream.mp3',
     'damaged_bomb.mp3',
