@@ -1,29 +1,15 @@
-import 'dart:ui';
-import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
+import 'dart:async';
 import 'package:dusty_flutter/game.dart';
-import 'package:dusty_flutter/ui/const.dart';
+import 'package:dusty_flutter/ui/flutter_overlay_dialogs.dart';
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
-import 'package:flame/experimental.dart';
+import 'package:flame/events.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart' hide Image;
 
-class PlayerInfoComponent extends RectangleComponent
-    with HasGameRef<DustyIslandGame> {
+class RankPanel extends SpriteComponent
+    with HasGameRef<DustyIslandGame>, TapCallbacks {
   final rankPanelSize = Vector2(88, 44);
-  final scorePanelSize = Vector2(132, 44);
   final rankIconSize = Vector2(24, 24);
-  final scoreIconSize = Vector2(16, 16);
-  final panelOffsetX = 16.0;
-  final scorePanelOffsetX = 8.0;
-  final scorePanelOffsetLongX = 66.0;
-
-  late final TextComponent rankText;
-  late final TextComponent killText;
-  late final TextComponent tileText;
-  late final TextComponent destoryText;
-  late final TextComponent towerText;
-
   final rankTextPainter = TextPaint(
     style: TextStyle(
       fontSize: 16.0,
@@ -37,6 +23,51 @@ class PlayerInfoComponent extends RectangleComponent
       ],
     ),
   );
+
+  RankPanel() {
+    size = rankPanelSize;
+    sprite = gameRef.atlas.findSpriteByName('rank_bg');
+  }
+
+  @override
+  FutureOr<void> onLoad() {
+    final rankText = TextComponent(
+      text: '11',
+      textRenderer: rankTextPainter,
+      position: Vector2(50, 12),
+    );
+
+    final rankIcon = SpriteComponent(
+      sprite: gameRef.atlas.findSpriteByName('raft'),
+      size: rankIconSize,
+    )
+      ..x = 10
+      ..y = 10;
+    addAll([rankText, rankIcon]);
+    return super.onLoad();
+  }
+
+  @override
+  void onTapUp(TapUpEvent event) async {
+    super.onTapUp(event);
+    await gameRef.router.pushAndWait(RankingDialog());
+  }
+}
+
+class PlayerInfoComponent extends RectangleComponent
+    with HasGameRef<DustyIslandGame> {
+  final rankPanelSize = Vector2(88, 44);
+  final scorePanelSize = Vector2(132, 44);
+  final scoreIconSize = Vector2(16, 16);
+  final panelOffsetX = 16.0;
+  final scorePanelOffsetX = 8.0;
+  final scorePanelOffsetLongX = 66.0;
+
+  late final TextComponent rankText;
+  late final TextComponent killText;
+  late final TextComponent tileText;
+  late final TextComponent destoryText;
+  late final TextComponent towerText;
 
   final scoreTextPainter = TextPaint(
     style: TextStyle(
@@ -57,21 +88,9 @@ class PlayerInfoComponent extends RectangleComponent
     super.onLoad();
 
     add(SpriteComponent(
-      sprite: gameRef.atlas.findSpriteByName('rank_bg'),
-      size: rankPanelSize,
-    ));
-    add(SpriteComponent(
       sprite: gameRef.atlas.findSpriteByName('score_bg'),
       size: scorePanelSize,
     )..x = rankPanelSize.x + panelOffsetX);
-
-    //rankIcon
-    add(SpriteComponent(
-      sprite: gameRef.atlas.findSpriteByName('raft'),
-      size: rankIconSize,
-    )
-      ..x = 10
-      ..y = 10);
 
     // kill score
     add(SpriteComponent(
@@ -104,12 +123,6 @@ class PlayerInfoComponent extends RectangleComponent
       ..x = rankPanelSize.x + panelOffsetX + scorePanelOffsetLongX
       ..y = 24);
 
-    rankText = TextComponent(
-      text: '11',
-      textRenderer: rankTextPainter,
-      position: Vector2(50, 12),
-    );
-
     killText = TextComponent(
       text: '100',
       textRenderer: scoreTextPainter,
@@ -139,7 +152,7 @@ class PlayerInfoComponent extends RectangleComponent
     );
 
     addAll([
-      rankText,
+      RankPanel(),
       killText,
       tileText,
       destoryText,

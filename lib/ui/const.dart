@@ -38,3 +38,16 @@ final regularText = TextPaint(
     ],
   ),
 );
+
+// TODO 임시
+enum RankingTableColumnsData {
+  userId('ID'),
+  userName('NAME'),
+  team('TEAM'),
+  kill('KILL'),
+  death('DEATH'),
+  territory('TERRITORY');
+
+  final String label;
+  const RankingTableColumnsData(this.label);
+}

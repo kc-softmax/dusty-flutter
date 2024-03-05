@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dusty_flutter/active_objects/active_objects_factory.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
+import 'package:dusty_flutter/arbiter/live_service/system_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/characters/dusty_factory.dart';
 import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
@@ -9,7 +10,7 @@ import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/tiles/tile_factory.dart';
 import 'package:dusty_flutter/towers/tower_factory.dart';
-import 'package:dusty_flutter/ui/game_close_dialog.dart';
+import 'package:dusty_flutter/ui/flutter_overlay_dialogs.dart';
 import 'package:dusty_flutter/ui/hud.dart';
 import 'package:flame/components.dart' hide Timer;
 import 'package:flame/experimental.dart';
@@ -20,7 +21,33 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   static Team? selectedTeam;
   GameConfig? gameConfig;
   Dusty? player;
-  List<TempRankingData>? rankingList;
+  // 더미데이터
+  List<GamePlayerRecord>? rankingList = [
+    const GamePlayerRecord(
+      userId: 1,
+      userName: 'softmax',
+      team: Team.alpha,
+      kill: 20,
+      death: 30,
+      territory: 100,
+    ),
+    const GamePlayerRecord(
+      userId: 1,
+      userName: 'softmax',
+      team: Team.alpha,
+      kill: 20,
+      death: 30,
+      territory: 100,
+    ),
+    const GamePlayerRecord(
+      userId: 1,
+      userName: 'softmax',
+      team: Team.alpha,
+      kill: 20,
+      death: 30,
+      territory: 100,
+    ),
+  ];
 
   final dustyFactory = DustyFactory();
   final activeObjectsFactory = ActiveObjectsFactory();
@@ -50,23 +77,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   void onMount() {
     super.onMount();
     _startGame();
-
-    // TODO TEMP
-    // 게임 조기 종료를 위한 타이머
-    // 원래는 게임 엔진에서 종료시켜줘야함.
-    Timer(const Duration(seconds: 3), () {
-      rankingList = [
-        const TempRankingData(1, 100, 10, 20),
-        const TempRankingData(1, 100, 10, 20),
-        const TempRankingData(1, 100, 10, 20),
-        const TempRankingData(1, 100, 10, 20),
-        const TempRankingData(1, 100, 10, 20),
-        const TempRankingData(1, 100, 10, 20),
-        const TempRankingData(1, 100, 10, 20),
-        const TempRankingData(1, 100, 10, 20),
-      ];
-      _closeGame();
-    });
   }
 
   @override
