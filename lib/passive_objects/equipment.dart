@@ -1,13 +1,15 @@
 import 'dart:ui';
 import 'dart:math' as math;
+import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-class NormalSeed extends SpriteAnimationComponent
+class Equipment extends SpriteAnimationComponent
     with HasGameRef<DustyIslandGame>, CollisionCallbacks, PassiveObjects {
-  NormalSeed() : super(anchor: Anchor.center);
+  PassiveObjectType equipmentType;
+  Equipment({required this.equipmentType}) : super(anchor: Anchor.center);
 
   double aquireProgress = 0;
   late Timer aquireTimer;

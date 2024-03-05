@@ -5,13 +5,13 @@ import 'package:dusty_flutter/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:dusty_flutter/passive_objects/environment/bush.dart';
 import 'package:dusty_flutter/passive_objects/environment/tree_of_life.dart';
-import 'package:dusty_flutter/passive_objects/equipment/normal_seed.dart';
+import 'package:dusty_flutter/passive_objects/equipment.dart';
 import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/components.dart';
 
 abstract mixin class PassiveObjects implements SpriteAnimationComponent {
-  factory PassiveObjects.normalSeed(PassiveObjectMessage message) =>
-      NormalSeed()
+  factory PassiveObjects.equipment(PassiveObjectMessage message) =>
+      Equipment(equipmentType: message.objectType!)
         ..anchor = Anchor.center
         ..size = Vector2(24, 24)
         ..x = message.x
@@ -49,7 +49,9 @@ class PassiveObjectsFactory
     assert(message.position != null, "position is null");
     switch (message.objectType) {
       case PassiveObjectType.normalSeed:
-        return PassiveObjects.normalSeed(message);
+        return PassiveObjects.equipment(message);
+      case PassiveObjectType.coconut:
+        return PassiveObjects.equipment(message);
       case PassiveObjectType.middleTreeOfLife:
         return PassiveObjects.treeOfLife(message);
       case PassiveObjectType.bush4X4:
@@ -57,7 +59,7 @@ class PassiveObjectsFactory
       case PassiveObjectType.bush8X4:
         return PassiveObjects.bush4X4(message);
       default:
-        return PassiveObjects.normalSeed(message);
+        return PassiveObjects.equipment(message);
     }
   }
 
