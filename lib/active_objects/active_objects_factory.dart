@@ -2,8 +2,8 @@ import 'package:dusty_flutter/active_objects/grenade/normal_grenade.dart';
 import 'package:dusty_flutter/active_objects/missaile/dusty_missaile.dart';
 import 'package:dusty_flutter/active_objects/punch/normal_punch.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
-import 'package:dusty_flutter/effects/const.dart';
-import 'package:dusty_flutter/effects/default_explosion.dart';
+import 'package:dusty_flutter/effects/ui/const.dart';
+import 'package:dusty_flutter/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:flame/components.dart';
 
