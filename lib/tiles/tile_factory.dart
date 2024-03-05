@@ -50,27 +50,30 @@ class TileGridComponent extends PositionComponent with Snapshot {
   }
 
   void updateTile(
-      int address, int row, int col, int tileIndex, Paint tilePaint) {
+      int address, int row, int col, int tileIndex, Sprite tileSprite) {
     if (tileMap.containsKey(address)) {
       tileMap.remove(address);
     }
     tileMap[address] = Team.alpha;
-    add(RectangleComponent()
+    add(SpriteComponent(sprite: tileSprite)
       ..x = col * 32
       ..y = row * 32
-      ..size = Vector2.all(32)
-      ..paint = tilePaint);
+      ..size = Vector2.all(32));
   }
 }
 
 class TileFactory extends ObjectFactoryComponent<DustyTiles, TileMessage> {
   static const int numOfTileInGrid = 20; // 20x20 grid
+  late final Sprite alphaTile;
+  late final Sprite betaTile;
   late final List<TileGridComponent> tileGrids;
 
   @override
   FutureOr<void> onLoad() {
     super.onLoad();
     tileGrids = [];
+    alphaTile = gameRef.atlas.findSpriteByName('alpha_tile') as Sprite;
+    betaTile = gameRef.atlas.findSpriteByName('beta_tile') as Sprite;
     // final mapComponent = gameRef.mapComponent;
     for (var i = 0; i < numOfTileInGrid; i++) {
       for (var j = 0; j < numOfTileInGrid; j++) {
@@ -109,9 +112,8 @@ class TileFactory extends ObjectFactoryComponent<DustyTiles, TileMessage> {
     final tileGrid = tileGrids[gridIndex];
     final tileRowInGrid = message.row % numOfTileInGrid;
     final tileColInGrid = message.col % numOfTileInGrid;
-    final tilePaint = message.team == Team.alpha
-        ? tileGrid.alphaTilePaint
-        : tileGrid.beatTilePaint;
+
+    final tileSprite = message.team == Team.alpha ? alphaTile : betaTile;
     // tempTileSprite not involved in tileGrid
 
     // consider anchor is center
@@ -125,15 +127,14 @@ class TileFactory extends ObjectFactoryComponent<DustyTiles, TileMessage> {
           gameRef.playScene.dustyFactory.objects[message.occupierId]!.position;
     }
 
-    final tempTileSprite = RectangleComponent()
-      ..anchor = Anchor.center
-      ..size = Vector2.all(32)
-      ..position = spritePostion
-      ..paint = tilePaint
-      ..scale = Vector2.zero();
+    final tempTileSprite =
+        SpriteComponent(sprite: tileSprite, size: Vector2.all(32))
+          ..anchor = Anchor.center
+          ..position = spritePostion
+          ..scale = Vector2.zero();
     tempTileSprite.addAll([
       MoveEffect.to(worldPosition, EffectController(duration: 0.5)),
-      ScaleEffect.to(Vector2.all(0.5), EffectController(duration: 0.5)),
+      ScaleEffect.to(Vector2.all(1), EffectController(duration: 0.5)),
       ScaleEffect.to(Vector2.all(1),
           DelayedEffectController(EffectController(duration: 0.25), delay: 0.8))
         ..onComplete = () {
@@ -141,14 +142,14 @@ class TileFactory extends ObjectFactoryComponent<DustyTiles, TileMessage> {
           tempTileSprite.removeFromParent();
         },
       MoveEffect.by(
-        Vector2(-10, 10),
+        Vector2(-16, 16),
         DelayedEffectController(
             NoiseEffectController(
-                duration: 0.25, noise: PerlinNoise(frequency: 2)),
+                duration: 0.25, noise: PerlinNoise(frequency: 5)),
             delay: 0.5),
       )..onComplete = () {
           tileGrid.updateTile(message.address, tileRowInGrid, tileColInGrid,
-              message.tileIndex, tilePaint);
+              message.tileIndex, tileSprite);
         },
     ]);
     gameRef.world.add(tempTileSprite);

@@ -32,7 +32,29 @@ enum ActiveObjectType {
   @JsonValue(1)
   normalMissaile,
   @JsonValue(2)
-  normalPunch
+  normalPunch,
+  @JsonValue(3)
+  normalGrenade
+}
+
+enum PassiveObjectType {
+  @JsonValue(0)
+  idle(0),
+  @JsonValue(1)
+  normalSeed(1),
+  @JsonValue(2)
+  coconut(2),
+  @JsonValue(3)
+  middleTreeOfLife(3),
+  @JsonValue(4)
+  bush4X4(4),
+  @JsonValue(5)
+  bush8X4(5);
+
+  final int code;
+  const PassiveObjectType(this.code);
+  factory PassiveObjectType.parse(int code) =>
+      PassiveObjectType.values.firstWhere((state) => code == state.code);
 }
 
 enum RemoveBy {
@@ -45,7 +67,7 @@ enum RemoveBy {
   @JsonValue(4)
   punch,
   @JsonValue(5)
-  lithning
+  lightning,
 }
 
 mixin BaseMessage {
@@ -120,7 +142,8 @@ class DustyMessage with _$DustyMessage, BaseMessage, HasPosition {
   get boostAvailable => StatusParser.boostAvailable(status!);
   get isFinishing => StatusParser.isFinishing(status!);
   get isShield => StatusParser.isShield(status!);
-  get isRiding => StatusParser.isRiding(status!);
+  get equipment1 => StatusParser.equipment1(status!);
+  get equipment2 => StatusParser.equipment2(status!);
   FinishType get finishType => StatusParser.finishType(status!);
   get finishGauge => StatusParser.finishGauge(status!);
   DustyState get dustyState => StatusParser.dustyState(status!);
@@ -183,7 +206,9 @@ class PassiveObjectMessage
     int? team,
     int? size,
     int? position,
-    int? objectType,
+    int? generatePosition,
+    PassiveObjectType? objectType,
+    int? acquireBy,
     RemoveBy? removeBy,
   }) = _PassiveObjectMessage;
 

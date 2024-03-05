@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,14 @@ import 'package:flutter/widgets.dart';
 class DustyHudButton extends HudButtonComponent {
   static const Color deactivateColor = Color(0xff111736);
 
+  late SpriteComponent buttonIcon;
   late Timer timer;
   late Paint paint;
   int _available = 1;
   int reloadDuration;
   double progress = 0;
   Function(double)? handleButtonAction;
+  PassiveObjectType _equipment = PassiveObjectType.idle;
 
   DustyHudButton({
     super.button,
@@ -43,6 +46,23 @@ class DustyHudButton extends HudButtonComponent {
     paint = Paint()
       ..color = deactivateColor
       ..style = PaintingStyle.fill;
+    // addimage
+  }
+
+  void setEquipment(PassiveObjectType equipment) {
+    if (_equipment == equipment) {
+      return;
+    }
+    switch (equipment) {
+      case PassiveObjectType.coconut:
+        break;
+      case PassiveObjectType.normalSeed:
+        break;
+      default:
+        // button =
+        break;
+    }
+    _equipment = equipment;
   }
 
   void updateManual(double progress) {

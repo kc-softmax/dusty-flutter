@@ -45,11 +45,11 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     joystick = Joystick(
       knob: SpriteComponent(
         sprite: game.atlas.findSpriteByName('knob'),
-        size: Vector2.all(size.y * 0.1),
+        size: Vector2.all(size.y * 0.15),
       ),
       background: SpriteComponent(
         sprite: game.atlas.findSpriteByName('joystick_bg'),
-        size: Vector2.all(size.y * 0.35),
+        size: Vector2.all(size.y * 0.45),
       ),
       margin: const EdgeInsets.only(left: 66, bottom: 22),
       onMovedJoystick: _onMovedJoyStick,
@@ -179,9 +179,9 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     activeButton?.updateAvailable(message.activeAvailable);
 
     specialButton?.updateAvailable(message.specialAvailable);
-
+    specialButton?.setEquipment(message.equipment1);
     special2Button?.updateAvailable(message.special2Available);
-
+    special2Button?.setEquipment(message.equipment2);
     boostButton?.updateAvailable(message.boostAvailable);
 
     finishingButton?.updateAvailable(
@@ -257,7 +257,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
 
   void _onPressedBoostButton(double progress) {
     if (progress != 0) return;
-    debugPrint("press shield button");
+    debugPrint("press invinsible button");
     Arbiter.liveService.sendByte(DustyAction.boost.encode());
   }
 
