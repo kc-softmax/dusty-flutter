@@ -64,18 +64,19 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
   void onUpdateObject(DustyMessage message) {
     Dusty? dusty = objects[message.dustyId];
     if (dusty != null) {
-      if (message.position != null) {
+      if (message.position != null && message.position! > 0) {
         dusty.nextPosition = Vector2(message.x, message.y);
         dusty.updateSpeed();
       }
       if (message.status != null) {
         dusty.setFinishState(message.isFinishing, message.finishType);
         dusty.setDustyShield(message.isShield);
-        dusty.updateDustyState(message.dustyState);
+        dusty.updateDustyState(message.dustyState, message.position!);
         if (dusty == user) {
           gameRef.playScene.hud.updateHud(message);
           //.. update hud
         }
+        // data 가 올거라 믿고있기 때문에
       }
 
       // for only player
@@ -90,10 +91,6 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
         }
       }
     }
-    //.. 비교
-    //.. 이벤트 도출
-    // .. 호출 dusty.updateSkin();
-    // .. 또는 dusty.state = newState;
   }
 
   @override

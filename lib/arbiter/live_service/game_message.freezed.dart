@@ -1657,7 +1657,9 @@ mixin _$PassiveObjectMessage {
   int? get team => throw _privateConstructorUsedError;
   int? get size => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
-  int? get objectType => throw _privateConstructorUsedError;
+  int? get generatePosition => throw _privateConstructorUsedError;
+  PassiveObjectType? get objectType => throw _privateConstructorUsedError;
+  int? get acquireBy => throw _privateConstructorUsedError;
   RemoveBy? get removeBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1678,7 +1680,9 @@ abstract class $PassiveObjectMessageCopyWith<$Res> {
       int? team,
       int? size,
       int? position,
-      int? objectType,
+      int? generatePosition,
+      PassiveObjectType? objectType,
+      int? acquireBy,
       RemoveBy? removeBy});
 }
 
@@ -1701,7 +1705,9 @@ class _$PassiveObjectMessageCopyWithImpl<$Res,
     Object? team = freezed,
     Object? size = freezed,
     Object? position = freezed,
+    Object? generatePosition = freezed,
     Object? objectType = freezed,
+    Object? acquireBy = freezed,
     Object? removeBy = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1725,9 +1731,17 @@ class _$PassiveObjectMessageCopyWithImpl<$Res,
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as int?,
+      generatePosition: freezed == generatePosition
+          ? _value.generatePosition
+          : generatePosition // ignore: cast_nullable_to_non_nullable
+              as int?,
       objectType: freezed == objectType
           ? _value.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
+              as PassiveObjectType?,
+      acquireBy: freezed == acquireBy
+          ? _value.acquireBy
+          : acquireBy // ignore: cast_nullable_to_non_nullable
               as int?,
       removeBy: freezed == removeBy
           ? _value.removeBy
@@ -1751,7 +1765,9 @@ abstract class _$$PassiveObjectMessageImplCopyWith<$Res>
       int? team,
       int? size,
       int? position,
-      int? objectType,
+      int? generatePosition,
+      PassiveObjectType? objectType,
+      int? acquireBy,
       RemoveBy? removeBy});
 }
 
@@ -1771,7 +1787,9 @@ class __$$PassiveObjectMessageImplCopyWithImpl<$Res>
     Object? team = freezed,
     Object? size = freezed,
     Object? position = freezed,
+    Object? generatePosition = freezed,
     Object? objectType = freezed,
+    Object? acquireBy = freezed,
     Object? removeBy = freezed,
   }) {
     return _then(_$PassiveObjectMessageImpl(
@@ -1795,9 +1813,17 @@ class __$$PassiveObjectMessageImplCopyWithImpl<$Res>
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as int?,
+      generatePosition: freezed == generatePosition
+          ? _value.generatePosition
+          : generatePosition // ignore: cast_nullable_to_non_nullable
+              as int?,
       objectType: freezed == objectType
           ? _value.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
+              as PassiveObjectType?,
+      acquireBy: freezed == acquireBy
+          ? _value.acquireBy
+          : acquireBy // ignore: cast_nullable_to_non_nullable
               as int?,
       removeBy: freezed == removeBy
           ? _value.removeBy
@@ -1816,7 +1842,9 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
       this.team,
       this.size,
       this.position,
+      this.generatePosition,
       this.objectType,
+      this.acquireBy,
       this.removeBy})
       : super._();
 
@@ -1834,13 +1862,17 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
   @override
   final int? position;
   @override
-  final int? objectType;
+  final int? generatePosition;
+  @override
+  final PassiveObjectType? objectType;
+  @override
+  final int? acquireBy;
   @override
   final RemoveBy? removeBy;
 
   @override
   String toString() {
-    return 'PassiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, size: $size, position: $position, objectType: $objectType, removeBy: $removeBy)';
+    return 'PassiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, size: $size, position: $position, generatePosition: $generatePosition, objectType: $objectType, acquireBy: $acquireBy, removeBy: $removeBy)';
   }
 
   @override
@@ -1856,8 +1888,12 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
             (identical(other.size, size) || other.size == size) &&
             (identical(other.position, position) ||
                 other.position == position) &&
+            (identical(other.generatePosition, generatePosition) ||
+                other.generatePosition == generatePosition) &&
             (identical(other.objectType, objectType) ||
                 other.objectType == objectType) &&
+            (identical(other.acquireBy, acquireBy) ||
+                other.acquireBy == acquireBy) &&
             (identical(other.removeBy, removeBy) ||
                 other.removeBy == removeBy));
   }
@@ -1865,7 +1901,7 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, objectId, eventType, team, size,
-      position, objectType, removeBy);
+      position, generatePosition, objectType, acquireBy, removeBy);
 
   @JsonKey(ignore: true)
   @override
@@ -1890,7 +1926,9 @@ abstract class _PassiveObjectMessage extends PassiveObjectMessage {
       final int? team,
       final int? size,
       final int? position,
-      final int? objectType,
+      final int? generatePosition,
+      final PassiveObjectType? objectType,
+      final int? acquireBy,
       final RemoveBy? removeBy}) = _$PassiveObjectMessageImpl;
   _PassiveObjectMessage._() : super._();
 
@@ -1908,7 +1946,11 @@ abstract class _PassiveObjectMessage extends PassiveObjectMessage {
   @override
   int? get position;
   @override
-  int? get objectType;
+  int? get generatePosition;
+  @override
+  PassiveObjectType? get objectType;
+  @override
+  int? get acquireBy;
   @override
   RemoveBy? get removeBy;
   @override

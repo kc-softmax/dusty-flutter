@@ -115,7 +115,7 @@ const _$RemoveByEnumMap = {
   RemoveBy.flame: 2,
   RemoveBy.missaile: 3,
   RemoveBy.punch: 4,
-  RemoveBy.lithning: 5,
+  RemoveBy.lightning: 5,
 };
 
 _$TowerMessageImpl _$$TowerMessageImplFromJson(Map<String, dynamic> json) =>
@@ -175,6 +175,7 @@ Map<String, dynamic> _$$ActiveObjectMessageImplToJson(
 const _$ActiveObjectTypeEnumMap = {
   ActiveObjectType.normalMissaile: 1,
   ActiveObjectType.normalPunch: 2,
+  ActiveObjectType.normalGrenade: 3,
 };
 
 _$PassiveObjectMessageImpl _$$PassiveObjectMessageImplFromJson(
@@ -185,7 +186,10 @@ _$PassiveObjectMessageImpl _$$PassiveObjectMessageImplFromJson(
       team: json['team'] as int?,
       size: json['size'] as int?,
       position: json['position'] as int?,
-      objectType: json['object_type'] as int?,
+      generatePosition: json['generate_position'] as int?,
+      objectType:
+          $enumDecodeNullable(_$PassiveObjectTypeEnumMap, json['object_type']),
+      acquireBy: json['acquire_by'] as int?,
       removeBy: $enumDecodeNullable(_$RemoveByEnumMap, json['remove_by']),
     );
 
@@ -197,9 +201,20 @@ Map<String, dynamic> _$$PassiveObjectMessageImplToJson(
       'team': instance.team,
       'size': instance.size,
       'position': instance.position,
-      'object_type': instance.objectType,
+      'generate_position': instance.generatePosition,
+      'object_type': _$PassiveObjectTypeEnumMap[instance.objectType],
+      'acquire_by': instance.acquireBy,
       'remove_by': _$RemoveByEnumMap[instance.removeBy],
     };
+
+const _$PassiveObjectTypeEnumMap = {
+  PassiveObjectType.idle: 0,
+  PassiveObjectType.normalSeed: 1,
+  PassiveObjectType.coconut: 2,
+  PassiveObjectType.middleTreeOfLife: 3,
+  PassiveObjectType.bush4X4: 4,
+  PassiveObjectType.bush8X4: 5,
+};
 
 _$TileMessageImpl _$$TileMessageImplFromJson(Map<String, dynamic> json) =>
     _$TileMessageImpl(

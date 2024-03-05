@@ -1,12 +1,15 @@
 import 'dart:math';
-
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
+import 'package:dusty_flutter/effects/ui/const.dart';
+import 'package:dusty_flutter/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
+import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/ui/const.dart';
 import 'package:dusty_flutter/ui/gauge_bar.dart';
+import 'package:dusty_flutter/ui/grenade_circle.dart';
 import 'package:dusty_flutter/ui/name_label.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -61,16 +64,19 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   late final HorizontalGaugeBar topGaugeBar;
   late final VerticalGaugeBar rightGaugeBar;
   late final SpriteAnimationComponent aim;
+  late final SpriteComponent autoTargetRange;
+  late final GrenadeCircle grenadeCircle;
   final String dustyName;
   final Team team;
 
+  PassiveObjects? overLabObject;
   Vector2? nextPosition;
+  int throwingPower = 0;
   int? targetId;
   int? lockOnId;
   DustyState dustyState = DustyState.normal;
   double speed = 0;
   int hasShield = 0;
-  bool isPlayer = false;
   int _isFinishing = 0;
 
   // sounds
@@ -79,6 +85,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   AudioPlayer? shieldSound;
   AudioPlayer? dustyStateSound;
   AudioPlayer? lockOnSound;
+  bool _isPlayer = true;
+  bool get isPlayer => _isPlayer;
+  set isPlayer(bool value) {
+    _isPlayer = value;
+    // autoTargetRange.setOpacity(isPlayer ? 0.75 : 0);
+    autoTargetRange.setOpacity(0);
+  }
 
   DustyBodyType _bodyType = DustyBodyType.yellow;
   DustyBodyType get bodyType => _bodyType;
@@ -116,11 +129,17 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   }
 
   Dusty(this.dustyName, this.team)
-      : super(size: Vector2(42, 42), anchor: Anchor.center);
+      : super(size: Vector2(36, 36), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
-    priority = 5;
+    priority = Priority.normal;
+
+    grenadeCircle = GrenadeCircle()
+      ..size = size
+      ..x = x
+      ..y = y;
+
     shieldEffect = SpriteAnimationComponent(
         animation: SpriteAnimation.spriteList(
       gameRef.atlas.findSpritesByName('shield'),
@@ -128,7 +147,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     ))
       ..opacity = 0
       ..size = size * 1.3
-      ..x = -7
+      ..x = -5
       ..y = -5;
     shieldEffect.animationTicker?.paused = true;
     aim = SpriteAnimationComponent(
@@ -139,6 +158,14 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       ..size = size
       ..opacity = 0
       ..y = 4;
+
+    autoTargetRange =
+        SpriteComponent(sprite: gameRef.atlas.findSpriteByName('auto_range'))
+          ..scale = Vector2.all(0.5)
+          ..opacity = 0;
+    autoTargetRange.flipHorizontally();
+    autoTargetRange.x = autoTargetRange.size.x / 2;
+    autoTargetRange.y = -height;
 
     animations = {
       DustyBodyType.red: SpriteAnimation.spriteList(
@@ -188,7 +215,10 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         bodyType = DustyBodyType.red;
         break;
     }
+
     addAll([
+      // grenadeCircle,
+      autoTargetRange,
       glasses,
       bodyEffect,
       shieldEffect,
@@ -197,6 +227,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       rightGaugeBar,
       aim
     ]);
+    add(RectangleHitbox());
     await super.onLoad();
   }
 
@@ -215,8 +246,11 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
     if (nextPosition != null) {
       final remainingDistance = (nextPosition! - position).length;
-      final toMoveDirection = (nextPosition! - position).normalized();
-      if (remainingDistance < 1) {
+      final toMoveDirection =
+          Vector2(nextPosition!.x - x, nextPosition!.y - y).normalized();
+      if (remainingDistance < 1 || remainingDistance > 32) {
+        // 혹은 너무 멀리 떨어저 있다면 32픽셀 이상?
+        // print('force set position');
         position.setFrom(nextPosition!);
         return;
       }
@@ -225,6 +259,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       currentSpeed = speed;
       //일정 거리 이하로 가면 멈춤 # 멈추지 않아야
       position.add(toMoveDirection * currentSpeed * dt);
+
       if (toMoveDirection.screenAngle() >= 0 && isFlippedHorizontally) {
         flipHorizontally();
       }
@@ -233,6 +268,23 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       }
     }
   }
+
+  // @override
+  // void render(Canvas canvas) {
+  //     super.render(canvas);
+  //   if(isPlayer) {
+
+  //   }
+  //     // final rect =
+  //     //     Rect.fromLTWH(-width * 0.5, height * 0.33, width * 2, height);
+
+  //     // canvas.drawOval(rect, aquireBgPaint);
+
+  //     // const startAngle = -math.pi / 2;
+  //     // final sweepAngle = math.pi * 2 * aquireProgress;
+  //     // canvas.drawArc(rect, startAngle, sweepAngle, true, aquirePaint);
+  //   }
+  // }
 
   void updateSpeed() {
     if (gameRef.playScene.gameConfig != null) {
@@ -302,6 +354,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
     if (shield > 0) {
       shieldEffect.setOpacity(1);
+      shieldEffect.animationTicker?.paused = false;
       rightGaugeBar.setOpacity(1);
       rightGaugeBar.decreaseWithDuration(
           gameRef.playScene.gameConfig!.shieldDuration.toDouble(), shieldColor);
@@ -310,6 +363,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
           .then((sound) => shieldSound = sound);
     } else {
       shieldEffect.setOpacity(0);
+      shieldEffect.animationTicker?.paused = true;
       rightGaugeBar.setOpacity(0);
       shieldSound?.stop();
     }
@@ -317,18 +371,28 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     updateUIState();
   }
 
-  void updateDustyState(DustyState newState) {
+  void updateDustyState(DustyState newState, int visible) {
     if (newState == dustyState) {
-      return;
+      if (opacity == 0 && visible > 0) {
+        // 원래 안보이다가 이제는 보여야 한다.
+      } else if (opacity > 0 && visible == 0) {
+        // 이제는 안보여야 한다.
+      } else {
+        return;
+      }
     }
+
     switch (newState) {
-      case DustyState.boost:
-        glassesType = DustyGlassesType.boost;
-        rightGaugeBar.decreaseWithDuration(
-            gameRef.playScene.gameConfig!.boostDuration.toDouble(), boostColor);
+      case DustyState.invincible:
+        gameRef.world.add(DefaultExplosion(DefaultExplosionType.blue)
+          ..x = x
+          ..y = y
+          ..size = size);
+        hide(true, visible > 0);
         DustySoundPool.instance
             .loopOnBoost()
             .then((value) => dustyStateSound = value);
+
         break;
       case DustyState.normal:
         glassesType = DustyGlassesType.idle;
@@ -336,6 +400,15 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         break;
       default:
         break;
+    }
+    if (dustyState != DustyState.normal && newState == DustyState.normal) {
+      if (dustyState == DustyState.invincible) {
+        gameRef.world.add(DefaultExplosion(DefaultExplosionType.blue)
+          ..x = x
+          ..y = y
+          ..size = size);
+      }
+      hide(false, true);
     }
     dustyState = newState;
   }
@@ -353,6 +426,23 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       bodyEffect.setOpacity(0);
     }
     changeState(bodyType, currentIndex);
+  }
+
+  void hide(bool hide, bool visible) {
+    final hideValue = visible ? 0.5 : 0.0;
+    setOpacity(hide ? hideValue : 1);
+    bodyEffect.setOpacity(hide ? hideValue : 1);
+    glasses.setOpacity(hide ? hideValue : 1);
+    topGaugeBar.setOpacity(hide ? hideValue : 1);
+    rightGaugeBar.setOpacity(hide ? hideValue : 1);
+    if (!visible) {
+      nameLabel.text = '';
+    } else {
+      nameLabel.text = dustyName;
+    }
+    if (hasShield > 0) {
+      shieldEffect.setOpacity(hide ? hideValue : 1);
+    }
   }
 
   void dead() {

@@ -5,6 +5,13 @@ import 'package:flame/text.dart';
 
 enum HudButtonType { circle, smallCircle }
 
+class Priority {
+  static const int low = 0;
+  static const int normal = 1;
+  static const int environment = 2;
+  static const int environmentIntersected = 3;
+}
+
 // Colors
 const Color neturalColor = Color(0xFFF2E2A1);
 const Color boostColor = Color(0xFFE0C3A3);
@@ -20,7 +27,14 @@ const Color betaTileColor = Color(0x884D1518);
 
 final regularText = TextPaint(
   style: TextStyle(
-    fontSize: 16.0,
+    fontSize: 12.0,
     color: BasicPalette.white.color,
+    shadows: [
+      Shadow(
+        color: BasicPalette.black.color,
+        offset: const Offset(2, 2),
+        blurRadius: 1,
+      ),
+    ],
   ),
 );

@@ -6,6 +6,7 @@ import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/characters/dusty_factory.dart';
 import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/game.dart';
+import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/tiles/tile_factory.dart';
 import 'package:dusty_flutter/towers/tower_factory.dart';
 import 'package:dusty_flutter/ui/hud.dart';
@@ -21,6 +22,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   final dustyFactory = DustyFactory();
   final activeObjectsFactory = ActiveObjectsFactory();
+  final passiveObjectsFactory = PassiveObjectsFactory();
   final towerFactory = TowerFactory();
   final tileFactory = TileFactory();
   late final int? followerId;
@@ -37,6 +39,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
       tileFactory,
       dustyFactory,
       activeObjectsFactory,
+      passiveObjectsFactory,
       towerFactory,
     ]);
   }
@@ -106,11 +109,14 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     if (gameMessage.actives != null) {
       activeObjectsFactory.addMessages(gameMessage.actives!);
     }
+    if (gameMessage.passives != null) {
+      passiveObjectsFactory.addMessages(gameMessage.passives!);
+    }
     if (gameMessage.towers != null) {
       towerFactory.addMessages(gameMessage.towers!);
     }
     if (gameMessage.tiles != null) {
-      tileFactory.addMessages(gameMessage.tiles!);
+      // tileFactory.addMessages(gameMessage.tiles!);
     }
   }
 

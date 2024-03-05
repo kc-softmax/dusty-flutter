@@ -32,7 +32,8 @@ enum DustyAction {
 
 enum DustyState {
   normal(0),
-  boost(1);
+  invisible(1),
+  invincible(2);
 
   final int code;
   const DustyState(this.code);

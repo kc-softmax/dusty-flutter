@@ -10,12 +10,15 @@ class StatusParser {
   static boostAvailable(int status) => (status >> 8) & 0x1;
   static isFinishing(int status) => (status >> 9) & 0x1;
   static isShield(int status) => (status >> 10) & 0x1;
-  static isRiding(int status) => (status >> 11) & 0x1;
+  static PassiveObjectType equipment1(int status) =>
+      PassiveObjectType.parse((status >> 11) & 0x3);
+  static PassiveObjectType equipment2(int status) =>
+      PassiveObjectType.parse((status >> 14) & 0x3);
   static DustyState dustyState(int status) =>
-      DustyState.parse((status >> 12) & 0x3);
+      DustyState.parse((status >> 17) & 0x3);
   static FinishType finishType(int status) =>
-      FinishType.parse((status >> 15) & 0x3);
-  static finishGauge(int status) => (status >> 18) & 0xff;
+      FinishType.parse((status >> 20) & 0x3);
+  static finishGauge(int status) => (status >> 23) & 0xff;
 }
 
 class PositionParser {

@@ -125,6 +125,7 @@ class DustyHudFinishButton extends HudButtonComponent {
           DustySoundPool.instance.effectOnActivateLightningFinishing();
         default:
       }
+
       // available
       // timer.stop();
     } else {
