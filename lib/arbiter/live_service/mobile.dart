@@ -35,7 +35,7 @@ class ArbiterLiveService extends BaseArbiterLiveService {
     // websocket의 연결 상태를 확인 후 처리하고 싶으나
     // 라이브러리에서 연결 상태 값을 가져올 수 없어 try-catch로 처리
     try {
-      _channel.sink.add(message.asUint8List());
+      _channel.sink.add(message.asUint16List());
     } catch (e) {
       debugPrint(e.toString());
     }
