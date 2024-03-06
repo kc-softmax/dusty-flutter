@@ -67,7 +67,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
         handleButtonAction: _onPressedActiveButton,
         reloadDuration: gameConfig.activeSkillDuration);
 
-    specialButton = DustyHudButton(
+    specialButton = LongTapDustyHudButton(
         button: SpriteComponent(
           sprite: game.atlas.findSpriteByName('circle_button'),
           size: middleButtonSize,
@@ -76,7 +76,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 90,
           bottom: 164,
         ),
-        handleButtonAction: _onPressedSpecialButton,
+        longTapMaxTime: 3,
+        handleLongTapButtonAction: _onPressedSpecialButton,
         reloadDuration: gameConfig.specialSkillReloadTime);
 
     special2Button = DustyHudButton(
@@ -124,7 +125,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 342,
           bottom: 50,
         ),
-        handleButtonAction: _onPressedSpecialButton,
+        handleButtonAction: _onPressedSpecial2Button,
         reloadDuration: 1);
 
     itemSlot2 = DustyHudButton(
@@ -136,7 +137,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           right: 412,
           bottom: 50,
         ),
-        handleButtonAction: _onPressedSpecialButton,
+        handleButtonAction: _onPressedSpecial2Button,
         reloadDuration: 1);
 
     // minimap = Minimap();
@@ -268,7 +269,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     Arbiter.liveService.sendByte(DustyAction.activeSkill.encode());
   }
 
-  void _onPressedSpecialButton(double progress) {
+  void _onPressedSpecialButton(double progress, int guage) {
     if (progress != 0) return;
     debugPrint("press special button");
     DustySoundPool.instance.effectOnSpecialSkil();
