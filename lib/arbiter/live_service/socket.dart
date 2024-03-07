@@ -1,8 +1,21 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:dusty_flutter/arbiter/live_service/base.dart';
 import 'package:flutter/widgets.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+abstract class BaseArbiterLiveService {
+  final String baseSocketUrl;
+
+  BaseArbiterLiveService({required this.baseSocketUrl});
+
+  Future<void> on(
+    String url,
+    Function(dynamic message) onMessage,
+    void Function()? onDone,
+  );
+  void sendByte(ByteBuffer message);
+  void close();
+}
 
 class ArbiterLiveService extends BaseArbiterLiveService {
   late WebSocketChannel _channel;
@@ -31,9 +44,7 @@ class ArbiterLiveService extends BaseArbiterLiveService {
 
   @override
   void sendByte(ByteBuffer message) async {
-    // NOTE
-    // websocket의 연결 상태를 확인 후 처리하고 싶으나
-    // 라이브러리에서 연결 상태 값을 가져올 수 없어 try-catch로 처리
+    if (_channel.closeCode != null) return;
     try {
       _channel.sink.add(message.asUint16List());
     } catch (e) {

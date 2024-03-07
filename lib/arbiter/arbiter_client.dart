@@ -1,6 +1,5 @@
 import 'package:dusty_flutter/arbiter/api/client.dart';
-import 'package:dusty_flutter/arbiter/live_service/mobile.dart'
-    if (dart.library.html) 'package:dusty_flutter/arbiter/live_service/browser.dart';
+import 'package:dusty_flutter/arbiter/live_service/socket.dart';
 
 // env
 const baseUrl = 'http://192.168.0.55:9991';
