@@ -22,9 +22,13 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
   late final LoadingScene loadingScene;
   late final LobbyScene lobbyScene;
 
+  bool isReGame = false;
   bool isVerified = false;
   bool isLoadedAtlas = false;
   bool isLoadedMap = false;
+
+  DustyIslandWorld();
+  factory DustyIslandWorld.reGame() => DustyIslandWorld()..isReGame = true;
 
   @override
   Future<void> onLoad() async {
@@ -100,7 +104,7 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
   }
 
   LoadingScene _buildLoadingScene() {
-    loadingScene = LoadingScene();
+    loadingScene = LoadingScene(isReGame: isReGame);
     return loadingScene;
   }
 

@@ -77,6 +77,11 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   void onMount() {
     super.onMount();
     _startGame();
+    // TEMP
+    // 게임 종료를 위한 타이머
+    // Timer(const Duration(seconds: 3), () {
+    //   _closeGame();
+    // });
   }
 
   @override
@@ -150,8 +155,12 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     }
   }
 
-  void _restGame() {
-    gameRef.world = DustyIslandWorld();
+  void _restGame(bool isReGame) {
+    if (isReGame) {
+      gameRef.world = DustyIslandWorld.reGame();
+    } else {
+      gameRef.world = DustyIslandWorld();
+    }
   }
 
   void _onClosedGame() async {
@@ -159,10 +168,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     // 게임 닫기 다이얼로그는 랭킹 테이블, 다시하기 버튼, 나가기 버튼 으로 구성되어 있다.
     // 리턴값에 따라서 다시하기 로직 또는 나가기 로직을 실행한다.
     final isReGame = await gameRef.router.pushAndWait(GameCloseDialog());
-    if (isReGame) {
-    } else {
-      _restGame();
-    }
+    _restGame(isReGame);
   }
 
   @override

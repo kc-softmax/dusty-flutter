@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/scenes/lobby_scene.dart';
+import 'package:dusty_flutter/scenes/play_scene.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,9 @@ class LoadingScene extends Component with HasGameRef<DustyIslandGame> {
   static const minimumHoldingTime = progressPeriod * finishProgress * 0.1;
 
   int currnetProgress = 0;
+  bool isReGame = false;
+
+  LoadingScene({this.isReGame = false});
 
   late final TextBoxComponent tb;
   @override
@@ -56,7 +60,11 @@ class LoadingScene extends Component with HasGameRef<DustyIslandGame> {
     tb.text = currnetProgress.toString();
     if (gameRef.isFinishLoadAllResource && currnetProgress >= finishProgress) {
       if (gameRef.isVerified) {
-        gameRef.router.pushReplacementNamed(LobbyScene.routerName);
+        if (isReGame) {
+          gameRef.router.pushReplacementNamed(PlayScene.routerName);
+        } else {
+          gameRef.router.pushReplacementNamed(LobbyScene.routerName);
+        }
       } else {
         gameRef.router.pushOverlay('login-dialog');
       }
