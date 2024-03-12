@@ -15,7 +15,13 @@ class DustyIslandApp extends StatelessWidget {
       // home: GameSplashScreen(
       //   gameWidget: buildGame(),
       // )
-      home: buildGame(),
+      home: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/background.png')),
+        ),
+        child: buildGame(),
+      ),
     );
   }
 }

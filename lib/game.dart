@@ -39,47 +39,117 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
           LoadingScene.routerName: Route(_buildLoadingScene),
           LobbyScene.routerName: Route(_buildLobbyScene),
           PlayScene.routerName: Route(_buildPlayScene),
-          "login-dialog": OverlayRoute((context, game) {
+          "login-dialog": OverlayRoute(transparent: false, (context, game) {
             final controller = TextEditingController();
             return Center(
               child: SizedBox(
-                width: 300,
-                height: 300,
+                width: 400,
+                height: 400,
                 child: Card(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  color: Colors.transparent,
+                  child: Column(
                     children: [
-                      SizedBox(
-                        width: 100,
-                        height: 36,
-                        child: TextField(
-                          controller: controller,
+                      const Padding(
+                        padding: EdgeInsets.only(top: 48.0),
+                        child: Text(
+                          'Dusty Island',
+                          style: TextStyle(
+                            fontFamily: 'ONEMobilePOP',
+                            fontSize: 56,
+                            shadows: [
+                              Shadow(
+                                  // bottomLeft
+                                  offset: Offset(-1.5, -1.5),
+                                  color: Colors.black),
+                              Shadow(
+                                  // bottomRight
+                                  offset: Offset(1.5, -1.5),
+                                  color: Colors.black),
+                              Shadow(
+                                  // topRight
+                                  offset: Offset(1.5, 1.5),
+                                  color: Colors.black),
+                              Shadow(
+                                  // topLeft
+                                  offset: Offset(-1.5, 1.5),
+                                  color: Colors.black),
+                            ],
+                          ),
                         ),
                       ),
-                      FilledButton(
-                          onPressed: () async {
-                            try {
-                              final result = await Arbiter.api.loginByUserName(
-                                  RequestLoginByUserName(
-                                      userName: controller.value.text.trim()));
-                              final prefs =
-                                  await SharedPreferences.getInstance();
-                              await prefs.setInt("playerId", result.id);
-                              await prefs.setString(
-                                  "token", result.accessToken);
-                              await prefs.setString(
-                                  "userName", result.userName);
+                      const SizedBox(
+                        height: 56,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 240,
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              maxLength: 10,
+                              controller: controller,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Input UserName',
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)),
+                                  borderSide:
+                                      BorderSide(width: 2, color: Colors.white),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4)),
+                                    borderSide: BorderSide(
+                                      width: 2,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                              style: const TextStyle(
+                                fontFamily: 'ONEMobilePOP',
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          FilledButton(
+                              style: FilledButton.styleFrom(
+                                fixedSize: const Size(96, 22),
+                              ),
+                              onPressed: () async {
+                                try {
+                                  final result = await Arbiter.api
+                                      .loginByUserName(RequestLoginByUserName(
+                                          userName:
+                                              controller.value.text.trim()));
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs.setInt("playerId", result.id);
+                                  await prefs.setString(
+                                      "token", result.accessToken);
+                                  await prefs.setString(
+                                      "userName", result.userName);
 
-                              router.pop();
-                              router
-                                  .pushReplacementNamed(LobbyScene.routerName);
-                            } catch (e) {
-                              Fluttertoast.showToast(
-                                  msg: 'Please try again in a few minutes.');
-                            }
-                          },
-                          child: const Text("로그인")),
+                                  router.pop();
+                                  router.pushReplacementNamed(
+                                      LobbyScene.routerName);
+                                } catch (e) {
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          'Please try again in a few minutes.');
+                                }
+                              },
+                              child: const Text(
+                                "login",
+                                style: TextStyle(
+                                  fontFamily: 'ONEMobilePOP',
+                                ),
+                              )),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -145,6 +215,10 @@ class DustyIslandGame extends FlameGame
   @override
   DustyIslandWorld get world => super.world as DustyIslandWorld;
 
+  @override
+  Color backgroundColor() {
+    return Colors.transparent;
+  }
   // @override
   // KeyEventResult onKeyEvent(
   //   KeyEvent event,

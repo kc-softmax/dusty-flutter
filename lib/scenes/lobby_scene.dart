@@ -23,41 +23,64 @@ class LobbyScene extends Component with HasGameRef<DustyIslandGame> {
 
     gameRef.overlays.addEntry('StartButton', (context, game) {
       return Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 120.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FilledButton(
-                onPressed: () async {
-                  gameRef.overlays.remove("StartButton");
-                  PlayScene.selectedTeam = Team.alpha;
-                  gameRef.router.pushReplacementNamed(PlayScene.routerName);
-                },
-                style: FilledButton.styleFrom(
-                    fixedSize: const Size(96, 22),
-                    foregroundColor: Colors.white,
-                    backgroundColor: crimsonColor),
-                child: const Text("select"),
+        child: SizedBox(
+          width: 400,
+          height: 400,
+          child: Card(
+            color: Colors.transparent,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 120.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FilledButton(
+                    onPressed: () async {
+                      gameRef.overlays.remove("StartButton");
+                      PlayScene.selectedTeam = Team.alpha;
+                      gameRef.router.pushReplacementNamed(PlayScene.routerName);
+                    },
+                    style: FilledButton.styleFrom(
+                        fixedSize: const Size(96, 22),
+                        foregroundColor: Colors.white,
+                        backgroundColor: crimsonColor),
+                    child: const Text(
+                      "select",
+                      style: TextStyle(
+                        fontFamily: 'ONEMobilePOP',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 72),
+                  FilledButton(
+                    onPressed: () async {
+                      gameRef.overlays.remove("StartButton");
+                      PlayScene.selectedTeam = Team.beta;
+                      gameRef.router.pushReplacementNamed(PlayScene.routerName);
+                    },
+                    style: FilledButton.styleFrom(
+                        fixedSize: const Size(96, 22),
+                        foregroundColor: Colors.black,
+                        backgroundColor: yellowDusty),
+                    child: const Text(
+                      "select",
+                      style: TextStyle(
+                        fontFamily: 'ONEMobilePOP',
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 72),
-              FilledButton(
-                onPressed: () async {
-                  gameRef.overlays.remove("StartButton");
-                  PlayScene.selectedTeam = Team.beta;
-                  gameRef.router.pushReplacementNamed(PlayScene.routerName);
-                },
-                style: FilledButton.styleFrom(
-                    fixedSize: const Size(96, 22),
-                    foregroundColor: Colors.black,
-                    backgroundColor: yellowDusty),
-                child: const Text("select"),
-              ),
-            ],
+            ),
           ),
         ),
       );
     });
     gameRef.overlays.add('StartButton');
+  }
+
+  @override
+  void onRemove() {
+    nativeDusty.removeFromParent();
+    trashDusty.removeFromParent();
   }
 }
