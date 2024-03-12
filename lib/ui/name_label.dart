@@ -41,8 +41,11 @@ class DustyNameLabel extends TextBoxComponent {
     center = _caclulateCenter();
   }
 
-  Vector2 _caclulateCenter() => Vector2(
-        (parent as Dusty).size.x * 0.5,
-        topMargin,
-      );
+  Vector2 _caclulateCenter() {
+    if (parent is Dusty) return Vector2.zero();
+    return Vector2(
+      (parent as Dusty).size.x * 0.5,
+      topMargin,
+    );
+  }
 }

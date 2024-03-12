@@ -218,6 +218,11 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   @override
   void update(double dt) {
     super.update(dt);
+    // sound volume update
+    finishingStateSound?.setVolume(getSoundVolume());
+    dustyStateSound?.setVolume(getSoundVolume());
+    lockOnSound?.setVolume(getSoundVolume());
+
     // nextposition이 있으면 이동
     if (speed < 1) {
       return;
@@ -230,6 +235,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     position.add(toMoveDirection * speed * dt / gameRef.playScene.serverDelta);
 
     lastMoveAngle = toMoveDirection.screenAngle();
+  }
+
+  @override
+  void remove(Component component) {
+    finishingStateSound?.stop();
+    dustyStateSound?.stop();
+    lockOnSound?.stop();
   }
 
   void updateTargetDirection(int directionIndex) {
@@ -401,9 +413,19 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   void dead() {
     removeFromParent();
     if (isPlayer) {
-      DustySoundPool.instance.effectOnPlayerDeath();
+      DustySoundPool.instance.effectOnPlayerDeath(volume: getSoundVolume());
     } else {
-      DustySoundPool.instance.effectOnDeath();
+      DustySoundPool.instance.effectOnDeath(volume: getSoundVolume());
     }
+  }
+
+  double getDistanceToPlayer() {
+    final player = gameRef.playScene.player;
+    if (player == null) return 0.0;
+    return position.distanceTo(player.position);
+  }
+
+  double getSoundVolume() {
+    return min(1 - (getDistanceToPlayer() / gameRef.canvasDiagonal), 1);
   }
 }

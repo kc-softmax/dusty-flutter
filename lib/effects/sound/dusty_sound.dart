@@ -57,40 +57,19 @@ class DustySoundPool {
 
   // effects
   // 단발성 사운드들
-  Future<AudioPlayer> effectOnActivateFireFinishing() =>
-      FlameAudio.play('explosion.mp3');
-  Future<AudioPlayer> effectOnActivateLightningFinishing() =>
-      FlameAudio.play('explosion.mp3');
-  Future<AudioPlayer> effectOnActiveSkil() => FlameAudio.play('explosion.mp3');
-  Future<AudioPlayer> effectOnSpecialSkil() => FlameAudio.play('explosion.mp3');
-  Future<AudioPlayer> effectOnSecondarySpecialSkil() =>
-      FlameAudio.play('explosion.mp3');
-  Future<AudioPlayer> effectOnDeath() => FlameAudio.play('crab_scream.mp3');
-  Future<AudioPlayer> effectOnPlayerDeath() => FlameAudio.play('scream.mp3');
+  Future<AudioPlayer> effectOnActivateFireFinishing({double volume = 1.0}) =>
+      FlameAudio.play('explosion.mp3', volume: volume);
+  Future<AudioPlayer> effectOnActivateLightningFinishing(
+          {double volume = 1.0}) =>
+      FlameAudio.play('explosion.mp3', volume: volume);
+  Future<AudioPlayer> effectOnActiveSkil({double volume = 1.0}) =>
+      FlameAudio.play('explosion.mp3', volume: volume);
+  Future<AudioPlayer> effectOnSpecialSkil({double volume = 1.0}) =>
+      FlameAudio.play('explosion.mp3', volume: volume);
+  Future<AudioPlayer> effectOnSecondarySpecialSkil({double volume = 1.0}) =>
+      FlameAudio.play('explosion.mp3', volume: volume);
+  Future<AudioPlayer> effectOnDeath({double volume = 1.0}) =>
+      FlameAudio.play('crab_scream.mp3', volume: volume);
+  Future<AudioPlayer> effectOnPlayerDeath({double volume = 1.0}) =>
+      FlameAudio.play('scream.mp3', volume: volume);
 }
-
-// class DustySound {
-//   String fileName;
-//   bool isBgm;
-//   AudioPlayer? player;
-
-//   DustySound(this.fileName, {this.isBgm = false}) {
-//     print('!!!');
-//   }
-
-//   void play() {
-//     if (isBgm) {
-//       FlameAudio.bgm.play(fileName);
-//     } else {
-//       FlameAudio.play(fileName).then((player) => player = player);
-//     }
-//   }
-
-//   void stop() {
-//     if (isBgm) {
-//       FlameAudio.bgm.stop();
-//     } else {
-//       player?.stop();
-//     }
-//   }
-// }
