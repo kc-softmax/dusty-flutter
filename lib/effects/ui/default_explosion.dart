@@ -22,9 +22,9 @@ class DefaultExplosion extends SpriteAnimationComponent
             gameRef.atlas.findSpritesByName('red_explosion'),
             stepTime: 0.05,
             loop: false);
-      case DefaultExplosionType.blue:
+      case DefaultExplosionType.yellow:
         animation = SpriteAnimation.spriteList(
-            gameRef.atlas.findSpritesByName('blue_explosion'),
+            gameRef.atlas.findSpritesByName('yellow_explosion'),
             stepTime: 0.05,
             loop: false);
         break;

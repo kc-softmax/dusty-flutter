@@ -1,1 +1,1 @@
-enum DefaultExplosionType { red, blue, grenade }
+enum DefaultExplosionType { red, yellow, grenade }

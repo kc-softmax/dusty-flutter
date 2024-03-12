@@ -3,6 +3,7 @@ import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/effects/ui/const.dart';
 import 'package:dusty_flutter/effects/ui/default_explosion.dart';
+import 'package:dusty_flutter/effects/ui/thunder_effect.dart';
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
@@ -50,6 +51,14 @@ class DustyGlasses extends SpriteAnimationGroupComponent<DustyGlassesType>
         gameRef.atlas.findSpritesByName('type_a_boost'),
         stepTime: 0.05,
       ),
+      // DustyGlassesType.idle: SpriteAnimation.spriteList(
+      //   gameRef.atlas.findSpritesByName('type_b'),
+      //   stepTime: 0.05,
+      // ),
+      // DustyGlassesType.boost: SpriteAnimation.spriteList(
+      //   gameRef.atlas.findSpritesByName('type_b_boost'),
+      //   stepTime: 0.05,
+      // ),
     };
     current = DustyGlassesType.idle;
   }
@@ -384,10 +393,12 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         return;
       }
     }
-
+    final exType = team == Team.alpha
+        ? DefaultExplosionType.red
+        : DefaultExplosionType.yellow;
     switch (newState) {
       case DustyState.invincible:
-        gameRef.world.add(DefaultExplosion(DefaultExplosionType.blue)
+        gameRef.world.add(DefaultExplosion(exType)
           ..x = x
           ..y = y
           ..size = size);
@@ -408,7 +419,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
     if (dustyState != DustyState.normal && newState == DustyState.normal) {
       if (dustyState == DustyState.invincible) {
-        gameRef.world.add(DefaultExplosion(DefaultExplosionType.blue)
+        gameRef.world.add(DefaultExplosion(exType)
           ..x = x
           ..y = y
           ..size = size);

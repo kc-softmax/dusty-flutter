@@ -34,23 +34,33 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
       Dusty? killer = objects[message.killerId];
       debugPrint("onRemoveObject ${message.dustyId} ${message.killerId}");
       if (killer != null && killer.isPlayer) {
-        final avatar = gameRef.atlas.findSpriteByName('raft') as Sprite;
+        final killerAvatarName =
+            killer.team == Team.alpha ? 'po_mask' : 'nature_mask';
+        final loserAvatarName =
+            deathDusty.team == Team.alpha ? 'po_mask' : 'nature_mask';
+        final killerAvatar =
+            gameRef.atlas.findSpriteByName(killerAvatarName) as Sprite;
+        final loserAvatar =
+            gameRef.atlas.findSpriteByName(loserAvatarName) as Sprite;
         if (killer.isPlayer) {
           gameRef.playScene.hud.playerKillLogs!
-              .addKillLog(avatar, deathDusty.dustyName, message.removeBy!);
+              .addKillLog(loserAvatar, deathDusty.dustyName, message.removeBy!);
         }
         gameRef.playScene.hud.killLogs!.addKillLog(killer.dustyName,
-            deathDusty.dustyName, avatar, avatar, message.removeBy!);
+            deathDusty.dustyName, killerAvatar, loserAvatar, message.removeBy!);
       }
       switch (message.removeBy) {
         case RemoveBy.missaile:
-          gameRef.world.add(DefaultExplosion(DefaultExplosionType.blue)
+          gameRef.world.add(DefaultExplosion(DefaultExplosionType.yellow)
             ..x = deathDusty.x
             ..y = deathDusty.y
             ..size = deathDusty.size * 2);
           break;
         default:
-          gameRef.world.add(DefaultExplosion(DefaultExplosionType.red)
+          final exType = deathDusty.team == Team.alpha
+              ? DefaultExplosionType.red
+              : DefaultExplosionType.yellow;
+          gameRef.world.add(DefaultExplosion(exType)
             ..x = deathDusty.x
             ..y = deathDusty.y
             ..size = deathDusty.size * 2);

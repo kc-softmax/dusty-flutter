@@ -152,7 +152,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     playerKillLogs?.y = gameRef.size.y / 2 - 48;
 
     killLogs = KillLogsComponent(
-      margin: const EdgeInsets.only(left: 44, top: 74),
+      margin: const EdgeInsets.only(left: 44, top: 22),
     );
 
     // playerInfo = PlayerInfoComponent()
