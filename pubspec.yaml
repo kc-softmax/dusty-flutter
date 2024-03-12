@@ -1,6 +1,6 @@
 name: dusty_flutter
 description: "Funny Game: Dusty Island."
-version: 0.0.1+5
+version: 0.0.1+6
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 environment:
