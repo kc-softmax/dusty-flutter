@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DustyIslandApp extends StatelessWidget {
   const DustyIslandApp({super.key});
@@ -24,7 +26,8 @@ GameWidget<DustyIslandGame> buildGame() {
   );
 }
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: kDebugMode ? '.debug.env' : '.env');
   DustySoundPool.instance.init();
   runApp(const DustyIslandApp());
 }
