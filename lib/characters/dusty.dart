@@ -244,9 +244,15 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   void update(double dt) {
     super.update(dt);
     // sound volume update
-    finishingStateSound?.setVolume(getSoundVolume());
-    dustyStateSound?.setVolume(getSoundVolume());
-    lockOnSound?.setVolume(getSoundVolume());
+    if (finishingStateSound?.state == PlayerState.playing) {
+      finishingStateSound?.setVolume(getSoundVolume());
+    }
+    if (dustyStateSound?.state == PlayerState.playing) {
+      dustyStateSound?.setVolume(getSoundVolume());
+    }
+    if (lockOnSound?.state == PlayerState.playing) {
+      lockOnSound?.setVolume(getSoundVolume());
+    }
 
     // nextposition이 있으면 이동
     if (speed < 1) {
@@ -266,13 +272,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     if (toMoveDirection.screenAngle() < 0 && !isFlippedHorizontally) {
       flipHorizontally();
     }
-  }
-
-  @override
-  void remove(Component component) {
-    finishingStateSound?.stop();
-    dustyStateSound?.stop();
-    lockOnSound?.stop();
   }
 
   void updateTargetDirection(int directionIndex) {
@@ -301,13 +300,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         // 다른 사운드들과 같이 콜백으로 AudioPlayer를 받으면
         // 순식간에 락온이 풀리는 경우, 스탑을 실행해야할 때 lockOnSound가 null일 수 있다.
         // 그것을 방지하기 위해 await 사용.
-        await lockOnSound?.stop();
-        lockOnSound = await DustySoundPool.instance.loopOnLockOn();
+        lockOnSound ??= await DustySoundPool.instance.loopOnLockOn();
       }
     } else {
       aim.opacity = 0;
       if (!isPlayer) {
         await lockOnSound?.stop();
+        lockOnSound = null;
       }
     }
   }
@@ -459,13 +458,18 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
   }
 
-  void dead() {
-    removeFromParent();
+  void dead() async {
+    await finishingStateSound?.stop();
+    await dustyStateSound?.stop();
+    await lockOnSound?.stop();
+
     if (isPlayer) {
       DustySoundPool.instance.effectOnPlayerDeath(volume: getSoundVolume());
     } else {
       DustySoundPool.instance.effectOnDeath(volume: getSoundVolume());
     }
+
+    removeFromParent();
   }
 
   double getDistanceToPlayer() {
