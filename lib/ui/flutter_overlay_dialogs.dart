@@ -43,8 +43,8 @@ abstract class FlutterOverlayDialog extends ValueRoute<bool>
           child: GestureDetector(
             onTap: () {}, // 다이얼로그 UI 바깥 부분을 터치했을 때만 이벤트를 잡기 위한 트릭
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.height * 0.8,
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: MediaQuery.of(context).size.height * 0.5,
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(16),
@@ -66,32 +66,41 @@ class GameCloseDialog extends FlutterOverlayDialog {
   Widget _contendsBuilder() {
     return Column(
       children: [
-        Expanded(
+        // Expanded(
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: [
+        //       Expanded(
+        //         child: SingleChildScrollView(
+        //           child: RankingTable(
+        //             rankingList: gameRef.playScene.rankingList ?? [],
+        //           ),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        const Expanded(
+          child: Align(
+            alignment: Alignment.center,
+            child: Text('Thank You'),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: RankingTable(
-                    rankingList: gameRef.playScene.rankingList ?? [],
-                  ),
-                ),
+              FilledButton(
+                onPressed: () => completeWith(true),
+                child: const Text('다시 시작'),
+              ),
+              FilledButton(
+                onPressed: () => completeWith(false),
+                child: const Text('나가기'),
               ),
             ],
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FilledButton(
-              onPressed: () => completeWith(true),
-              child: const Text('다시 시작'),
-            ),
-            FilledButton(
-              onPressed: () => completeWith(false),
-              child: const Text('나가기'),
-            ),
-          ],
         ),
       ],
     );
