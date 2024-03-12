@@ -14,9 +14,6 @@ _$GameMessageImpl _$$GameMessageImplFromJson(Map<String, dynamic> json) =>
       dusties: (json['dusties'] as List<dynamic>?)
           ?.map((e) => DustyMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
-      towers: (json['towers'] as List<dynamic>?)
-          ?.map((e) => TowerMessage.fromJson(e as Map<String, dynamic>))
-          .toList(),
       actives: (json['actives'] as List<dynamic>?)
           ?.map((e) => ActiveObjectMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -32,7 +29,6 @@ Map<String, dynamic> _$$GameMessageImplToJson(_$GameMessageImpl instance) =>
     <String, dynamic>{
       'game_config': instance.gameConfig,
       'dusties': instance.dusties,
-      'towers': instance.towers,
       'actives': instance.actives,
       'passives': instance.passives,
       'tiles': instance.tiles,
@@ -45,13 +41,17 @@ _$GameConfigImpl _$$GameConfigImplFromJson(Map<String, dynamic> json) =>
       boostDuration: json['boost_duration'] as int,
       shieldDuration: json['shield_duration'] as int,
       finishDuration: json['finish_duration'] as int,
-      tileOccupiedDuration: json['tile_occupied_duration'] as int,
       boostSkillReloadTime: json['boost_skill_reload_time'] as int,
       activeSkillDuration: json['active_skill_duration'] as int,
       specialSkillReloadTime: json['special_skill_reload_time'] as int,
       special2SkillReloadTime: json['special2_skill_reload_time'] as int,
       raftReloadTime: json['raft_reload_time'] as int,
       respawnTime: json['respawn_time'] as int,
+      grenadePowerUnit: json['grenade_power_unit'] as int,
+      defaultPunchRange: json['default_punch_range'] as int,
+      autoTargetingRange: json['auto_targeting_range'] as int,
+      autoTargetingAngle: json['auto_targeting_angle'] as int,
+      totalOccupyableRegion: json['total_occupyable_region'] as int,
     );
 
 Map<String, dynamic> _$$GameConfigImplToJson(_$GameConfigImpl instance) =>
@@ -61,13 +61,17 @@ Map<String, dynamic> _$$GameConfigImplToJson(_$GameConfigImpl instance) =>
       'boost_duration': instance.boostDuration,
       'shield_duration': instance.shieldDuration,
       'finish_duration': instance.finishDuration,
-      'tile_occupied_duration': instance.tileOccupiedDuration,
       'boost_skill_reload_time': instance.boostSkillReloadTime,
       'active_skill_duration': instance.activeSkillDuration,
       'special_skill_reload_time': instance.specialSkillReloadTime,
       'special2_skill_reload_time': instance.special2SkillReloadTime,
       'raft_reload_time': instance.raftReloadTime,
       'respawn_time': instance.respawnTime,
+      'grenade_power_unit': instance.grenadePowerUnit,
+      'default_punch_range': instance.defaultPunchRange,
+      'auto_targeting_range': instance.autoTargetingRange,
+      'auto_targeting_angle': instance.autoTargetingAngle,
+      'total_occupyable_region': instance.totalOccupyableRegion,
     };
 
 _$DustyMessageImpl _$$DustyMessageImplFromJson(Map<String, dynamic> json) =>
@@ -80,6 +84,7 @@ _$DustyMessageImpl _$$DustyMessageImplFromJson(Map<String, dynamic> json) =>
       position: json['position'] as int?,
       targetId: json['target_id'] as int?,
       killerId: json['killer_id'] as int?,
+      quantity: json['quantity'] as int?,
       defence: json['defence'] as int?,
       removeBy: $enumDecodeNullable(_$RemoveByEnumMap, json['remove_by']),
     );
@@ -94,6 +99,7 @@ Map<String, dynamic> _$$DustyMessageImplToJson(_$DustyMessageImpl instance) =>
       'position': instance.position,
       'target_id': instance.targetId,
       'killer_id': instance.killerId,
+      'quantity': instance.quantity,
       'defence': instance.defence,
       'remove_by': _$RemoveByEnumMap[instance.removeBy],
     };
@@ -118,27 +124,6 @@ const _$RemoveByEnumMap = {
   RemoveBy.lightning: 5,
 };
 
-_$TowerMessageImpl _$$TowerMessageImplFromJson(Map<String, dynamic> json) =>
-    _$TowerMessageImpl(
-      towerId: json['tower_id'] as int,
-      eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
-      team: json['team'] as int?,
-      shape: json['shape'] as int?,
-      target: json['target'] as int?,
-      removeBy: $enumDecodeNullable(_$RemoveByEnumMap, json['remove_by']),
-    )..position = json['position'] as int?;
-
-Map<String, dynamic> _$$TowerMessageImplToJson(_$TowerMessageImpl instance) =>
-    <String, dynamic>{
-      'position': instance.position,
-      'tower_id': instance.towerId,
-      'event_type': _$EventTypeEnumMap[instance.eventType]!,
-      'team': instance.team,
-      'shape': instance.shape,
-      'target': instance.target,
-      'remove_by': _$RemoveByEnumMap[instance.removeBy],
-    };
-
 _$ActiveObjectMessageImpl _$$ActiveObjectMessageImplFromJson(
         Map<String, dynamic> json) =>
     _$ActiveObjectMessageImpl(
@@ -147,8 +132,11 @@ _$ActiveObjectMessageImpl _$$ActiveObjectMessageImplFromJson(
       team: json['team'] as int?,
       directionX: (json['direction_x'] as num?)?.toDouble(),
       directionY: (json['direction_y'] as num?)?.toDouble(),
-      status: json['status'] as int?,
+      gravity: (json['gravity'] as num?)?.toDouble(),
+      lifeStep: (json['life_step'] as num?)?.toDouble(),
+      speed: json['speed'] as int?,
       position: json['position'] as int?,
+      destination: json['destination'] as int?,
       targetId: json['target_id'] as int?,
       ownerId: json['owner_id'] as int?,
       objectType:
@@ -164,8 +152,11 @@ Map<String, dynamic> _$$ActiveObjectMessageImplToJson(
       'team': instance.team,
       'direction_x': instance.directionX,
       'direction_y': instance.directionY,
-      'status': instance.status,
+      'gravity': instance.gravity,
+      'life_step': instance.lifeStep,
+      'speed': instance.speed,
       'position': instance.position,
+      'destination': instance.destination,
       'target_id': instance.targetId,
       'owner_id': instance.ownerId,
       'object_type': _$ActiveObjectTypeEnumMap[instance.objectType],
@@ -214,6 +205,7 @@ const _$PassiveObjectTypeEnumMap = {
   PassiveObjectType.middleTreeOfLife: 3,
   PassiveObjectType.bush4X4: 4,
   PassiveObjectType.bush8X4: 5,
+  PassiveObjectType.trash: 6,
 };
 
 _$TileMessageImpl _$$TileMessageImplFromJson(Map<String, dynamic> json) =>

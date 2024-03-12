@@ -22,7 +22,6 @@ GameMessage _$GameMessageFromJson(Map<String, dynamic> json) {
 mixin _$GameMessage {
   GameConfig? get gameConfig => throw _privateConstructorUsedError;
   List<DustyMessage>? get dusties => throw _privateConstructorUsedError;
-  List<TowerMessage>? get towers => throw _privateConstructorUsedError;
   List<ActiveObjectMessage>? get actives => throw _privateConstructorUsedError;
   List<PassiveObjectMessage>? get passives =>
       throw _privateConstructorUsedError;
@@ -43,7 +42,6 @@ abstract class $GameMessageCopyWith<$Res> {
   $Res call(
       {GameConfig? gameConfig,
       List<DustyMessage>? dusties,
-      List<TowerMessage>? towers,
       List<ActiveObjectMessage>? actives,
       List<PassiveObjectMessage>? passives,
       List<TileMessage>? tiles});
@@ -66,7 +64,6 @@ class _$GameMessageCopyWithImpl<$Res, $Val extends GameMessage>
   $Res call({
     Object? gameConfig = freezed,
     Object? dusties = freezed,
-    Object? towers = freezed,
     Object? actives = freezed,
     Object? passives = freezed,
     Object? tiles = freezed,
@@ -80,10 +77,6 @@ class _$GameMessageCopyWithImpl<$Res, $Val extends GameMessage>
           ? _value.dusties
           : dusties // ignore: cast_nullable_to_non_nullable
               as List<DustyMessage>?,
-      towers: freezed == towers
-          ? _value.towers
-          : towers // ignore: cast_nullable_to_non_nullable
-              as List<TowerMessage>?,
       actives: freezed == actives
           ? _value.actives
           : actives // ignore: cast_nullable_to_non_nullable
@@ -123,7 +116,6 @@ abstract class _$$GameMessageImplCopyWith<$Res>
   $Res call(
       {GameConfig? gameConfig,
       List<DustyMessage>? dusties,
-      List<TowerMessage>? towers,
       List<ActiveObjectMessage>? actives,
       List<PassiveObjectMessage>? passives,
       List<TileMessage>? tiles});
@@ -145,7 +137,6 @@ class __$$GameMessageImplCopyWithImpl<$Res>
   $Res call({
     Object? gameConfig = freezed,
     Object? dusties = freezed,
-    Object? towers = freezed,
     Object? actives = freezed,
     Object? passives = freezed,
     Object? tiles = freezed,
@@ -159,10 +150,6 @@ class __$$GameMessageImplCopyWithImpl<$Res>
           ? _value._dusties
           : dusties // ignore: cast_nullable_to_non_nullable
               as List<DustyMessage>?,
-      towers: freezed == towers
-          ? _value._towers
-          : towers // ignore: cast_nullable_to_non_nullable
-              as List<TowerMessage>?,
       actives: freezed == actives
           ? _value._actives
           : actives // ignore: cast_nullable_to_non_nullable
@@ -185,12 +172,10 @@ class _$GameMessageImpl implements _GameMessage {
   const _$GameMessageImpl(
       {this.gameConfig,
       final List<DustyMessage>? dusties,
-      final List<TowerMessage>? towers,
       final List<ActiveObjectMessage>? actives,
       final List<PassiveObjectMessage>? passives,
       final List<TileMessage>? tiles})
       : _dusties = dusties,
-        _towers = towers,
         _actives = actives,
         _passives = passives,
         _tiles = tiles;
@@ -206,16 +191,6 @@ class _$GameMessageImpl implements _GameMessage {
     final value = _dusties;
     if (value == null) return null;
     if (_dusties is EqualUnmodifiableListView) return _dusties;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<TowerMessage>? _towers;
-  @override
-  List<TowerMessage>? get towers {
-    final value = _towers;
-    if (value == null) return null;
-    if (_towers is EqualUnmodifiableListView) return _towers;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -252,7 +227,7 @@ class _$GameMessageImpl implements _GameMessage {
 
   @override
   String toString() {
-    return 'GameMessage(gameConfig: $gameConfig, dusties: $dusties, towers: $towers, actives: $actives, passives: $passives, tiles: $tiles)';
+    return 'GameMessage(gameConfig: $gameConfig, dusties: $dusties, actives: $actives, passives: $passives, tiles: $tiles)';
   }
 
   @override
@@ -263,7 +238,6 @@ class _$GameMessageImpl implements _GameMessage {
             (identical(other.gameConfig, gameConfig) ||
                 other.gameConfig == gameConfig) &&
             const DeepCollectionEquality().equals(other._dusties, _dusties) &&
-            const DeepCollectionEquality().equals(other._towers, _towers) &&
             const DeepCollectionEquality().equals(other._actives, _actives) &&
             const DeepCollectionEquality().equals(other._passives, _passives) &&
             const DeepCollectionEquality().equals(other._tiles, _tiles));
@@ -275,7 +249,6 @@ class _$GameMessageImpl implements _GameMessage {
       runtimeType,
       gameConfig,
       const DeepCollectionEquality().hash(_dusties),
-      const DeepCollectionEquality().hash(_towers),
       const DeepCollectionEquality().hash(_actives),
       const DeepCollectionEquality().hash(_passives),
       const DeepCollectionEquality().hash(_tiles));
@@ -298,7 +271,6 @@ abstract class _GameMessage implements GameMessage {
   const factory _GameMessage(
       {final GameConfig? gameConfig,
       final List<DustyMessage>? dusties,
-      final List<TowerMessage>? towers,
       final List<ActiveObjectMessage>? actives,
       final List<PassiveObjectMessage>? passives,
       final List<TileMessage>? tiles}) = _$GameMessageImpl;
@@ -310,8 +282,6 @@ abstract class _GameMessage implements GameMessage {
   GameConfig? get gameConfig;
   @override
   List<DustyMessage>? get dusties;
-  @override
-  List<TowerMessage>? get towers;
   @override
   List<ActiveObjectMessage>? get actives;
   @override
@@ -335,13 +305,17 @@ mixin _$GameConfig {
   int get boostDuration => throw _privateConstructorUsedError;
   int get shieldDuration => throw _privateConstructorUsedError;
   int get finishDuration => throw _privateConstructorUsedError;
-  int get tileOccupiedDuration => throw _privateConstructorUsedError;
   int get boostSkillReloadTime => throw _privateConstructorUsedError;
   int get activeSkillDuration => throw _privateConstructorUsedError;
   int get specialSkillReloadTime => throw _privateConstructorUsedError;
   int get special2SkillReloadTime => throw _privateConstructorUsedError;
   int get raftReloadTime => throw _privateConstructorUsedError;
   int get respawnTime => throw _privateConstructorUsedError;
+  int get grenadePowerUnit => throw _privateConstructorUsedError;
+  int get defaultPunchRange => throw _privateConstructorUsedError;
+  int get autoTargetingRange => throw _privateConstructorUsedError;
+  int get autoTargetingAngle => throw _privateConstructorUsedError;
+  int get totalOccupyableRegion => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -361,13 +335,17 @@ abstract class $GameConfigCopyWith<$Res> {
       int boostDuration,
       int shieldDuration,
       int finishDuration,
-      int tileOccupiedDuration,
       int boostSkillReloadTime,
       int activeSkillDuration,
       int specialSkillReloadTime,
       int special2SkillReloadTime,
       int raftReloadTime,
-      int respawnTime});
+      int respawnTime,
+      int grenadePowerUnit,
+      int defaultPunchRange,
+      int autoTargetingRange,
+      int autoTargetingAngle,
+      int totalOccupyableRegion});
 }
 
 /// @nodoc
@@ -388,13 +366,17 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
     Object? boostDuration = null,
     Object? shieldDuration = null,
     Object? finishDuration = null,
-    Object? tileOccupiedDuration = null,
     Object? boostSkillReloadTime = null,
     Object? activeSkillDuration = null,
     Object? specialSkillReloadTime = null,
     Object? special2SkillReloadTime = null,
     Object? raftReloadTime = null,
     Object? respawnTime = null,
+    Object? grenadePowerUnit = null,
+    Object? defaultPunchRange = null,
+    Object? autoTargetingRange = null,
+    Object? autoTargetingAngle = null,
+    Object? totalOccupyableRegion = null,
   }) {
     return _then(_value.copyWith(
       playerId: null == playerId
@@ -417,10 +399,6 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
           ? _value.finishDuration
           : finishDuration // ignore: cast_nullable_to_non_nullable
               as int,
-      tileOccupiedDuration: null == tileOccupiedDuration
-          ? _value.tileOccupiedDuration
-          : tileOccupiedDuration // ignore: cast_nullable_to_non_nullable
-              as int,
       boostSkillReloadTime: null == boostSkillReloadTime
           ? _value.boostSkillReloadTime
           : boostSkillReloadTime // ignore: cast_nullable_to_non_nullable
@@ -445,6 +423,26 @@ class _$GameConfigCopyWithImpl<$Res, $Val extends GameConfig>
           ? _value.respawnTime
           : respawnTime // ignore: cast_nullable_to_non_nullable
               as int,
+      grenadePowerUnit: null == grenadePowerUnit
+          ? _value.grenadePowerUnit
+          : grenadePowerUnit // ignore: cast_nullable_to_non_nullable
+              as int,
+      defaultPunchRange: null == defaultPunchRange
+          ? _value.defaultPunchRange
+          : defaultPunchRange // ignore: cast_nullable_to_non_nullable
+              as int,
+      autoTargetingRange: null == autoTargetingRange
+          ? _value.autoTargetingRange
+          : autoTargetingRange // ignore: cast_nullable_to_non_nullable
+              as int,
+      autoTargetingAngle: null == autoTargetingAngle
+          ? _value.autoTargetingAngle
+          : autoTargetingAngle // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalOccupyableRegion: null == totalOccupyableRegion
+          ? _value.totalOccupyableRegion
+          : totalOccupyableRegion // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -463,13 +461,17 @@ abstract class _$$GameConfigImplCopyWith<$Res>
       int boostDuration,
       int shieldDuration,
       int finishDuration,
-      int tileOccupiedDuration,
       int boostSkillReloadTime,
       int activeSkillDuration,
       int specialSkillReloadTime,
       int special2SkillReloadTime,
       int raftReloadTime,
-      int respawnTime});
+      int respawnTime,
+      int grenadePowerUnit,
+      int defaultPunchRange,
+      int autoTargetingRange,
+      int autoTargetingAngle,
+      int totalOccupyableRegion});
 }
 
 /// @nodoc
@@ -488,13 +490,17 @@ class __$$GameConfigImplCopyWithImpl<$Res>
     Object? boostDuration = null,
     Object? shieldDuration = null,
     Object? finishDuration = null,
-    Object? tileOccupiedDuration = null,
     Object? boostSkillReloadTime = null,
     Object? activeSkillDuration = null,
     Object? specialSkillReloadTime = null,
     Object? special2SkillReloadTime = null,
     Object? raftReloadTime = null,
     Object? respawnTime = null,
+    Object? grenadePowerUnit = null,
+    Object? defaultPunchRange = null,
+    Object? autoTargetingRange = null,
+    Object? autoTargetingAngle = null,
+    Object? totalOccupyableRegion = null,
   }) {
     return _then(_$GameConfigImpl(
       playerId: null == playerId
@@ -517,10 +523,6 @@ class __$$GameConfigImplCopyWithImpl<$Res>
           ? _value.finishDuration
           : finishDuration // ignore: cast_nullable_to_non_nullable
               as int,
-      tileOccupiedDuration: null == tileOccupiedDuration
-          ? _value.tileOccupiedDuration
-          : tileOccupiedDuration // ignore: cast_nullable_to_non_nullable
-              as int,
       boostSkillReloadTime: null == boostSkillReloadTime
           ? _value.boostSkillReloadTime
           : boostSkillReloadTime // ignore: cast_nullable_to_non_nullable
@@ -545,6 +547,26 @@ class __$$GameConfigImplCopyWithImpl<$Res>
           ? _value.respawnTime
           : respawnTime // ignore: cast_nullable_to_non_nullable
               as int,
+      grenadePowerUnit: null == grenadePowerUnit
+          ? _value.grenadePowerUnit
+          : grenadePowerUnit // ignore: cast_nullable_to_non_nullable
+              as int,
+      defaultPunchRange: null == defaultPunchRange
+          ? _value.defaultPunchRange
+          : defaultPunchRange // ignore: cast_nullable_to_non_nullable
+              as int,
+      autoTargetingRange: null == autoTargetingRange
+          ? _value.autoTargetingRange
+          : autoTargetingRange // ignore: cast_nullable_to_non_nullable
+              as int,
+      autoTargetingAngle: null == autoTargetingAngle
+          ? _value.autoTargetingAngle
+          : autoTargetingAngle // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalOccupyableRegion: null == totalOccupyableRegion
+          ? _value.totalOccupyableRegion
+          : totalOccupyableRegion // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -558,13 +580,17 @@ class _$GameConfigImpl implements _GameConfig {
       required this.boostDuration,
       required this.shieldDuration,
       required this.finishDuration,
-      required this.tileOccupiedDuration,
       required this.boostSkillReloadTime,
       required this.activeSkillDuration,
       required this.specialSkillReloadTime,
       required this.special2SkillReloadTime,
       required this.raftReloadTime,
-      required this.respawnTime});
+      required this.respawnTime,
+      required this.grenadePowerUnit,
+      required this.defaultPunchRange,
+      required this.autoTargetingRange,
+      required this.autoTargetingAngle,
+      required this.totalOccupyableRegion});
 
   factory _$GameConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$GameConfigImplFromJson(json);
@@ -580,8 +606,6 @@ class _$GameConfigImpl implements _GameConfig {
   @override
   final int finishDuration;
   @override
-  final int tileOccupiedDuration;
-  @override
   final int boostSkillReloadTime;
   @override
   final int activeSkillDuration;
@@ -593,10 +617,20 @@ class _$GameConfigImpl implements _GameConfig {
   final int raftReloadTime;
   @override
   final int respawnTime;
+  @override
+  final int grenadePowerUnit;
+  @override
+  final int defaultPunchRange;
+  @override
+  final int autoTargetingRange;
+  @override
+  final int autoTargetingAngle;
+  @override
+  final int totalOccupyableRegion;
 
   @override
   String toString() {
-    return 'GameConfig(playerId: $playerId, frameRate: $frameRate, boostDuration: $boostDuration, shieldDuration: $shieldDuration, finishDuration: $finishDuration, tileOccupiedDuration: $tileOccupiedDuration, boostSkillReloadTime: $boostSkillReloadTime, activeSkillDuration: $activeSkillDuration, specialSkillReloadTime: $specialSkillReloadTime, special2SkillReloadTime: $special2SkillReloadTime, raftReloadTime: $raftReloadTime, respawnTime: $respawnTime)';
+    return 'GameConfig(playerId: $playerId, frameRate: $frameRate, boostDuration: $boostDuration, shieldDuration: $shieldDuration, finishDuration: $finishDuration, boostSkillReloadTime: $boostSkillReloadTime, activeSkillDuration: $activeSkillDuration, specialSkillReloadTime: $specialSkillReloadTime, special2SkillReloadTime: $special2SkillReloadTime, raftReloadTime: $raftReloadTime, respawnTime: $respawnTime, grenadePowerUnit: $grenadePowerUnit, defaultPunchRange: $defaultPunchRange, autoTargetingRange: $autoTargetingRange, autoTargetingAngle: $autoTargetingAngle, totalOccupyableRegion: $totalOccupyableRegion)';
   }
 
   @override
@@ -614,8 +648,6 @@ class _$GameConfigImpl implements _GameConfig {
                 other.shieldDuration == shieldDuration) &&
             (identical(other.finishDuration, finishDuration) ||
                 other.finishDuration == finishDuration) &&
-            (identical(other.tileOccupiedDuration, tileOccupiedDuration) ||
-                other.tileOccupiedDuration == tileOccupiedDuration) &&
             (identical(other.boostSkillReloadTime, boostSkillReloadTime) ||
                 other.boostSkillReloadTime == boostSkillReloadTime) &&
             (identical(other.activeSkillDuration, activeSkillDuration) ||
@@ -628,7 +660,17 @@ class _$GameConfigImpl implements _GameConfig {
             (identical(other.raftReloadTime, raftReloadTime) ||
                 other.raftReloadTime == raftReloadTime) &&
             (identical(other.respawnTime, respawnTime) ||
-                other.respawnTime == respawnTime));
+                other.respawnTime == respawnTime) &&
+            (identical(other.grenadePowerUnit, grenadePowerUnit) ||
+                other.grenadePowerUnit == grenadePowerUnit) &&
+            (identical(other.defaultPunchRange, defaultPunchRange) ||
+                other.defaultPunchRange == defaultPunchRange) &&
+            (identical(other.autoTargetingRange, autoTargetingRange) ||
+                other.autoTargetingRange == autoTargetingRange) &&
+            (identical(other.autoTargetingAngle, autoTargetingAngle) ||
+                other.autoTargetingAngle == autoTargetingAngle) &&
+            (identical(other.totalOccupyableRegion, totalOccupyableRegion) ||
+                other.totalOccupyableRegion == totalOccupyableRegion));
   }
 
   @JsonKey(ignore: true)
@@ -640,13 +682,17 @@ class _$GameConfigImpl implements _GameConfig {
       boostDuration,
       shieldDuration,
       finishDuration,
-      tileOccupiedDuration,
       boostSkillReloadTime,
       activeSkillDuration,
       specialSkillReloadTime,
       special2SkillReloadTime,
       raftReloadTime,
-      respawnTime);
+      respawnTime,
+      grenadePowerUnit,
+      defaultPunchRange,
+      autoTargetingRange,
+      autoTargetingAngle,
+      totalOccupyableRegion);
 
   @JsonKey(ignore: true)
   @override
@@ -669,13 +715,17 @@ abstract class _GameConfig implements GameConfig {
       required final int boostDuration,
       required final int shieldDuration,
       required final int finishDuration,
-      required final int tileOccupiedDuration,
       required final int boostSkillReloadTime,
       required final int activeSkillDuration,
       required final int specialSkillReloadTime,
       required final int special2SkillReloadTime,
       required final int raftReloadTime,
-      required final int respawnTime}) = _$GameConfigImpl;
+      required final int respawnTime,
+      required final int grenadePowerUnit,
+      required final int defaultPunchRange,
+      required final int autoTargetingRange,
+      required final int autoTargetingAngle,
+      required final int totalOccupyableRegion}) = _$GameConfigImpl;
 
   factory _GameConfig.fromJson(Map<String, dynamic> json) =
       _$GameConfigImpl.fromJson;
@@ -691,8 +741,6 @@ abstract class _GameConfig implements GameConfig {
   @override
   int get finishDuration;
   @override
-  int get tileOccupiedDuration;
-  @override
   int get boostSkillReloadTime;
   @override
   int get activeSkillDuration;
@@ -704,6 +752,16 @@ abstract class _GameConfig implements GameConfig {
   int get raftReloadTime;
   @override
   int get respawnTime;
+  @override
+  int get grenadePowerUnit;
+  @override
+  int get defaultPunchRange;
+  @override
+  int get autoTargetingRange;
+  @override
+  int get autoTargetingAngle;
+  @override
+  int get totalOccupyableRegion;
   @override
   @JsonKey(ignore: true)
   _$$GameConfigImplCopyWith<_$GameConfigImpl> get copyWith =>
@@ -724,6 +782,7 @@ mixin _$DustyMessage {
   int? get position => throw _privateConstructorUsedError;
   int? get targetId => throw _privateConstructorUsedError;
   int? get killerId => throw _privateConstructorUsedError;
+  int? get quantity => throw _privateConstructorUsedError;
   int? get defence => throw _privateConstructorUsedError;
   RemoveBy? get removeBy => throw _privateConstructorUsedError;
 
@@ -748,6 +807,7 @@ abstract class $DustyMessageCopyWith<$Res> {
       int? position,
       int? targetId,
       int? killerId,
+      int? quantity,
       int? defence,
       RemoveBy? removeBy});
 }
@@ -773,6 +833,7 @@ class _$DustyMessageCopyWithImpl<$Res, $Val extends DustyMessage>
     Object? position = freezed,
     Object? targetId = freezed,
     Object? killerId = freezed,
+    Object? quantity = freezed,
     Object? defence = freezed,
     Object? removeBy = freezed,
   }) {
@@ -809,6 +870,10 @@ class _$DustyMessageCopyWithImpl<$Res, $Val extends DustyMessage>
           ? _value.killerId
           : killerId // ignore: cast_nullable_to_non_nullable
               as int?,
+      quantity: freezed == quantity
+          ? _value.quantity
+          : quantity // ignore: cast_nullable_to_non_nullable
+              as int?,
       defence: freezed == defence
           ? _value.defence
           : defence // ignore: cast_nullable_to_non_nullable
@@ -838,6 +903,7 @@ abstract class _$$DustyMessageImplCopyWith<$Res>
       int? position,
       int? targetId,
       int? killerId,
+      int? quantity,
       int? defence,
       RemoveBy? removeBy});
 }
@@ -861,6 +927,7 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
     Object? position = freezed,
     Object? targetId = freezed,
     Object? killerId = freezed,
+    Object? quantity = freezed,
     Object? defence = freezed,
     Object? removeBy = freezed,
   }) {
@@ -897,6 +964,10 @@ class __$$DustyMessageImplCopyWithImpl<$Res>
           ? _value.killerId
           : killerId // ignore: cast_nullable_to_non_nullable
               as int?,
+      quantity: freezed == quantity
+          ? _value.quantity
+          : quantity // ignore: cast_nullable_to_non_nullable
+              as int?,
       defence: freezed == defence
           ? _value.defence
           : defence // ignore: cast_nullable_to_non_nullable
@@ -921,6 +992,7 @@ class _$DustyMessageImpl extends _DustyMessage {
       this.position,
       this.targetId,
       this.killerId,
+      this.quantity,
       this.defence,
       this.removeBy})
       : super._();
@@ -945,13 +1017,15 @@ class _$DustyMessageImpl extends _DustyMessage {
   @override
   final int? killerId;
   @override
+  final int? quantity;
+  @override
   final int? defence;
   @override
   final RemoveBy? removeBy;
 
   @override
   String toString() {
-    return 'DustyMessage(dustyId: $dustyId, eventType: $eventType, name: $name, team: $team, status: $status, position: $position, targetId: $targetId, killerId: $killerId, defence: $defence, removeBy: $removeBy)';
+    return 'DustyMessage(dustyId: $dustyId, eventType: $eventType, name: $name, team: $team, status: $status, position: $position, targetId: $targetId, killerId: $killerId, quantity: $quantity, defence: $defence, removeBy: $removeBy)';
   }
 
   @override
@@ -971,6 +1045,8 @@ class _$DustyMessageImpl extends _DustyMessage {
                 other.targetId == targetId) &&
             (identical(other.killerId, killerId) ||
                 other.killerId == killerId) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity) &&
             (identical(other.defence, defence) || other.defence == defence) &&
             (identical(other.removeBy, removeBy) ||
                 other.removeBy == removeBy));
@@ -979,7 +1055,7 @@ class _$DustyMessageImpl extends _DustyMessage {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, dustyId, eventType, name, team,
-      status, position, targetId, killerId, defence, removeBy);
+      status, position, targetId, killerId, quantity, defence, removeBy);
 
   @JsonKey(ignore: true)
   @override
@@ -1005,6 +1081,7 @@ abstract class _DustyMessage extends DustyMessage {
       final int? position,
       final int? targetId,
       final int? killerId,
+      final int? quantity,
       final int? defence,
       final RemoveBy? removeBy}) = _$DustyMessageImpl;
   _DustyMessage._() : super._();
@@ -1029,257 +1106,14 @@ abstract class _DustyMessage extends DustyMessage {
   @override
   int? get killerId;
   @override
+  int? get quantity;
+  @override
   int? get defence;
   @override
   RemoveBy? get removeBy;
   @override
   @JsonKey(ignore: true)
   _$$DustyMessageImplCopyWith<_$DustyMessageImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-TowerMessage _$TowerMessageFromJson(Map<String, dynamic> json) {
-  return _TowerMessage.fromJson(json);
-}
-
-/// @nodoc
-mixin _$TowerMessage {
-  int get towerId => throw _privateConstructorUsedError;
-  EventType get eventType => throw _privateConstructorUsedError;
-  int? get team => throw _privateConstructorUsedError;
-  int? get shape => throw _privateConstructorUsedError;
-  int? get target => throw _privateConstructorUsedError;
-  RemoveBy? get removeBy => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $TowerMessageCopyWith<TowerMessage> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $TowerMessageCopyWith<$Res> {
-  factory $TowerMessageCopyWith(
-          TowerMessage value, $Res Function(TowerMessage) then) =
-      _$TowerMessageCopyWithImpl<$Res, TowerMessage>;
-  @useResult
-  $Res call(
-      {int towerId,
-      EventType eventType,
-      int? team,
-      int? shape,
-      int? target,
-      RemoveBy? removeBy});
-}
-
-/// @nodoc
-class _$TowerMessageCopyWithImpl<$Res, $Val extends TowerMessage>
-    implements $TowerMessageCopyWith<$Res> {
-  _$TowerMessageCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? towerId = null,
-    Object? eventType = null,
-    Object? team = freezed,
-    Object? shape = freezed,
-    Object? target = freezed,
-    Object? removeBy = freezed,
-  }) {
-    return _then(_value.copyWith(
-      towerId: null == towerId
-          ? _value.towerId
-          : towerId // ignore: cast_nullable_to_non_nullable
-              as int,
-      eventType: null == eventType
-          ? _value.eventType
-          : eventType // ignore: cast_nullable_to_non_nullable
-              as EventType,
-      team: freezed == team
-          ? _value.team
-          : team // ignore: cast_nullable_to_non_nullable
-              as int?,
-      shape: freezed == shape
-          ? _value.shape
-          : shape // ignore: cast_nullable_to_non_nullable
-              as int?,
-      target: freezed == target
-          ? _value.target
-          : target // ignore: cast_nullable_to_non_nullable
-              as int?,
-      removeBy: freezed == removeBy
-          ? _value.removeBy
-          : removeBy // ignore: cast_nullable_to_non_nullable
-              as RemoveBy?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$TowerMessageImplCopyWith<$Res>
-    implements $TowerMessageCopyWith<$Res> {
-  factory _$$TowerMessageImplCopyWith(
-          _$TowerMessageImpl value, $Res Function(_$TowerMessageImpl) then) =
-      __$$TowerMessageImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {int towerId,
-      EventType eventType,
-      int? team,
-      int? shape,
-      int? target,
-      RemoveBy? removeBy});
-}
-
-/// @nodoc
-class __$$TowerMessageImplCopyWithImpl<$Res>
-    extends _$TowerMessageCopyWithImpl<$Res, _$TowerMessageImpl>
-    implements _$$TowerMessageImplCopyWith<$Res> {
-  __$$TowerMessageImplCopyWithImpl(
-      _$TowerMessageImpl _value, $Res Function(_$TowerMessageImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? towerId = null,
-    Object? eventType = null,
-    Object? team = freezed,
-    Object? shape = freezed,
-    Object? target = freezed,
-    Object? removeBy = freezed,
-  }) {
-    return _then(_$TowerMessageImpl(
-      towerId: null == towerId
-          ? _value.towerId
-          : towerId // ignore: cast_nullable_to_non_nullable
-              as int,
-      eventType: null == eventType
-          ? _value.eventType
-          : eventType // ignore: cast_nullable_to_non_nullable
-              as EventType,
-      team: freezed == team
-          ? _value.team
-          : team // ignore: cast_nullable_to_non_nullable
-              as int?,
-      shape: freezed == shape
-          ? _value.shape
-          : shape // ignore: cast_nullable_to_non_nullable
-              as int?,
-      target: freezed == target
-          ? _value.target
-          : target // ignore: cast_nullable_to_non_nullable
-              as int?,
-      removeBy: freezed == removeBy
-          ? _value.removeBy
-          : removeBy // ignore: cast_nullable_to_non_nullable
-              as RemoveBy?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$TowerMessageImpl extends _TowerMessage {
-  _$TowerMessageImpl(
-      {required this.towerId,
-      required this.eventType,
-      this.team,
-      this.shape,
-      this.target,
-      this.removeBy})
-      : super._();
-
-  factory _$TowerMessageImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TowerMessageImplFromJson(json);
-
-  @override
-  final int towerId;
-  @override
-  final EventType eventType;
-  @override
-  final int? team;
-  @override
-  final int? shape;
-  @override
-  final int? target;
-  @override
-  final RemoveBy? removeBy;
-
-  @override
-  String toString() {
-    return 'TowerMessage(towerId: $towerId, eventType: $eventType, team: $team, shape: $shape, target: $target, removeBy: $removeBy)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TowerMessageImpl &&
-            (identical(other.towerId, towerId) || other.towerId == towerId) &&
-            (identical(other.eventType, eventType) ||
-                other.eventType == eventType) &&
-            (identical(other.team, team) || other.team == team) &&
-            (identical(other.shape, shape) || other.shape == shape) &&
-            (identical(other.target, target) || other.target == target) &&
-            (identical(other.removeBy, removeBy) ||
-                other.removeBy == removeBy));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, towerId, eventType, team, shape, target, removeBy);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TowerMessageImplCopyWith<_$TowerMessageImpl> get copyWith =>
-      __$$TowerMessageImplCopyWithImpl<_$TowerMessageImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TowerMessageImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _TowerMessage extends TowerMessage {
-  factory _TowerMessage(
-      {required final int towerId,
-      required final EventType eventType,
-      final int? team,
-      final int? shape,
-      final int? target,
-      final RemoveBy? removeBy}) = _$TowerMessageImpl;
-  _TowerMessage._() : super._();
-
-  factory _TowerMessage.fromJson(Map<String, dynamic> json) =
-      _$TowerMessageImpl.fromJson;
-
-  @override
-  int get towerId;
-  @override
-  EventType get eventType;
-  @override
-  int? get team;
-  @override
-  int? get shape;
-  @override
-  int? get target;
-  @override
-  RemoveBy? get removeBy;
-  @override
-  @JsonKey(ignore: true)
-  _$$TowerMessageImplCopyWith<_$TowerMessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1294,8 +1128,11 @@ mixin _$ActiveObjectMessage {
   int? get team => throw _privateConstructorUsedError;
   double? get directionX => throw _privateConstructorUsedError;
   double? get directionY => throw _privateConstructorUsedError;
-  int? get status => throw _privateConstructorUsedError;
+  double? get gravity => throw _privateConstructorUsedError;
+  double? get lifeStep => throw _privateConstructorUsedError;
+  int? get speed => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
+  int? get destination => throw _privateConstructorUsedError;
   int? get targetId => throw _privateConstructorUsedError;
   int? get ownerId => throw _privateConstructorUsedError;
   ActiveObjectType? get objectType => throw _privateConstructorUsedError;
@@ -1319,8 +1156,11 @@ abstract class $ActiveObjectMessageCopyWith<$Res> {
       int? team,
       double? directionX,
       double? directionY,
-      int? status,
+      double? gravity,
+      double? lifeStep,
+      int? speed,
       int? position,
+      int? destination,
       int? targetId,
       int? ownerId,
       ActiveObjectType? objectType,
@@ -1345,8 +1185,11 @@ class _$ActiveObjectMessageCopyWithImpl<$Res, $Val extends ActiveObjectMessage>
     Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
-    Object? status = freezed,
+    Object? gravity = freezed,
+    Object? lifeStep = freezed,
+    Object? speed = freezed,
     Object? position = freezed,
+    Object? destination = freezed,
     Object? targetId = freezed,
     Object? ownerId = freezed,
     Object? objectType = freezed,
@@ -1373,13 +1216,25 @@ class _$ActiveObjectMessageCopyWithImpl<$Res, $Val extends ActiveObjectMessage>
           ? _value.directionY
           : directionY // ignore: cast_nullable_to_non_nullable
               as double?,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
+      gravity: freezed == gravity
+          ? _value.gravity
+          : gravity // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lifeStep: freezed == lifeStep
+          ? _value.lifeStep
+          : lifeStep // ignore: cast_nullable_to_non_nullable
+              as double?,
+      speed: freezed == speed
+          ? _value.speed
+          : speed // ignore: cast_nullable_to_non_nullable
               as int?,
       position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
+              as int?,
+      destination: freezed == destination
+          ? _value.destination
+          : destination // ignore: cast_nullable_to_non_nullable
               as int?,
       targetId: freezed == targetId
           ? _value.targetId
@@ -1415,8 +1270,11 @@ abstract class _$$ActiveObjectMessageImplCopyWith<$Res>
       int? team,
       double? directionX,
       double? directionY,
-      int? status,
+      double? gravity,
+      double? lifeStep,
+      int? speed,
       int? position,
+      int? destination,
       int? targetId,
       int? ownerId,
       ActiveObjectType? objectType,
@@ -1439,8 +1297,11 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
     Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
-    Object? status = freezed,
+    Object? gravity = freezed,
+    Object? lifeStep = freezed,
+    Object? speed = freezed,
     Object? position = freezed,
+    Object? destination = freezed,
     Object? targetId = freezed,
     Object? ownerId = freezed,
     Object? objectType = freezed,
@@ -1467,13 +1328,25 @@ class __$$ActiveObjectMessageImplCopyWithImpl<$Res>
           ? _value.directionY
           : directionY // ignore: cast_nullable_to_non_nullable
               as double?,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
+      gravity: freezed == gravity
+          ? _value.gravity
+          : gravity // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lifeStep: freezed == lifeStep
+          ? _value.lifeStep
+          : lifeStep // ignore: cast_nullable_to_non_nullable
+              as double?,
+      speed: freezed == speed
+          ? _value.speed
+          : speed // ignore: cast_nullable_to_non_nullable
               as int?,
       position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
+              as int?,
+      destination: freezed == destination
+          ? _value.destination
+          : destination // ignore: cast_nullable_to_non_nullable
               as int?,
       targetId: freezed == targetId
           ? _value.targetId
@@ -1504,8 +1377,11 @@ class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
       this.team,
       this.directionX,
       this.directionY,
-      this.status,
+      this.gravity,
+      this.lifeStep,
+      this.speed,
       this.position,
+      this.destination,
       this.targetId,
       this.ownerId,
       this.objectType,
@@ -1526,9 +1402,15 @@ class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
   @override
   final double? directionY;
   @override
-  final int? status;
+  final double? gravity;
+  @override
+  final double? lifeStep;
+  @override
+  final int? speed;
   @override
   final int? position;
+  @override
+  final int? destination;
   @override
   final int? targetId;
   @override
@@ -1540,7 +1422,7 @@ class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
 
   @override
   String toString() {
-    return 'ActiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, directionX: $directionX, directionY: $directionY, status: $status, position: $position, targetId: $targetId, ownerId: $ownerId, objectType: $objectType, removeBy: $removeBy)';
+    return 'ActiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, directionX: $directionX, directionY: $directionY, gravity: $gravity, lifeStep: $lifeStep, speed: $speed, position: $position, destination: $destination, targetId: $targetId, ownerId: $ownerId, objectType: $objectType, removeBy: $removeBy)';
   }
 
   @override
@@ -1557,9 +1439,14 @@ class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
                 other.directionX == directionX) &&
             (identical(other.directionY, directionY) ||
                 other.directionY == directionY) &&
-            (identical(other.status, status) || other.status == status) &&
+            (identical(other.gravity, gravity) || other.gravity == gravity) &&
+            (identical(other.lifeStep, lifeStep) ||
+                other.lifeStep == lifeStep) &&
+            (identical(other.speed, speed) || other.speed == speed) &&
             (identical(other.position, position) ||
                 other.position == position) &&
+            (identical(other.destination, destination) ||
+                other.destination == destination) &&
             (identical(other.targetId, targetId) ||
                 other.targetId == targetId) &&
             (identical(other.ownerId, ownerId) || other.ownerId == ownerId) &&
@@ -1578,8 +1465,11 @@ class _$ActiveObjectMessageImpl extends _ActiveObjectMessage {
       team,
       directionX,
       directionY,
-      status,
+      gravity,
+      lifeStep,
+      speed,
       position,
+      destination,
       targetId,
       ownerId,
       objectType,
@@ -1607,8 +1497,11 @@ abstract class _ActiveObjectMessage extends ActiveObjectMessage {
       final int? team,
       final double? directionX,
       final double? directionY,
-      final int? status,
+      final double? gravity,
+      final double? lifeStep,
+      final int? speed,
       final int? position,
+      final int? destination,
       final int? targetId,
       final int? ownerId,
       final ActiveObjectType? objectType,
@@ -1629,9 +1522,15 @@ abstract class _ActiveObjectMessage extends ActiveObjectMessage {
   @override
   double? get directionY;
   @override
-  int? get status;
+  double? get gravity;
+  @override
+  double? get lifeStep;
+  @override
+  int? get speed;
   @override
   int? get position;
+  @override
+  int? get destination;
   @override
   int? get targetId;
   @override

@@ -9,11 +9,11 @@ import 'package:dusty_flutter/passive_objects/equipment.dart';
 import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/components.dart';
 
-abstract mixin class PassiveObjects implements SpriteAnimationComponent {
+abstract mixin class PassiveObjects implements PositionComponent {
   factory PassiveObjects.equipment(PassiveObjectMessage message) =>
       Equipment(equipmentType: message.objectType!)
-        ..anchor = Anchor.center
-        ..size = Vector2(24, 24)
+        ..anchor = Anchor.topLeft
+        ..size = Vector2(28, 28)
         ..x = message.x
         ..y = message.y;
 
@@ -37,8 +37,8 @@ abstract mixin class PassiveObjects implements SpriteAnimationComponent {
         ..y = message.y;
   // ..priority = Priority.environment;
   // factory PassiveObjects.fruit(
-  //         {required double stride, required Vector2 direction}) =>
-  //     NormalGrenade(stride: stride, direction: direction);
+  //         {required double speed, required Vector2 direction}) =>
+  //     NormalGrenade(speed: speed, direction: direction);
 }
 
 class PassiveObjectsFactory

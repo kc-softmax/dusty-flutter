@@ -24,13 +24,12 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   DustyHudFinishButton? finishingButton;
   DustyHudButton? activeButton;
   DustyHudButton? boostButton;
-  DustyHudButton? specialButton;
-  DustyHudButton? special2Button;
-  DustyHudButton? itemSlot1;
-  DustyHudButton? itemSlot2;
+  // DustyHudButton? specialButton;
+  // DustyHudButton? special2Button;
+  // DustyHudButton? itemSlot1;
+  // DustyHudButton? itemSlot2;
 
   Minimap? minimap;
-
   PlayerInfoComponent? playerInfo;
   PlayerKillLogsComponent? playerKillLogs;
   KillLogsComponent? killLogs;
@@ -45,7 +44,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     joystick = Joystick(
       knob: SpriteComponent(
         sprite: game.atlas.findSpriteByName('knob'),
-        size: Vector2.all(size.y * 0.15),
+        size: Vector2.all(size.y * 0.1),
       ),
       background: SpriteComponent(
         sprite: game.atlas.findSpriteByName('joystick_bg'),
@@ -54,7 +53,6 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       margin: const EdgeInsets.only(left: 66, bottom: 22),
       onMovedJoystick: _onMovedJoyStick,
     );
-
     activeButton = DustyHudButton(
         button: SpriteComponent(
           sprite: game.atlas.findSpriteByName('circle_button'),
@@ -67,30 +65,31 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
         handleButtonAction: _onPressedActiveButton,
         reloadDuration: gameConfig.activeSkillDuration);
 
-    specialButton = LongTapDustyHudButton(
-        button: SpriteComponent(
-          sprite: game.atlas.findSpriteByName('circle_button'),
-          size: middleButtonSize,
-        ),
-        margin: const EdgeInsets.only(
-          right: 90,
-          bottom: 164,
-        ),
-        longTapMaxTime: 3,
-        handleLongTapButtonAction: _onPressedSpecialButton,
-        reloadDuration: gameConfig.specialSkillReloadTime);
+    // specialButton = LongTapDustyHudButton(
+    //     button: SpriteComponent(
+    //       sprite: game.atlas.findSpriteByName('circle_button'),
+    //       size: middleButtonSize,
+    //     ),
+    //     margin: const EdgeInsets.only(
+    //       right: 90,
+    //       bottom: 164,
+    //     ),
+    //     longTapMaxTime: gameConfig.specialPressedStep,
+    //     handleLongTapButtonAction: _onPressedSpecialButton,
+    //     reloadDuration: gameConfig.specialSkillReloadTime);
 
-    special2Button = DustyHudButton(
-        button: SpriteComponent(
-          sprite: game.atlas.findSpriteByName('circle_button'),
-          size: middleButtonSize,
-        ),
-        margin: const EdgeInsets.only(
-          right: 182,
-          bottom: 114,
-        ),
-        handleButtonAction: _onPressedSpecial2Button,
-        reloadDuration: gameConfig.special2SkillReloadTime);
+    // special2Button = LongTapDustyHudButton(
+    //     button: SpriteComponent(
+    //       sprite: game.atlas.findSpriteByName('circle_button'),
+    //       size: middleButtonSize,
+    //     ),
+    //     margin: const EdgeInsets.only(
+    //       right: 182,
+    //       bottom: 114,
+    //     ),
+    //     longTapMaxTime: gameConfig.specialPressedStep,
+    //     handleLongTapButtonAction: _onPressedSpecial2Button,
+    //     reloadDuration: gameConfig.special2SkillReloadTime);
 
     finishingButton = DustyHudFinishButton(
         button: SpriteComponent(
@@ -116,31 +115,31 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
         handleButtonAction: _onPressedBoostButton,
         reloadDuration: gameConfig.boostSkillReloadTime);
 
-    itemSlot1 = DustyHudButton(
-        button: SpriteComponent(
-          sprite: game.atlas.findSpriteByName('circle_button'),
-          size: smallButtonSize,
-        ),
-        margin: const EdgeInsets.only(
-          right: 342,
-          bottom: 50,
-        ),
-        handleButtonAction: _onPressedSpecial2Button,
-        reloadDuration: 1);
+    // itemSlot1 = DustyHudButton(
+    //     button: SpriteComponent(
+    //       sprite: game.atlas.findSpriteByName('circle_button'),
+    //       size: smallButtonSize,
+    //     ),
+    //     margin: const EdgeInsets.only(
+    //       right: 342,
+    //       bottom: 50,
+    //     ),
+    //     // handleButtonAction: _onPressedSpecial2Button,
+    //     reloadDuration: 1);
 
-    itemSlot2 = DustyHudButton(
-        button: SpriteComponent(
-          sprite: game.atlas.findSpriteByName('circle_button'),
-          size: smallButtonSize,
-        ),
-        margin: const EdgeInsets.only(
-          right: 412,
-          bottom: 50,
-        ),
-        handleButtonAction: _onPressedSpecial2Button,
-        reloadDuration: 1);
-
-    // minimap = Minimap();
+    // itemSlot2 = DustyHudButton(
+    //     button: SpriteComponent(
+    //       sprite: game.atlas.findSpriteByName('circle_button'),
+    //       size: smallButtonSize,
+    //     ),
+    //     margin: const EdgeInsets.only(
+    //       right: 412,
+    //       bottom: 50,
+    //     ),
+    //     // handleButtonAction: _onPressedSpecial2Button,
+    //     reloadDuration: 1);
+//
+    minimap = Minimap();
     playerKillLogs = PlayerKillLogsComponent();
     playerKillLogs?.x = gameRef.size.x / 2;
     playerKillLogs?.y = gameRef.size.y / 2 - 48;
@@ -157,8 +156,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
 
     gameRef.camera.viewport.addAll([
       activeButton!,
-      specialButton!,
-      special2Button!,
+      // specialButton!,
+      // special2Button!,
       finishingButton!,
       // itemSlot1!,
       // itemSlot2!,
@@ -166,7 +165,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       playerKillLogs!,
       killLogs!,
       playerInfo!,
-      // minimap!
+      minimap!
     ]);
   }
 
@@ -177,12 +176,18 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   }
 
   void updateHud(DustyMessage message) {
+    // final equipment1Quantity =
+    //     message.quantity == null ? 0 : message.quantity! & 0x0F;
+    // final equipment2Quantity =
+    //     message.quantity == null ? 0 : message.quantity! >> 4;
+
     activeButton?.updateAvailable(message.activeAvailable);
 
-    specialButton?.updateAvailable(message.specialAvailable);
-    specialButton?.setEquipment(message.equipment1);
-    special2Button?.updateAvailable(message.special2Available);
-    special2Button?.setEquipment(message.equipment2);
+    // specialButton?.updateAvailable(message.specialAvailable);
+    // special2Button?.updateAvailable(message.special2Available);
+    // specialButton?.setEquipment(message.equipment1, equipment1Quantity);
+    // special2Button?.setEquipment(message.equipment2, equipment2Quantity);
+
     boostButton?.updateAvailable(message.boostAvailable);
 
     finishingButton?.updateAvailable(
@@ -236,7 +241,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
         action = DustyAction.stop;
       }
     }
-
+    gameRef.playScene.player!.targetDirectionIndex = action.code;
     // if (action != DustyAction.idle && action != lastAction) {
     //   lastAction = action;
     Arbiter.liveService.sendByte(action.encode());
@@ -269,17 +274,18 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     Arbiter.liveService.sendByte(DustyAction.activeSkill.encode());
   }
 
-  void _onPressedSpecialButton(double progress, int guage) {
+  void _onPressedSpecialButton(double progress, int gauge) {
     if (progress != 0) return;
     debugPrint("press special button");
     DustySoundPool.instance.effectOnSpecialSkil();
-    Arbiter.liveService.sendByte(DustyAction.specialSkill.encode());
+    Arbiter.liveService.sendByte(DustyAction.specialSkill.encode(value: gauge));
   }
 
-  void _onPressedSpecial2Button(double progress) {
+  void _onPressedSpecial2Button(double progress, int gauge) {
     if (progress != 0) return;
     debugPrint("press special 2 button");
     DustySoundPool.instance.effectOnSecondarySpecialSkil();
-    Arbiter.liveService.sendByte(DustyAction.special2Skill.encode());
+    Arbiter.liveService
+        .sendByte(DustyAction.special2Skill.encode(value: gauge));
   }
 }

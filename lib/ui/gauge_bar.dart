@@ -1,16 +1,57 @@
 import 'dart:ui';
+import 'package:dusty_flutter/game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 
-class HorizontalGaugeBar extends RectangleComponent {
+class GaugeBar extends PositionComponent with HasGameRef<DustyIslandGame> {
+  late SpriteComponent background;
+  late SpriteComponent gauge;
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    scale = Vector2(0, 1);
+    background = SpriteComponent(
+      sprite: gameRef.atlas.findSpriteByName('gauge_bg'),
+    )
+      ..size = size
+      ..anchor = Anchor.topLeft;
+    gauge = SpriteComponent(
+      sprite: gameRef.atlas.findSpriteByName('gauge_yellow'),
+    )
+      ..size = Vector2(size.x - 2, size.y - 2)
+      ..x = 1
+      ..y = 1
+      ..anchor = Anchor.topLeft;
+
+    addAll([background, gauge]);
+    hide();
+  }
+
+  void hide() {
+    background.add(ScaleEffect.to(
+      Vector2.zero(),
+      EffectController(duration: 0.1),
+    ));
+    gauge.add(ScaleEffect.to(
+      Vector2.zero(),
+      EffectController(duration: 0.1),
+    ));
+  }
+
+  void updateValue(double value) {
+    if (value < 0) hide();
+
+    if (background.scale.x == 0) {
+      background.add(ScaleEffect.to(
+        Vector2(0, 1),
+        EffectController(duration: 0.1),
+      ));
+      scale = Vector2(1, 1);
+    }
+    gauge.scale = Vector2(value, 1);
   }
 
   void decreaseWithDuration(double duration, Color color) {
-    paint = Paint()..color = color;
     scale = Vector2(1, 1);
     add(ScaleEffect.to(
       Vector2(0, 1),
@@ -18,55 +59,3 @@ class HorizontalGaugeBar extends RectangleComponent {
     ));
   }
 }
-
-class VerticalGaugeBar extends RectangleComponent {
-  @override
-  Future<void> onLoad() async {
-    await super.onLoad();
-    scale = Vector2(1, 0);
-  }
-
-  void decreaseWithDuration(double duration, Color color) {
-    paint = Paint()..color = color;
-    scale = Vector2(1, 1);
-    add(ScaleEffect.to(
-      Vector2(1, 0),
-      EffectController(duration: duration),
-    ));
-  }
-}
-
-// if you want to adjust gaugebar using value, consider using this class 
-// class HorizontalGaugeBar extends RectangleComponent {
-//   final double max;
-//   final double value;
-//   final double width;
-//   final double height;
-//   final double padding;
-//   Paint backgroundPaint;
-//   Paint valuePaint;
-
-//   HorizontalGaugeBar({
-//     required this.max,
-//     required this.value,
-//     required this.width,
-//     required this.height,
-//     required this.padding,
-//     required this.backgroundPaint,
-//     required this.valuePaint,
-//   });
-
-//   @override
-//   void render(Canvas canvas) {
-//     super.render(canvas);
-//     canvas.drawRect(
-//       Rect.fromLTWH(x, y, width, height),
-//       backgroundPaint,
-//     );
-//     canvas.drawRect(
-//       Rect.fromLTWH(x + padding, y + padding,
-//           (width - padding * 2) * (value / max), height - padding * 2),
-//       valuePaint,
-//     );
-//   }
-// }
