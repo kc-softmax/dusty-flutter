@@ -1,4 +1,4 @@
-package io.fourbarracks.di
+package com.fourbarracks.dusty
 
 import io.flutter.embedding.android.FlutterActivity
 
