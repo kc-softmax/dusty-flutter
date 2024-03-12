@@ -126,7 +126,9 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
 
 class DustyIslandGame extends FlameGame
     with HasCollisionDetection, SingleGameInstance {
-  DustyIslandGame() : super(world: DustyIslandWorld());
+  DustyIslandGame() : super(world: DustyIslandWorld()) {
+    pauseWhenBackgrounded = false;
+  }
 
   // 이전 코드들과 호환성을 위한 getters
   PlayScene get playScene => world.playScene;
