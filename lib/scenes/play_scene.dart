@@ -5,7 +5,6 @@ import 'package:dusty_flutter/active_objects/active_objects_factory.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/arbiter/live_service/system_message.dart';
-import 'package:dusty_flutter/buttons/dusty_hud_button.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/characters/dusty_factory.dart';
 import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
@@ -13,7 +12,6 @@ import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/tiles/tile_factory.dart';
 import 'package:dusty_flutter/ui/flutter_overlay_dialogs.dart';
-import 'package:dusty_flutter/ui/grenade_target_area.dart';
 import 'package:dusty_flutter/ui/hud.dart';
 import 'package:flame/components.dart' hide Timer;
 import 'package:flame/experimental.dart';
@@ -79,7 +77,8 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     ]);
     autoRange =
         SpriteComponent(sprite: gameRef.atlas.findSpriteByName('auto_range'))
-          ..anchor = Anchor.center;
+          ..anchor = Anchor.center
+          ..opacity = 0;
     gameRef.world.add(autoRange);
   }
 

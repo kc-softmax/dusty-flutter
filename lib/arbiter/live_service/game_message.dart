@@ -40,16 +40,10 @@ enum ActiveObjectType {
 enum PassiveObjectType {
   @JsonValue(0)
   idle(0),
-  @JsonValue(1)
-  normalSeed(1),
-  @JsonValue(2)
-  coconut(2),
-  @JsonValue(3)
-  middleTreeOfLife(3),
   @JsonValue(4)
   bush4X4(4),
   @JsonValue(5)
-  bush8X4(5),
+  bush(5),
   @JsonValue(6)
   trash(6);
 
@@ -198,6 +192,7 @@ class PassiveObjectMessage
     int? size,
     int? position,
     int? generatePosition,
+    int? generateBy,
     PassiveObjectType? objectType,
     int? acquireBy,
     RemoveBy? removeBy,

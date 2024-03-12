@@ -13,6 +13,7 @@ import 'package:dusty_flutter/ui/name_label.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:dusty_flutter/characters/const.dart';
+import 'package:flame/effects.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 class DustyBodyEffect extends SpriteAnimationGroupComponent<DustyBodyEffectType>
@@ -59,7 +60,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   late final DustyGlasses glasses;
   late final DustyBodyEffect bodyEffect;
   late final DustyNameLabel nameLabel;
-  late final SpriteAnimationComponent shieldEffect;
+  late final OpacityEffect shieldEffect;
   // late final GaugeBar topGaugeBar;
   late final GaugeBar rightGaugeBar;
   late final SpriteAnimationComponent aim;
@@ -81,7 +82,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   // sounds
   // 더스티의 state에 해당되는 사운드가 있다.
   AudioPlayer? finishingStateSound;
-  AudioPlayer? shieldSound;
+  // AudioPlayer? shieldSound;
   AudioPlayer? dustyStateSound;
   AudioPlayer? lockOnSound;
   bool isPlayer = false;
@@ -133,16 +134,16 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     priority = Priority.dusty;
     lastPosition = position;
     _nextPosition = position;
-    shieldEffect = SpriteAnimationComponent(
-        animation: SpriteAnimation.spriteList(
-      gameRef.atlas.findSpritesByName('shield'),
-      stepTime: 0.05,
-    ))
-      ..opacity = 0
-      ..size = size * 1.3
-      ..x = -5
-      ..y = -5;
-    shieldEffect.animationTicker?.paused = true;
+    // shieldEffect = SpriteAnimationComponent(
+    //     animation: SpriteAnimation.spriteList(
+    //   gameRef.atlas.findSpritesByName('shield'),
+    //   stepTime: 0.05,
+    // ))
+    //   ..opacity = 0
+    //   ..size = size * 1.3
+    //   ..x = -5
+    //   ..y = -5;
+    // shieldEffect.animationTicker?.paused = true;
     aim = SpriteAnimationComponent(
         animation: SpriteAnimation.spriteList(
       gameRef.atlas.findSpritesByName('aim'),
@@ -200,16 +201,10 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         bodyType = DustyBodyType.red;
         break;
     }
-
-    addAll([
-      glasses,
-      bodyEffect,
-      shieldEffect,
-      nameLabel,
-      // topGaugeBar,
-      rightGaugeBar,
-      aim
-    ]);
+    shieldEffect = OpacityEffect.to(
+        0.2, EffectController(duration: 0.3, infinite: true, alternate: true));
+    shieldEffect.pause();
+    addAll([glasses, bodyEffect, shieldEffect, nameLabel, rightGaugeBar, aim]);
     add(RectangleHitbox());
     await super.onLoad();
   }
@@ -234,11 +229,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     //일정 거리 이하로 가면 멈춤 # 멈추지 않아야
     position.add(toMoveDirection * speed * dt / gameRef.playScene.serverDelta);
 
-    // if (toMoveDirection.screenAngle() > 0 && isFlippedHorizontally) {
-    //   flipHorizontally();
-    // } else if (toMoveDirection.screenAngle() < 0 && !isFlippedHorizontally) {
-    //   flipHorizontally();
-    // }
     lastMoveAngle = toMoveDirection.screenAngle();
   }
 
@@ -314,19 +304,24 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     if (hasShield == shield) {
       return;
     }
+
     if (shield > 0) {
-      shieldEffect.setOpacity(1);
-      shieldEffect.animationTicker?.paused = false;
-      DustySoundPool.instance
-          .loopOnBoost()
-          .then((sound) => shieldSound = sound);
+      shieldEffect.resume();
+
+      //   shieldEffect.setOpacity(1);
+      //   shieldEffect.animationTicker?.paused = false;
+      //   DustySoundPool.instance
+      //       .loopOnBoost()
+      //       .then((sound) => shieldSound = sound);
     } else {
-      shieldEffect.setOpacity(0);
-      shieldEffect.animationTicker?.paused = true;
-      shieldSound?.stop();
+      shieldEffect.pause();
+      setOpacity(1);
+
+      //   shieldEffect.setOpacity(0);
+      //   shieldEffect.animationTicker?.paused = true;
+      //   shieldSound?.stop();
     }
     hasShield = shield;
-    updateUIState();
   }
 
   void updateDustyState(DustyState newState, int visible) {
@@ -400,9 +395,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       nameLabel.text = '';
     } else {
       nameLabel.text = dustyName;
-    }
-    if (hasShield > 0) {
-      shieldEffect.setOpacity(hide ? hideValue : 1);
     }
   }
 

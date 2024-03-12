@@ -18,6 +18,8 @@ abstract mixin class DustyTiles implements PositionComponent {
 
 class TileGridComponent extends PositionComponent with Snapshot {
   Map<int, Team> tileMap = {};
+  Map<int, SpriteComponent> tileSpriteMap = {};
+
   late final Paint alphaTilePaint;
   late final Paint beatTilePaint;
 
@@ -49,31 +51,44 @@ class TileGridComponent extends PositionComponent with Snapshot {
     //   ..paint = paint);
   }
 
-  void updateTile(
-      int address, int row, int col, int tileIndex, Sprite tileSprite) {
+  void updateTile(int address, int row, int col, int tileIndex,
+      Sprite tileSprite, Vector2? destPosition) {
     if (tileMap.containsKey(address)) {
       tileMap.remove(address);
+      final existTile = tileSpriteMap.remove(address);
+      if (existTile != null) {
+        if (destPosition != null) {
+          existTile.addAll([
+            ScaleEffect.to(Vector2.zero(), EffectController(duration: 0.15)),
+            MoveEffect.to(destPosition, EffectController(duration: 0.15))
+              ..onComplete = () => existTile.removeFromParent()
+          ]);
+        } else {
+          existTile.removeFromParent();
+        }
+      }
+    } else {
+      final tileSprites = SpriteComponent(sprite: tileSprite)
+        ..x = col * 32
+        ..y = row * 32
+        ..size = Vector2.all(32);
+
+      tileMap[address] = Team.alpha;
+      tileSpriteMap[address] = tileSprites;
+
+      add(tileSprites);
     }
-    tileMap[address] = Team.alpha;
-    add(SpriteComponent(sprite: tileSprite)
-      ..x = col * 32
-      ..y = row * 32
-      ..size = Vector2.all(32));
   }
 }
 
 class TileFactory extends ObjectFactoryComponent<DustyTiles, TileMessage> {
   static const int numOfTileInGrid = 20; // 20x20 grid
-  late final Sprite alphaTile;
-  late final Sprite betaTile;
   late final List<TileGridComponent> tileGrids;
 
   @override
   FutureOr<void> onLoad() {
     super.onLoad();
     tileGrids = [];
-    alphaTile = gameRef.atlas.findSpriteByName('alpha_tile') as Sprite;
-    betaTile = gameRef.atlas.findSpriteByName('beta_tile') as Sprite;
     // final mapComponent = gameRef.mapComponent;
     for (var i = 0; i < numOfTileInGrid; i++) {
       for (var j = 0; j < numOfTileInGrid; j++) {
@@ -105,54 +120,59 @@ class TileFactory extends ObjectFactoryComponent<DustyTiles, TileMessage> {
 
   @override
   void onUpdateObject(TileMessage message) {
-    final mapComponent = gameRef.mapComponent;
-    // get tileGrid
     final gridIndex = (message.col ~/ numOfTileInGrid) * numOfTileInGrid +
         (message.row ~/ numOfTileInGrid);
     final tileGrid = tileGrids[gridIndex];
     final tileRowInGrid = message.row % numOfTileInGrid;
     final tileColInGrid = message.col % numOfTileInGrid;
-    final tileName =
-        'pollution-${message.pollutionTileIndex - 1}'; // server add 1 value avoid zero
-    final tileSprite = gameRef.atlas.findSpriteByName(tileName) as Sprite;
-    // tempTileSprite not involved in tileGrid
+    if (message.pollutionTileIndex < 1) {
+      //reset
+    } else {
+      final tileName =
+          'pollution-${message.pollutionTileIndex - 1}'; // server add 1 value avoid zero
 
-    // consider anchor is center
-    var worldPosition = Vector2(
-        message.col * 32.toDouble() + 16, message.row * 32.toDouble() + 16);
+      final tileSprite = gameRef.atlas.findSpriteByName(tileName) as Sprite;
+      // tempTileSprite not involved in tileGrid
 
-    var spritePostion = worldPosition;
-    if (gameRef.playScene.dustyFactory.objects
-        .containsKey(message.occupierId)) {
-      spritePostion =
-          gameRef.playScene.dustyFactory.objects[message.occupierId]!.position;
+      // consider anchor is center
+      var worldPosition = Vector2(
+          message.col * 32.toDouble() + 16, message.row * 32.toDouble() + 16);
+
+      var spritePostion = worldPosition;
+      if (gameRef.playScene.dustyFactory.objects
+          .containsKey(message.occupierId)) {
+        spritePostion = gameRef
+            .playScene.dustyFactory.objects[message.occupierId]!.position;
+      }
+
+      final tempTileSprite =
+          SpriteComponent(sprite: tileSprite, size: Vector2.all(32))
+            ..anchor = Anchor.center
+            ..position = spritePostion
+            ..scale = Vector2.zero();
+      tempTileSprite.addAll([
+        MoveEffect.to(worldPosition, EffectController(duration: 0.5)),
+        ScaleEffect.to(Vector2.all(1), EffectController(duration: 0.5)),
+        ScaleEffect.to(
+            Vector2.all(1),
+            DelayedEffectController(EffectController(duration: 0.25),
+                delay: 0.8))
+          ..onComplete = () {
+            tileGrid.takeSnapshot();
+            tempTileSprite.removeFromParent();
+          },
+        MoveEffect.by(
+          Vector2(-16, 16),
+          DelayedEffectController(
+              NoiseEffectController(
+                  duration: 0.25, noise: PerlinNoise(frequency: 5)),
+              delay: 0.5),
+        )..onComplete = () {
+            tileGrid.updateTile(message.address, tileRowInGrid, tileColInGrid,
+                message.tileIndex, tileSprite, null);
+          },
+      ]);
+      gameRef.world.add(tempTileSprite);
     }
-
-    final tempTileSprite =
-        SpriteComponent(sprite: tileSprite, size: Vector2.all(32))
-          ..anchor = Anchor.center
-          ..position = spritePostion
-          ..scale = Vector2.zero();
-    tempTileSprite.addAll([
-      MoveEffect.to(worldPosition, EffectController(duration: 0.5)),
-      ScaleEffect.to(Vector2.all(1), EffectController(duration: 0.5)),
-      ScaleEffect.to(Vector2.all(1),
-          DelayedEffectController(EffectController(duration: 0.25), delay: 0.8))
-        ..onComplete = () {
-          tileGrid.takeSnapshot();
-          tempTileSprite.removeFromParent();
-        },
-      MoveEffect.by(
-        Vector2(-16, 16),
-        DelayedEffectController(
-            NoiseEffectController(
-                duration: 0.25, noise: PerlinNoise(frequency: 5)),
-            delay: 0.5),
-      )..onComplete = () {
-          tileGrid.updateTile(message.address, tileRowInGrid, tileColInGrid,
-              message.tileIndex, tileSprite);
-        },
-    ]);
-    gameRef.world.add(tempTileSprite);
   }
 }

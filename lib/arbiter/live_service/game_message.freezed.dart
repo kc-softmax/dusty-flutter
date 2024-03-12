@@ -1557,6 +1557,7 @@ mixin _$PassiveObjectMessage {
   int? get size => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
   int? get generatePosition => throw _privateConstructorUsedError;
+  int? get generateBy => throw _privateConstructorUsedError;
   PassiveObjectType? get objectType => throw _privateConstructorUsedError;
   int? get acquireBy => throw _privateConstructorUsedError;
   RemoveBy? get removeBy => throw _privateConstructorUsedError;
@@ -1580,6 +1581,7 @@ abstract class $PassiveObjectMessageCopyWith<$Res> {
       int? size,
       int? position,
       int? generatePosition,
+      int? generateBy,
       PassiveObjectType? objectType,
       int? acquireBy,
       RemoveBy? removeBy});
@@ -1605,6 +1607,7 @@ class _$PassiveObjectMessageCopyWithImpl<$Res,
     Object? size = freezed,
     Object? position = freezed,
     Object? generatePosition = freezed,
+    Object? generateBy = freezed,
     Object? objectType = freezed,
     Object? acquireBy = freezed,
     Object? removeBy = freezed,
@@ -1633,6 +1636,10 @@ class _$PassiveObjectMessageCopyWithImpl<$Res,
       generatePosition: freezed == generatePosition
           ? _value.generatePosition
           : generatePosition // ignore: cast_nullable_to_non_nullable
+              as int?,
+      generateBy: freezed == generateBy
+          ? _value.generateBy
+          : generateBy // ignore: cast_nullable_to_non_nullable
               as int?,
       objectType: freezed == objectType
           ? _value.objectType
@@ -1665,6 +1672,7 @@ abstract class _$$PassiveObjectMessageImplCopyWith<$Res>
       int? size,
       int? position,
       int? generatePosition,
+      int? generateBy,
       PassiveObjectType? objectType,
       int? acquireBy,
       RemoveBy? removeBy});
@@ -1687,6 +1695,7 @@ class __$$PassiveObjectMessageImplCopyWithImpl<$Res>
     Object? size = freezed,
     Object? position = freezed,
     Object? generatePosition = freezed,
+    Object? generateBy = freezed,
     Object? objectType = freezed,
     Object? acquireBy = freezed,
     Object? removeBy = freezed,
@@ -1716,6 +1725,10 @@ class __$$PassiveObjectMessageImplCopyWithImpl<$Res>
           ? _value.generatePosition
           : generatePosition // ignore: cast_nullable_to_non_nullable
               as int?,
+      generateBy: freezed == generateBy
+          ? _value.generateBy
+          : generateBy // ignore: cast_nullable_to_non_nullable
+              as int?,
       objectType: freezed == objectType
           ? _value.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
@@ -1742,6 +1755,7 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
       this.size,
       this.position,
       this.generatePosition,
+      this.generateBy,
       this.objectType,
       this.acquireBy,
       this.removeBy})
@@ -1763,6 +1777,8 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
   @override
   final int? generatePosition;
   @override
+  final int? generateBy;
+  @override
   final PassiveObjectType? objectType;
   @override
   final int? acquireBy;
@@ -1771,7 +1787,7 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
 
   @override
   String toString() {
-    return 'PassiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, size: $size, position: $position, generatePosition: $generatePosition, objectType: $objectType, acquireBy: $acquireBy, removeBy: $removeBy)';
+    return 'PassiveObjectMessage(objectId: $objectId, eventType: $eventType, team: $team, size: $size, position: $position, generatePosition: $generatePosition, generateBy: $generateBy, objectType: $objectType, acquireBy: $acquireBy, removeBy: $removeBy)';
   }
 
   @override
@@ -1789,6 +1805,8 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
                 other.position == position) &&
             (identical(other.generatePosition, generatePosition) ||
                 other.generatePosition == generatePosition) &&
+            (identical(other.generateBy, generateBy) ||
+                other.generateBy == generateBy) &&
             (identical(other.objectType, objectType) ||
                 other.objectType == objectType) &&
             (identical(other.acquireBy, acquireBy) ||
@@ -1800,7 +1818,7 @@ class _$PassiveObjectMessageImpl extends _PassiveObjectMessage {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, objectId, eventType, team, size,
-      position, generatePosition, objectType, acquireBy, removeBy);
+      position, generatePosition, generateBy, objectType, acquireBy, removeBy);
 
   @JsonKey(ignore: true)
   @override
@@ -1826,6 +1844,7 @@ abstract class _PassiveObjectMessage extends PassiveObjectMessage {
       final int? size,
       final int? position,
       final int? generatePosition,
+      final int? generateBy,
       final PassiveObjectType? objectType,
       final int? acquireBy,
       final RemoveBy? removeBy}) = _$PassiveObjectMessageImpl;
@@ -1846,6 +1865,8 @@ abstract class _PassiveObjectMessage extends PassiveObjectMessage {
   int? get position;
   @override
   int? get generatePosition;
+  @override
+  int? get generateBy;
   @override
   PassiveObjectType? get objectType;
   @override
