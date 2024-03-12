@@ -27,6 +27,7 @@ const Color alphaTileColor = Color(0x884DAA13);
 const Color betaTileColor = Color(0x884D1518);
 const Color fireColor = Color(0xeeFC5403);
 const Color lightningColor = Color(0xeeF7D851);
+const Color yellowDusty = Color(0xffEFC992);
 
 final regularText = TextPaint(
   style: TextStyle(

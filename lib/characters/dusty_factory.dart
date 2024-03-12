@@ -21,6 +21,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
       setFollowUser(message.dustyId);
     }
     if (message.dustyId == gameRef.playScene.playerId) {
+      gameRef.playScene.hud.informationText!.text = '';
       dusty.isPlayer = true;
       gameRef.playScene.player = dusty;
       gameRef.playScene.hud.updateHud(message);
@@ -31,6 +32,9 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
   void onRemoveObject(DustyMessage message) {
     Dusty? deathDusty = objects[message.dustyId];
     if (deathDusty != null) {
+      if (deathDusty.isPlayer) {
+        gameRef.playScene.hud.informationText!.text = "It revives in 5 seconds";
+      }
       Dusty? killer = objects[message.killerId];
       debugPrint("onRemoveObject ${message.dustyId} ${message.killerId}");
       if (killer != null && killer.isPlayer) {

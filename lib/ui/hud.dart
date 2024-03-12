@@ -33,6 +33,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   // DustyHudButton? itemSlot1;
   // DustyHudButton? itemSlot2;
   TextComponent? rematinTimeText;
+  TextBoxComponent? informationText;
+
   ScoreText? pollutionScoreText;
   ScoreText? cleaningScoreText;
 
@@ -167,6 +169,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           ..anchor = Anchor.center
           ..x = gameRef.size.x / 2
           ..y = 40;
+
     rematinTimeText = TextComponent(
       text: '',
       textRenderer: TextPaint(
@@ -183,11 +186,31 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
         ),
       ),
     )..anchor = Anchor.center;
+
     timeBgSprite.add(AlignComponent(
       child: rematinTimeText!,
       alignment: Anchor.center,
       keepChildAnchor: true,
     ));
+// boxConfig: TextBoxConfig(timePerChar: 0.05))
+    informationText = TextBoxComponent(
+        text: "",
+        textRenderer: TextPaint(
+          style: TextStyle(
+            fontSize: 16.0,
+            color: BasicPalette.white.color,
+            shadows: [
+              Shadow(
+                color: BasicPalette.black.color,
+                offset: const Offset(1, 1),
+                blurRadius: 1,
+              ),
+            ],
+          ),
+        ),
+        boxConfig: TextBoxConfig(timePerChar: 0.05))
+      ..position = gameRef.size / 2
+      ..anchor = Anchor.center;
 
     pollutionScoreText = ScoreText(
       x: gameRef.size.x / 2 - 128,
@@ -201,6 +224,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
 
     gameRef.camera.viewport.addAll([
       activeButton!,
+      informationText!,
       // specialButton!,
       // special2Button!,
       finishingButton!,
