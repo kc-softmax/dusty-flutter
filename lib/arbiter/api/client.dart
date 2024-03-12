@@ -8,7 +8,10 @@ class ArbiterApi {
   final Dio _dio;
   final String baseUrl;
   ArbiterApi({required this.baseUrl})
-      : _dio = Dio(BaseOptions(baseUrl: baseUrl));
+      : _dio = Dio(BaseOptions(
+          baseUrl: baseUrl,
+          connectTimeout: const Duration(minutes: 1),
+        ));
 
   Future<bool> verifyToken(String token) async {
     final response = await _dio.post<bool>('$tokenApiPath/verify',
