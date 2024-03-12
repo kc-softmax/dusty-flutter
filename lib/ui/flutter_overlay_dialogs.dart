@@ -83,21 +83,66 @@ class GameCloseDialog extends FlutterOverlayDialog {
         const Expanded(
           child: Align(
             alignment: Alignment.center,
-            child: Text('Thank You'),
+            child: Text(
+              'Thank You',
+              style: TextStyle(
+                fontSize: 56,
+                fontFamily: 'ONEMobilePOP',
+                color: Colors.white,
+                decoration: TextDecoration.none,
+                shadows: [
+                  Shadow(
+                      // bottomLeft
+                      offset: Offset(-1.5, -1.5),
+                      color: Colors.black),
+                  Shadow(
+                      // bottomRight
+                      offset: Offset(1.5, -1.5),
+                      color: Colors.black),
+                  Shadow(
+                      // topRight
+                      offset: Offset(1.5, 1.5),
+                      color: Colors.black),
+                  Shadow(
+                      // topLeft
+                      offset: Offset(-1.5, 1.5),
+                      color: Colors.black),
+                ],
+              ),
+            ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FilledButton(
+                style: FilledButton.styleFrom(
+                  fixedSize: const Size(120, 22),
+                ),
                 onPressed: () => completeWith(true),
-                child: const Text('다시 시작'),
+                child: const Text(
+                  'regame',
+                  style: TextStyle(
+                    fontFamily: 'ONEMobilePOP',
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 12,
               ),
               FilledButton(
+                style: FilledButton.styleFrom(
+                  fixedSize: const Size(120, 22),
+                ),
                 onPressed: () => completeWith(false),
-                child: const Text('나가기'),
+                child: const Text(
+                  'exit',
+                  style: TextStyle(
+                    fontFamily: 'ONEMobilePOP',
+                  ),
+                ),
               ),
             ],
           ),
