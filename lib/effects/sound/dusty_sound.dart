@@ -5,6 +5,7 @@ class DustySoundPool {
     'background_intro.mp3',
     'background_playing.mp3',
     'bang.mp3',
+    'boost.mp3',
     'boat_wave.mp3',
     'crab_scream.mp3',
     'damaged_bomb.mp3',
@@ -50,8 +51,8 @@ class DustySoundPool {
   // 추후에 상태에 따라 stop이 되어야한다.
   Future<AudioPlayer> loopOnFinishingFire() => FlameAudio.loop('explosion.mp3');
   Future<AudioPlayer> loopOnFinishingLightning() =>
-      FlameAudio.loop('explosion.mp3');
-  Future<AudioPlayer> loopOnBoost() => FlameAudio.loop('explosion.mp3');
+      FlameAudio.loop('electric_zap.mp3');
+  Future<AudioPlayer> loopOnBoost() => FlameAudio.loop('boost.mp3');
   Future<AudioPlayer> loopOnShield() => FlameAudio.loop('explosion.mp3');
   Future<AudioPlayer> loopOnLockOn() => FlameAudio.loop('lockon.mp3');
 
@@ -63,7 +64,7 @@ class DustySoundPool {
           {double volume = 1.0}) =>
       FlameAudio.play('explosion.mp3', volume: volume);
   Future<AudioPlayer> effectOnActiveSkil({double volume = 1.0}) =>
-      FlameAudio.play('explosion.mp3', volume: volume);
+      FlameAudio.play('punch.mp3', volume: volume);
   Future<AudioPlayer> effectOnSpecialSkil({double volume = 1.0}) =>
       FlameAudio.play('explosion.mp3', volume: volume);
   Future<AudioPlayer> effectOnSecondarySpecialSkil({double volume = 1.0}) =>
