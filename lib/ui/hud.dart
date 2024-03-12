@@ -13,6 +13,8 @@ import 'package:dusty_flutter/ui/minimap.dart';
 import 'package:dusty_flutter/ui/player_info.dart';
 import 'package:dusty_flutter/ui/player_kill_logs.dart';
 import 'package:flame/components.dart';
+import 'package:flame/layout.dart';
+import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 
 class Hud extends Component with HasGameRef<DustyIslandGame> {
@@ -28,6 +30,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   // DustyHudButton? special2Button;
   // DustyHudButton? itemSlot1;
   // DustyHudButton? itemSlot2;
+  TextComponent? rematinTimeText;
 
   Minimap? minimap;
   PlayerInfoComponent? playerInfo;
@@ -160,6 +163,27 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           ..anchor = Anchor.center
           ..x = gameRef.size.x / 2
           ..y = 40;
+    rematinTimeText = TextComponent(
+      text: '',
+      textRenderer: TextPaint(
+        style: TextStyle(
+          fontSize: 16.0,
+          color: BasicPalette.white.color,
+          shadows: [
+            Shadow(
+              color: BasicPalette.black.color,
+              offset: const Offset(1, 1),
+              blurRadius: 1,
+            ),
+          ],
+        ),
+      ),
+    )..anchor = Anchor.center;
+    timeBgSprite.add(AlignComponent(
+      child: rematinTimeText!,
+      alignment: Anchor.center,
+      keepChildAnchor: true,
+    ));
 
     gameRef.camera.viewport.addAll([
       activeButton!,
@@ -183,7 +207,11 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     super.onRemove();
   }
 
-  void updateSystemMessage(SystemMessage message) {}
+  void updateSystemMessage(SystemMessage message) {
+    if (message.remainTime != null && rematinTimeText != null) {
+      rematinTimeText!.text = _formatDuration(message.remainTime!);
+    }
+  }
 
   void updateHud(DustyMessage message) {
     // final equipment1Quantity =
@@ -297,5 +325,13 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     DustySoundPool.instance.effectOnSecondarySpecialSkil();
     Arbiter.liveService
         .sendByte(DustyAction.special2Skill.encode(value: gauge));
+  }
+
+  String _formatDuration(int time) {
+    final duration = Duration(seconds: time);
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String minutes = twoDigits(duration.inMinutes.remainder(60));
+    String seconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$minutes:$seconds";
   }
 }
