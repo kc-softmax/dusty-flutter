@@ -1,5 +1,5 @@
 enum DustyGlassesType { idle, boost }
 
-enum DustyBodyType { red, blue, green, sea, deepGreen, yellow }
+enum DustyBodyType { nature, pollution, neutral }
 
 enum DustyBodyEffectType { none, fire, electricShock }

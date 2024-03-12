@@ -91,7 +91,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   int directionIndex = 0;
   double lastMoveAngle = 0;
 
-  DustyBodyType _bodyType = DustyBodyType.yellow;
+  DustyBodyType _bodyType = DustyBodyType.neutral;
   DustyBodyType get bodyType => _bodyType;
   set bodyType(DustyBodyType type) {
     _bodyType = type;
@@ -154,28 +154,16 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       ..y = 4;
 
     animations = {
-      DustyBodyType.red: SpriteAnimation.spriteList(
-        gameRef.atlas.findSpritesByName('red_body'),
-        stepTime: 0.05,
-      ),
-      DustyBodyType.blue: SpriteAnimation.spriteList(
-        gameRef.atlas.findSpritesByName('blue_body'),
-        stepTime: 0.05,
-      ),
-      DustyBodyType.sea: SpriteAnimation.spriteList(
-        gameRef.atlas.findSpritesByName('sea_body'),
-        stepTime: 0.05,
-      ),
-      DustyBodyType.green: SpriteAnimation.spriteList(
-        gameRef.atlas.findSpritesByName('green_body'),
-        stepTime: 0.05,
-      ),
-      DustyBodyType.deepGreen: SpriteAnimation.spriteList(
-        gameRef.atlas.findSpritesByName('deep_green_body'),
-        stepTime: 0.05,
-      ),
-      DustyBodyType.yellow: SpriteAnimation.spriteList(
+      DustyBodyType.nature: SpriteAnimation.spriteList(
         gameRef.atlas.findSpritesByName('yellow_body'),
+        stepTime: 0.05,
+      ),
+      DustyBodyType.pollution: SpriteAnimation.spriteList(
+        gameRef.atlas.findSpritesByName('po_body'),
+        stepTime: 0.05,
+      ),
+      DustyBodyType.neutral: SpriteAnimation.spriteList(
+        gameRef.atlas.findSpritesByName('blue_body'),
         stepTime: 0.05,
       ),
     };
@@ -192,13 +180,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       ..angle = pi / 2;
     switch (team) {
       case Team.alpha:
-        bodyType = DustyBodyType.yellow;
+        bodyType = DustyBodyType.pollution;
         break;
       case Team.beta:
-        bodyType = DustyBodyType.sea;
+        bodyType = DustyBodyType.nature;
         break;
       default:
-        bodyType = DustyBodyType.red;
+        bodyType = DustyBodyType.nature;
         break;
     }
     shieldEffect = OpacityEffect.to(
@@ -235,6 +223,12 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     position.add(toMoveDirection * speed * dt / gameRef.playScene.serverDelta);
 
     lastMoveAngle = toMoveDirection.screenAngle();
+    if (toMoveDirection.screenAngle() >= 0 && isFlippedHorizontally) {
+      flipHorizontally();
+    }
+    if (toMoveDirection.screenAngle() < 0 && !isFlippedHorizontally) {
+      flipHorizontally();
+    }
   }
 
   @override

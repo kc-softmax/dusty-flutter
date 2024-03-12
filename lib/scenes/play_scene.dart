@@ -148,6 +148,10 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
       add(hud);
     }
 
+    if (gameMessage.system != null) {
+      hud.updateSystemMessage(gameMessage.system!);
+    }
+
     if (gameMessage.dusties != null) {
       dustyFactory.addMessages(gameMessage.dusties!);
     }

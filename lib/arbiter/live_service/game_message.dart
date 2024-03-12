@@ -81,6 +81,7 @@ mixin HasPosition {
 class GameMessage with _$GameMessage {
   const factory GameMessage({
     GameConfig? gameConfig,
+    SystemMessage? system,
     List<DustyMessage>? dusties,
     List<ActiveObjectMessage>? actives,
     List<PassiveObjectMessage>? passives,
@@ -89,6 +90,17 @@ class GameMessage with _$GameMessage {
 
   factory GameMessage.fromJson(Map<String, dynamic> json) =>
       _$GameMessageFromJson(json);
+}
+
+@freezed
+class SystemMessage with _$SystemMessage {
+  const factory SystemMessage({
+    int? remainTime,
+    bool? isEnd,
+  }) = _SystemMessage;
+
+  factory SystemMessage.fromJson(Map<String, dynamic> json) =>
+      _$SystemMessageFromJson(json);
 }
 
 @freezed

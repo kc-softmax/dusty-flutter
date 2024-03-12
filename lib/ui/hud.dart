@@ -148,11 +148,18 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       margin: const EdgeInsets.only(left: 44, top: 74),
     );
 
-    playerInfo = PlayerInfoComponent()
-      ..x = 52
-      ..y = 18;
+    // playerInfo = PlayerInfoComponent()
+    //   ..x = 52
+    //   ..y = 18;
 
     gameRef.camera.viewport.add(joystick!);
+
+    final timeBgSprite =
+        SpriteComponent(sprite: gameRef.atlas.findSpriteByName('rank_bg'))
+          ..size = Vector2(66, 33)
+          ..anchor = Anchor.center
+          ..x = gameRef.size.x / 2
+          ..y = 40;
 
     gameRef.camera.viewport.addAll([
       activeButton!,
@@ -164,7 +171,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       boostButton!,
       playerKillLogs!,
       killLogs!,
-      playerInfo!,
+      timeBgSprite
+      // playerInfo!,
       // minimap!
     ]);
   }
@@ -174,6 +182,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     gameRef.camera.viewport.removeAll([...gameRef.camera.viewport.children]);
     super.onRemove();
   }
+
+  void updateSystemMessage(SystemMessage message) {}
 
   void updateHud(DustyMessage message) {
     // final equipment1Quantity =

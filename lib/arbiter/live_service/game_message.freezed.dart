@@ -21,6 +21,7 @@ GameMessage _$GameMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$GameMessage {
   GameConfig? get gameConfig => throw _privateConstructorUsedError;
+  SystemMessage? get system => throw _privateConstructorUsedError;
   List<DustyMessage>? get dusties => throw _privateConstructorUsedError;
   List<ActiveObjectMessage>? get actives => throw _privateConstructorUsedError;
   List<PassiveObjectMessage>? get passives =>
@@ -41,12 +42,14 @@ abstract class $GameMessageCopyWith<$Res> {
   @useResult
   $Res call(
       {GameConfig? gameConfig,
+      SystemMessage? system,
       List<DustyMessage>? dusties,
       List<ActiveObjectMessage>? actives,
       List<PassiveObjectMessage>? passives,
       List<TileMessage>? tiles});
 
   $GameConfigCopyWith<$Res>? get gameConfig;
+  $SystemMessageCopyWith<$Res>? get system;
 }
 
 /// @nodoc
@@ -63,6 +66,7 @@ class _$GameMessageCopyWithImpl<$Res, $Val extends GameMessage>
   @override
   $Res call({
     Object? gameConfig = freezed,
+    Object? system = freezed,
     Object? dusties = freezed,
     Object? actives = freezed,
     Object? passives = freezed,
@@ -73,6 +77,10 @@ class _$GameMessageCopyWithImpl<$Res, $Val extends GameMessage>
           ? _value.gameConfig
           : gameConfig // ignore: cast_nullable_to_non_nullable
               as GameConfig?,
+      system: freezed == system
+          ? _value.system
+          : system // ignore: cast_nullable_to_non_nullable
+              as SystemMessage?,
       dusties: freezed == dusties
           ? _value.dusties
           : dusties // ignore: cast_nullable_to_non_nullable
@@ -103,6 +111,18 @@ class _$GameMessageCopyWithImpl<$Res, $Val extends GameMessage>
       return _then(_value.copyWith(gameConfig: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SystemMessageCopyWith<$Res>? get system {
+    if (_value.system == null) {
+      return null;
+    }
+
+    return $SystemMessageCopyWith<$Res>(_value.system!, (value) {
+      return _then(_value.copyWith(system: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -115,6 +135,7 @@ abstract class _$$GameMessageImplCopyWith<$Res>
   @useResult
   $Res call(
       {GameConfig? gameConfig,
+      SystemMessage? system,
       List<DustyMessage>? dusties,
       List<ActiveObjectMessage>? actives,
       List<PassiveObjectMessage>? passives,
@@ -122,6 +143,8 @@ abstract class _$$GameMessageImplCopyWith<$Res>
 
   @override
   $GameConfigCopyWith<$Res>? get gameConfig;
+  @override
+  $SystemMessageCopyWith<$Res>? get system;
 }
 
 /// @nodoc
@@ -136,6 +159,7 @@ class __$$GameMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? gameConfig = freezed,
+    Object? system = freezed,
     Object? dusties = freezed,
     Object? actives = freezed,
     Object? passives = freezed,
@@ -146,6 +170,10 @@ class __$$GameMessageImplCopyWithImpl<$Res>
           ? _value.gameConfig
           : gameConfig // ignore: cast_nullable_to_non_nullable
               as GameConfig?,
+      system: freezed == system
+          ? _value.system
+          : system // ignore: cast_nullable_to_non_nullable
+              as SystemMessage?,
       dusties: freezed == dusties
           ? _value._dusties
           : dusties // ignore: cast_nullable_to_non_nullable
@@ -171,6 +199,7 @@ class __$$GameMessageImplCopyWithImpl<$Res>
 class _$GameMessageImpl implements _GameMessage {
   const _$GameMessageImpl(
       {this.gameConfig,
+      this.system,
       final List<DustyMessage>? dusties,
       final List<ActiveObjectMessage>? actives,
       final List<PassiveObjectMessage>? passives,
@@ -185,6 +214,8 @@ class _$GameMessageImpl implements _GameMessage {
 
   @override
   final GameConfig? gameConfig;
+  @override
+  final SystemMessage? system;
   final List<DustyMessage>? _dusties;
   @override
   List<DustyMessage>? get dusties {
@@ -227,7 +258,7 @@ class _$GameMessageImpl implements _GameMessage {
 
   @override
   String toString() {
-    return 'GameMessage(gameConfig: $gameConfig, dusties: $dusties, actives: $actives, passives: $passives, tiles: $tiles)';
+    return 'GameMessage(gameConfig: $gameConfig, system: $system, dusties: $dusties, actives: $actives, passives: $passives, tiles: $tiles)';
   }
 
   @override
@@ -237,6 +268,7 @@ class _$GameMessageImpl implements _GameMessage {
             other is _$GameMessageImpl &&
             (identical(other.gameConfig, gameConfig) ||
                 other.gameConfig == gameConfig) &&
+            (identical(other.system, system) || other.system == system) &&
             const DeepCollectionEquality().equals(other._dusties, _dusties) &&
             const DeepCollectionEquality().equals(other._actives, _actives) &&
             const DeepCollectionEquality().equals(other._passives, _passives) &&
@@ -248,6 +280,7 @@ class _$GameMessageImpl implements _GameMessage {
   int get hashCode => Object.hash(
       runtimeType,
       gameConfig,
+      system,
       const DeepCollectionEquality().hash(_dusties),
       const DeepCollectionEquality().hash(_actives),
       const DeepCollectionEquality().hash(_passives),
@@ -270,6 +303,7 @@ class _$GameMessageImpl implements _GameMessage {
 abstract class _GameMessage implements GameMessage {
   const factory _GameMessage(
       {final GameConfig? gameConfig,
+      final SystemMessage? system,
       final List<DustyMessage>? dusties,
       final List<ActiveObjectMessage>? actives,
       final List<PassiveObjectMessage>? passives,
@@ -281,6 +315,8 @@ abstract class _GameMessage implements GameMessage {
   @override
   GameConfig? get gameConfig;
   @override
+  SystemMessage? get system;
+  @override
   List<DustyMessage>? get dusties;
   @override
   List<ActiveObjectMessage>? get actives;
@@ -291,6 +327,160 @@ abstract class _GameMessage implements GameMessage {
   @override
   @JsonKey(ignore: true)
   _$$GameMessageImplCopyWith<_$GameMessageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+SystemMessage _$SystemMessageFromJson(Map<String, dynamic> json) {
+  return _SystemMessage.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SystemMessage {
+  int? get remainTime => throw _privateConstructorUsedError;
+  bool? get isEnd => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SystemMessageCopyWith<SystemMessage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SystemMessageCopyWith<$Res> {
+  factory $SystemMessageCopyWith(
+          SystemMessage value, $Res Function(SystemMessage) then) =
+      _$SystemMessageCopyWithImpl<$Res, SystemMessage>;
+  @useResult
+  $Res call({int? remainTime, bool? isEnd});
+}
+
+/// @nodoc
+class _$SystemMessageCopyWithImpl<$Res, $Val extends SystemMessage>
+    implements $SystemMessageCopyWith<$Res> {
+  _$SystemMessageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? remainTime = freezed,
+    Object? isEnd = freezed,
+  }) {
+    return _then(_value.copyWith(
+      remainTime: freezed == remainTime
+          ? _value.remainTime
+          : remainTime // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isEnd: freezed == isEnd
+          ? _value.isEnd
+          : isEnd // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SystemMessageImplCopyWith<$Res>
+    implements $SystemMessageCopyWith<$Res> {
+  factory _$$SystemMessageImplCopyWith(
+          _$SystemMessageImpl value, $Res Function(_$SystemMessageImpl) then) =
+      __$$SystemMessageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int? remainTime, bool? isEnd});
+}
+
+/// @nodoc
+class __$$SystemMessageImplCopyWithImpl<$Res>
+    extends _$SystemMessageCopyWithImpl<$Res, _$SystemMessageImpl>
+    implements _$$SystemMessageImplCopyWith<$Res> {
+  __$$SystemMessageImplCopyWithImpl(
+      _$SystemMessageImpl _value, $Res Function(_$SystemMessageImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? remainTime = freezed,
+    Object? isEnd = freezed,
+  }) {
+    return _then(_$SystemMessageImpl(
+      remainTime: freezed == remainTime
+          ? _value.remainTime
+          : remainTime // ignore: cast_nullable_to_non_nullable
+              as int?,
+      isEnd: freezed == isEnd
+          ? _value.isEnd
+          : isEnd // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SystemMessageImpl implements _SystemMessage {
+  const _$SystemMessageImpl({this.remainTime, this.isEnd});
+
+  factory _$SystemMessageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SystemMessageImplFromJson(json);
+
+  @override
+  final int? remainTime;
+  @override
+  final bool? isEnd;
+
+  @override
+  String toString() {
+    return 'SystemMessage(remainTime: $remainTime, isEnd: $isEnd)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SystemMessageImpl &&
+            (identical(other.remainTime, remainTime) ||
+                other.remainTime == remainTime) &&
+            (identical(other.isEnd, isEnd) || other.isEnd == isEnd));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, remainTime, isEnd);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SystemMessageImplCopyWith<_$SystemMessageImpl> get copyWith =>
+      __$$SystemMessageImplCopyWithImpl<_$SystemMessageImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SystemMessageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SystemMessage implements SystemMessage {
+  const factory _SystemMessage({final int? remainTime, final bool? isEnd}) =
+      _$SystemMessageImpl;
+
+  factory _SystemMessage.fromJson(Map<String, dynamic> json) =
+      _$SystemMessageImpl.fromJson;
+
+  @override
+  int? get remainTime;
+  @override
+  bool? get isEnd;
+  @override
+  @JsonKey(ignore: true)
+  _$$SystemMessageImplCopyWith<_$SystemMessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

@@ -11,6 +11,9 @@ _$GameMessageImpl _$$GameMessageImplFromJson(Map<String, dynamic> json) =>
       gameConfig: json['game_config'] == null
           ? null
           : GameConfig.fromJson(json['game_config'] as Map<String, dynamic>),
+      system: json['system'] == null
+          ? null
+          : SystemMessage.fromJson(json['system'] as Map<String, dynamic>),
       dusties: (json['dusties'] as List<dynamic>?)
           ?.map((e) => DustyMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -28,10 +31,23 @@ _$GameMessageImpl _$$GameMessageImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$GameMessageImplToJson(_$GameMessageImpl instance) =>
     <String, dynamic>{
       'game_config': instance.gameConfig,
+      'system': instance.system,
       'dusties': instance.dusties,
       'actives': instance.actives,
       'passives': instance.passives,
       'tiles': instance.tiles,
+    };
+
+_$SystemMessageImpl _$$SystemMessageImplFromJson(Map<String, dynamic> json) =>
+    _$SystemMessageImpl(
+      remainTime: json['remain_time'] as int?,
+      isEnd: json['is_end'] as bool?,
+    );
+
+Map<String, dynamic> _$$SystemMessageImplToJson(_$SystemMessageImpl instance) =>
+    <String, dynamic>{
+      'remain_time': instance.remainTime,
+      'is_end': instance.isEnd,
     };
 
 _$GameConfigImpl _$$GameConfigImplFromJson(Map<String, dynamic> json) =>
