@@ -138,6 +138,8 @@ class DustyIslandGame extends FlameGame
   bool get isVerified => world.isVerified;
   bool get isFinishLoadAllResource => world.isLoadedAtlas && world.isLoadedMap;
 
+  double get canvasDiagonal => canvasSize.length;
+
   @override
   DustyIslandWorld get world => super.world as DustyIslandWorld;
 
