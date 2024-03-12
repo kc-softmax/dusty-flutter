@@ -49,7 +49,7 @@ class DustySoundPool {
   // loop
   // 반복재생이 필요한 사운드들
   // 추후에 상태에 따라 stop이 되어야한다.
-  Future<AudioPlayer> loopOnFinishingFire() => FlameAudio.loop('explosion.mp3');
+  Future<AudioPlayer> loopOnFinishingFire() => FlameAudio.loop('fire.mp3');
   Future<AudioPlayer> loopOnFinishingLightning() =>
       FlameAudio.loop('electric_zap.mp3');
   Future<AudioPlayer> loopOnBoost() => FlameAudio.loop('boost.mp3');

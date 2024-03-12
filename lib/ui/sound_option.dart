@@ -14,8 +14,8 @@ class SoundOptionButton extends SpriteComponent
     sprite = gameRef.atlas.findSpriteByName('rank_bg');
     size = Hud.smallButtonSize;
     anchor = Anchor.center;
-    x = gameRef.size.x - 64;
-    y = 40;
+    super.x = gameRef.size.x - 64;
+    super.y = 40;
 
     textComponent = TextComponent(
       text: _getSoundEmoji(),
@@ -32,7 +32,7 @@ class SoundOptionButton extends SpriteComponent
         ],
       )),
     )..anchor = Anchor.center;
-    ;
+
     add(AlignComponent(
       child: textComponent,
       alignment: Anchor.center,

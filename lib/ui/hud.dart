@@ -12,6 +12,7 @@ import 'package:dusty_flutter/ui/kill_logs.dart';
 import 'package:dusty_flutter/ui/minimap.dart';
 import 'package:dusty_flutter/ui/player_info.dart';
 import 'package:dusty_flutter/ui/player_kill_logs.dart';
+import 'package:dusty_flutter/ui/score_text.dart';
 import 'package:dusty_flutter/ui/sound_option.dart';
 import 'package:flame/components.dart';
 import 'package:flame/layout.dart';
@@ -32,6 +33,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   // DustyHudButton? itemSlot1;
   // DustyHudButton? itemSlot2;
   TextComponent? rematinTimeText;
+  ScoreText? pollutionScoreText;
+  ScoreText? cleaningScoreText;
 
   Minimap? minimap;
   PlayerInfoComponent? playerInfo;
@@ -186,6 +189,16 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       keepChildAnchor: true,
     ));
 
+    pollutionScoreText = ScoreText(
+      x: gameRef.size.x / 2 - 128,
+      label: 'pollution',
+    );
+
+    cleaningScoreText = ScoreText(
+      x: gameRef.size.x / 2 + 128,
+      label: 'cleaning',
+    );
+
     gameRef.camera.viewport.addAll([
       activeButton!,
       // specialButton!,
@@ -198,6 +211,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       killLogs!,
       timeBgSprite,
       SoundOptionButton(),
+      pollutionScoreText!,
+      cleaningScoreText!,
       // playerInfo!,
       // minimap!
     ]);
@@ -212,6 +227,13 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   void updateSystemMessage(SystemMessage message) {
     if (message.remainTime != null && rematinTimeText != null) {
       rematinTimeText!.text = _formatDuration(message.remainTime!);
+    }
+
+    if (message.pollutedCount != null) {
+      final pollutedRate =
+          message.pollutedCount! / gameConfig.totalOccupyableRegion;
+      pollutionScoreText?.updateScore(pollutedRate);
+      cleaningScoreText?.updateScore(1 - pollutedRate);
     }
   }
 
