@@ -46,7 +46,7 @@ class ArbiterLiveService extends BaseArbiterLiveService {
   void sendByte(ByteBuffer message) async {
     if (_channel.closeCode != null) return;
     try {
-      _channel.sink.add(message.asUint16List());
+      _channel.sink.add(message.asUint8List());
     } catch (e) {
       debugPrint(e.toString());
     }

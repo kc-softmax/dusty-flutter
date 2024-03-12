@@ -3,10 +3,11 @@ import 'dart:math' as math;
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
+import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-class Equipment extends SpriteAnimationComponent
+class Equipment extends PositionComponent
     with HasGameRef<DustyIslandGame>, CollisionCallbacks, PassiveObjects {
   PassiveObjectType equipmentType;
   Equipment({required this.equipmentType}) : super(anchor: Anchor.center);
@@ -14,6 +15,8 @@ class Equipment extends SpriteAnimationComponent
   double aquireProgress = 0;
   late Timer aquireTimer;
   late ShapeHitbox shapeHitbox;
+  late SpriteComponent equipmentSprites;
+  late SpriteComponent aquireAreaEllipse;
   late final aquirePaint = Paint()
     ..color = const Color(0xdd33FF33)
     ..style = PaintingStyle.fill;
@@ -24,14 +27,31 @@ class Equipment extends SpriteAnimationComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final spriteList = gameRef.atlas.findSpritesByName('bm');
-    animation = SpriteAnimation.spriteList(
-      spriteList,
-      stepTime: 0.05,
-    );
+    var spriteName = '';
+    var ellipseAreaName = 'ellipse_aquire';
+    switch (equipmentType) {
+      case PassiveObjectType.coconut:
+        spriteName = 'blue_apple_box';
+        break;
+      default:
+        // throw Exception;
+        break;
+    }
+    aquireAreaEllipse =
+        SpriteComponent(sprite: gameRef.atlas.findSpriteByName(ellipseAreaName))
+          ..anchor = Anchor.center
+          ..size = Vector2(size.x * 1.2, size.y)
+          ..y = 5;
+
+    equipmentSprites =
+        SpriteComponent(sprite: gameRef.atlas.findSpriteByName(spriteName))
+          ..anchor = Anchor.center
+          ..size = size;
     aquireTimer = Timer(1, autoStart: false);
     shapeHitbox = RectangleHitbox();
-    add(shapeHitbox);
+
+    priority = Priority.normal;
+    addAll([shapeHitbox, aquireAreaEllipse, equipmentSprites]);
   }
 
   @override

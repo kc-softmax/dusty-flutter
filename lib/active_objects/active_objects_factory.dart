@@ -8,13 +8,13 @@ import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:flame/components.dart';
 
 abstract mixin class ActiveObjects implements SpriteAnimationComponent {
-  factory ActiveObjects.missaile(
-          {required double stride, required Vector2 direction}) =>
-      DustyMissaile(stride: stride, direction: direction);
+  factory ActiveObjects.missaile(ActiveObjectMessage message) => DustyMissaile(
+      speed: message.speed!.toDouble(),
+      direction:
+          Vector2(message.directionX! * 0.001, message.directionY! * 0.001));
 
-  factory ActiveObjects.grenade(
-          {required double stride, required Vector2 direction}) =>
-      NormalGrenade(stride: stride, direction: direction);
+  factory ActiveObjects.grenade(ActiveObjectMessage message) =>
+      NormalGrenade(message: message);
 
   factory ActiveObjects.punch({required ActiveObjectMessage message}) =>
       NormalPunch(message: message);
@@ -28,29 +28,22 @@ class ActiveObjectsFactory
     assert(message.position != null, "position is null");
     switch (message.objectType) {
       case ActiveObjectType.normalMissaile:
-        return ActiveObjects.missaile(
-            stride: message.stride!,
-            direction: Vector2(
-                message.directionX! * 0.001, message.directionY! * 0.001))
+        return ActiveObjects.missaile(message)
           ..x = message.x
           ..y = message.y
-          ..size = Vector2(message.size!, message.size!);
+          ..size = Vector2.all(24);
       case ActiveObjectType.normalGrenade:
-        return ActiveObjects.grenade(
-            stride: message.stride!,
-            direction: Vector2(
-                message.directionX! * 0.001, message.directionY! * 0.001))
+        return ActiveObjects.grenade(message)
           ..x = message.x
           ..y = message.y
-          ..size = Vector2(message.size!, message.size!);
+          ..size = Vector2.all(24);
       case ActiveObjectType.normalPunch:
         return ActiveObjects.punch(message: message)
           ..x = message.x
           ..y = message.y
-          ..size = Vector2(message.size!, message.size!);
+          ..size = Vector2.all(24);
       default:
-        return ActiveObjects.missaile(
-            stride: message.stride!, direction: Vector2.zero());
+        return ActiveObjects.missaile(message);
     }
   }
 

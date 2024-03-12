@@ -67,7 +67,6 @@ class PlayerInfoComponent extends RectangleComponent
   late final TextComponent killText;
   late final TextComponent tileText;
   late final TextComponent destoryText;
-  late final TextComponent towerText;
 
   final scoreTextPainter = TextPaint(
     style: TextStyle(
@@ -115,13 +114,6 @@ class PlayerInfoComponent extends RectangleComponent
     )
       ..x = rankPanelSize.x + panelOffsetX + scorePanelOffsetX
       ..y = 24);
-    // tower score
-    add(SpriteComponent(
-      sprite: gameRef.atlas.findSpriteByName('raft'),
-      size: scoreIconSize,
-    )
-      ..x = rankPanelSize.x + panelOffsetX + scorePanelOffsetLongX
-      ..y = 24);
 
     killText = TextComponent(
       text: '100',
@@ -144,19 +136,11 @@ class PlayerInfoComponent extends RectangleComponent
           Vector2(rankPanelSize.x + panelOffsetX + scorePanelOffsetX + 24, 24),
     );
 
-    towerText = TextComponent(
-      text: '1 / 5',
-      textRenderer: scoreTextPainter,
-      position: Vector2(
-          rankPanelSize.x + panelOffsetX + scorePanelOffsetLongX + 24, 24),
-    );
-
     addAll([
       RankPanel(),
       killText,
       tileText,
       destoryText,
-      towerText,
     ]);
   }
 

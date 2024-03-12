@@ -49,7 +49,9 @@ enum PassiveObjectType {
   @JsonValue(4)
   bush4X4(4),
   @JsonValue(5)
-  bush8X4(5);
+  bush8X4(5),
+  @JsonValue(6)
+  trash(6);
 
   final int code;
   const PassiveObjectType(this.code);
@@ -86,7 +88,6 @@ class GameMessage with _$GameMessage {
   const factory GameMessage({
     GameConfig? gameConfig,
     List<DustyMessage>? dusties,
-    List<TowerMessage>? towers,
     List<ActiveObjectMessage>? actives,
     List<PassiveObjectMessage>? passives,
     List<TileMessage>? tiles,
@@ -104,13 +105,17 @@ class GameConfig with _$GameConfig {
     required int boostDuration,
     required int shieldDuration,
     required int finishDuration,
-    required int tileOccupiedDuration,
     required int boostSkillReloadTime,
     required int activeSkillDuration,
     required int specialSkillReloadTime,
     required int special2SkillReloadTime,
     required int raftReloadTime,
     required int respawnTime,
+    required int grenadePowerUnit,
+    required int defaultPunchRange,
+    required int autoTargetingRange,
+    required int autoTargetingAngle,
+    required int totalOccupyableRegion,
   }) = _GameConfig;
 
   factory GameConfig.fromJson(Map<String, dynamic> json) =>
@@ -130,6 +135,7 @@ class DustyMessage with _$DustyMessage, BaseMessage, HasPosition {
     int? position,
     int? targetId,
     int? killerId,
+    int? quantity,
     int? defence,
     RemoveBy? removeBy,
   }) = _DustyMessage;
@@ -153,23 +159,6 @@ class DustyMessage with _$DustyMessage, BaseMessage, HasPosition {
 }
 
 @freezed
-class TowerMessage with _$TowerMessage, BaseMessage, HasPosition {
-  TowerMessage._();
-
-  factory TowerMessage({
-    required int towerId,
-    required EventType eventType,
-    int? team,
-    int? shape,
-    int? target,
-    RemoveBy? removeBy,
-  }) = _TowerMessage;
-
-  factory TowerMessage.fromJson(Map<String, dynamic> json) =>
-      _$TowerMessageFromJson(json);
-}
-
-@freezed
 class ActiveObjectMessage with _$ActiveObjectMessage, BaseMessage, HasPosition {
   ActiveObjectMessage._();
 
@@ -179,17 +168,19 @@ class ActiveObjectMessage with _$ActiveObjectMessage, BaseMessage, HasPosition {
     int? team,
     double? directionX,
     double? directionY,
-    int? status,
+    double? gravity,
+    double? lifeStep,
+    int? speed,
     int? position,
+    int? destination,
     int? targetId,
     int? ownerId,
     ActiveObjectType? objectType,
     RemoveBy? removeBy,
   }) = _ActiveObjectMessage;
 
-  get size => ActiveStatusParser.size(status!);
-  get stride => ActiveStatusParser.stride(status!);
-  get life => ActiveStatusParser.life(status!);
+  double get dstX => PositionParser.x(destination!);
+  double get dstY => PositionParser.y(destination!);
 
   factory ActiveObjectMessage.fromJson(Map<String, dynamic> json) =>
       _$ActiveObjectMessageFromJson(json);
@@ -231,7 +222,7 @@ class TileMessage with _$TileMessage, BaseMessage {
   get row => TileAddressParser.row(address);
 
   get tileIndex => TileStatusParser.tileIndex(status!);
-  get occupiedRate => TileStatusParser.occupiedRate(status!);
+  get pollutionTileIndex => TileStatusParser.pollutionTileIndex(status!);
   TileState get finishType => TileStatusParser.state(status!);
   Team get team => TileStatusParser.team(status!);
 

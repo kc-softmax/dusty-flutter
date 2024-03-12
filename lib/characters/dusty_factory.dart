@@ -23,6 +23,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     if (message.dustyId == gameRef.playScene.playerId) {
       dusty.isPlayer = true;
       gameRef.playScene.player = dusty;
+      gameRef.playScene.hud.updateHud(message);
     }
   }
 
@@ -65,10 +66,10 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     Dusty? dusty = objects[message.dustyId];
     if (dusty != null) {
       if (message.position != null && message.position! > 0) {
-        dusty.nextPosition = Vector2(message.x, message.y);
-        dusty.updateSpeed();
+        dusty.updateNextPosition(Vector2(message.x, message.y));
       }
       if (message.status != null) {
+        dusty.directionIndex = message.direction;
         dusty.setFinishState(message.isFinishing, message.finishType);
         dusty.setDustyShield(message.isShield);
         dusty.updateDustyState(message.dustyState, message.position!);
@@ -83,11 +84,6 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
       if (dusty.isPlayer) {
         if (message.targetId != null) {
           dusty.targetId = message.targetId;
-          // Dusty? targetDusty = objects[message.targetId];
-          // // Tower? targetTower = gameRef.playScene.towerFactory.objects[message.targetId];
-          // if (targetDusty != null) {
-          //   // dusty.target = targetDusty;
-          // }
         }
       }
     }

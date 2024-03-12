@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class DustyNameLabel extends TextBoxComponent {
   static const maxWidth = 100.0;
-  static const topMargin = -16.0;
+  static const topMargin = -10.0;
 
   DustyNameLabel(
     String text, {

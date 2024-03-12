@@ -2,7 +2,7 @@ import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 
 class StatusParser {
-  static direction(int status) => status & 0x3;
+  static direction(int status) => status & 0xf;
   static activeAvailable(int status) => (status >> 4) & 0x1;
   static specialAvailable(int status) => (status >> 5) & 0x1;
   static special2Available(int status) => (status >> 6) & 0x1;
@@ -35,11 +35,11 @@ class TileStatusParser {
   static int tileIndex(int status) => status & 0xff;
   static Team team(int status) => Team.parse(status >> 8 & 0x3);
   static TileState state(int status) => TileState.parse(status >> 12 & 0x3);
-  static int occupiedRate(int status) => status >> 16 & 0xff;
+  static int pollutionTileIndex(int status) => status >> 16 & 0xff;
 }
 
 class ActiveStatusParser {
   static double size(int status) => (status & 0xff).toDouble();
-  static double stride(int status) => (status >> 8 & 0xff).toDouble();
+  static double speed(int status) => (status >> 8 & 0xff).toDouble();
   static double life(int status) => (status >> 16).toDouble();
 }

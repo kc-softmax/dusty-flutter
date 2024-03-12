@@ -8,8 +8,9 @@ enum HudButtonType { circle, smallCircle }
 class Priority {
   static const int low = 0;
   static const int normal = 1;
-  static const int environment = 2;
-  static const int environmentIntersected = 3;
+  static const int dusty = 2;
+  static const int environment = 3;
+  static const int environmentIntersected = 4;
 }
 
 // Colors
@@ -27,14 +28,14 @@ const Color betaTileColor = Color(0x884D1518);
 
 final regularText = TextPaint(
   style: TextStyle(
-    fontSize: 12.0,
+    fontSize: 10.0,
+    fontFamily: 'ONEMobilePOP',
     color: BasicPalette.white.color,
     shadows: [
       Shadow(
-        color: BasicPalette.black.color,
-        offset: const Offset(2, 2),
-        blurRadius: 1,
-      ),
+          color: BasicPalette.black.color,
+          offset: const Offset(0, 0),
+          blurRadius: 1),
     ],
   ),
 );

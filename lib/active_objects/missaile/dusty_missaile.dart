@@ -6,11 +6,10 @@ import 'package:flame/components.dart';
 class DustyMissaile extends SpriteAnimationComponent
     with HasGameRef<DustyIslandGame>, CollisionCallbacks, ActiveObjects {
   Vector2 direction;
-  double stride;
-  late double speed;
+  double speed;
 
   DustyMissaile({
-    required this.stride,
+    required this.speed,
     required this.direction,
   }) : super(anchor: Anchor.center);
 
@@ -18,7 +17,7 @@ class DustyMissaile extends SpriteAnimationComponent
   Future<void> onLoad() async {
     await super.onLoad();
     final spriteList = gameRef.atlas.findSpritesByName('bm');
-    speed = stride * gameRef.playScene.gameConfig!.frameRate;
+    speed = speed * gameRef.playScene.gameConfig!.frameRate;
     animation = SpriteAnimation.spriteList(
       spriteList,
       stepTime: 0.05,

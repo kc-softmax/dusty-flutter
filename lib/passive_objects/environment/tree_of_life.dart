@@ -10,6 +10,8 @@ class TreeOfLife extends SpriteAnimationComponent
     with HasGameRef<DustyIslandGame>, CollisionCallbacks, PassiveObjects {
   TreeOfLife() : super(anchor: Anchor.center);
 
+  // late SpriteComponent ;
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -28,11 +30,11 @@ class TreeOfLife extends SpriteAnimationComponent
       if (value is TreeOfLife) return;
       if (value.toRect().overlaps(toRect())) {
         if (value.priority == Priority.environmentIntersected) return;
-        value.opacity = 0.5;
+        // value.opacity = 0.5;
         value.priority = Priority.environmentIntersected;
       } else {
         if (value.priority == Priority.environmentIntersected) {
-          value.opacity = 1;
+          // value.opacity = 1;
           value.priority = Priority.normal;
         }
       }

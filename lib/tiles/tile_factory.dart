@@ -112,8 +112,9 @@ class TileFactory extends ObjectFactoryComponent<DustyTiles, TileMessage> {
     final tileGrid = tileGrids[gridIndex];
     final tileRowInGrid = message.row % numOfTileInGrid;
     final tileColInGrid = message.col % numOfTileInGrid;
-
-    final tileSprite = message.team == Team.alpha ? alphaTile : betaTile;
+    final tileName =
+        'pollution-${message.pollutionTileIndex - 1}'; // server add 1 value avoid zero
+    final tileSprite = gameRef.atlas.findSpriteByName(tileName) as Sprite;
     // tempTileSprite not involved in tileGrid
 
     // consider anchor is center
@@ -153,49 +154,5 @@ class TileFactory extends ObjectFactoryComponent<DustyTiles, TileMessage> {
         },
     ]);
     gameRef.world.add(tempTileSprite);
-
-    // // message.team
-    // switch (message.team) {
-    //   case Team.alpha:
-    //     alphaRoot.add(SpriteAnimationComponent(
-    //         animation: SpriteAnimation.spriteList(
-    //       gameRef.atlas.findSpritesByName('aim'),
-    //       stepTime: 0.05,
-    //     ))
-    //       ..size = Vector2.all(32)
-    //       ..position = stack.position);
-    //     break;
-    //   case Team.beta:
-    //     betaRoot.add(SpriteComponent(
-    //       sprite: gameRef.atlas.findSpriteByName('knob'),
-    //       size: Vector2.all(32),
-    //     )..position = stack.position);
-    //     break;
-    //   default:
-    //     break;
-    // }
-
-    // final stack = mapComponent.tileMap
-    //     .tileStack(message.col, message.row, named: {'island'});
-    // stack.add(SequenceEffect(
-    //   [
-    //     MoveEffect.by(
-    //       Vector2(5, -5),
-    //       NoiseEffectController(
-    //           duration: 0.25, noise: PerlinNoise(frequency: 2)),
-    //     ),
-    //     MoveEffect.by(
-    //       Vector2(-5, 5),
-    //       NoiseEffectController(
-    //           duration: 0.25, noise: PerlinNoise(frequency: 2)),
-    //     ),
-    //   ],
-    // )..onComplete = () {
-    //     stack.removeFromParent();
-    //   });
-    // mapComponent.add(stack);
-
-    // gameRef.playScene.hud.minimap!
-    //     .updateTile(message.col, message.row, Team.alpha);
   }
 }

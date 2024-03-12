@@ -27,7 +27,9 @@ enum DustyAction {
   final int code;
   const DustyAction(this.code);
 
-  ByteBuffer encode() => Uint16List.fromList([code]).buffer;
+  ByteBuffer encode({int value = 0}) {
+    return Uint8List.fromList([code, value]).buffer;
+  }
 }
 
 enum DustyState {

@@ -9,8 +9,7 @@ class NormalPunch extends SpriteAnimationComponent
   ActiveObjectMessage message;
   late Dusty owner;
   late Vector2 direction;
-  late double stride;
-  late double life;
+  late double lifeStep;
   NormalPunch({
     required this.message,
   }) : super(anchor: Anchor.center);
@@ -27,26 +26,28 @@ class NormalPunch extends SpriteAnimationComponent
       message.directionX! * 0.001,
       message.directionY! * 0.001,
     );
-    stride = message.stride!;
-    life = message.life!;
+    lifeStep = message.lifeStep!.toDouble();
     owner = gameRef.playScene.dustyFactory.objects[message.ownerId] as Dusty;
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    final rangeRatio = (life / message.life!) - 0.3;
+    final rangeRatio = (lifeStep / message.lifeStep!) - 0.3;
+    double speed;
     if (rangeRatio < 0) {
       // change direction
       final toDirection = Vector2(owner.x - x, owner.y - y);
       direction.lerp(toDirection, 0.02);
       direction = direction.normalized();
-      stride = rangeRatio.abs() * toDirection.length;
+      speed = rangeRatio.abs() * toDirection.length;
     } else {
-      stride = message.stride! * rangeRatio.abs() * 2;
+      speed = message.speed! * rangeRatio.abs() * 2;
     }
-    final speed = stride * gameRef.playScene.gameConfig!.frameRate * dt;
-    position.add(direction * speed);
-    life -= dt;
+    position.add(direction *
+        speed *
+        gameRef.playScene.gameConfig!.frameRate.toDouble() *
+        dt);
+    lifeStep -= dt / gameRef.playScene.serverDelta;
   }
 }

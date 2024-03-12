@@ -22,7 +22,6 @@ class DustySoundPool {
     'shield_success.mp3',
     'shot_missaile.mp3',
     'sucking.mp3',
-    'tower_install.wav',
   ];
 
   bool isInit;
@@ -68,9 +67,6 @@ class DustySoundPool {
       FlameAudio.play('explosion.mp3');
   Future<AudioPlayer> effectOnDeath() => FlameAudio.play('crab_scream.mp3');
   Future<AudioPlayer> effectOnPlayerDeath() => FlameAudio.play('scream.mp3');
-  Future<AudioPlayer> effectOnInstallTower() =>
-      FlameAudio.play('tower_install.wav');
-  Future<AudioPlayer> effectOnRemoveTower() => FlameAudio.play('explosion.mp3');
 }
 
 // class DustySound {
