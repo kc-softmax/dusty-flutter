@@ -139,7 +139,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     //     // handleButtonAction: _onPressedSpecial2Button,
     //     reloadDuration: 1);
 //
-    minimap = Minimap();
+    // minimap = Minimap();
     playerKillLogs = PlayerKillLogsComponent();
     playerKillLogs?.x = gameRef.size.x / 2;
     playerKillLogs?.y = gameRef.size.y / 2 - 48;
@@ -165,7 +165,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       playerKillLogs!,
       killLogs!,
       playerInfo!,
-      minimap!
+      // minimap!
     ]);
   }
 

@@ -30,9 +30,6 @@ class Equipment extends PositionComponent
     var spriteName = '';
     var ellipseAreaName = 'ellipse_aquire';
     switch (equipmentType) {
-      case PassiveObjectType.coconut:
-        spriteName = 'blue_apple_box';
-        break;
       default:
         // throw Exception;
         break;

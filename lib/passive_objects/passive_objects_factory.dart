@@ -4,10 +4,10 @@ import 'package:dusty_flutter/effects/ui/const.dart';
 import 'package:dusty_flutter/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:dusty_flutter/passive_objects/environment/bush.dart';
-import 'package:dusty_flutter/passive_objects/environment/tree_of_life.dart';
+import 'package:dusty_flutter/passive_objects/environment/trash.dart';
 import 'package:dusty_flutter/passive_objects/equipment.dart';
-import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 
 abstract mixin class PassiveObjects implements PositionComponent {
   factory PassiveObjects.equipment(PassiveObjectMessage message) =>
@@ -17,24 +17,15 @@ abstract mixin class PassiveObjects implements PositionComponent {
         ..x = message.x
         ..y = message.y;
 
-  factory PassiveObjects.treeOfLife(PassiveObjectMessage message) =>
-      TreeOfLife()
-        ..anchor = Anchor.bottomCenter
-        ..scale = Vector2.all(0.5)
-        ..x = message.x
-        ..y = message.y
-        ..priority = Priority.environment;
-
-  factory PassiveObjects.bush4X4(PassiveObjectMessage message) =>
+  factory PassiveObjects.bush(PassiveObjectMessage message) =>
       Bush(objectType: message.objectType!)
-        ..scale = Vector2.all(0.5)
+        ..size = Vector2(52, 52)
+        ..anchor = Anchor.center
         ..x = message.x
         ..y = message.y;
-  factory PassiveObjects.bush8X8(PassiveObjectMessage message) =>
-      Bush(objectType: message.objectType!)
-        ..scale = Vector2.all(0.5)
-        ..x = message.x
-        ..y = message.y;
+  factory PassiveObjects.trash(PassiveObjectMessage message) => Trash(message)
+    ..size = Vector2.all(16)
+    ..anchor = Anchor.center;
   // ..priority = Priority.environment;
   // factory PassiveObjects.fruit(
   //         {required double speed, required Vector2 direction}) =>
@@ -48,18 +39,12 @@ class PassiveObjectsFactory
     assert(message.objectType != null, "objectType is null");
     assert(message.position != null, "position is null");
     switch (message.objectType) {
-      case PassiveObjectType.normalSeed:
-        return PassiveObjects.equipment(message);
-      case PassiveObjectType.coconut:
-        return PassiveObjects.equipment(message);
-      case PassiveObjectType.middleTreeOfLife:
-        return PassiveObjects.treeOfLife(message);
-      case PassiveObjectType.bush4X4:
-        return PassiveObjects.bush4X4(message);
-      case PassiveObjectType.bush8X4:
-        return PassiveObjects.bush4X4(message);
+      case PassiveObjectType.bush:
+        return PassiveObjects.bush(message);
+      case PassiveObjectType.trash:
+        return PassiveObjects.trash(message)..anchor = Anchor.center;
       default:
-        return PassiveObjects.equipment(message);
+        return PassiveObjects.bush(message);
     }
   }
 
@@ -73,7 +58,6 @@ class PassiveObjectsFactory
   @override
   void onRemoveObject(PassiveObjectMessage message) {
     assert(message.removeBy != null, "removeType is null");
-
     final object = objects[message.objectId];
     if (object == null) return;
     if (object is NormalGrenade) {
@@ -86,10 +70,17 @@ class PassiveObjectsFactory
       default:
         break;
     }
+    final dusty = gameRef.playScene.dustyFactory.objects[message.acquireBy];
+    if (dusty != null) {
+      // animation 후 remove
+      object.add(MoveEffect.to(dusty.position, EffectController(duration: 0.1))
+        ..onComplete = () => object.removeFromParent());
+    } else {
+      object.removeFromParent();
+    }
     // 만약 사라지는 애니메이션 등이 있다면
     // 애니메이션 종료 후 실행할 콜백으로 넘길 수 있다.
     objects.remove(message.objectId);
-    object.removeFromParent();
   }
 
   @override

@@ -7,8 +7,12 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 
-class Bush extends PositionComponent
-    with HasGameRef<DustyIslandGame>, CollisionCallbacks, PassiveObjects {
+class Bush extends SpriteComponent
+    with
+        HasGameRef<DustyIslandGame>,
+        CollisionCallbacks,
+        PassiveObjects,
+        Snapshot {
   PassiveObjectType objectType;
 
   late SpriteComponent bushSprites;
@@ -23,15 +27,13 @@ class Bush extends PositionComponent
       case PassiveObjectType.bush4X4:
         spriteName = 'bush_4x4';
         break;
-      case PassiveObjectType.bush8X4:
-        spriteName = 'bush_8x4';
+      case PassiveObjectType.bush:
+        spriteName = 'bush';
         break;
       default:
         break;
     }
-    bushSprites =
-        SpriteComponent(sprite: gameRef.atlas.findSpriteByName(spriteName));
-    add(bushSprites);
+    sprite = gameRef.atlas.findSpriteByName(spriteName);
   }
 
   @override

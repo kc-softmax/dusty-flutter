@@ -114,12 +114,12 @@ class DustyHudButton extends HudButtonComponent
     final game = gameRef as DustyIslandGame;
 
     switch (equipment) {
-      case PassiveObjectType.coconut:
-        setIcon(game.atlas.findSpriteByName('raft') as Sprite);
-        break;
-      case PassiveObjectType.normalSeed:
-        setIcon(game.atlas.findSpriteByName('raft') as Sprite);
-        break;
+      // case PassiveObjectType.coconut:
+      //   setIcon(game.atlas.findSpriteByName('raft') as Sprite);
+      //   break;
+      // case PassiveObjectType.normalSeed:
+      //   setIcon(game.atlas.findSpriteByName('raft') as Sprite);
+      //   break;
       default:
         // button =
         break;

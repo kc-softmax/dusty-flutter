@@ -178,6 +178,7 @@ _$PassiveObjectMessageImpl _$$PassiveObjectMessageImplFromJson(
       size: json['size'] as int?,
       position: json['position'] as int?,
       generatePosition: json['generate_position'] as int?,
+      generateBy: json['generate_by'] as int?,
       objectType:
           $enumDecodeNullable(_$PassiveObjectTypeEnumMap, json['object_type']),
       acquireBy: json['acquire_by'] as int?,
@@ -193,6 +194,7 @@ Map<String, dynamic> _$$PassiveObjectMessageImplToJson(
       'size': instance.size,
       'position': instance.position,
       'generate_position': instance.generatePosition,
+      'generate_by': instance.generateBy,
       'object_type': _$PassiveObjectTypeEnumMap[instance.objectType],
       'acquire_by': instance.acquireBy,
       'remove_by': _$RemoveByEnumMap[instance.removeBy],
@@ -200,11 +202,8 @@ Map<String, dynamic> _$$PassiveObjectMessageImplToJson(
 
 const _$PassiveObjectTypeEnumMap = {
   PassiveObjectType.idle: 0,
-  PassiveObjectType.normalSeed: 1,
-  PassiveObjectType.coconut: 2,
-  PassiveObjectType.middleTreeOfLife: 3,
   PassiveObjectType.bush4X4: 4,
-  PassiveObjectType.bush8X4: 5,
+  PassiveObjectType.bush: 5,
   PassiveObjectType.trash: 6,
 };
 
