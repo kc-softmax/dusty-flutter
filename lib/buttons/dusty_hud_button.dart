@@ -71,15 +71,15 @@ class DustyHudButton extends HudButtonComponent
       ..color = deactivateColor
       ..style = PaintingStyle.fill;
     final game = gameRef as DustyIslandGame;
+    var iconName = button!.size.x > 60 ? 'attack_icon' : 'invincible_icon';
 
     buttonIcon = SpriteComponent(
-      sprite: game.atlas.findSpriteByName('raft') as Sprite,
-      size: size / 2,
+      sprite: game.atlas.findSpriteByName(iconName) as Sprite,
+      size: size,
     )
-      ..anchor = Anchor.center
-      ..scale = Vector2.all(0)
-      ..x = size.x / 2
-      ..y = size.y / 2;
+      ..scale = Vector2(0.5, 0.5)
+      ..x = size.x * 0.25
+      ..y = size.y * 0.25;
 
     quantityText = TextComponent(
       text: '',
@@ -129,6 +129,7 @@ class DustyHudButton extends HudButtonComponent
 
   void setIcon(Sprite icon) {
     buttonIcon!.sprite = icon;
+    buttonIcon!.scale = Vector2.all(1);
   }
 
   void updateManual(double progress) {

@@ -17,7 +17,8 @@ class NormalPunch extends SpriteAnimationComponent
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final spriteList = gameRef.atlas.findSpritesByName('bm');
+    final spriteList =
+        gameRef.atlas.findSpritesByName(message.team == 1 ? 'pm' : 'ym');
     animation = SpriteAnimation.spriteList(
       spriteList,
       stepTime: 0.05,

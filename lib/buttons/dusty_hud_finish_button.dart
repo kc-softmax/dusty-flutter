@@ -136,6 +136,12 @@ class DustyHudFinishButton extends HudButtonComponent
       if (available < 1) {
         if (_finishGauge != finishGauge) {
           updateManual(finishGauge);
+          // const defaultRatio = 0.5;
+          // final addtionalRatio = finishGauge / 100 * 0.5;
+          // final scaleRatio = defaultRatio + addtionalRatio;
+          // iconSprites!.scale = Vector2.all(scaleRatio);
+          // iconSprites!.x = size.x * (1 - scaleRatio) * 0.5;
+          // iconSprites!.y = size.y * (1 - scaleRatio) * 0.5;
         }
         _finishGauge = finishGauge;
       }
@@ -147,6 +153,7 @@ class DustyHudFinishButton extends HudButtonComponent
         iconSprites!.animationTicker!.paused = false;
       }
       paint.style = PaintingStyle.fill;
+
       percentText.text = '';
       switch (finishType) {
         case FinishType.fire:
@@ -163,7 +170,6 @@ class DustyHudFinishButton extends HudButtonComponent
       if (iconSprites != null) {
         iconSprites!.animationTicker!.paused = true;
       }
-
       paint.style = PaintingStyle.stroke;
       // not available
       // timer.limit = finishDuration.toDouble();
