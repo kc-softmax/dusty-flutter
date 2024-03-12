@@ -4,9 +4,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // env
 final baseUrl =
-    dotenv.get('ARBITER_BASE_API_URL', fallback: 'http://192.168.0.66:9991');
+    dotenv.get('ARBITER_BASE_API_URL', fallback: 'http://192.168.100.24:9991');
 final baseSocketUrl =
-    dotenv.get('ARBITER_BASE_SOCKET_URL', fallback: 'ws://192.168.0.66:9991');
+    dotenv.get('ARBITER_BASE_SOCKET_URL', fallback: 'ws://192.168.100.24:9991');
 
 class Arbiter {
   Arbiter._internal();

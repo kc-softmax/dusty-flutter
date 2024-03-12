@@ -8,11 +8,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
 class Trash extends SpriteComponent
-    with
-        HasGameRef<DustyIslandGame>,
-        CollisionCallbacks,
-        PassiveObjects,
-        Snapshot {
+    with HasGameRef<DustyIslandGame>, CollisionCallbacks, PassiveObjects {
   PassiveObjectMessage message;
   final movingSecond = 0.25;
   double aquireProgress = 0;
@@ -96,6 +92,7 @@ class Trash extends SpriteComponent
   @override
   void render(Canvas canvas) {
     if (aquireTimer.isRunning()) {
+      // renderSnapshot = true;
       final rect =
           Rect.fromLTWH(-width * 0.5, height * 0.33, width * 2, height);
 
@@ -115,21 +112,17 @@ class Trash extends SpriteComponent
   ) {
     if (other is! Dusty) return;
 
-    if (aquireProgress > 0) {
-      renderSnapshot = true;
-      return;
-    }
     if (other.team == Team.alpha) return;
-
-    super.onCollisionStart(intersectionPoints, other);
+    // renderSnapshot = true;
     aquireTimer.start();
+    super.onCollisionStart(intersectionPoints, other);
   }
 
   @override
   void onCollisionEnd(PositionComponent other) {
     super.onCollisionEnd(other);
     if (!isColliding) {
-      renderSnapshot = false;
+      // renderSnapshot = false;
       aquireTimer.stop();
       aquireProgress = 0;
     }

@@ -337,6 +337,7 @@ SystemMessage _$SystemMessageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$SystemMessage {
   int? get remainTime => throw _privateConstructorUsedError;
+  int? get pollutedCount => throw _privateConstructorUsedError;
   bool? get isEnd => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -351,7 +352,7 @@ abstract class $SystemMessageCopyWith<$Res> {
           SystemMessage value, $Res Function(SystemMessage) then) =
       _$SystemMessageCopyWithImpl<$Res, SystemMessage>;
   @useResult
-  $Res call({int? remainTime, bool? isEnd});
+  $Res call({int? remainTime, int? pollutedCount, bool? isEnd});
 }
 
 /// @nodoc
@@ -368,12 +369,17 @@ class _$SystemMessageCopyWithImpl<$Res, $Val extends SystemMessage>
   @override
   $Res call({
     Object? remainTime = freezed,
+    Object? pollutedCount = freezed,
     Object? isEnd = freezed,
   }) {
     return _then(_value.copyWith(
       remainTime: freezed == remainTime
           ? _value.remainTime
           : remainTime // ignore: cast_nullable_to_non_nullable
+              as int?,
+      pollutedCount: freezed == pollutedCount
+          ? _value.pollutedCount
+          : pollutedCount // ignore: cast_nullable_to_non_nullable
               as int?,
       isEnd: freezed == isEnd
           ? _value.isEnd
@@ -391,7 +397,7 @@ abstract class _$$SystemMessageImplCopyWith<$Res>
       __$$SystemMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? remainTime, bool? isEnd});
+  $Res call({int? remainTime, int? pollutedCount, bool? isEnd});
 }
 
 /// @nodoc
@@ -406,12 +412,17 @@ class __$$SystemMessageImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? remainTime = freezed,
+    Object? pollutedCount = freezed,
     Object? isEnd = freezed,
   }) {
     return _then(_$SystemMessageImpl(
       remainTime: freezed == remainTime
           ? _value.remainTime
           : remainTime // ignore: cast_nullable_to_non_nullable
+              as int?,
+      pollutedCount: freezed == pollutedCount
+          ? _value.pollutedCount
+          : pollutedCount // ignore: cast_nullable_to_non_nullable
               as int?,
       isEnd: freezed == isEnd
           ? _value.isEnd
@@ -424,7 +435,7 @@ class __$$SystemMessageImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$SystemMessageImpl implements _SystemMessage {
-  const _$SystemMessageImpl({this.remainTime, this.isEnd});
+  const _$SystemMessageImpl({this.remainTime, this.pollutedCount, this.isEnd});
 
   factory _$SystemMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$SystemMessageImplFromJson(json);
@@ -432,11 +443,13 @@ class _$SystemMessageImpl implements _SystemMessage {
   @override
   final int? remainTime;
   @override
+  final int? pollutedCount;
+  @override
   final bool? isEnd;
 
   @override
   String toString() {
-    return 'SystemMessage(remainTime: $remainTime, isEnd: $isEnd)';
+    return 'SystemMessage(remainTime: $remainTime, pollutedCount: $pollutedCount, isEnd: $isEnd)';
   }
 
   @override
@@ -446,12 +459,15 @@ class _$SystemMessageImpl implements _SystemMessage {
             other is _$SystemMessageImpl &&
             (identical(other.remainTime, remainTime) ||
                 other.remainTime == remainTime) &&
+            (identical(other.pollutedCount, pollutedCount) ||
+                other.pollutedCount == pollutedCount) &&
             (identical(other.isEnd, isEnd) || other.isEnd == isEnd));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, remainTime, isEnd);
+  int get hashCode =>
+      Object.hash(runtimeType, remainTime, pollutedCount, isEnd);
 
   @JsonKey(ignore: true)
   @override
@@ -468,14 +484,18 @@ class _$SystemMessageImpl implements _SystemMessage {
 }
 
 abstract class _SystemMessage implements SystemMessage {
-  const factory _SystemMessage({final int? remainTime, final bool? isEnd}) =
-      _$SystemMessageImpl;
+  const factory _SystemMessage(
+      {final int? remainTime,
+      final int? pollutedCount,
+      final bool? isEnd}) = _$SystemMessageImpl;
 
   factory _SystemMessage.fromJson(Map<String, dynamic> json) =
       _$SystemMessageImpl.fromJson;
 
   @override
   int? get remainTime;
+  @override
+  int? get pollutedCount;
   @override
   bool? get isEnd;
   @override

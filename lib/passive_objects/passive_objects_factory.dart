@@ -1,5 +1,6 @@
 import 'package:dusty_flutter/active_objects/grenade/normal_grenade.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
+import 'package:dusty_flutter/effects/ui/burn_effect.dart';
 import 'package:dusty_flutter/effects/ui/const.dart';
 import 'package:dusty_flutter/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
@@ -66,12 +67,17 @@ class PassiveObjectsFactory
         ..y = object.y
         ..size = Vector2(64, 64));
     }
+    var burn = false;
     switch (message.removeBy) {
+      case RemoveBy.flame:
+        burn = true;
+        gameRef.world
+            .add(BurnEffect.generate(object.position)..size = object.size);
       default:
         break;
     }
     final dusty = gameRef.playScene.dustyFactory.objects[message.acquireBy];
-    if (dusty != null) {
+    if (!burn && dusty != null) {
       // animation 후 remove
       object.add(MoveEffect.to(dusty.position, EffectController(duration: 0.1))
         ..onComplete = () => object.removeFromParent());

@@ -1,12 +1,16 @@
 import 'dart:math' as math;
+import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
+import 'package:dusty_flutter/ui/const.dart';
+import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame/components.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class DustyHudFinishButton extends HudButtonComponent {
+class DustyHudFinishButton extends HudButtonComponent
+    with HasGameRef<FlameGame<World>> {
   static const Color deactivateColor = Color(0xff111736);
   final percentTextStyle = TextPaint(
     style: TextStyle(
@@ -27,6 +31,7 @@ class DustyHudFinishButton extends HudButtonComponent {
   late TextComponent percentText;
   late TextComponent tempText;
 
+  SpriteAnimationComponent? iconSprites;
   int _available = 1;
   int _finishGauge = 0;
   FinishType? _finishType;
@@ -63,7 +68,7 @@ class DustyHudFinishButton extends HudButtonComponent {
     paint = Paint()
       ..color = deactivateColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 4;
+      ..strokeWidth = 8;
 
     percentText = TextComponent(
         text: '0%',
@@ -77,17 +82,42 @@ class DustyHudFinishButton extends HudButtonComponent {
         position: Vector2(size.x / 2, size.y - 12))
       ..anchor = Anchor.center;
 
-    add(tempText);
-    add(percentText);
+    // add(tempText);
+    // add(percentText);
   }
 
   void setFinishType(FinishType finishType) {
+    if (iconSprites != null) return;
+    final game = gameRef as DustyIslandGame;
+
     switch (finishType) {
       case FinishType.fire:
-        tempText.text = 'F';
+        // currently never change;
+        paint.color = fireColor;
+        iconSprites = SpriteAnimationComponent(
+            animation: SpriteAnimation.spriteList(
+          game.atlas.findSpritesByName('fire_effect'),
+          stepTime: 0.05,
+        ))
+          ..size = size * 0.5
+          ..x = size.x * 0.25
+          ..y = size.y * 0.25;
+
+        iconSprites!.animationTicker!.paused = true;
+        add(iconSprites!);
         break;
       case FinishType.lightning:
-        tempText.text = 'L';
+        paint.color = lightningColor;
+        iconSprites = SpriteAnimationComponent(
+            animation: SpriteAnimation.spriteList(
+          game.atlas.findSpritesByName('lightning'),
+          stepTime: 0.05,
+        ))
+          ..size = size * 0.5
+          ..x = size.x * 0.25
+          ..y = size.y * 0.25;
+        iconSprites!.animationTicker!.paused = true;
+        add(iconSprites!);
         break;
       default:
     }
@@ -105,7 +135,6 @@ class DustyHudFinishButton extends HudButtonComponent {
     if (_available == available) {
       if (available < 1) {
         if (_finishGauge != finishGauge) {
-          percentText.text = '$finishGauge%';
           updateManual(finishGauge);
         }
         _finishGauge = finishGauge;
@@ -114,6 +143,9 @@ class DustyHudFinishButton extends HudButtonComponent {
     }
 
     if (available > 0) {
+      if (iconSprites != null) {
+        iconSprites!.animationTicker!.paused = false;
+      }
       paint.style = PaintingStyle.fill;
       percentText.text = '';
       switch (finishType) {
@@ -128,6 +160,10 @@ class DustyHudFinishButton extends HudButtonComponent {
       // available
       // timer.stop();
     } else {
+      if (iconSprites != null) {
+        iconSprites!.animationTicker!.paused = true;
+      }
+
       paint.style = PaintingStyle.stroke;
       // not available
       // timer.limit = finishDuration.toDouble();
@@ -156,7 +192,7 @@ class DustyHudFinishButton extends HudButtonComponent {
     if (_available < 1) {
       const startAngle = -math.pi / 2;
       final sweepAngle = math.pi * 2 * _progress;
-      rect = Rect.fromLTWH(0, 0, size.x, size.y);
+      rect = Rect.fromLTWH(4, 4, size.x - 8, size.y - 8);
       canvas.drawArc(rect, startAngle, sweepAngle, false, paint);
     } else {
       rect = Rect.fromLTWH(0, 0, size.x, size.y);

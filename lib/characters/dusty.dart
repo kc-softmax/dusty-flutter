@@ -55,9 +55,30 @@ class DustyGlasses extends SpriteAnimationGroupComponent<DustyGlassesType>
   }
 }
 
+class DustyGlassesEffect
+    extends SpriteAnimationGroupComponent<DustyGlassesEffectType>
+    with HasGameRef<DustyIslandGame>, CollisionCallbacks {
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+
+    animations = {
+      DustyGlassesEffectType.fire: SpriteAnimation.spriteList(
+        gameRef.atlas.findSpritesByName('type_fire'),
+        stepTime: 0.05,
+      ),
+      DustyGlassesEffectType.electricShock: SpriteAnimation.spriteList(
+        gameRef.atlas.findSpritesByName('type_lightning'),
+        stepTime: 0.05,
+      ),
+    };
+  }
+}
+
 class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     with HasGameRef<DustyIslandGame> {
   late final DustyGlasses glasses;
+  late final DustyGlassesEffect glassesEffect;
   late final DustyBodyEffect bodyEffect;
   late final DustyNameLabel nameLabel;
   late final OpacityEffect shieldEffect;
@@ -126,6 +147,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     updateUIState();
   }
 
+  DustyGlassesEffectType _glassesEffectType = DustyGlassesEffectType.none;
+  DustyGlassesEffectType get glassesEffectType => _glassesEffectType;
+  set glassesEffectType(DustyGlassesEffectType type) {
+    _glassesEffectType = type;
+    updateUIState();
+  }
+
   Dusty(this.dustyName, this.team)
       : super(size: Vector2(36, 36), anchor: Anchor.center);
 
@@ -168,6 +196,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       ),
     };
     glasses = DustyGlasses()..size = size;
+    glassesEffect = DustyGlassesEffect()..size = size;
     bodyEffect = DustyBodyEffect()..size = size * 1.3;
     nameLabel = DustyNameLabel(dustyName);
     // topGaugeBar = GaugeBar()
@@ -192,7 +221,15 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     shieldEffect = OpacityEffect.to(
         0.2, EffectController(duration: 0.3, infinite: true, alternate: true));
     shieldEffect.pause();
-    addAll([glasses, bodyEffect, shieldEffect, nameLabel, rightGaugeBar, aim]);
+    addAll([
+      glasses,
+      bodyEffect,
+      shieldEffect,
+      glassesEffect,
+      nameLabel,
+      rightGaugeBar,
+      aim
+    ]);
     add(RectangleHitbox());
     await super.onLoad();
   }
@@ -280,15 +317,20 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
     _isFinishing = isFinishing;
     if (isFinishing > 0) {
+      var color = boostColor;
       switch (finishType) {
         case FinishType.fire:
-          bodyEffectType = DustyBodyEffectType.fire;
+          color = fireColor;
+          // bodyEffectType = DustyBodyEffectType.fire;
+          glassesEffectType = DustyGlassesEffectType.fire;
           DustySoundPool.instance
               .loopOnFinishingFire()
               .then((sound) => finishingStateSound = sound);
           break;
         case FinishType.lightning:
-          bodyEffectType = DustyBodyEffectType.electricShock;
+          // bodyEffectType = DustyBodyEffectType.electricShock;
+          glassesEffectType = DustyGlassesEffectType.electricShock;
+
           DustySoundPool.instance
               .loopOnFinishingLightning()
               .then((sound) => finishingStateSound = sound);
@@ -297,10 +339,12 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
           break;
       }
       // topGaugeBar.setOpacity(1);
-      // topGaugeBar.decreaseWithDuration(
-      //     gameRef.playScene.gameConfig!.finishDuration.toDouble(), boostColor);
+      // rightGaugeBar.decreaseWithDuration(
+      //     gameRef.playScene.gameConfig!.finishDuration.toDouble(), color);
     } else {
       bodyEffectType = DustyBodyEffectType.none;
+      glassesEffectType = DustyGlassesEffectType.none;
+      // rightGaugeBar.hide();
       // topGaugeBar.setOpacity(0);
       finishingStateSound?.stop();
     }
@@ -378,14 +422,24 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     // using animation sync
     int? currentIndex = animationTickers?[bodyType]?.currentIndex;
     glasses.changeState(glassesType, currentIndex);
-    if (bodyEffectType != DustyBodyEffectType.none) {
-      bodyEffect.animationTicker?.paused = false;
-      bodyEffect.changeState(bodyEffectType, currentIndex);
-      bodyEffect.setOpacity(1);
+    // if (bodyEffectType == DustyBodyEffectType.electricShock) {
+    //   bodyEffect.animationTicker?.paused = false;
+    //   bodyEffect.changeState(bodyEffectType, currentIndex);
+    //   bodyEffect.setOpacity(1);
+    // } else {
+    //   bodyEffect.animationTicker?.paused = true;
+    //   bodyEffect.setOpacity(0);
+    // }
+
+    if (glassesEffectType != DustyGlassesEffectType.none) {
+      glassesEffect.animationTicker?.paused = false;
+      glassesEffect.changeState(glassesEffectType, currentIndex);
+      glassesEffect.setOpacity(1);
     } else {
-      bodyEffect.animationTicker?.paused = true;
-      bodyEffect.setOpacity(0);
+      glassesEffect.animationTicker?.paused = true;
+      glassesEffect.setOpacity(0);
     }
+
     changeState(bodyType, currentIndex);
   }
 

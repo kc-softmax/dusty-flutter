@@ -41,12 +41,14 @@ Map<String, dynamic> _$$GameMessageImplToJson(_$GameMessageImpl instance) =>
 _$SystemMessageImpl _$$SystemMessageImplFromJson(Map<String, dynamic> json) =>
     _$SystemMessageImpl(
       remainTime: json['remain_time'] as int?,
+      pollutedCount: json['polluted_count'] as int?,
       isEnd: json['is_end'] as bool?,
     );
 
 Map<String, dynamic> _$$SystemMessageImplToJson(_$SystemMessageImpl instance) =>
     <String, dynamic>{
       'remain_time': instance.remainTime,
+      'polluted_count': instance.pollutedCount,
       'is_end': instance.isEnd,
     };
 

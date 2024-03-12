@@ -25,6 +25,8 @@ const Color alphaTeamColor = Color(0xFF4DAA13);
 const Color betaTeamColor = Color(0xFF4D1518);
 const Color alphaTileColor = Color(0x884DAA13);
 const Color betaTileColor = Color(0x884D1518);
+const Color fireColor = Color(0xeeFC5403);
+const Color lightningColor = Color(0xeeF7D851);
 
 final regularText = TextPaint(
   style: TextStyle(

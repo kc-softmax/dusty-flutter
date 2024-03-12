@@ -15,8 +15,6 @@ class Bush extends SpriteComponent
         Snapshot {
   PassiveObjectType objectType;
 
-  late SpriteComponent bushSprites;
-
   Bush({required this.objectType}) : super(anchor: Anchor.center);
 
   @override
@@ -43,12 +41,12 @@ class Bush extends SpriteComponent
       if (value is Bush) return;
       if (value.toRect().overlaps(toRect())) {
         if (value.priority == Priority.environmentIntersected) return;
-        bushSprites.opacity = 0.5;
-        bushSprites.priority = Priority.environmentIntersected;
+        opacity = 0.5;
+        priority = Priority.environmentIntersected;
       } else {
         if (value.priority == Priority.environmentIntersected) {
-          bushSprites.opacity = 1;
-          bushSprites.priority = Priority.normal;
+          opacity = 1;
+          priority = Priority.normal;
         }
       }
     });

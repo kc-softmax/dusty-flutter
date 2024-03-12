@@ -96,6 +96,7 @@ class GameMessage with _$GameMessage {
 class SystemMessage with _$SystemMessage {
   const factory SystemMessage({
     int? remainTime,
+    int? pollutedCount,
     bool? isEnd,
   }) = _SystemMessage;
 

@@ -52,8 +52,15 @@ class GaugeBar extends PositionComponent with HasGameRef<DustyIslandGame> {
   }
 
   void decreaseWithDuration(double duration, Color color) {
-    scale = Vector2(1, 1);
-    add(ScaleEffect.to(
+    // if (background.scale.x == 0) {
+    //   background.add(ScaleEffect.to(
+    //     Vector2(0, 1),
+    //     EffectController(duration: 0.1),
+    //   ));
+    //   scale = Vector2(1, 1);
+    // }
+
+    gauge.add(ScaleEffect.to(
       Vector2(0, 1),
       EffectController(duration: duration),
     ));
