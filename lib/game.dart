@@ -11,6 +11,7 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart' hide Text;
 import 'package:flutter/material.dart' hide Route, OverlayRoute;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
@@ -58,16 +59,25 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
                       ),
                       FilledButton(
                           onPressed: () async {
-                            final result = await Arbiter.api.loginByUserName(
-                                RequestLoginByUserName(
-                                    userName: controller.value.text));
-                            final prefs = await SharedPreferences.getInstance();
-                            await prefs.setInt("playerId", result.id);
-                            await prefs.setString("token", result.accessToken);
-                            await prefs.setString("userName", result.userName);
+                            try {
+                              final result = await Arbiter.api.loginByUserName(
+                                  RequestLoginByUserName(
+                                      userName: controller.value.text.trim()));
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.setInt("playerId", result.id);
+                              await prefs.setString(
+                                  "token", result.accessToken);
+                              await prefs.setString(
+                                  "userName", result.userName);
 
-                            router.pop();
-                            router.pushReplacementNamed(LobbyScene.routerName);
+                              router.pop();
+                              router
+                                  .pushReplacementNamed(LobbyScene.routerName);
+                            } catch (e) {
+                              Fluttertoast.showToast(
+                                  msg: 'Please try again in a few minutes.');
+                            }
                           },
                           child: const Text("로그인")),
                     ],
