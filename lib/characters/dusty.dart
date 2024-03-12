@@ -301,12 +301,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         // 다른 사운드들과 같이 콜백으로 AudioPlayer를 받으면
         // 순식간에 락온이 풀리는 경우, 스탑을 실행해야할 때 lockOnSound가 null일 수 있다.
         // 그것을 방지하기 위해 await 사용.
+        await lockOnSound?.stop();
         lockOnSound = await DustySoundPool.instance.loopOnLockOn();
       }
     } else {
       aim.opacity = 0;
       if (!isPlayer) {
-        lockOnSound?.stop();
+        await lockOnSound?.stop();
       }
     }
   }

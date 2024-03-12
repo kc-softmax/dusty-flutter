@@ -20,10 +20,10 @@ class DustyNameLabel extends TextBoxComponent {
         );
 
   @override
-  Future<void> onLoad() {
+  void onMount() {
+    super.onMount();
     assert(parent is Dusty);
     center = _caclulateCenter();
-    return super.onLoad();
   }
 
   @override
@@ -38,11 +38,11 @@ class DustyNameLabel extends TextBoxComponent {
     // NOTE(@jaehong0721)
     // 부모(더스티)가 flip되어도 텍스트는 flip되지않도록
     // 새로운 좌표계에 맞는 center값으로 변경해준다.
+    if (parent == null) return;
     center = _caclulateCenter();
   }
 
   Vector2 _caclulateCenter() {
-    if (parent is Dusty) return Vector2.zero();
     return Vector2(
       (parent as Dusty).size.x * 0.5,
       topMargin,
