@@ -15,6 +15,7 @@ import 'package:dusty_flutter/ui/flutter_overlay_dialogs.dart';
 import 'package:dusty_flutter/ui/hud.dart';
 import 'package:flame/components.dart' hide Timer;
 import 'package:flame/experimental.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlayScene extends Component with HasGameRef<DustyIslandGame> {
@@ -63,6 +64,19 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   late final SpriteComponent autoRange;
 
+  bool _isSoundOn = false;
+
+  bool get isSoundOn => _isSoundOn;
+
+  set isSoundOn(bool isSoundOn) {
+    if (!isSoundOn) {
+      FlameAudio.bgm.audioPlayer.stop();
+    } else {
+      DustySoundPool.instance.bgmOnGamePlaying();
+    }
+    _isSoundOn = isSoundOn;
+  }
+
   @override
   FutureOr<void> onLoad() async {
     _setCameraBound();
@@ -92,6 +106,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   void onRemove() {
     super.onRemove();
     _closeGame();
+    FlameAudio.bgm.stop();
   }
 
   @override
@@ -124,8 +139,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
       _parseGameMessage,
       _onClosedGame,
     );
-
-    DustySoundPool.instance.bgmOnGamePlaying();
   }
 
   void _closeGame() {

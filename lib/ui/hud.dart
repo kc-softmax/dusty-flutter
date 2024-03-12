@@ -12,6 +12,7 @@ import 'package:dusty_flutter/ui/kill_logs.dart';
 import 'package:dusty_flutter/ui/minimap.dart';
 import 'package:dusty_flutter/ui/player_info.dart';
 import 'package:dusty_flutter/ui/player_kill_logs.dart';
+import 'package:dusty_flutter/ui/sound_option.dart';
 import 'package:flame/components.dart';
 import 'package:flame/layout.dart';
 import 'package:flame/palette.dart';
@@ -195,7 +196,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       boostButton!,
       playerKillLogs!,
       killLogs!,
-      timeBgSprite
+      timeBgSprite,
+      SoundOptionButton(),
       // playerInfo!,
       // minimap!
     ]);
@@ -308,21 +310,27 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   void _onPressedActiveButton(double progress) {
     if (progress != 0) return;
     debugPrint("press active button");
-    DustySoundPool.instance.effectOnActiveSkil();
+    if (gameRef.playScene.isSoundOn) {
+      DustySoundPool.instance.effectOnActiveSkil();
+    }
     Arbiter.liveService.sendByte(DustyAction.activeSkill.encode());
   }
 
   void _onPressedSpecialButton(double progress, int gauge) {
     if (progress != 0) return;
     debugPrint("press special button");
-    DustySoundPool.instance.effectOnSpecialSkil();
+    if (gameRef.playScene.isSoundOn) {
+      DustySoundPool.instance.effectOnSpecialSkil();
+    }
     Arbiter.liveService.sendByte(DustyAction.specialSkill.encode(value: gauge));
   }
 
   void _onPressedSpecial2Button(double progress, int gauge) {
     if (progress != 0) return;
     debugPrint("press special 2 button");
-    DustySoundPool.instance.effectOnSecondarySpecialSkil();
+    if (gameRef.playScene.isSoundOn) {
+      DustySoundPool.instance.effectOnSecondarySpecialSkil();
+    }
     Arbiter.liveService
         .sendByte(DustyAction.special2Skill.encode(value: gauge));
   }

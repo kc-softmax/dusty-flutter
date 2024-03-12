@@ -479,6 +479,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   }
 
   double getSoundVolume() {
+    if (!gameRef.playScene.isSoundOn) return 0.0;
     return min(1 - (getDistanceToPlayer() / gameRef.canvasDiagonal), 1);
   }
 }
