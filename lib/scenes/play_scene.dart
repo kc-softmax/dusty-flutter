@@ -86,11 +86,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   void onMount() {
     super.onMount();
     _startGame();
-    // TEMP
-    // 게임 종료를 위한 타이머
-    // Timer(const Duration(seconds: 3), () {
-    //   _closeGame();
-    // });
   }
 
   @override
@@ -150,6 +145,9 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
     if (gameMessage.system != null) {
       hud.updateSystemMessage(gameMessage.system!);
+      if (gameMessage.system?.isEnd ?? false) {
+        _closeGame();
+      }
     }
 
     if (gameMessage.dusties != null) {
