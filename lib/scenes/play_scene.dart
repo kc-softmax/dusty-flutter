@@ -99,6 +99,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   @override
   void onMount() {
     super.onMount();
+    gameRef.focusNode?.requestFocus();
     _startGame();
   }
 

@@ -9,6 +9,7 @@ class DustyIslandApp extends StatelessWidget {
   const DustyIslandApp({super.key});
   @override
   Widget build(BuildContext context) {
+    FocusNode focusNode = FocusNode();
     return MaterialApp(
       theme: ThemeData.dark(),
       // 일시적으로 스플래시 스크린 off
@@ -20,15 +21,16 @@ class DustyIslandApp extends StatelessWidget {
           image: DecorationImage(
               image: AssetImage('assets/images/background.png')),
         ),
-        child: buildGame(),
+        child: buildGame(focusNode),
       ),
     );
   }
 }
 
-GameWidget<DustyIslandGame> buildGame() {
-  return const GameWidget.controlled(
-    gameFactory: DustyIslandGame.new,
+GameWidget<DustyIslandGame> buildGame(FocusNode focusNode) {
+  return GameWidget.controlled(
+    gameFactory: () => DustyIslandGame(focusNode),
+    focusNode: focusNode,
   );
 }
 

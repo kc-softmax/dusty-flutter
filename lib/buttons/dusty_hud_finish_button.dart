@@ -6,7 +6,9 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame/components.dart';
 import 'package:flame/palette.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class DustyHudFinishButton extends HudButtonComponent
@@ -39,6 +41,7 @@ class DustyHudFinishButton extends HudButtonComponent
   double _progress = 0;
   bool set = false;
   Function(bool)? handleFinishButtonAction;
+  LogicalKeyboardKey? keyboardKey;
 
   DustyHudFinishButton({
     super.button,
@@ -55,6 +58,7 @@ class DustyHudFinishButton extends HudButtonComponent
     super.priority,
     required this.finishDuration,
     this.handleFinishButtonAction,
+    this.keyboardKey,
   }) {
     super.onPressed = () {
       handleFinishButtonAction?.call(_available >= 1);
@@ -84,6 +88,14 @@ class DustyHudFinishButton extends HudButtonComponent
 
     // add(tempText);
     // add(percentText);
+    if (kIsWeb && keyboardKey != null) {
+      add(KeyboardListenerComponent(keyDown: {
+        keyboardKey!: (keysPressed) {
+          handleFinishButtonAction?.call(_available >= 1);
+          return false;
+        }
+      }));
+    }
   }
 
   void setFinishType(FinishType finishType) {

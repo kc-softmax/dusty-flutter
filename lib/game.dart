@@ -9,6 +9,7 @@ import 'package:dusty_flutter/scenes/lobby_scene.dart';
 import 'package:dusty_flutter/scenes/play_scene.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flame/input.dart';
 import 'package:flame_tiled/flame_tiled.dart' hide Text;
 import 'package:flutter/material.dart' hide Route, OverlayRoute;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -195,9 +196,13 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
 }
 
 class DustyIslandGame extends FlameGame
-    with HasCollisionDetection, SingleGameInstance {
-  DustyIslandGame() : super(world: DustyIslandWorld()) {
-    pauseWhenBackgrounded = false;
+    with
+        HasCollisionDetection,
+        SingleGameInstance,
+        HasKeyboardHandlerComponents {
+  FocusNode? focusNode;
+  DustyIslandGame(this.focusNode) : super(world: DustyIslandWorld()) {
+    super.pauseWhenBackgrounded = false;
   }
 
   // 이전 코드들과 호환성을 위한 getters

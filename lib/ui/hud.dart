@@ -13,15 +13,15 @@ import 'package:dusty_flutter/ui/minimap.dart';
 import 'package:dusty_flutter/ui/player_info.dart';
 import 'package:dusty_flutter/ui/player_kill_logs.dart';
 import 'package:dusty_flutter/ui/pollution_text.dart';
-import 'package:dusty_flutter/ui/score_text.dart';
 import 'package:dusty_flutter/ui/sound_option.dart';
 import 'package:flame/components.dart';
-import 'package:flame/input.dart';
 import 'package:flame/layout.dart';
 import 'package:flame/palette.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class Hud extends Component with HasGameRef<DustyIslandGame> {
+class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
   static final smallButtonSize = Vector2(44, 46);
   static final middleButtonSize = Vector2(55, 58);
   static final largeButtonSize = Vector2(66, 70);
@@ -57,18 +57,22 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   @override
   FutureOr<void> onLoad() {
     final size = gameRef.size;
-    joystick = Joystick(
-      knob: SpriteComponent(
-        sprite: game.atlas.findSpriteByName('knob'),
-        size: Vector2.all(size.y * 0.1),
-      ),
-      background: SpriteComponent(
-        sprite: game.atlas.findSpriteByName('joystick_bg'),
-        size: Vector2.all(size.y * 0.45),
-      ),
-      margin: const EdgeInsets.only(left: 66, bottom: 22),
-      onMovedJoystick: _onMovedJoyStick,
-    );
+    if (!kIsWeb) {
+      joystick = Joystick(
+        knob: SpriteComponent(
+          sprite: game.atlas.findSpriteByName('knob'),
+          size: Vector2.all(size.y * 0.1),
+        ),
+        background: SpriteComponent(
+          sprite: game.atlas.findSpriteByName('joystick_bg'),
+          size: Vector2.all(size.y * 0.45),
+        ),
+        margin: const EdgeInsets.only(left: 66, bottom: 22),
+        onMovedJoystick: _onMovedJoyStick,
+      );
+      gameRef.camera.viewport.add(joystick!);
+    }
+
     activeButton = DustyHudButton(
         button: SpriteComponent(
           sprite: game.atlas.findSpriteByName('circle_button'),
@@ -79,7 +83,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
           bottom: 33,
         ),
         handleButtonAction: _onPressedActiveButton,
-        reloadDuration: gameConfig.activeSkillDuration);
+        reloadDuration: gameConfig.activeSkillDuration,
+        keyboardKey: LogicalKeyboardKey.keyQ);
 
     // specialButton = LongTapDustyHudButton(
     //     button: SpriteComponent(
@@ -108,28 +113,32 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     //     reloadDuration: gameConfig.special2SkillReloadTime);
 
     finishingButton = DustyHudFinishButton(
-        button: SpriteComponent(
-          sprite: game.atlas.findSpriteByName('circle_button'),
-          size: middleButtonSize,
-        ),
-        margin: const EdgeInsets.only(
-          right: 258,
-          bottom: 46,
-        ),
-        handleFinishButtonAction: _onPressedFinishingButton,
-        finishDuration: gameConfig.finishDuration);
+      button: SpriteComponent(
+        sprite: game.atlas.findSpriteByName('circle_button'),
+        size: middleButtonSize,
+      ),
+      margin: const EdgeInsets.only(
+        right: 258,
+        bottom: 46,
+      ),
+      handleFinishButtonAction: _onPressedFinishingButton,
+      finishDuration: gameConfig.finishDuration,
+      keyboardKey: LogicalKeyboardKey.keyW,
+    );
 
     boostButton = DustyHudButton(
-        button: SpriteComponent(
-          sprite: game.atlas.findSpriteByName('circle_button'),
-          size: smallButtonSize,
-        ),
-        margin: const EdgeInsets.only(
-          right: 189,
-          bottom: 22,
-        ),
-        handleButtonAction: _onPressedBoostButton,
-        reloadDuration: gameConfig.boostSkillReloadTime);
+      button: SpriteComponent(
+        sprite: game.atlas.findSpriteByName('circle_button'),
+        size: smallButtonSize,
+      ),
+      margin: const EdgeInsets.only(
+        right: 189,
+        bottom: 22,
+      ),
+      handleButtonAction: _onPressedBoostButton,
+      reloadDuration: gameConfig.boostSkillReloadTime,
+      keyboardKey: LogicalKeyboardKey.space,
+    );
 
     // itemSlot1 = DustyHudButton(
     //     button: SpriteComponent(
@@ -167,8 +176,6 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     // playerInfo = PlayerInfoComponent()
     //   ..x = 52
     //   ..y = 18;
-
-    gameRef.camera.viewport.add(joystick!);
 
     final infoBgSprite =
         SpriteComponent(sprite: gameRef.atlas.findSpriteByName('rank_bg'))
@@ -308,6 +315,48 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       // pollutionScoreText?.updateScore(pollutedRate);
       // cleaningScoreText?.updateScore(1 - pollutedRate);
     }
+  }
+
+  @override
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    if (!kIsWeb) return false;
+
+    DustyAction action = DustyAction.idle;
+
+    if (keysPressed.length == 1 &&
+        keysPressed.first == LogicalKeyboardKey.arrowUp) {
+      action = DustyAction.twelve;
+    } else if (keysPressed.length == 2 &&
+        keysPressed.containsAll(
+            [LogicalKeyboardKey.arrowUp, LogicalKeyboardKey.arrowRight])) {
+      action = DustyAction.one;
+    } else if (keysPressed.length == 1 &&
+        keysPressed.first == LogicalKeyboardKey.arrowRight) {
+      action = DustyAction.three;
+    } else if (keysPressed.length == 2 &&
+        keysPressed.containsAll(
+            [LogicalKeyboardKey.arrowRight, LogicalKeyboardKey.arrowDown])) {
+      action = DustyAction.five;
+    } else if (keysPressed.length == 1 &&
+        keysPressed.first == LogicalKeyboardKey.arrowDown) {
+      action = DustyAction.six;
+    } else if (keysPressed.length == 2 &&
+        keysPressed.containsAll(
+            [LogicalKeyboardKey.arrowDown, LogicalKeyboardKey.arrowLeft])) {
+      action = DustyAction.seven;
+    } else if (keysPressed.length == 1 &&
+        keysPressed.first == LogicalKeyboardKey.arrowLeft) {
+      action = DustyAction.nine;
+    } else if (keysPressed.length == 2 &&
+        keysPressed.containsAll(
+            [LogicalKeyboardKey.arrowLeft, LogicalKeyboardKey.arrowUp])) {
+      action = DustyAction.eleven;
+    } else {
+      action = DustyAction.stop;
+    }
+    gameRef.playScene.player!.targetDirectionIndex = action.code;
+    Arbiter.liveService.sendByte(action.encode());
+    return true;
   }
 
   void updateHud(DustyMessage message) {

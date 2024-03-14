@@ -8,7 +8,9 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 /// HudButtonComponent를 모방해서 만들었다.
@@ -39,6 +41,8 @@ class DustyHudButton extends HudButtonComponent
   int reloadDuration;
   double progress = 0;
   Function(double)? handleButtonAction;
+  LogicalKeyboardKey? keyboardKey;
+
   PassiveObjectType _equipment = PassiveObjectType.idle;
   PassiveObjectType get equipment => _equipment;
 
@@ -57,6 +61,7 @@ class DustyHudButton extends HudButtonComponent
     super.priority,
     required this.reloadDuration,
     this.handleButtonAction,
+    this.keyboardKey,
   }) {
     super.onPressed = () {
       handleButtonAction?.call(progress);
@@ -89,6 +94,15 @@ class DustyHudButton extends HudButtonComponent
     // addimage
     add(buttonIcon!);
     add(quantityText);
+
+    if (kIsWeb && keyboardKey != null) {
+      add(KeyboardListenerComponent(keyDown: {
+        keyboardKey!: (keysPressed) {
+          handleButtonAction?.call(progress);
+          return false;
+        }
+      }));
+    }
   }
 
   void setEquipment(PassiveObjectType equipment, int quantity) {

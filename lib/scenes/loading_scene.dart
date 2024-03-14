@@ -30,7 +30,7 @@ class LoadingScene extends Component with HasGameRef<DustyIslandGame> {
   @override
   FutureOr<void> onLoad() async {
     addAll([
-      Background(const Color(0xff282828)),
+      // Background(const Color(0xff282828)),
       tb = TextBoxComponent(
         textRenderer: TextPaint(
           style: const TextStyle(
