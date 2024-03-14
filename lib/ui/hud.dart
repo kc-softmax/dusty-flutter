@@ -12,9 +12,11 @@ import 'package:dusty_flutter/ui/kill_logs.dart';
 import 'package:dusty_flutter/ui/minimap.dart';
 import 'package:dusty_flutter/ui/player_info.dart';
 import 'package:dusty_flutter/ui/player_kill_logs.dart';
+import 'package:dusty_flutter/ui/pollution_text.dart';
 import 'package:dusty_flutter/ui/score_text.dart';
 import 'package:dusty_flutter/ui/sound_option.dart';
 import 'package:flame/components.dart';
+import 'package:flame/input.dart';
 import 'package:flame/layout.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +37,15 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
   TextComponent? rematinTimeText;
   TextComponent? informationText;
 
-  ScoreText? pollutionScoreText;
-  ScoreText? cleaningScoreText;
+  // ScoreText? pollutionScoreText;
+  // ScoreText? cleaningScoreText;
 
   Minimap? minimap;
+  late Sprite waterIcon;
+  late Sprite skullIcon;
+  late SpriteComponent pollutionIndicator;
+  late PollutionText pollutionText;
+
   PlayerInfoComponent? playerInfo;
   PlayerKillLogsComponent? playerKillLogs;
   KillLogsComponent? killLogs;
@@ -163,18 +170,26 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
 
     gameRef.camera.viewport.add(joystick!);
 
+    final infoBgSprite =
+        SpriteComponent(sprite: gameRef.atlas.findSpriteByName('rank_bg'))
+          ..size = Vector2(196, 88)
+          ..anchor = Anchor.center
+          ..x = gameRef.size.x / 2;
+    // ..y = ;
+
     final timeBgSprite =
         SpriteComponent(sprite: gameRef.atlas.findSpriteByName('rank_bg'))
-          ..size = Vector2(66, 33)
+          ..size = Vector2(44, 22)
           ..anchor = Anchor.center
           ..x = gameRef.size.x / 2
-          ..y = 40;
+          ..y = 44;
 
     rematinTimeText = TextComponent(
       text: '',
       textRenderer: TextPaint(
         style: TextStyle(
-          fontSize: 16.0,
+          fontSize: 12.0,
+          fontFamily: 'ONEMobilePOP',
           color: BasicPalette.white.color,
           shadows: [
             Shadow(
@@ -192,6 +207,28 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       alignment: Anchor.center,
       keepChildAnchor: true,
     ));
+
+    waterIcon = gameRef.atlas.findSpriteByName('water_icon') as Sprite;
+    skullIcon = gameRef.atlas.findSpriteByName('skull_icon') as Sprite;
+
+    final pollutionBar =
+        SpriteComponent(sprite: gameRef.atlas.findSpriteByName('pollution_bar'))
+          ..size = Vector2(168, 12)
+          ..anchor = Anchor.center
+          ..x = gameRef.size.x / 2
+          ..y = 16;
+    pollutionIndicator = SpriteComponent(sprite: waterIcon)
+      ..size = Vector2(15, 24);
+    // ..anchor = Anchor.center;
+
+    pollutionBar.add(
+        AlignComponent(child: pollutionIndicator, alignment: Anchor.center));
+
+    pollutionText = PollutionText(boxConfig: TextBoxConfig(timePerChar: 0.05))
+      ..x = gameRef.size.x / 2
+      ..y = 110
+      ..anchor = Anchor.center;
+
 // boxConfig: TextBoxConfig(timePerChar: 0.05))
     informationText = TextComponent(
       text: "",
@@ -212,17 +249,18 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       ..position = gameRef.size / 2
       ..anchor = Anchor.center;
 
-    pollutionScoreText = ScoreText(
-      x: gameRef.size.x / 2 - 128,
-      label: 'pollution',
-    );
+    // pollutionScoreText = ScoreText(
+    //   x: gameRef.size.x / 2 - 128,
+    //   label: 'pollution',
+    // );
 
-    cleaningScoreText = ScoreText(
-      x: gameRef.size.x / 2 + 128,
-      label: 'cleaning',
-    );
+    // cleaningScoreText = ScoreText(
+    //   x: gameRef.size.x / 2 + 128,
+    //   label: 'cleaning',
+    // );
 
     gameRef.camera.viewport.addAll([
+      infoBgSprite,
       activeButton!,
       informationText!,
       // specialButton!,
@@ -235,8 +273,10 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
       killLogs!,
       timeBgSprite,
       SoundOptionButton(),
-      pollutionScoreText!,
-      cleaningScoreText!,
+      // pollutionScoreText!,
+      // cleaningScoreText!,
+      pollutionBar,
+      pollutionText,
       // playerInfo!,
       // minimap!
     ]);
@@ -256,8 +296,17 @@ class Hud extends Component with HasGameRef<DustyIslandGame> {
     if (message.pollutedCount != null) {
       final pollutedRate =
           message.pollutedCount! / gameConfig.totalOccupyableRegion;
-      pollutionScoreText?.updateScore(pollutedRate);
-      cleaningScoreText?.updateScore(1 - pollutedRate);
+      pollutionIndicator.x = 168 * pollutedRate;
+
+      if (pollutedRate > 0.75 && pollutionIndicator.sprite == waterIcon) {
+        pollutionIndicator.sprite = skullIcon;
+      }
+      if (pollutedRate < 0.75 && pollutionIndicator.sprite == skullIcon) {
+        pollutionIndicator.sprite = waterIcon;
+      }
+
+      // pollutionScoreText?.updateScore(pollutedRate);
+      // cleaningScoreText?.updateScore(1 - pollutedRate);
     }
   }
 
