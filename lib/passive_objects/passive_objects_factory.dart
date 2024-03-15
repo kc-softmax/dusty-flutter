@@ -6,7 +6,9 @@ import 'package:dusty_flutter/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:dusty_flutter/passive_objects/environment/bush.dart';
 import 'package:dusty_flutter/passive_objects/environment/trash.dart';
+import 'package:dusty_flutter/passive_objects/environment/tree.dart';
 import 'package:dusty_flutter/passive_objects/equipment.dart';
+import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 
@@ -27,10 +29,12 @@ abstract mixin class PassiveObjects implements PositionComponent {
   factory PassiveObjects.trash(PassiveObjectMessage message) => Trash(message)
     ..size = Vector2.all(16)
     ..anchor = Anchor.center;
-  // ..priority = Priority.environment;
-  // factory PassiveObjects.fruit(
-  //         {required double speed, required Vector2 direction}) =>
-  //     NormalGrenade(speed: speed, direction: direction);
+  factory PassiveObjects.tree(PassiveObjectMessage message) => Tree()
+    ..anchor = Anchor.bottomCenter
+    ..scale = Vector2.all(0.5)
+    ..x = message.x
+    ..y = message.y + 32
+    ..priority = Priority.environment;
 }
 
 class PassiveObjectsFactory
@@ -44,6 +48,8 @@ class PassiveObjectsFactory
         return PassiveObjects.bush(message);
       case PassiveObjectType.trash:
         return PassiveObjects.trash(message)..anchor = Anchor.center;
+      case PassiveObjectType.tree:
+        return PassiveObjects.tree(message);
       default:
         return PassiveObjects.bush(message);
     }

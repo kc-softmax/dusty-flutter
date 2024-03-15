@@ -223,6 +223,7 @@ const _$PassiveObjectTypeEnumMap = {
   PassiveObjectType.bush4X4: 4,
   PassiveObjectType.bush: 5,
   PassiveObjectType.trash: 6,
+  PassiveObjectType.tree: 7,
 };
 
 _$TileMessageImpl _$$TileMessageImplFromJson(Map<String, dynamic> json) =>

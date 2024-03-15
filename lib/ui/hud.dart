@@ -4,6 +4,7 @@ import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/buttons/dusty_hud_finish_button.dart';
 import 'package:dusty_flutter/buttons/dusty_hud_button.dart';
+import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
@@ -85,32 +86,8 @@ class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
         handleButtonAction: _onPressedActiveButton,
         reloadDuration: gameConfig.activeSkillDuration,
         keyboardKey: LogicalKeyboardKey.keyQ);
-
-    // specialButton = LongTapDustyHudButton(
-    //     button: SpriteComponent(
-    //       sprite: game.atlas.findSpriteByName('circle_button'),
-    //       size: middleButtonSize,
-    //     ),
-    //     margin: const EdgeInsets.only(
-    //       right: 90,
-    //       bottom: 164,
-    //     ),
-    //     longTapMaxTime: gameConfig.specialPressedStep,
-    //     handleLongTapButtonAction: _onPressedSpecialButton,
-    //     reloadDuration: gameConfig.specialSkillReloadTime);
-
-    // special2Button = LongTapDustyHudButton(
-    //     button: SpriteComponent(
-    //       sprite: game.atlas.findSpriteByName('circle_button'),
-    //       size: middleButtonSize,
-    //     ),
-    //     margin: const EdgeInsets.only(
-    //       right: 182,
-    //       bottom: 114,
-    //     ),
-    //     longTapMaxTime: gameConfig.specialPressedStep,
-    //     handleLongTapButtonAction: _onPressedSpecial2Button,
-    //     reloadDuration: gameConfig.special2SkillReloadTime);
+    // activeButton?.setIcon(game.atlas.findSprit
+    // eByName('attack_icon') as Sprite);
 
     finishingButton = DustyHudFinishButton(
       button: SpriteComponent(
@@ -139,7 +116,16 @@ class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
       reloadDuration: gameConfig.boostSkillReloadTime,
       keyboardKey: LogicalKeyboardKey.space,
     );
-
+    // final boostSprite =
+    //     SpriteComponent(sprite: game.atlas.findSpriteByName('invinsible'))
+    //       ..size = Vector2(24, 36);
+    // boostButton!.add(AlignComponent(
+    //   child: boostSprite,
+    //   alignment: Anchor.center,
+    // ));
+    // final blinkIcon = boostButton
+    //     ?.setIcon(game.atlas.findSpriteByName('type_a_static') as Sprite);
+    // blinkIcon!.size = Vector2(32, 10);
     // itemSlot1 = DustyHudButton(
     //     button: SpriteComponent(
     //       sprite: game.atlas.findSpriteByName('circle_button'),
@@ -220,12 +206,12 @@ class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
 
     final pollutionBar =
         SpriteComponent(sprite: gameRef.atlas.findSpriteByName('pollution_bar'))
-          ..size = Vector2(168, 12)
+          ..size = Vector2(168, 18)
           ..anchor = Anchor.center
           ..x = gameRef.size.x / 2
           ..y = 16;
     pollutionIndicator = SpriteComponent(sprite: waterIcon)
-      ..size = Vector2(15, 24);
+      ..size = Vector2(12, 18);
     // ..anchor = Anchor.center;
 
     pollutionBar.add(
@@ -317,6 +303,10 @@ class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
     }
   }
 
+  // void setupPlayer(Dusty player) {
+  //   //
+  // }
+
   @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     if (!kIsWeb) return false;
@@ -364,9 +354,34 @@ class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
     //     message.quantity == null ? 0 : message.quantity! & 0x0F;
     // final equipment2Quantity =
     //     message.quantity == null ? 0 : message.quantity! >> 4;
+    if (activeButton?.buttonIcon == null) {
+      final spriteList = gameRef.atlas
+          .findSpritesByName(message.team == Team.alpha ? 'pm' : 'ym');
+      final activeAnimationSprite = SpriteAnimationComponent(
+          animation: SpriteAnimation.spriteList(
+            spriteList,
+            stepTime: 0.05,
+          ),
+          playing: false);
+      activeAnimationSprite.size = activeButton!.size * 0.75;
+      activeButton?.setIcon(activeAnimationSprite);
+    }
+
+    if (boostButton?.buttonIcon == null) {
+      final spriteList = gameRef.atlas.findSpritesByName(
+          message.team == Team.alpha ? 'type_a_static' : 'type_a_static');
+      final boostAnimationSprite = SpriteAnimationComponent(
+          animation: SpriteAnimation.spriteList(
+            spriteList,
+            stepTime: 0.1,
+          ),
+          playing: false);
+      boostAnimationSprite.size = Vector2(28, 10);
+
+      boostButton?.setIcon(boostAnimationSprite);
+    }
 
     activeButton?.updateAvailable(message.activeAvailable);
-
     // specialButton?.updateAvailable(message.specialAvailable);
     // special2Button?.updateAvailable(message.special2Available);
     // specialButton?.setEquipment(message.equipment1, equipment1Quantity);

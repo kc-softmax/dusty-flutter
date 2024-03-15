@@ -7,6 +7,7 @@ import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flame/layout.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +34,11 @@ class DustyHudButton extends HudButtonComponent
     ),
   );
   late TextComponent quantityText;
-  late SpriteComponent? buttonIcon;
   late Timer timer;
   late Paint paint;
   int _available = 1;
   int _quantity = 0;
+  SpriteAnimationComponent? buttonIcon;
   int reloadDuration;
   double progress = 0;
   Function(double)? handleButtonAction;
@@ -75,16 +76,6 @@ class DustyHudButton extends HudButtonComponent
     paint = Paint()
       ..color = deactivateColor
       ..style = PaintingStyle.fill;
-    final game = gameRef as DustyIslandGame;
-    var iconName = button!.size.x > 60 ? 'attack_icon' : 'invincible_icon';
-
-    buttonIcon = SpriteComponent(
-      sprite: game.atlas.findSpriteByName(iconName) as Sprite,
-      size: size,
-    )
-      ..scale = Vector2(0.5, 0.5)
-      ..x = size.x * 0.25
-      ..y = size.y * 0.25;
 
     quantityText = TextComponent(
       text: '',
@@ -92,7 +83,6 @@ class DustyHudButton extends HudButtonComponent
       position: Vector2(size.x / 2, size.y / 2),
     )..anchor = Anchor.topLeft;
     // addimage
-    add(buttonIcon!);
     add(quantityText);
 
     if (kIsWeb && keyboardKey != null) {
@@ -103,6 +93,19 @@ class DustyHudButton extends HudButtonComponent
         }
       }));
     }
+  }
+
+  void setIcon(
+    SpriteAnimationComponent iconSprite,
+  ) {
+    if (buttonIcon != null) {
+      buttonIcon!.removeFromParent();
+    }
+    buttonIcon = iconSprite;
+    add(AlignComponent(
+      child: buttonIcon!,
+      alignment: Anchor.center,
+    ));
   }
 
   void setEquipment(PassiveObjectType equipment, int quantity) {
@@ -141,11 +144,6 @@ class DustyHudButton extends HudButtonComponent
     _equipment = equipment;
   }
 
-  void setIcon(Sprite icon) {
-    buttonIcon!.sprite = icon;
-    buttonIcon!.scale = Vector2.all(1);
-  }
-
   void updateManual(double progress) {
     this.progress = progress;
   }
@@ -157,9 +155,13 @@ class DustyHudButton extends HudButtonComponent
     _available = available;
     if (_available > 0) {
       // available
+      // if (buttonIcon != null) {
+      //   buttonIcon!.playing = true;
+      // }
       timer.stop();
     } else {
       // not available
+      // buttonIcon!.playing = false;
       timer.limit = reloadDuration.toDouble();
       timer.start();
     }
@@ -171,14 +173,14 @@ class DustyHudButton extends HudButtonComponent
     if (timer.isRunning()) {
       timer.update(dt);
       progress = timer.progress;
-      if (buttonIcon!.opacity == 1) {
-        buttonIcon!.opacity = 0.5;
-      }
+      // if (buttonIcon!.opacity == 1) {
+      //   buttonIcon!.opacity = 0.5;
+      // }
     } else {
       progress = 0;
-      if (buttonIcon!.opacity != 1) {
-        buttonIcon!.opacity = 1;
-      }
+      // if (buttonIcon!.opacity != 1) {
+      //   buttonIcon!.opacity = 1;
+      // }
     }
   }
 

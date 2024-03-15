@@ -91,6 +91,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   late final DustyBodyEffect bodyEffect;
   late final DustyNameLabel nameLabel;
   late final OpacityEffect shieldEffect;
+  late final OpacityEffect hideEffect;
   // late final GaugeBar topGaugeBar;
   late final GaugeBar rightGaugeBar;
   late final SpriteAnimationComponent aim;
@@ -171,16 +172,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     priority = Priority.dusty;
     lastPosition = position;
     _nextPosition = position;
-    // shieldEffect = SpriteAnimationComponent(
-    //     animation: SpriteAnimation.spriteList(
-    //   gameRef.atlas.findSpritesByName('shield'),
-    //   stepTime: 0.05,
-    // ))
-    //   ..opacity = 0
-    //   ..size = size * 1.3
-    //   ..x = -5
-    //   ..y = -5;
-    // shieldEffect.animationTicker?.paused = true;
     aim = SpriteAnimationComponent(
         animation: SpriteAnimation.spriteList(
       gameRef.atlas.findSpritesByName('aim'),
@@ -230,6 +221,10 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     shieldEffect = OpacityEffect.to(
         0.2, EffectController(duration: 0.3, infinite: true, alternate: true));
     shieldEffect.pause();
+    // hideEffect = OpacityEffect.to(
+    //     0.2, EffectController(duration: 0.3, infinite: true, alternate: true));
+    // shieldEffect.pause();
+
     addAll([
       glasses,
       bodyEffect,
@@ -403,6 +398,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
           ..y = y
           ..size = size);
         hide(true, visible > 0);
+        glassesType = DustyGlassesType.boost;
         DustySoundPool.instance
             .loopOnBoost()
             .then((value) => dustyStateSound = value);
@@ -419,10 +415,10 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
     if (dustyState != DustyState.normal && newState == DustyState.normal) {
       if (dustyState == DustyState.invincible) {
-        gameRef.world.add(DefaultExplosion(exType)
-          ..x = x
-          ..y = y
-          ..size = size);
+        // gameRef.world.add(DefaultExplosion(exType)
+        //   ..x = x
+        //   ..y = y
+        //   ..size = size);
       }
       hide(false, true);
     }
