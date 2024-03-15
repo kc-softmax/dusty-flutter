@@ -11,7 +11,7 @@ abstract class BaseArbiterLiveService {
   Future<void> on(
     String url,
     Function(dynamic message) onMessage,
-    void Function()? onDone,
+    void Function(String? reason)? onDone,
   );
   void sendByte(ByteBuffer message);
   void close();
@@ -26,7 +26,7 @@ class ArbiterLiveService extends BaseArbiterLiveService {
   Future<void> on(
     String url,
     Function(Map<String, dynamic> json) onMessage,
-    void Function()? onDone,
+    void Function(String? reason)? onDone,
   ) async {
     _channel = WebSocketChannel.connect(Uri.parse('$baseSocketUrl$url'));
     await _channel.ready;
@@ -38,7 +38,7 @@ class ArbiterLiveService extends BaseArbiterLiveService {
           onMessage(dataJson);
         }
       },
-      onDone: onDone,
+      onDone: () => onDone?.call(_channel.closeReason),
     );
   }
 
