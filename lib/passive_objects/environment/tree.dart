@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
@@ -10,13 +11,18 @@ import 'package:flame/extensions.dart';
 
 class Tree extends SpriteAnimationComponent
     with HasGameRef<DustyIslandGame>, CollisionCallbacks, PassiveObjects {
+  PassiveObjectType treeType;
   List<Dusty> hidingDusty = [];
   List<PassiveObjects> hidingObjects = [];
+
+  Tree({required this.treeType});
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final spriteList = gameRef.atlas.findSpritesByName('tree');
+    final treeName =
+        treeType == PassiveObjectType.tree ? 'tree' : 'winter_tree';
+    final spriteList = gameRef.atlas.findSpritesByName(treeName);
     animation = SpriteAnimation.spriteList(
       spriteList,
       stepTime: 0.05,
@@ -27,7 +33,6 @@ class Tree extends SpriteAnimationComponent
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    // gameRef.playScene.activeObjectsFactory.objects.forEach((key, value) {});
     gameRef.playScene.passiveObjectsFactory.objects.forEach((key, value) {
       if (value is Tree) return;
       // if treeh

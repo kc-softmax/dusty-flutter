@@ -29,12 +29,13 @@ abstract mixin class PassiveObjects implements PositionComponent {
   factory PassiveObjects.trash(PassiveObjectMessage message) => Trash(message)
     ..size = Vector2.all(16)
     ..anchor = Anchor.center;
-  factory PassiveObjects.tree(PassiveObjectMessage message) => Tree()
-    ..anchor = Anchor.bottomCenter
-    ..scale = Vector2.all(0.5)
-    ..x = message.x
-    ..y = message.y + 32
-    ..priority = Priority.environment;
+  factory PassiveObjects.tree(PassiveObjectMessage message) =>
+      Tree(treeType: message.objectType!)
+        ..anchor = Anchor.bottomCenter
+        ..scale = Vector2.all(0.5)
+        ..x = message.x
+        ..y = message.y + 32
+        ..priority = Priority.environment;
 }
 
 class PassiveObjectsFactory
@@ -48,7 +49,7 @@ class PassiveObjectsFactory
         return PassiveObjects.bush(message);
       case PassiveObjectType.trash:
         return PassiveObjects.trash(message)..anchor = Anchor.center;
-      case PassiveObjectType.tree:
+      case PassiveObjectType.tree || PassiveObjectType.winterTree:
         return PassiveObjects.tree(message);
       default:
         return PassiveObjects.bush(message);
