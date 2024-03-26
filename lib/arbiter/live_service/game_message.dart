@@ -47,7 +47,9 @@ enum PassiveObjectType {
   @JsonValue(6)
   trash(6),
   @JsonValue(7)
-  tree(7);
+  tree(7),
+  @JsonValue(8)
+  winterTree(8);
 
   final int code;
   const PassiveObjectType(this.code);
