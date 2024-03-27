@@ -96,17 +96,16 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   late final GaugeBar rightGaugeBar;
   late final SpriteAnimationComponent aim;
   late Vector2 lastPosition;
+  late Vector2 _nextPosition;
+
   final String dustyName;
   final Team team;
 
   PassiveObjects? overLabObject;
-  late Vector2 _nextPosition;
-  int throwingPower = 0;
   int? targetId;
   int? lockOnId;
   DustyState dustyState = DustyState.normal;
   double speed = 0;
-  double timeSinceLastUpdate = 0;
   int hasShield = 0;
   int _isFinishing = 0;
 
@@ -120,7 +119,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
 
   int targetDirectionIndex = 0;
   int directionIndex = 0;
-  double lastMoveAngle = 0;
 
   DustyBodyType _bodyType = DustyBodyType.neutral;
   DustyBodyType get bodyType => _bodyType;
@@ -268,24 +266,23 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
 
     //일정 거리 이하로 가면 멈춤 # 멈추지 않아야
     position.add(toMoveDirection * speed * dt / gameRef.playScene.serverDelta);
-
-    lastMoveAngle = toMoveDirection.screenAngle();
-    if (toMoveDirection.screenAngle() >= 0 && isFlippedHorizontally) {
-      flipHorizontally();
-    }
-    if (toMoveDirection.screenAngle() < 0 && !isFlippedHorizontally) {
-      flipHorizontally();
-    }
-  }
-
-  void updateTargetDirection(int directionIndex) {
-    targetDirectionIndex = directionIndex;
   }
 
   void updateNextPosition(Vector2 nextPosition) {
     if (gameRef.playScene.gameConfig != null) {
+      lastPosition = _nextPosition;
       _nextPosition = nextPosition; // 새로운 목표 위치 설정
-      timeSinceLastUpdate = 0; // 타이머 리셋
+      final remainVector = (nextPosition - lastPosition).normalized();
+      final nextAngle = remainVector.screenAngle();
+      if (nextAngle != 0) {
+        if (nextAngle >= 0 && isFlippedHorizontally) {
+          flipHorizontally();
+        }
+        if (nextAngle < 0 && !isFlippedHorizontally) {
+          flipHorizontally();
+        }
+      }
+
       final remainingDistance = (nextPosition - position).length;
       if (remainingDistance < 1) {
         speed = 0;
@@ -293,6 +290,10 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         speed = remainingDistance; // server speed per tick
       }
     }
+  }
+
+  void updateTargetDirection(int directionIndex) {
+    targetDirectionIndex = directionIndex;
   }
 
   void setAim(bool lock) async {
