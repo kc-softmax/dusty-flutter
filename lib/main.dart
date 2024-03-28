@@ -1,3 +1,4 @@
+import 'package:dusty_flutter/widgets/pre_start_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
@@ -16,13 +17,7 @@ class DustyIslandApp extends StatelessWidget {
       // home: GameSplashScreen(
       //   gameWidget: buildGame(),
       // )
-      home: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/background.png')),
-        ),
-        child: buildGame(focusNode),
-      ),
+      home: buildGame(focusNode),
     );
   }
 }
@@ -30,6 +25,9 @@ class DustyIslandApp extends StatelessWidget {
 GameWidget<DustyIslandGame> buildGame(FocusNode focusNode) {
   return GameWidget.controlled(
     gameFactory: () => DustyIslandGame(focusNode),
+    overlayBuilderMap: {
+      PreStartText.name: (context, game) => const PreStartText(),
+    },
     focusNode: focusNode,
   );
 }

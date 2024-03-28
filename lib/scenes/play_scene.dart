@@ -5,6 +5,7 @@ import 'package:dusty_flutter/active_objects/active_objects_factory.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/arbiter/live_service/system_message.dart';
+import 'package:dusty_flutter/camera.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/characters/dusty_factory.dart';
 import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
@@ -13,8 +14,8 @@ import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/tiles/tile_factory.dart';
 import 'package:dusty_flutter/ui/flutter_overlay_dialogs.dart';
 import 'package:dusty_flutter/ui/hud.dart';
+import 'package:dusty_flutter/widgets/pre_start_text.dart';
 import 'package:flame/components.dart' hide Timer;
-import 'package:flame/experimental.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,8 +81,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   @override
   FutureOr<void> onLoad() async {
-    _setCameraBound();
-
     gameRef.world.add(gameRef.mapComponent);
 
     await addAll([
@@ -95,6 +94,15 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
           ..anchor = Anchor.center
           ..opacity = 0;
     gameRef.world.add(autoRange);
+
+    // 카메라 셋팅
+    gameRef.camera = DICamera(
+      width: gameRef.mapComponent.width,
+      height: gameRef.mapComponent.height,
+    );
+
+    // "잠시 후에 게임을 시작합니다" 문구
+    gameRef.overlays.add(PreStartText.name);
   }
 
   @override
@@ -109,25 +117,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     super.onRemove();
     _closeGame();
     FlameAudio.bgm.stop();
-  }
-
-  @override
-  void onGameResize(Vector2 size) {
-    super.onGameResize(size);
-    _setCameraBound();
-  }
-
-  void _setCameraBound() {
-    final viewportX = gameRef.camera.viewport.size.x;
-    final viewportY = gameRef.camera.viewport.size.y;
-    final mapWidth = gameRef.world.mapComponent.width;
-    final mapHeight = gameRef.world.mapComponent.height;
-    gameRef.camera.setBounds(Rectangle.fromLTWH(
-      viewportX * 0.5,
-      viewportY * 0.5,
-      mapWidth - viewportX,
-      mapHeight - viewportY,
-    ));
   }
 
   Future<void> _startGame() async {
@@ -151,6 +140,8 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     final gameMessage = GameMessage.fromJson(json);
 
     if (gameMessage.gameConfig != null) {
+      gameRef.overlays.remove(PreStartText.name);
+
       hud = Hud(gameConfig: gameMessage.gameConfig!);
       gameConfig = gameMessage.gameConfig!;
       serverDelta = 1 / gameMessage.gameConfig!.frameRate;
