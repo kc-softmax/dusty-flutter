@@ -117,6 +117,8 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     super.onRemove();
     _closeGame();
     FlameAudio.bgm.stop();
+    // 기본 카메라로 원복
+    gameRef.camera = CameraComponent();
   }
 
   Future<void> _startGame() async {
