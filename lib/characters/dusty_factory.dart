@@ -1,3 +1,4 @@
+import 'package:dusty_flutter/camera.dart';
 import 'package:flame/game.dart';
 import 'package:dusty_flutter/effects/ui/const.dart';
 import 'package:dusty_flutter/effects/ui/default_explosion.dart';
@@ -116,7 +117,8 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
   void setFollowUser(int userId) {
     user = objects[userId];
     assert(user != null, "user not found");
-    gameRef.camera.follow(user!);
+    assert(gameRef.camera is DICamera);
+    (gameRef.camera as DICamera).start(user!);
     debugPrint("setFollowUser ${user!.dustyName}");
   }
 }

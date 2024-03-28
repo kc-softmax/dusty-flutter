@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flame/palette.dart';
 import 'package:flame/text.dart';
+import 'package:flutter/material.dart';
 
 enum HudButtonType { circle, smallCircle }
 
@@ -28,6 +29,7 @@ const Color betaTileColor = Color(0x884D1518);
 const Color fireColor = Color(0xeeFC5403);
 const Color lightningColor = Color(0xeeF7D851);
 const Color yellowDusty = Color(0xffEFC992);
+const Color gameBackgroundColor = Colors.black;
 
 final regularText = TextPaint(
   style: TextStyle(

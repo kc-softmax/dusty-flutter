@@ -7,7 +7,9 @@ import 'package:dusty_flutter/flame_texturepacker.dart';
 import 'package:dusty_flutter/scenes/loading_scene.dart';
 import 'package:dusty_flutter/scenes/lobby_scene.dart';
 import 'package:dusty_flutter/scenes/play_scene.dart';
+import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/components.dart';
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_tiled/flame_tiled.dart' hide Text;
@@ -28,6 +30,8 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
   bool isVerified = false;
   bool isLoadedAtlas = false;
   bool isLoadedMap = false;
+
+  PositionComponent? background;
 
   DustyIslandWorld();
   factory DustyIslandWorld.reGame() => DustyIslandWorld()..isReGame = true;
@@ -180,18 +184,42 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
   }
 
   PlayScene _buildPlayScene() {
+    // 맵을 줌할 때 등, 백그라운드 이미지가 보일 때가 있어서
+    // 플레이씬에서는 백그라운드 이미지를 제거한다.
+    _removeBackground();
     playScene = PlayScene();
     return playScene;
   }
 
   LoadingScene _buildLoadingScene() {
+    _setBackground();
     loadingScene = LoadingScene(isReGame: isReGame);
     return loadingScene;
   }
 
   LobbyScene _buildLobbyScene() {
+    _setBackground();
     lobbyScene = LobbyScene();
     return lobbyScene;
+  }
+
+  _setBackground() async {
+    if (this.background != null) return;
+    final backgroundImage = await Flame.images.load('background.png');
+    final backgroundSprite = SpriteComponent.fromImage(backgroundImage);
+    final background = PositionComponent(
+      position:
+          Vector2(gameRef.size.x * 0.5 - backgroundSprite.size.x * 0.5, 0),
+      children: [backgroundSprite],
+    );
+    gameRef.add(background);
+    this.background = background;
+  }
+
+  _removeBackground() {
+    if (background == null) return;
+    background!.removeFromParent();
+    background = null;
   }
 }
 
@@ -222,7 +250,7 @@ class DustyIslandGame extends FlameGame
 
   @override
   Color backgroundColor() {
-    return Colors.transparent;
+    return gameBackgroundColor;
   }
   // @override
   // KeyEventResult onKeyEvent(
