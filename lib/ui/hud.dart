@@ -57,6 +57,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
 
   @override
   FutureOr<void> onLoad() {
+    debugMode = true;
     final size = gameRef.size;
     if (!kIsWeb) {
       joystick = Joystick(

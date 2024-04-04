@@ -2,12 +2,10 @@ import 'dart:async';
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/atlas/texture_atlas.dart';
-import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
-import 'package:dusty_flutter/flame_texturepacker.dart';
-import 'package:dusty_flutter/scenes/loading_scene.dart';
 import 'package:dusty_flutter/scenes/lobby_scene.dart';
 import 'package:dusty_flutter/scenes/play_scene.dart';
 import 'package:dusty_flutter/ui/const.dart';
+import 'package:dusty_flutter/worlds/loading.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -18,30 +16,25 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
-  late final TiledComponent mapComponent;
-  late final TextureAtlas atlas;
   late final RouterComponent router;
 
   late final PlayScene playScene;
-  late final LoadingScene loadingScene;
   late final LobbyScene lobbyScene;
 
   bool isReGame = false;
   bool isVerified = false;
-  bool isLoadedAtlas = false;
-  bool isLoadedMap = false;
 
   PositionComponent? background;
 
-  DustyIslandWorld();
-  factory DustyIslandWorld.reGame() => DustyIslandWorld()..isReGame = true;
+  DustyIslandWorld(this.isVerified);
+  factory DustyIslandWorld.reGame() => DustyIslandWorld(false)..isReGame = true;
 
   @override
   Future<void> onLoad() async {
     add(
       router = RouterComponent(
+        initialRoute: 'login-dialog',
         routes: {
-          LoadingScene.routerName: Route(_buildLoadingScene),
           LobbyScene.routerName: Route(_buildLobbyScene),
           PlayScene.routerName: Route(_buildPlayScene),
           "login-dialog": OverlayRoute(transparent: false, (context, game) {
@@ -137,8 +130,6 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
                                       "token", result.accessToken);
                                   await prefs.setString(
                                       "userName", result.userName);
-
-                                  router.pop();
                                   router.pushReplacementNamed(
                                       LobbyScene.routerName);
                                 } catch (e) {
@@ -162,25 +153,8 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
             );
           }),
         },
-        initialRoute: LoadingScene.routerName,
       ),
     );
-
-    await DustySoundPool.instance.load();
-
-    final token = (await SharedPreferences.getInstance()).getString('token');
-
-    isVerified = token != null && await Arbiter.api.verifyToken(token);
-
-    game.fromAtlas('images/dusty-island.atlas').then((value) {
-      atlas = value;
-      isLoadedAtlas = true;
-    });
-
-    TiledComponent.load('ultimate_map.tmx', Vector2.all(32)).then((value) {
-      mapComponent = value;
-      isLoadedMap = true;
-    });
   }
 
   PlayScene _buildPlayScene() {
@@ -189,12 +163,6 @@ class DustyIslandWorld extends World with HasGameRef<DustyIslandGame> {
     _removeBackground();
     playScene = PlayScene();
     return playScene;
-  }
-
-  LoadingScene _buildLoadingScene() {
-    _setBackground();
-    loadingScene = LoadingScene(isReGame: isReGame);
-    return loadingScene;
   }
 
   LobbyScene _buildLobbyScene() {
@@ -229,24 +197,18 @@ class DustyIslandGame extends FlameGame
         SingleGameInstance,
         HasKeyboardHandlerComponents {
   FocusNode? focusNode;
-  DustyIslandGame(this.focusNode) : super(world: DustyIslandWorld()) {
+  late TextureAtlas atlas;
+  late TiledComponent mapComponent;
+
+  DustyIslandGame(this.focusNode) : super(world: LoadingSceneWorld()) {
     super.pauseWhenBackgrounded = false;
   }
 
   // 이전 코드들과 호환성을 위한 getters
-  PlayScene get playScene => world.playScene;
-  LoadingScene get loadingScene => world.loadingScene;
-  LobbyScene get lobbyScene => world.lobbyScene;
-  RouterComponent get router => world.router;
-  TextureAtlas get atlas => world.atlas;
-  TiledComponent get mapComponent => world.mapComponent;
-  bool get isVerified => world.isVerified;
-  bool get isFinishLoadAllResource => world.isLoadedAtlas && world.isLoadedMap;
-
+  PlayScene get playScene => (world as DustyIslandWorld).playScene;
+  LobbyScene get lobbyScene => (world as DustyIslandWorld).lobbyScene;
+  RouterComponent get router => (world as DustyIslandWorld).router;
   double get canvasDiagonal => canvasSize.length;
-
-  @override
-  DustyIslandWorld get world => super.world as DustyIslandWorld;
 
   @override
   Color backgroundColor() {

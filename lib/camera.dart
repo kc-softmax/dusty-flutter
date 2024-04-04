@@ -38,8 +38,8 @@ class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
     gameRef.camera.setBounds(Rectangle.fromLTWH(
       960,
       0,
-      gameRef.world.mapComponent.width - 1820,
-      gameRef.world.mapComponent.height,
+      gameRef.mapComponent.width - 1820,
+      gameRef.mapComponent.height,
     ));
   }
 }

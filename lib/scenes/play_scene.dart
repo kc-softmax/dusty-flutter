@@ -176,7 +176,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     if (isReGame) {
       gameRef.world = DustyIslandWorld.reGame();
     } else {
-      gameRef.world = DustyIslandWorld();
+      gameRef.world = DustyIslandWorld(false);
     }
   }
 
