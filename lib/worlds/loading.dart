@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/flame_texturepacker.dart';
+import 'package:dusty_flutter/worlds/lobby.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoadingSceneWorld extends World with HasGameRef<DustyIslandGame> {
   final progressPeriod = 100;
@@ -58,7 +61,7 @@ class LoadingSceneWorld extends World with HasGameRef<DustyIslandGame> {
       loadingGauge.add(ScaleEffect.to(
         Vector2(1, 1),
         EffectController(duration: 0.5),
-        onComplete: () => {gameRef.world = DustyIslandWorld(false)},
+        onComplete: () => {gameRef.world = LobbySceneWorld()},
       ));
     } else {
       loadingGauge.add(ScaleEffect.to(
@@ -153,10 +156,11 @@ class LoadingSceneWorld extends World with HasGameRef<DustyIslandGame> {
     // map
     gameRef.mapComponent =
         await TiledComponent.load('ultimate_map.tmx', Vector2.all(32));
+    // auth
+    final token = (await SharedPreferences.getInstance()).getString('token');
+    gameRef.isVerifiedAuth =
+        token != null && await Arbiter.api.verifyToken(token);
 
     isFinishLoadAllResource = true;
   }
 }
-
-// final token = (await SharedPreferences.getInstance()).getString('token');
-// isVerified = token != null && await Arbiter.api.verifyToken(token);

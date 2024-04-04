@@ -15,6 +15,7 @@ import 'package:dusty_flutter/tiles/tile_factory.dart';
 import 'package:dusty_flutter/ui/flutter_overlay_dialogs.dart';
 import 'package:dusty_flutter/ui/hud.dart';
 import 'package:dusty_flutter/widgets/pre_start_text.dart';
+import 'package:dusty_flutter/worlds/lobby.dart';
 import 'package:flame/components.dart' hide Timer;
 import 'package:flame_audio/flame_audio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -174,9 +175,9 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   void _restGame(bool isReGame) {
     if (isReGame) {
-      gameRef.world = DustyIslandWorld.reGame();
+      gameRef.world = DustyIslandWorld();
     } else {
-      gameRef.world = DustyIslandWorld(false);
+      gameRef.world = LobbySceneWorld();
     }
   }
 
