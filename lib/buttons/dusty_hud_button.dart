@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 import 'dart:math';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
-import 'package:dusty_flutter/game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
@@ -128,7 +127,6 @@ class DustyHudButton extends HudButtonComponent
     if (_equipment == equipment) {
       return;
     }
-    final game = gameRef as DustyIslandGame;
 
     switch (equipment) {
       // case PassiveObjectType.coconut:

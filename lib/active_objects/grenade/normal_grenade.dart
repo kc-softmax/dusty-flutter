@@ -85,7 +85,7 @@ class NormalGrenade extends SpriteAnimationComponent
     dy = startPosition.y - destination.y;
     vx = dx / lifeTime;
     vy = (dy + 0.5 * gravity * lifeTime * lifeTime) / lifeTime;
-    final lifeTimeSec = lifeTime / gameRef.playScene.gameConfig!.frameRate;
+    final lifeTimeSec = lifeTime / gameRef.playWorld!.gameConfig!.frameRate;
     add(ScaleEffect.to(
       Vector2.all(2),
       EffectController(duration: lifeTimeSec / 2, alternate: true),
@@ -124,6 +124,6 @@ class NormalGrenade extends SpriteAnimationComponent
       setOpacity(0);
     }
 
-    lifeTime -= dt / gameRef.playScene.serverDelta;
+    lifeTime -= dt / gameRef.playWorld!.serverDelta;
   }
 }

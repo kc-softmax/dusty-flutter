@@ -37,7 +37,7 @@ class Bush extends SpriteComponent
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    gameRef.playScene.passiveObjectsFactory.objects.forEach((key, value) {
+    gameRef.playWorld!.passiveObjectsFactory.objects.forEach((key, value) {
       if (value is Bush) return;
       if (value.toRect().overlaps(toRect())) {
         if (value.priority == Priority.environmentIntersected) return;

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
+
 import 'package:dusty_flutter/active_objects/active_objects_factory.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
@@ -16,13 +17,12 @@ import 'package:dusty_flutter/ui/flutter_overlay_dialogs.dart';
 import 'package:dusty_flutter/ui/hud.dart';
 import 'package:dusty_flutter/widgets/pre_start_text.dart';
 import 'package:dusty_flutter/worlds/lobby.dart';
-import 'package:flame/components.dart' hide Timer;
+import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PlayScene extends Component with HasGameRef<DustyIslandGame> {
-  static const routerName = 'play';
+class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
   static Team? selectedTeam;
   GameConfig? gameConfig;
   Dusty? player;
@@ -64,11 +64,10 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
   late final int? followerId;
   late final int? playerId;
   late final Hud hud;
-
   late final SpriteComponent autoRange;
+  late final RouterComponent router;
 
   bool _isSoundOn = false;
-
   bool get isSoundOn => _isSoundOn;
 
   set isSoundOn(bool isSoundOn) {
@@ -82,7 +81,19 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   @override
   FutureOr<void> onLoad() async {
-    gameRef.world.add(gameRef.mapComponent);
+    // 카메라 셋팅
+    gameRef.camera = DICamera(
+      width: gameRef.mapComponent.width,
+      height: gameRef.mapComponent.height,
+    );
+
+    add(router = RouterComponent(
+      initialRoute: '/',
+      routes: {
+        '/': Route(() => Component()),
+      },
+    ));
+    add(gameRef.mapComponent);
 
     await addAll([
       tileFactory,
@@ -95,12 +106,6 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
           ..anchor = Anchor.center
           ..opacity = 0;
     gameRef.world.add(autoRange);
-
-    // 카메라 셋팅
-    gameRef.camera = DICamera(
-      width: gameRef.mapComponent.width,
-      height: gameRef.mapComponent.height,
-    );
 
     // "잠시 후에 게임을 시작합니다" 문구
     gameRef.overlays.add(PreStartText.name);
@@ -118,12 +123,10 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     super.onRemove();
     _closeGame();
     FlameAudio.bgm.stop();
-    // 기본 카메라로 원복
-    gameRef.camera = CameraComponent();
   }
 
   Future<void> _startGame() async {
-    assert(PlayScene.selectedTeam != null);
+    assert(selectedTeam != null);
 
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("token");
@@ -175,7 +178,7 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
 
   void _restGame(bool isReGame) {
     if (isReGame) {
-      gameRef.world = DustyIslandWorld();
+      gameRef.world = PlaySceneWorld();
     } else {
       gameRef.world = LobbySceneWorld();
     }
@@ -185,18 +188,18 @@ class PlayScene extends Component with HasGameRef<DustyIslandGame> {
     // 에러로 인한 종료
     if (reason != null) {
       _restGame(false);
-      Fluttertoast.showToast(
-        msg: reason,
-        toastLength: Toast.LENGTH_LONG,
-        webBgColor: 'rgb(0,0,0)',
-        webPosition: 'center',
-      );
+      // Fluttertoast.showToast(
+      //   msg: reason,
+      //   toastLength: Toast.LENGTH_LONG,
+      //   webBgColor: 'rgb(0,0,0)',
+      //   webPosition: 'center',
+      // );
       return;
     }
     // 게임 닫기 다이얼로그를 보여준다.
     // 게임 닫기 다이얼로그는 랭킹 테이블, 다시하기 버튼, 나가기 버튼 으로 구성되어 있다.
     // 리턴값에 따라서 다시하기 로직 또는 나가기 로직을 실행한다.
-    final isReGame = await gameRef.router.pushAndWait(GameCloseDialog());
+    final isReGame = await router.pushAndWait(GameCloseDialog());
     _restGame(isReGame);
   }
 

@@ -1,5 +1,6 @@
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/ui/hud.dart';
+import 'package:dusty_flutter/worlds/play.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/layout.dart';
@@ -42,12 +43,16 @@ class SoundOptionButton extends SpriteComponent
 
   @override
   void onTapUp(TapUpEvent event) {
-    gameRef.playScene.isSoundOn = !gameRef.playScene.isSoundOn;
+    final currentWorld = gameRef.world;
+    if (currentWorld is! PlaySceneWorld) throw ('게임 플레이 중이 아닙니다.');
+    currentWorld.isSoundOn = !currentWorld.isSoundOn;
     textComponent.text = _getSoundEmoji();
   }
 
   String _getSoundEmoji() {
-    if (gameRef.playScene.isSoundOn) return '\u{1F50A}';
+    final currentWorld = gameRef.world;
+    if (currentWorld is! PlaySceneWorld) throw ('게임 플레이 중이 아닙니다.');
+    if (currentWorld.isSoundOn) return '\u{1F50A}';
     return '\u{1F507}';
   }
 }

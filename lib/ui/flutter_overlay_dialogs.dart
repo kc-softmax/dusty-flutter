@@ -34,7 +34,7 @@ abstract class FlutterOverlayDialog extends ValueRoute<bool>
 
   Widget _overlayBuilder(BuildContext context, Game game) {
     return GestureDetector(
-      onTap: () => gameRef.router.pop(),
+      onTap: () => gameRef.playWorld!.router.pop(),
       child: Container(
         color: Colors.transparent,
         width: MediaQuery.of(context).size.width,
@@ -158,6 +158,6 @@ class RankingDialog extends FlutterOverlayDialog {
 
   @override
   Widget _contendsBuilder() {
-    return RankingTable(rankingList: gameRef.playScene.rankingList ?? []);
+    return RankingTable(rankingList: gameRef.playWorld!.rankingList ?? []);
   }
 }

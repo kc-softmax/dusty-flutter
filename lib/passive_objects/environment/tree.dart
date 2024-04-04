@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/game.dart';
@@ -33,7 +31,7 @@ class Tree extends SpriteAnimationComponent
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    gameRef.playScene.passiveObjectsFactory.objects.forEach((key, value) {
+    gameRef.playWorld!.passiveObjectsFactory.objects.forEach((key, value) {
       if (value is Tree) return;
       // if treeh
       if (value.toRect().overlaps(toRect())) {
@@ -47,7 +45,7 @@ class Tree extends SpriteAnimationComponent
       }
     });
 
-    gameRef.playScene.dustyFactory.objects.forEach((key, value) {
+    gameRef.playWorld!.dustyFactory.objects.forEach((key, value) {
       // how to find the object is intersected with the tree of life
       if (toRect().containsPoint(value.center)) {
         // if (value.toRect().overlaps(toRect())) {

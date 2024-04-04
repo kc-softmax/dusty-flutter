@@ -5,8 +5,8 @@ import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/game.dart';
-import 'package:dusty_flutter/scenes/play_scene.dart';
 import 'package:dusty_flutter/ui/const.dart';
+import 'package:dusty_flutter/worlds/play.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,8 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
 
   @override
   FutureOr<void> onLoad() {
+    gameRef.camera = CameraComponent();
+
     if (gameRef.isVerifiedAuth) {
       setReadyGame();
     } else {
@@ -162,8 +164,8 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
                 FilledButton(
                   onPressed: () async {
                     gameRef.overlays.remove('StartButtons');
-                    PlayScene.selectedTeam = Team.alpha;
-                    gameRef.world = DustyIslandWorld();
+                    PlaySceneWorld.selectedTeam = Team.alpha;
+                    gameRef.world = PlaySceneWorld();
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(96, 22),
@@ -180,8 +182,8 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
                 FilledButton(
                   onPressed: () async {
                     gameRef.overlays.remove('StartButtons');
-                    PlayScene.selectedTeam = Team.beta;
-                    gameRef.world = DustyIslandWorld();
+                    PlaySceneWorld.selectedTeam = Team.beta;
+                    gameRef.world = PlaySceneWorld();
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(96, 22),

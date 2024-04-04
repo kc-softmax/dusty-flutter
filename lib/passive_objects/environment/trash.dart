@@ -42,7 +42,7 @@ class Trash extends SpriteComponent
         random.nextInt(garbageList.length); // 0과 items.length - 1 사이의 랜덤 인덱스
     sprite = garbageList[index];
 
-    final dusty = gameRef.playScene.dustyFactory.objects[message.generateBy];
+    final dusty = gameRef.playWorld!.dustyFactory.objects[message.generateBy];
     if (dusty != null) {
       startPosition = Vector2(dusty.x, dusty.y);
       lifeTime = movingSecond;

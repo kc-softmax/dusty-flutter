@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/ui/const.dart';
@@ -30,7 +29,7 @@ class PlayerKillLogComponent extends PositionComponent
         align: Anchor.center,
         textRenderer: regularText,
         position: Vector2(-size.x * 0.75, -size.y * 0.75),
-        boxConfig: TextBoxConfig(timePerChar: 0.05)));
+        boxConfig: const TextBoxConfig(timePerChar: 0.05)));
     add(SpriteComponent(
       sprite: killAvartar,
       size: Vector2.all(size.y),

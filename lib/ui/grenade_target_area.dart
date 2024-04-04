@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:dusty_flutter/game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-import 'package:flutter/animation.dart';
 
 class GrenadeTargetArea extends SpriteAnimationComponent
     with HasGameRef<DustyIslandGame> {

@@ -83,7 +83,7 @@ class PassiveObjectsFactory
       default:
         break;
     }
-    final dusty = gameRef.playScene.dustyFactory.objects[message.acquireBy];
+    final dusty = gameRef.playWorld!.dustyFactory.objects[message.acquireBy];
     if (!burn && dusty != null) {
       // animation 후 remove
       object.add(MoveEffect.to(dusty.position, EffectController(duration: 0.1))

@@ -61,7 +61,7 @@ class LoadingSceneWorld extends World with HasGameRef<DustyIslandGame> {
       loadingGauge.add(ScaleEffect.to(
         Vector2(1, 1),
         EffectController(duration: 0.5),
-        onComplete: () => {gameRef.world = LobbySceneWorld()},
+        onComplete: onCompleteLoading,
       ));
     } else {
       loadingGauge.add(ScaleEffect.to(
@@ -69,6 +69,10 @@ class LoadingSceneWorld extends World with HasGameRef<DustyIslandGame> {
         EffectController(duration: 0.01),
       ));
     }
+  }
+
+  void onCompleteLoading() {
+    gameRef.world = LobbySceneWorld();
   }
 
   Future<void> addBackground() async {

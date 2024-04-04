@@ -3,7 +3,6 @@ import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/effects/ui/const.dart';
 import 'package:dusty_flutter/effects/ui/default_explosion.dart';
-import 'package:dusty_flutter/effects/ui/thunder_effect.dart';
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
@@ -261,13 +260,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     }
     var speed = currentSpeed;
     if (speed < 1) return;
-    speed = elapsedDelta > gameRef.playScene.serverDelta ? speed * 0.5 : speed;
-    position.add(_dustyDirection * speed * dt / gameRef.playScene.serverDelta);
+    speed = elapsedDelta > gameRef.playWorld!.serverDelta ? speed * 0.5 : speed;
+    position.add(_dustyDirection * speed * dt / gameRef.playWorld!.serverDelta);
     elapsedDelta += dt;
   }
 
   void updateNextPosition(Vector2 nextPosition) {
-    if (gameRef.playScene.gameConfig != null) {
+    if (gameRef.playWorld!.gameConfig != null) {
       lastPosition = _nextPosition;
       _nextPosition = nextPosition; // 새로운 목표 위치 설정
       _dustyDirection = (nextPosition - position)
@@ -476,13 +475,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   }
 
   double getDistanceToPlayer() {
-    final player = gameRef.playScene.player;
+    final player = gameRef.playWorld!.player;
     if (player == null) return 0.0;
     return position.distanceTo(player.position);
   }
 
   double getSoundVolume() {
-    if (!gameRef.playScene.isSoundOn) return 0.0;
+    if (!gameRef.playWorld!.isSoundOn) return 0.0;
     return min(1 - (getDistanceToPlayer() / gameRef.canvasDiagonal), 1);
   }
 }

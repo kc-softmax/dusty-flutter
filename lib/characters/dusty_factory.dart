@@ -18,14 +18,14 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     objects[message.dustyId] = dusty;
     gameRef.world.add(dusty);
     debugPrint("onGenerateObject ${message.dustyId} ${message.name}");
-    if (message.dustyId == gameRef.playScene.followerId) {
+    if (message.dustyId == gameRef.playWorld!.followerId) {
       setFollowUser(message.dustyId);
     }
-    if (message.dustyId == gameRef.playScene.playerId) {
-      gameRef.playScene.hud.informationText!.text = '';
+    if (message.dustyId == gameRef.playWorld!.playerId) {
+      gameRef.playWorld!.hud.informationText!.text = '';
       dusty.isPlayer = true;
-      gameRef.playScene.player = dusty;
-      gameRef.playScene.hud.updateHud(message);
+      gameRef.playWorld!.player = dusty;
+      gameRef.playWorld!.hud.updateHud(message);
     }
   }
 
@@ -34,7 +34,8 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     Dusty? deathDusty = objects[message.dustyId];
     if (deathDusty != null) {
       if (deathDusty.isPlayer) {
-        gameRef.playScene.hud.informationText!.text = "It revives in 5 seconds";
+        gameRef.playWorld!.hud.informationText!.text =
+            "It revives in 5 seconds";
       }
       Dusty? killer = objects[message.killerId];
       debugPrint("onRemoveObject ${message.dustyId} ${message.killerId}");
@@ -48,10 +49,10 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
         final loserAvatar =
             gameRef.atlas.findSpriteByName(loserAvatarName) as Sprite;
         if (killer.isPlayer) {
-          gameRef.playScene.hud.playerKillLogs!
+          gameRef.playWorld!.hud.playerKillLogs!
               .addKillLog(loserAvatar, deathDusty.dustyName, message.removeBy!);
         }
-        gameRef.playScene.hud.killLogs!.addKillLog(killer.dustyName,
+        gameRef.playWorld!.hud.killLogs!.addKillLog(killer.dustyName,
             deathDusty.dustyName, killerAvatar, loserAvatar, message.removeBy!);
       }
       switch (message.removeBy) {
@@ -89,7 +90,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
         dusty.setDustyShield(message.isShield);
         dusty.updateDustyState(message.dustyState, message.position!);
         if (dusty == user) {
-          gameRef.playScene.hud.updateHud(message);
+          gameRef.playWorld!.hud.updateHud(message);
           //.. update hud
         }
         // data 가 올거라 믿고있기 때문에

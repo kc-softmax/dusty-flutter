@@ -17,7 +17,7 @@ class DustyMissaile extends SpriteAnimationComponent
   Future<void> onLoad() async {
     await super.onLoad();
     final spriteList = gameRef.atlas.findSpritesByName('bm');
-    speed = speed * gameRef.playScene.gameConfig!.frameRate;
+    speed = speed * gameRef.playWorld!.gameConfig!.frameRate;
     animation = SpriteAnimation.spriteList(
       spriteList,
       stepTime: 0.05,

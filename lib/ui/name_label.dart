@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/components.dart';
@@ -16,7 +14,7 @@ class DustyNameLabel extends TextBoxComponent {
           text: text,
           align: Anchor.center,
           textRenderer: regularText,
-          boxConfig: TextBoxConfig(maxWidth: maxWidth),
+          boxConfig: const TextBoxConfig(maxWidth: maxWidth),
         );
 
   @override

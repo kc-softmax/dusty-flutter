@@ -28,7 +28,7 @@ class NormalPunch extends SpriteAnimationComponent
       message.directionY! * 0.001,
     );
     lifeStep = message.lifeStep!.toDouble();
-    owner = gameRef.playScene.dustyFactory.objects[message.ownerId] as Dusty;
+    owner = gameRef.playWorld!.dustyFactory.objects[message.ownerId] as Dusty;
   }
 
   @override
@@ -47,8 +47,8 @@ class NormalPunch extends SpriteAnimationComponent
     }
     position.add(direction *
         speed *
-        gameRef.playScene.gameConfig!.frameRate.toDouble() *
+        gameRef.playWorld!.gameConfig!.frameRate.toDouble() *
         dt);
-    lifeStep -= dt / gameRef.playScene.serverDelta;
+    lifeStep -= dt / gameRef.playWorld!.serverDelta;
   }
 }

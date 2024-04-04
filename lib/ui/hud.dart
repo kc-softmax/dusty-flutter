@@ -4,7 +4,6 @@ import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/buttons/dusty_hud_finish_button.dart';
 import 'package:dusty_flutter/buttons/dusty_hud_button.dart';
-import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
@@ -15,6 +14,7 @@ import 'package:dusty_flutter/ui/player_info.dart';
 import 'package:dusty_flutter/ui/player_kill_logs.dart';
 import 'package:dusty_flutter/ui/pollution_text.dart';
 import 'package:dusty_flutter/ui/sound_option.dart';
+import 'package:dusty_flutter/worlds/play.dart';
 import 'package:flame/components.dart';
 import 'package:flame/layout.dart';
 import 'package:flame/palette.dart';
@@ -218,10 +218,11 @@ class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
     pollutionBar.add(
         AlignComponent(child: pollutionIndicator, alignment: Anchor.center));
 
-    pollutionText = PollutionText(boxConfig: TextBoxConfig(timePerChar: 0.05))
-      ..x = gameRef.size.x / 2
-      ..y = 110
-      ..anchor = Anchor.center;
+    pollutionText =
+        PollutionText(boxConfig: const TextBoxConfig(timePerChar: 0.05))
+          ..x = gameRef.size.x / 2
+          ..y = 110
+          ..anchor = Anchor.center;
 
 // boxConfig: TextBoxConfig(timePerChar: 0.05))
     informationText = TextComponent(
@@ -345,7 +346,9 @@ class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
     } else {
       action = DustyAction.stop;
     }
-    gameRef.playScene.player!.targetDirectionIndex = action.code;
+    final currentWorld = gameRef.world;
+    if (currentWorld is! PlaySceneWorld) throw ('게임 플레이 중이 아닙니다.');
+    currentWorld.player!.targetDirectionIndex = action.code;
     Arbiter.liveService.sendByte(action.encode());
     return true;
   }
@@ -441,7 +444,9 @@ class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
         action = DustyAction.stop;
       }
     }
-    gameRef.playScene.player!.targetDirectionIndex = action.code;
+    final currentWorld = gameRef.world;
+    if (currentWorld is! PlaySceneWorld) throw ('게임 플레이 중이 아닙니다.');
+    currentWorld.player!.targetDirectionIndex = action.code;
     // if (action != DustyAction.idle && action != lastAction) {
     //   lastAction = action;
     Arbiter.liveService.sendByte(action.encode());
@@ -470,30 +475,30 @@ class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
   void _onPressedActiveButton(double progress) {
     if (progress != 0) return;
     debugPrint("press active button");
-    if (gameRef.playScene.isSoundOn) {
+    if (gameRef.playWorld!.isSoundOn) {
       DustySoundPool.instance.effectOnActiveSkil();
     }
     Arbiter.liveService.sendByte(DustyAction.activeSkill.encode());
   }
 
-  void _onPressedSpecialButton(double progress, int gauge) {
-    if (progress != 0) return;
-    debugPrint("press special button");
-    if (gameRef.playScene.isSoundOn) {
-      DustySoundPool.instance.effectOnSpecialSkil();
-    }
-    Arbiter.liveService.sendByte(DustyAction.specialSkill.encode(value: gauge));
-  }
+  // void _onPressedSpecialButton(double progress, int gauge) {
+  //   if (progress != 0) return;
+  //   debugPrint("press special button");
+  //   if (gameRef.playWorld!.isSoundOn) {
+  //     DustySoundPool.instance.effectOnSpecialSkil();
+  //   }
+  //   Arbiter.liveService.sendByte(DustyAction.specialSkill.encode(value: gauge));
+  // }
 
-  void _onPressedSpecial2Button(double progress, int gauge) {
-    if (progress != 0) return;
-    debugPrint("press special 2 button");
-    if (gameRef.playScene.isSoundOn) {
-      DustySoundPool.instance.effectOnSecondarySpecialSkil();
-    }
-    Arbiter.liveService
-        .sendByte(DustyAction.special2Skill.encode(value: gauge));
-  }
+  // void _onPressedSpecial2Button(double progress, int gauge) {
+  //   if (progress != 0) return;
+  //   debugPrint("press special 2 button");
+  //   if (gameRef.playWorld!.isSoundOn) {
+  //     DustySoundPool.instance.effectOnSecondarySpecialSkil();
+  //   }
+  //   Arbiter.liveService
+  //       .sendByte(DustyAction.special2Skill.encode(value: gauge));
+  // }
 
   String _formatDuration(int time) {
     final duration = Duration(seconds: time);

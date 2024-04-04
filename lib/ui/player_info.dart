@@ -50,7 +50,7 @@ class RankPanel extends SpriteComponent
   @override
   void onTapUp(TapUpEvent event) async {
     super.onTapUp(event);
-    await gameRef.router.pushAndWait(RankingDialog());
+    await gameRef.playWorld!.router.pushAndWait(RankingDialog());
   }
 }
 

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
@@ -139,10 +138,10 @@ class TileFactory extends ObjectFactoryComponent<DustyTiles, TileMessage> {
           message.col * 32.toDouble() + 16, message.row * 32.toDouble() + 16);
 
       var spritePostion = worldPosition;
-      if (gameRef.playScene.dustyFactory.objects
+      if (gameRef.playWorld!.dustyFactory.objects
           .containsKey(message.occupierId)) {
         spritePostion = gameRef
-            .playScene.dustyFactory.objects[message.occupierId]!.position;
+            .playWorld!.dustyFactory.objects[message.occupierId]!.position;
       }
 
       final tempTileSprite =
