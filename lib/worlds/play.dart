@@ -14,7 +14,6 @@ import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/tiles/tile_factory.dart';
 import 'package:dusty_flutter/ui/flutter_overlay_dialogs.dart';
-import 'package:dusty_flutter/ui/hud.dart';
 import 'package:dusty_flutter/widgets/pre_start_text.dart';
 import 'package:dusty_flutter/worlds/lobby.dart';
 import 'package:flame/components.dart';
@@ -63,7 +62,6 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
 
   late final int? followerId;
   late final int? playerId;
-  late final Hud hud;
   late final SpriteComponent autoRange;
   late final RouterComponent router;
 
@@ -148,15 +146,14 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     if (gameMessage.gameConfig != null) {
       gameRef.overlays.remove(PreStartText.name);
 
-      hud = Hud(gameConfig: gameMessage.gameConfig!);
       gameConfig = gameMessage.gameConfig!;
       serverDelta = 1 / gameMessage.gameConfig!.frameRate;
       followerId = gameConfig?.playerId;
-      add(hud);
+      gameRef.gameCamera.setHud(gameConfig!);
     }
 
     if (gameMessage.system != null) {
-      hud.updateSystemMessage(gameMessage.system!);
+      gameRef.gameCamera.hud.updateSystemMessage(gameMessage.system!);
       if (gameMessage.system?.isEnd ?? false) {
         _closeGame();
       }

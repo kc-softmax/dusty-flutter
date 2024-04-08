@@ -22,10 +22,10 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
       setFollowUser(message.dustyId);
     }
     if (message.dustyId == gameRef.playWorld!.playerId) {
-      gameRef.playWorld!.hud.informationText!.text = '';
+      gameRef.gameCamera.hud.informationText.text = '';
       dusty.isPlayer = true;
       gameRef.playWorld!.player = dusty;
-      gameRef.playWorld!.hud.updateHud(message);
+      gameRef.gameCamera.hud.updateHud(message);
     }
   }
 
@@ -34,8 +34,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     Dusty? deathDusty = objects[message.dustyId];
     if (deathDusty != null) {
       if (deathDusty.isPlayer) {
-        gameRef.playWorld!.hud.informationText!.text =
-            "It revives in 5 seconds";
+        gameRef.gameCamera.hud.informationText.text = "It revives in 5 seconds";
       }
       Dusty? killer = objects[message.killerId];
       debugPrint("onRemoveObject ${message.dustyId} ${message.killerId}");
@@ -49,10 +48,10 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
         final loserAvatar =
             gameRef.atlas.findSpriteByName(loserAvatarName) as Sprite;
         if (killer.isPlayer) {
-          gameRef.playWorld!.hud.playerKillLogs!
+          gameRef.gameCamera.hud.playerKillLogs
               .addKillLog(loserAvatar, deathDusty.dustyName, message.removeBy!);
         }
-        gameRef.playWorld!.hud.killLogs!.addKillLog(killer.dustyName,
+        gameRef.gameCamera.hud.killLogs.addKillLog(killer.dustyName,
             deathDusty.dustyName, killerAvatar, loserAvatar, message.removeBy!);
       }
       switch (message.removeBy) {
@@ -90,7 +89,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
         dusty.setDustyShield(message.isShield);
         dusty.updateDustyState(message.dustyState, message.position!);
         if (dusty == user) {
-          gameRef.playWorld!.hud.updateHud(message);
+          gameRef.gameCamera.hud.updateHud(message);
           //.. update hud
         }
         // data 가 올거라 믿고있기 때문에

@@ -28,6 +28,8 @@ const Color fireColor = Color(0xeeFC5403);
 const Color lightningColor = Color(0xeeF7D851);
 const Color yellowDusty = Color(0xffEFC992);
 const Color gameBackgroundColor = Colors.black;
+const Color curtonColor = Color(0xFFD9D9D9);
+const Color dimColor = Color(0xFF333333);
 
 final regularText = TextPaint(
   style: TextStyle(

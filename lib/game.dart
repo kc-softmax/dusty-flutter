@@ -1,4 +1,5 @@
 import 'package:dusty_flutter/atlas/texture_atlas.dart';
+import 'package:dusty_flutter/camera.dart';
 import 'package:dusty_flutter/ui/const.dart';
 import 'package:dusty_flutter/worlds/loading.dart';
 import 'package:dusty_flutter/worlds/play.dart';
@@ -27,6 +28,11 @@ class DustyIslandGame extends FlameGame
   }
 
   double get canvasDiagonal => canvasSize.length;
+
+  DICamera get gameCamera {
+    assert(world is PlaySceneWorld, '게임 중이 아닙니다.');
+    return super.camera as DICamera;
+  }
 
   @override
   Color backgroundColor() {
