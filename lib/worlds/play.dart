@@ -185,12 +185,7 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     // 에러로 인한 종료
     if (reason != null) {
       _restGame(false);
-      // Fluttertoast.showToast(
-      //   msg: reason,
-      //   toastLength: Toast.LENGTH_LONG,
-      //   webBgColor: 'rgb(0,0,0)',
-      //   webPosition: 'center',
-      // );
+      // 에러로 인한 게임 종료 시 처리 및 알람 처리
       return;
     }
     // 게임 닫기 다이얼로그를 보여준다.

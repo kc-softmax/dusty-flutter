@@ -130,8 +130,8 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
                           gameRef.overlays.remove('LoginPannel');
                           setReadyGame();
                         } catch (e) {
-                          // Fluttertoast.showToast(
-                          //     msg: 'Please try again in a few minutes.');
+                          // TODO
+                          // 로그인 실패시 처리 및 알림 표시
                         }
                       },
                       child: const Text(
