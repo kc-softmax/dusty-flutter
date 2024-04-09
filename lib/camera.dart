@@ -1,7 +1,7 @@
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/game.dart';
-import 'package:dusty_flutter/ui/hud2.dart';
+import 'package:dusty_flutter/ui/hud/hud2.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/experimental.dart';

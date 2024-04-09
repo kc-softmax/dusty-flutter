@@ -16,7 +16,7 @@ enum SkillButtonSize {
 class SkillButton extends AdvancedButtonComponent
     with HasGameRef<DustyIslandGame> {
   int _count = 0;
-  String _skillIcon = 'skill_icon';
+  String? _skillIcon;
   bool _isCooltime = false;
   late final RectangleComponent _containerComponent;
   late final SpriteComponent _shadowComponent;
@@ -30,19 +30,26 @@ class SkillButton extends AdvancedButtonComponent
   final double baseSize = SkillButtonSize.normal.size;
   final bool showCount;
   final double cooltime;
-  final Function? onClick;
+  Function? onClick;
+  Function? action;
 
   SkillButton({
     this.skillButtonSize = SkillButtonSize.normal,
     this.showCount = false,
     this.cooltime = 0,
     this.onClick,
+    Function? action,
   }) {
     super.onPressed = () {
+      if (isDisabled) return;
+      onClick?.call();
+    };
+
+    this.action = () {
       if (isCooltime) return;
       isCooltime = true;
       count -= 1;
-      onClick?.call();
+      action?.call();
     };
   }
 
@@ -76,16 +83,18 @@ class SkillButton extends AdvancedButtonComponent
     ));
   }
 
-  String get skillIcon => _skillIcon;
-  set skillIcon(String value) {
+  String? get skillIcon => _skillIcon;
+  set skillIcon(String? value) {
     _skillIcon = value;
     _skillComponent.sprite = _getSkilIcon();
   }
 
+  @mustCallSuper
   @override
   Future<void> onLoad() async {
     super.onLoad();
     _setButtonSkin();
+    //temp
     count = 1;
   }
 
@@ -184,5 +193,49 @@ class SkillButton extends AdvancedButtonComponent
   Sprite _getSkillCounter() =>
       gameRef.atlas.findSpriteByName('skill_counter_box') as Sprite;
 
-  Sprite _getSkilIcon() => gameRef.atlas.findSpriteByName(_skillIcon) as Sprite;
+  Sprite? _getSkilIcon() => _skillIcon == null
+      ? gameRef.atlas.findSpriteByName('skill_icon') as Sprite
+      : gameRef.atlas.findSpriteByName(_skillIcon!) as Sprite;
+}
+
+class DefaultSkillButton extends SkillButton {
+  SkillButton? _delegate;
+
+  DefaultSkillButton({
+    super.onClick,
+    super.showCount = false,
+    super.cooltime = 0,
+    super.skillButtonSize = SkillButtonSize.big,
+  }) {
+    super.onPressed = () {
+      if (delegate != null) {
+        delegate!.action?.call();
+        delegate = null;
+        return;
+      }
+      onClick?.call();
+    };
+  }
+
+  SkillButton? get delegate => _delegate;
+  set delegate(SkillButton? value) {
+    if (value == null) {
+      _skillComponent.setOpacity(0);
+    } else {
+      if (value._skillComponent.sprite != null) {
+        _skillComponent.sprite =
+            Sprite(value._skillComponent.sprite!.toImageSync());
+        _skillComponent.setOpacity(1);
+      }
+    }
+    _delegate = value;
+  }
+
+  @override
+  void _setSkill(RectangleComponent container) {
+    super._setSkill(container);
+    if (skillIcon == null) {
+      _skillComponent.setOpacity(0);
+    }
+  }
 }
