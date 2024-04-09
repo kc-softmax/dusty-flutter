@@ -17,6 +17,7 @@ class SkillButton extends AdvancedButtonComponent
     with HasGameRef<DustyIslandGame> {
   int _count = 0;
   String _skillIcon = 'skill_icon';
+  bool _isCooltime = false;
   late final RectangleComponent _containerComponent;
   late final SpriteComponent _shadowComponent;
   late final SpriteComponent _borderComponent;
@@ -38,30 +39,41 @@ class SkillButton extends AdvancedButtonComponent
     this.onClick,
   }) {
     super.onPressed = () {
-      if (count < 1) return;
+      if (isCooltime) return;
+      isCooltime = true;
       count -= 1;
-      _coolTimeCurtonComponent.add(SizeEffect.to(
-        Vector2(skillButtonSize.iconSize, skillButtonSize.iconSize),
-        EffectController(duration: cooltime, reverseDuration: 0.5),
-        onComplete: () {
-          isDisabled = false;
-        },
-      ));
-      isDisabled = true;
       onClick?.call();
     };
   }
 
   int get count => _count;
   set count(int value) {
+    // activate
     if (_count == 0 && value > 0) {
       _borderComponent.sprite = _getActiveBorder();
       _dimComponent.setOpacity(0);
-    } else if (_count > 0 && value == 0) {
+      isDisabled = false;
+    }
+    // deactivate
+    else if (_count > 0 && value == 0) {
       _borderComponent.sprite = _getDeactiveBorder();
       _dimComponent.setOpacity(0.5);
+      isDisabled = true;
     }
     _count = value;
+  }
+
+  bool get isCooltime => _isCooltime;
+  set isCooltime(bool value) {
+    _isCooltime = value;
+    if (!_isCooltime) return;
+    _coolTimeCurtonComponent.add(SizeEffect.to(
+      Vector2(skillButtonSize.iconSize, skillButtonSize.iconSize),
+      EffectController(duration: cooltime, reverseDuration: 0.5),
+      onComplete: () {
+        _isCooltime = false;
+      },
+    ));
   }
 
   String get skillIcon => _skillIcon;
