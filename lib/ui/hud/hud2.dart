@@ -109,6 +109,7 @@ class Hud2 extends ControllerHandler {
     final container = PositionComponent();
 
     defaultSkillButton1 = DefaultSkillButton(
+      skillIcon: 'skill_icon',
       onClick: () {
         print('default button1 click!!');
       },

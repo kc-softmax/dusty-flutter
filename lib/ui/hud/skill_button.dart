@@ -39,18 +39,21 @@ class SkillButton extends AdvancedButtonComponent
     this.cooltime = 0,
     this.onClick,
     Function? action,
+    String? skillIcon,
   }) {
     super.onPressed = () {
-      if (isDisabled) return;
+      if (isCooltime || isDisabled) return;
       onClick?.call();
     };
 
     this.action = () {
-      if (isCooltime) return;
+      if (isCooltime || isDisabled) return;
       isCooltime = true;
       count -= 1;
       action?.call();
     };
+
+    _skillIcon = skillIcon;
   }
 
   int get count => _count;
@@ -95,7 +98,7 @@ class SkillButton extends AdvancedButtonComponent
     super.onLoad();
     _setButtonSkin();
     //temp
-    count = 1;
+    count = 2;
   }
 
   void _setButtonSkin() {
@@ -203,6 +206,7 @@ class DefaultSkillButton extends SkillButton {
 
   DefaultSkillButton({
     super.onClick,
+    super.skillIcon,
     super.showCount = false,
     super.cooltime = 0,
     super.skillButtonSize = SkillButtonSize.big,

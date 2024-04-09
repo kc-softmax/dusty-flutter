@@ -127,6 +127,7 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
                           await prefs.setInt("playerId", result.id);
                           await prefs.setString("token", result.accessToken);
                           await prefs.setString("userName", result.userName);
+                          gameRef.isVerifiedAuth = true;
                           gameRef.overlays.remove('LoginPannel');
                           setReadyGame();
                         } catch (e) {
