@@ -6,7 +6,7 @@ import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/ui/const.dart';
-import 'package:dusty_flutter/worlds/play.dart';
+import 'package:dusty_flutter/widgets/pre_start_text.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +25,11 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
     } else {
       setLogin();
     }
+  }
+
+  @override
+  void onRemove() {
+    gameRef.overlays.remove(PreStartText.name);
   }
 
   void setReadyGame() {
@@ -164,9 +169,10 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
               children: [
                 FilledButton(
                   onPressed: () async {
+                    // "잠시 후에 게임을 시작합니다" 문구
+                    gameRef.overlays.add(PreStartText.name);
                     gameRef.overlays.remove('StartButtons');
-                    PlaySceneWorld.selectedTeam = Team.alpha;
-                    gameRef.world = PlaySceneWorld();
+                    gameRef.connectGame(selectedTeam: Team.alpha);
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(96, 22),
@@ -182,9 +188,9 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
                 const SizedBox(width: 72),
                 FilledButton(
                   onPressed: () async {
+                    gameRef.overlays.add(PreStartText.name);
                     gameRef.overlays.remove('StartButtons');
-                    PlaySceneWorld.selectedTeam = Team.beta;
-                    gameRef.world = PlaySceneWorld();
+                    gameRef.connectGame(selectedTeam: Team.beta);
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(96, 22),

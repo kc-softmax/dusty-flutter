@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:dusty_flutter/active_objects/active_objects_factory.dart';
-import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/arbiter/live_service/system_message.dart';
 import 'package:dusty_flutter/camera.dart';
@@ -13,16 +12,15 @@ import 'package:dusty_flutter/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/tiles/tile_factory.dart';
-import 'package:dusty_flutter/ui/flutter_overlay_dialogs.dart';
-import 'package:dusty_flutter/widgets/pre_start_text.dart';
-import 'package:dusty_flutter/worlds/lobby.dart';
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flame_tiled/flame_tiled.dart';
 
 class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
+  static int? playerId;
   static Team? selectedTeam;
+  static TiledComponent? selectedMap;
+
   GameConfig? gameConfig;
   Dusty? player;
   // 더미데이터
@@ -61,9 +59,7 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
   final tileFactory = TileFactory();
 
   late final int? followerId;
-  late final int? playerId;
   late final SpriteComponent autoRange;
-  late final RouterComponent router;
 
   bool _isSoundOn = false;
   bool get isSoundOn => _isSoundOn;
@@ -79,22 +75,17 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
 
   @override
   FutureOr<void> onLoad() async {
+    assert(playerId != null && selectedTeam != null && selectedMap != null);
+
     // 카메라 셋팅
     gameRef.camera = DICamera(
       width: gameRef.mapComponent.width,
       height: gameRef.mapComponent.height,
     );
 
-    add(router = RouterComponent(
-      initialRoute: '/',
-      routes: {
-        '/': Route(() => Component()),
-      },
-    ));
-    add(gameRef.mapComponent);
-    final root = SnapshotComponent();
-    add(root);
-    root.add(gameRef.mapComponent);
+    final snapshot = SnapshotComponent();
+    add(snapshot);
+    snapshot.add(selectedMap!);
 
     await addAll([
       tileFactory,
@@ -107,48 +98,23 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
           ..anchor = Anchor.center
           ..opacity = 0;
     gameRef.world.add(autoRange);
-
-    // "잠시 후에 게임을 시작합니다" 문구
-    gameRef.overlays.add(PreStartText.name);
   }
 
   @override
   void onMount() {
     super.onMount();
     gameRef.focusNode?.requestFocus();
-    _startGame();
   }
 
   @override
   void onRemove() {
     super.onRemove();
-    _closeGame();
+    gameRef.disconnectGame();
     FlameAudio.bgm.stop();
   }
 
-  Future<void> _startGame() async {
-    assert(selectedTeam != null);
-
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString("token");
-    playerId = (await SharedPreferences.getInstance()).getInt('playerId');
-    Arbiter.liveService.on(
-      "/di/ws?token=$token&team=${selectedTeam!.code}",
-      _parseGameMessage,
-      _onClosedGame,
-    );
-  }
-
-  void _closeGame() {
-    Arbiter.liveService.close();
-  }
-
-  void _parseGameMessage(Map<String, dynamic> json) {
-    final gameMessage = GameMessage.fromJson(json);
-
+  void handleGameMessage(GameMessage gameMessage) {
     if (gameMessage.gameConfig != null) {
-      gameRef.overlays.remove(PreStartText.name);
-
       gameConfig = gameMessage.gameConfig!;
       serverDelta = 1 / gameMessage.gameConfig!.frameRate;
       followerId = gameConfig?.playerId;
@@ -158,7 +124,7 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     if (gameMessage.system != null) {
       gameRef.gameCamera.hud.updateSystemMessage(gameMessage.system!);
       if (gameMessage.system?.isEnd ?? false) {
-        _closeGame();
+        gameRef.disconnectGame();
       }
     }
 
@@ -174,28 +140,6 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     if (gameMessage.tiles != null) {
       tileFactory.addMessages(gameMessage.tiles!);
     }
-  }
-
-  void _restGame(bool isReGame) {
-    if (isReGame) {
-      gameRef.world = PlaySceneWorld();
-    } else {
-      gameRef.world = LobbySceneWorld();
-    }
-  }
-
-  void _onClosedGame(String? reason) async {
-    // 에러로 인한 종료
-    if (reason != null) {
-      _restGame(false);
-      // 에러로 인한 게임 종료 시 처리 및 알람 처리
-      return;
-    }
-    // 게임 닫기 다이얼로그를 보여준다.
-    // 게임 닫기 다이얼로그는 랭킹 테이블, 다시하기 버튼, 나가기 버튼 으로 구성되어 있다.
-    // 리턴값에 따라서 다시하기 로직 또는 나가기 로직을 실행한다.
-    final isReGame = await router.pushAndWait(GameCloseDialog());
-    _restGame(isReGame);
   }
 
   void lockOnTarget() {

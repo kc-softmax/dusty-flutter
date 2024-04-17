@@ -1,4 +1,5 @@
 import 'package:dusty_flutter/camera.dart';
+import 'package:dusty_flutter/worlds/play.dart';
 import 'package:flame/game.dart';
 import 'package:dusty_flutter/effects/ui/const.dart';
 import 'package:dusty_flutter/effects/ui/default_explosion.dart';
@@ -21,7 +22,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     if (message.dustyId == gameRef.playWorld!.followerId) {
       setFollowUser(message.dustyId);
     }
-    if (message.dustyId == gameRef.playWorld!.playerId) {
+    if (message.dustyId == PlaySceneWorld.playerId) {
       gameRef.gameCamera.hud.informationText.text = '';
       dusty.isPlayer = true;
       gameRef.playWorld!.player = dusty;

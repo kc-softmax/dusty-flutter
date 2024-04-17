@@ -34,7 +34,7 @@ abstract class FlutterOverlayDialog extends ValueRoute<bool>
 
   Widget _overlayBuilder(BuildContext context, Game game) {
     return GestureDetector(
-      onTap: () => gameRef.playWorld!.router.pop(),
+      onTap: () => gameRef.rootRouter.pop(),
       child: Container(
         color: Colors.transparent,
         width: MediaQuery.of(context).size.width,

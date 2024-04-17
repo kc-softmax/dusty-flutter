@@ -207,8 +207,8 @@ class DefaultSkillButton extends SkillButton {
   DefaultSkillButton({
     super.onClick,
     super.skillIcon,
+    super.cooltime,
     super.showCount = false,
-    super.cooltime = 0,
     super.skillButtonSize = SkillButtonSize.big,
   }) {
     super.onPressed = () {

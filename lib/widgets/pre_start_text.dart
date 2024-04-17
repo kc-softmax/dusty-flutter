@@ -11,6 +11,7 @@ class PreStartText extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       alignment: Alignment.center,
+      padding: const EdgeInsets.only(top: 100),
       child: Container(
         padding: const EdgeInsets.all(8),
         child: const Text(

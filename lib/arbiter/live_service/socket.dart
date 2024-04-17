@@ -17,6 +17,9 @@ abstract class BaseArbiterLiveService {
   void close();
 }
 
+typedef MessageCallbackType = void Function(Map<String, dynamic> json);
+typedef DonCallbackType = void Function(String? reason)?;
+
 class ArbiterLiveService extends BaseArbiterLiveService {
   late WebSocketChannel _channel;
 
@@ -25,8 +28,8 @@ class ArbiterLiveService extends BaseArbiterLiveService {
   @override
   Future<void> on(
     String url,
-    Function(Map<String, dynamic> json) onMessage,
-    void Function(String? reason)? onDone,
+    MessageCallbackType onMessage,
+    DonCallbackType onDone,
   ) async {
     _channel = WebSocketChannel.connect(Uri.parse('$baseSocketUrl$url'));
     await _channel.ready;

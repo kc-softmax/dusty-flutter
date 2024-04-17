@@ -23,11 +23,11 @@ class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
     viewfinder
       ..add(ScaleEffect.to(
         Vector2.all(viewport.virtualSize.x / gameRef.canvasSize.x),
-        EffectController(duration: 1),
+        EffectController(duration: 1, startDelay: 0.5),
       ))
       ..add(AnchorEffect.to(
         Anchor.center,
-        EffectController(duration: 0.5),
+        EffectController(duration: 0.5, startDelay: 0.5),
         onComplete: () {
           // _setCameraBound();
         },
@@ -35,7 +35,7 @@ class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
       ..add(
         MoveEffect.to(
           player.position,
-          EffectController(duration: 0.5),
+          EffectController(duration: 0.5, startDelay: 0.5),
           onComplete: () {
             follow(player);
           },
