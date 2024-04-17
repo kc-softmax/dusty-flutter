@@ -119,6 +119,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyMessage> {
     assert(user != null, "user not found");
     assert(gameRef.camera is DICamera);
     (gameRef.camera as DICamera).start(user!);
+    (gameRef.camera as DICamera).hud.minimapCamera.follow(user!);
     debugPrint("setFollowUser ${user!.dustyName}");
   }
 }

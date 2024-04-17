@@ -92,6 +92,9 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
       },
     ));
     add(gameRef.mapComponent);
+    final root = SnapshotComponent();
+    add(root);
+    root.add(gameRef.mapComponent);
 
     await addAll([
       tileFactory,
@@ -336,3 +339,5 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     }
   }
 }
+
+class SnapshotComponent extends PositionComponent with Snapshot {}

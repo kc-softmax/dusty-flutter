@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
+import 'package:dusty_flutter/ui/hud/minimap.dart';
 import 'package:dusty_flutter/ui/hud/skill_button.dart';
 import 'package:dusty_flutter/ui/hud/controller_handler.dart';
 import 'package:dusty_flutter/ui/hud/kill_logs.dart';
@@ -23,6 +24,7 @@ class Hud2 extends ControllerHandler {
   late final SkillButton specialSkillButton2;
   late final SkillButton specialSkillButton3;
   late final SkillButton specialSkillButton4;
+  late final MinimapCamera minimapCamera;
 
   Hud2({
     required this.gameConfig,
@@ -39,6 +41,7 @@ class Hud2 extends ControllerHandler {
     _setPlayerKillLogs();
     _setKillLogs();
     _setSkillButtons();
+    _setMinimap();
   }
 
   @override
@@ -193,5 +196,17 @@ class Hud2 extends ControllerHandler {
             defaultSkillButton2.toRect().right, defaultSkillButton2.height)
         ..center = Vector2(viewport.size.x * 0.5, viewport.size.y - 85),
     );
+  }
+
+  void _setMinimap() {
+    minimapCamera = MinimapCamera(
+      position: Vector2(
+        gameRef.canvasSize.x - 240 - 20,
+        20,
+      ),
+      width: 240,
+      height: 240,
+    );
+    viewport.add(minimapCamera);
   }
 }

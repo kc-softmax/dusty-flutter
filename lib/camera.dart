@@ -43,6 +43,20 @@ class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
       );
   }
 
+  bool isPositionVisible(Vector2 position) {
+    final screenSize = gameRef.canvasSize;
+    final cameraCenter = viewport.position;
+    double left = cameraCenter.x - screenSize.x / 2 / viewfinder.zoom;
+    double right = cameraCenter.x + screenSize.x / 2 / viewfinder.zoom;
+    double top = cameraCenter.y - screenSize.y / 2 / viewfinder.zoom;
+    double bottom = cameraCenter.y + screenSize.y / 2 / viewfinder.zoom;
+
+    return position.x >= left &&
+        position.x <= right &&
+        position.y >= top &&
+        position.y <= bottom;
+  }
+
   void _setCameraBound() {
     gameRef.camera.setBounds(Rectangle.fromLTWH(
       960,
