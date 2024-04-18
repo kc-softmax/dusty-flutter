@@ -75,6 +75,7 @@ class SkillButton extends AdvancedButtonComponent
 
   bool get isCooltime => _isCooltime;
   set isCooltime(bool value) {
+    if (cooltime == 0) return;
     _isCooltime = value;
     if (!_isCooltime) return;
     _coolTimeCurtonComponent.add(SizeEffect.to(
@@ -212,12 +213,14 @@ class DefaultSkillButton extends SkillButton {
     super.skillButtonSize = SkillButtonSize.big,
   }) {
     super.onPressed = () {
+      if (isCooltime) return;
       if (delegate != null) {
         delegate!.action?.call();
-        delegate = null;
-        return;
+        if (delegate!.count == 0) delegate = null;
+      } else {
+        onClick?.call();
       }
-      onClick?.call();
+      isCooltime = true;
     };
   }
 

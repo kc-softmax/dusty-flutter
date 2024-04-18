@@ -112,15 +112,17 @@ class Hud2 extends ControllerHandler {
     final container = PositionComponent();
 
     defaultSkillButton1 = DefaultSkillButton(
+      cooltime: 3,
       skillIcon: 'skill_icon',
       onClick: () {
         print('default button1 click!!');
       },
     );
-    defaultSkillButton2 = DefaultSkillButton();
+    defaultSkillButton2 = DefaultSkillButton(
+      cooltime: 5,
+    );
 
     specialSkillButton1 = SkillButton(
-      cooltime: 3,
       showCount: true,
       onClick: () {
         defaultSkillButton2.delegate = specialSkillButton1;
@@ -130,7 +132,6 @@ class Hud2 extends ControllerHandler {
       },
     );
     specialSkillButton2 = SkillButton(
-      cooltime: 3,
       showCount: true,
       onClick: () {
         defaultSkillButton2.delegate = specialSkillButton2;
@@ -140,7 +141,6 @@ class Hud2 extends ControllerHandler {
       },
     );
     specialSkillButton3 = SkillButton(
-      cooltime: 3,
       showCount: true,
       onClick: () {
         defaultSkillButton2.delegate = specialSkillButton3;
@@ -150,7 +150,6 @@ class Hud2 extends ControllerHandler {
       },
     );
     specialSkillButton4 = SkillButton(
-      cooltime: 3,
       showCount: true,
       onClick: () {
         defaultSkillButton2.delegate = specialSkillButton4;
