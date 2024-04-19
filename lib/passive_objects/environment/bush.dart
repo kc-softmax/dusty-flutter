@@ -13,9 +13,7 @@ class Bush extends SpriteComponent
         CollisionCallbacks,
         PassiveObjects,
         Snapshot {
-  PassiveObjectType objectType;
-
-  Bush({required this.objectType}) : super(anchor: Anchor.center);
+  Bush() : super(anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {

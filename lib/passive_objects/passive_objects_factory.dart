@@ -13,29 +13,34 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 
 abstract mixin class PassiveObjects implements PositionComponent {
-  factory PassiveObjects.equipment(PassiveObjectMessage message) =>
-      Equipment(equipmentType: message.objectType!)
-        ..anchor = Anchor.topLeft
-        ..size = Vector2(28, 28)
-        ..x = message.x
-        ..y = message.y;
+  late PassiveObjectType objectType;
 
-  factory PassiveObjects.bush(PassiveObjectMessage message) =>
-      Bush(objectType: message.objectType!)
-        ..size = Vector2(52, 52)
-        ..anchor = Anchor.center
-        ..x = message.x
-        ..y = message.y;
+  factory PassiveObjects.equipment(PassiveObjectMessage message) => Equipment()
+    ..objectType = message.objectType!
+    ..anchor = Anchor.topLeft
+    ..size = Vector2(28, 28)
+    ..x = message.x
+    ..y = message.y;
+
+  factory PassiveObjects.bush(PassiveObjectMessage message) => Bush()
+    ..objectType = message.objectType!
+    ..size = Vector2(52, 52)
+    ..anchor = Anchor.center
+    ..x = message.x
+    ..y = message.y;
+
   factory PassiveObjects.trash(PassiveObjectMessage message) => Trash(message)
+    ..objectType = message.objectType!
     ..size = Vector2.all(16)
     ..anchor = Anchor.center;
-  factory PassiveObjects.tree(PassiveObjectMessage message) =>
-      Tree(treeType: message.objectType!)
-        ..anchor = Anchor.bottomCenter
-        ..scale = Vector2.all(0.5)
-        ..x = message.x
-        ..y = message.y + 32
-        ..priority = Priority.environment;
+
+  factory PassiveObjects.tree(PassiveObjectMessage message) => Tree()
+    ..objectType = message.objectType!
+    ..anchor = Anchor.bottomCenter
+    ..scale = Vector2.all(0.5)
+    ..x = message.x
+    ..y = message.y + 32
+    ..priority = Priority.environment;
 }
 
 class PassiveObjectsFactory

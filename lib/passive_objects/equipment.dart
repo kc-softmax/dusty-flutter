@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'dart:math' as math;
-import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/ui/const.dart';
@@ -9,8 +8,7 @@ import 'package:flame/components.dart';
 
 class Equipment extends PositionComponent
     with HasGameRef<DustyIslandGame>, CollisionCallbacks, PassiveObjects {
-  PassiveObjectType equipmentType;
-  Equipment({required this.equipmentType}) : super(anchor: Anchor.center);
+  Equipment() : super(anchor: Anchor.center);
 
   double aquireProgress = 0;
   late Timer aquireTimer;
@@ -29,7 +27,7 @@ class Equipment extends PositionComponent
     await super.onLoad();
     var spriteName = '';
     var ellipseAreaName = 'ellipse_aquire';
-    switch (equipmentType) {
+    switch (objectType) {
       default:
         // throw Exception;
         break;

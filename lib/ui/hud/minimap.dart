@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/ui/const.dart';
 import 'package:flame/camera.dart';
 import 'package:flame/collisions.dart';
@@ -103,6 +104,7 @@ class MinimapCamera extends CameraComponent with HasGameRef<DustyIslandGame> {
     });
 
     passiveObjectsFactory.objects.forEach((key, value) {
+      if (value.objectType != PassiveObjectType.tree) return;
       final existArrow = viewport.children
           .whereType<ArrowComponent>()
           .where((arrow) => arrow.objectId == key)

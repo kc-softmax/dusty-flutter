@@ -9,17 +9,16 @@ import 'package:flame/extensions.dart';
 
 class Tree extends SpriteAnimationComponent
     with HasGameRef<DustyIslandGame>, CollisionCallbacks, PassiveObjects {
-  PassiveObjectType treeType;
   List<Dusty> hidingDusty = [];
   List<PassiveObjects> hidingObjects = [];
 
-  Tree({required this.treeType});
+  Tree();
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     final treeName =
-        treeType == PassiveObjectType.tree ? 'tree' : 'winter_tree';
+        objectType == PassiveObjectType.tree ? 'tree' : 'winter_tree';
     final spriteList = gameRef.atlas.findSpritesByName(treeName);
     animation = SpriteAnimation.spriteList(
       spriteList,
