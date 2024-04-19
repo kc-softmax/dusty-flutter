@@ -5,6 +5,7 @@ import 'package:flame/camera.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:dusty_flutter/game.dart';
+import 'package:flame/extensions.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
@@ -87,34 +88,61 @@ class MinimapCamera extends CameraComponent with HasGameRef<DustyIslandGame> {
     viewfinder.zoom = zoomLevel;
   }
 
-  // 맵의 좌표를 미니맵 카메라 viewport 좌표로 전환
-  // void positionOf(Vector2 position) {
-  //   assert(gameRef.playWorld != null, '게임중이 아닙니다.');
-  //   // 1. world의 포지션을 canvas의 포지션으로 바꿈
-  //   final real = gameRef.playWorld!.player!.position;
-  //   print('real, $real');
-  //   print('origin $position');
-  //   final tp = viewport.globalToLocal(position);
-  //   print(tp);
-  // }
+  @override
+  void update(double dt) {
+    // TODO 더 효율적인 방법
+    final passiveObjectsFactory = gameRef.playWorld?.passiveObjectsFactory;
+    if (passiveObjectsFactory == null) return;
 
-  void setArrow(PositionComponent target) {
+    final objectKeys = passiveObjectsFactory.objects.keys;
+    viewport.children
+        .whereType<ArrowComponent>()
+        .where((child) => !objectKeys.contains(child.objectId))
+        .forEach((child) {
+      child.removeFromParent();
+    });
+
+    passiveObjectsFactory.objects.forEach((key, value) {
+      final existArrow = viewport.children
+          .whereType<ArrowComponent>()
+          .where((arrow) => arrow.objectId == key)
+          .firstOrNull;
+      if (existArrow == null) {
+        setArrow(value.position, key);
+      } else {
+        updateArrow(value.position, existArrow);
+      }
+    });
+  }
+
+  void setArrow(Vector2 targetPosition, int objectId) {
     // 게임 중 화면에 보이는 것은 미니맵에 표시할 필요x
-    if (gameRef.gameCamera.isPositionVisible(target.position)) {
-      print('미니맵에 표시할 필요 없음!');
+    if (_isPositionVisible(targetPosition)) return;
+
+    final arrowPosition = _getArrowPosition(targetPosition);
+    if (arrowPosition == null) return;
+    // 화살표 표시
+    viewport.add(
+      ArrowComponent(
+        objectId: objectId,
+        radius: 5,
+        position: arrowPosition,
+      )..setColor(Colors.red),
+    );
+  }
+
+  void updateArrow(Vector2 targetPosition, ArrowComponent arrow) {
+    if (_isPositionVisible(targetPosition)) {
+      // 미니맵에 나오면 화살표는 없앰
+      arrow.removeFromParent();
       return;
     }
-    final result = _caculateIntersectionPoint(
-      gameRef.playWorld!.player!.position,
-      target.position,
-    );
-    if (result == Vector2.zero()) return;
-    // 화살표 표시
-    viewport.add(CircleComponent(
-      radius: 5,
-      position:
-          Vector2(min(result.x, width - 5 * 2), min(result.y, height - 5 * 2)),
-    )..setColor(Colors.red));
+
+    final arrowPosition = _getArrowPosition(targetPosition);
+    if (arrowPosition == null) return;
+
+    // 화살표 위치 갱신
+    arrow.position = arrowPosition;
   }
 
   Vector2 _caculateIntersectionPoint(Vector2 position, Vector2 targetPosition) {
@@ -127,6 +155,24 @@ class MinimapCamera extends CameraComponent with HasGameRef<DustyIslandGame> {
     if (direction.isNaN) return Vector2.zero();
     // 교차점 계산
     return _collisionDetection.getIntersectionPoint(center, direction);
+  }
+
+  bool _isPositionVisible(Vector2 worldPosition) {
+    final rangeRect = Rect.fromCenter(
+      center: gameRef.playWorld!.player!.position.toOffset(),
+      width: width / viewfinder.zoom,
+      height: height / viewfinder.zoom,
+    );
+    return rangeRect.containsPoint(worldPosition);
+  }
+
+  Vector2? _getArrowPosition(final targetPosition) {
+    final result = _caculateIntersectionPoint(
+      gameRef.playWorld!.player!.position,
+      targetPosition,
+    );
+    if (result == Vector2.zero()) return null;
+    return Vector2(min(result.x, width - 5 * 2), min(result.y, height - 5 * 2));
   }
 }
 
@@ -146,4 +192,10 @@ class MinimapCollisionDetection extends RectangleComponent
       result.intersectionPoint!.y,
     );
   }
+}
+
+class ArrowComponent extends CircleComponent {
+  final int objectId;
+
+  ArrowComponent({required this.objectId, super.radius, super.position});
 }

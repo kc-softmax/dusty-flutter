@@ -61,9 +61,6 @@ class PassiveObjectsFactory
     final newPassiveObject = facotry(message);
     objects[message.objectId] = newPassiveObject;
     gameRef.world.add(newPassiveObject);
-    print(message.objectType);
-    // minimap test용
-    gameRef.gameCamera.hud.minimapCamera.setArrow(newPassiveObject);
   }
 
   @override
