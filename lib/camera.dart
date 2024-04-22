@@ -38,17 +38,20 @@ class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
           EffectController(duration: 0.5, startDelay: 0.5),
           onComplete: () {
             follow(player);
+            // _setCameraBound();
           },
         ),
       );
   }
 
   void _setCameraBound() {
-    gameRef.camera.setBounds(Rectangle.fromLTWH(
-      960,
-      0,
-      gameRef.mapComponent.width - 1820,
-      gameRef.mapComponent.height,
+    final x = viewport.size.x;
+    final y = viewport.size.y;
+    setBounds(Rectangle.fromLTWH(
+      x * 0.5,
+      y * 0.5,
+      gameRef.mapComponent.size.x - x,
+      gameRef.mapComponent.size.y - y,
     ));
   }
 }
