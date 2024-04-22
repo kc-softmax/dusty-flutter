@@ -73,6 +73,10 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     _isSoundOn = isSoundOn;
   }
 
+  final Future<void> Function() onReadyGame;
+
+  PlaySceneWorld({required this.onReadyGame});
+
   @override
   FutureOr<void> onLoad() async {
     assert(playerId != null && selectedTeam != null && selectedMap != null);
@@ -98,6 +102,8 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
           ..anchor = Anchor.center
           ..opacity = 0;
     gameRef.world.add(autoRange);
+
+    await onReadyGame();
   }
 
   @override

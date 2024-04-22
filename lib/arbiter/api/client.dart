@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:dusty_flutter/arbiter/api/models.dart';
 
 const tokenApiPath = '/auth/token';
 const gameUserApiPath = '/auth/game';
+const playApiPath = '/play/join';
 
 class ArbiterApi {
   final Dio _dio;
@@ -35,5 +38,25 @@ class ArbiterApi {
       data: requestBody.toJson(),
     );
     return GameUser.fromJson(response.data!.cast());
+  }
+
+  Future<GameInfo> joinGame(RequestGameJoin requestBody) async {
+    // TODO 실제 api 연결
+    // final response = await _dio.post<Map>(
+    //   playApiPath,
+    //   data: requestBody.toJson(),
+    // );
+    // return GameInfo.fromJson(response.data!.cast());
+    await Future.delayed(const Duration(seconds: 3));
+    return GameInfo(
+      map: Random().nextInt(10) % 2 == 0 ? 'default' : 'ultimate',
+      gameConfig: GameConfig(),
+    );
+  }
+
+  Future<String> readyGame() async {
+    // TODO 실제 api 연결
+    await Future.delayed(const Duration(seconds: 3));
+    return 'address';
   }
 }

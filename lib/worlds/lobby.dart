@@ -172,7 +172,7 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
                     // "잠시 후에 게임을 시작합니다" 문구
                     gameRef.overlays.add(PreStartText.name);
                     gameRef.overlays.remove('StartButtons');
-                    gameRef.connectGame(selectedTeam: Team.alpha);
+                    await gameRef.requestGameJoin(team: Team.alpha);
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(96, 22),
@@ -190,7 +190,7 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
                   onPressed: () async {
                     gameRef.overlays.add(PreStartText.name);
                     gameRef.overlays.remove('StartButtons');
-                    gameRef.connectGame(selectedTeam: Team.beta);
+                    await gameRef.requestGameJoin(team: Team.alpha);
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(96, 22),

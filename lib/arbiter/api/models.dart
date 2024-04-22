@@ -90,3 +90,45 @@ class GameUser {
   factory GameUser.fromJson(Map<String, dynamic> json) =>
       _$GameUserFromJson(json);
 }
+
+@JsonSerializable()
+class RequestGameJoin {
+  // temp
+  final String team;
+
+  RequestGameJoin({
+    required this.team,
+  });
+
+  factory RequestGameJoin.fromJson(Map<String, dynamic> json) =>
+      _$RequestGameJoinFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RequestGameJoinToJson(this);
+}
+
+@JsonSerializable()
+class GameConfig {
+  GameConfig();
+
+  factory GameConfig.fromJson(Map<String, dynamic> json) =>
+      _$GameConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GameConfigToJson(this);
+}
+
+@JsonSerializable()
+class GameInfo {
+  // temp
+  final String map;
+  final GameConfig gameConfig;
+
+  GameInfo({
+    required this.map,
+    required this.gameConfig,
+  });
+
+  factory GameInfo.fromJson(Map<String, dynamic> json) =>
+      _$GameInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GameInfoToJson(this);
+}

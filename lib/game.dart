@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:math';
 
+import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
-import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
+import 'package:dusty_flutter/arbiter/live_service/game_message.dart'
+    hide GameConfig;
 import 'package:dusty_flutter/arbiter/live_service/socket.dart';
 import 'package:dusty_flutter/atlas/texture_atlas.dart';
 import 'package:dusty_flutter/camera.dart';
@@ -42,6 +43,8 @@ class DustyIslandGame extends FlameGame
 
   double get canvasDiagonal => canvasSize.length;
 
+  Future<void> Function() get disconnectGame => _disconnectGame;
+
   DICamera get gameCamera {
     assert(world is PlaySceneWorld, '게임 중이 아닙니다.');
     return super.camera as DICamera;
@@ -67,70 +70,100 @@ class DustyIslandGame extends FlameGame
   @override
   Color backgroundColor() => gameBackgroundColor;
 
-  void connectGame({
-    required Team selectedTeam,
-    bool isRegame = false,
+  Future<void> requestGameJoin({
+    required Team team,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString("token");
-    final playerId = prefs.getInt('playerId');
-    Arbiter.liveService.on(
-      "/di/ws?token=$token&team=${selectedTeam.code}",
-      _startGame(selectedTeam, playerId!, isRegame),
-      _finishGame,
+    // TODO ADD Team class
+    final gameInfo =
+        await Arbiter.api.joinGame(RequestGameJoin(team: team.name));
+    await _prepareGame(
+      map: gameInfo.map,
+      team: team,
+      config: gameInfo.gameConfig,
+    );
+    await _readyGame(
+      team: team,
     );
   }
 
-  Future<void> disconnectGame() async {
+  TiledComponent _getMap(String map) {
+    switch (map) {
+      case 'ultimate':
+        return ultimateMap;
+      default:
+        return defaultMap;
+    }
+  }
+
+  Future<void> _prepareGame({
+    required String map,
+    required Team team,
+    required GameConfig config,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    PlaySceneWorld.selectedMap = _getMap(map);
+    PlaySceneWorld.selectedTeam = team;
+    PlaySceneWorld.playerId = prefs.getInt('playerId');
+
+    //TODO game config
+  }
+
+  Future<void> _readyGame({
+    required Team team,
+  }) async {
+    world = PlaySceneWorld(
+      onReadyGame: () async {
+        final connectAddress = await Arbiter.api.readyGame();
+        await _connectGame(
+          address: connectAddress,
+          team: team,
+        );
+      },
+    );
+  }
+
+  Future<void> _connectGame({
+    required String address,
+    required Team team,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString("token");
+    Arbiter.liveService.on(
+      "/di/ws?token=$token&team=${team.code}",
+      _startGame(),
+      _finishGame(),
+    );
+  }
+
+  Future<void> _disconnectGame() async {
     await Arbiter.liveService.close();
   }
 
-  MessageCallbackType _startGame(Team team, int playerId, bool isRegame) {
-    PlaySceneWorld.playerId = playerId;
-    PlaySceneWorld.selectedTeam = team;
+  MessageCallbackType _startGame() {
     return (Map<String, dynamic> json) async {
-      // 맵 이름에 따라 맵 컴포넌트를 월드에 전달하여 게임 시작
-      // 지금은 임시로 world의 타입을 검사하여 시작
-      if (world is! PlaySceneWorld || isRegame) {
-        // 게임 맵 이름 파싱
-        // ..
-
-        // 맵 선택 테스트용 랜덤 숫자
-        // 다시 하기를 눌러서 맵이 바뀌어서 플레이되는지 테스트
-        if (Random().nextInt(10) % 2 == 0) {
-          PlaySceneWorld.selectedMap = defaultMap;
-        } else {
-          PlaySceneWorld.selectedMap = ultimateMap;
-        }
-        world = PlaySceneWorld();
-        isRegame = false;
-      }
-      //world가 교체되는데 시간이 필요한데 반해, 메시지는 바로 온다.
-      //지금 상황에서는 약간의 텀이 필요함.
-      //또는 준비됨 메시지를 서버에게 보내준다.
       (world as PlaySceneWorld).handleGameMessage(GameMessage.fromJson(json));
     };
   }
 
-  void _finishGame(String? reason) async {
-    // 에러로 인한 종료
-    if (reason != null) {
-      world = LobbySceneWorld();
-      // 에러로 인한 게임 종료 시 처리 및 알람 처리
-      return;
-    }
-    // 게임 닫기 다이얼로그를 보여준다.
-    // 게임 닫기 다이얼로그는 랭킹 테이블, 다시하기 버튼, 나가기 버튼 으로 구성되어 있다.
-    // 리턴값에 따라서 다시하기 로직 또는 나가기 로직을 실행한다.
-    final isReGame = await rootRouter.pushAndWait(GameCloseDialog());
-    if (isReGame) {
-      // temp
-      connectGame(
-        selectedTeam: PlaySceneWorld.selectedTeam!,
-        isRegame: true,
-      );
-    } else {
-      world = LobbySceneWorld();
-    }
+  DonCallbackType _finishGame() {
+    return (String? reason) async {
+      // 에러로 인한 종료
+      if (reason != null) {
+        world = LobbySceneWorld();
+        // 에러로 인한 게임 종료 시 처리 및 알람 처리
+        return;
+      }
+      // 게임 닫기 다이얼로그를 보여준다.
+      // 게임 닫기 다이얼로그는 랭킹 테이블, 다시하기 버튼, 나가기 버튼 으로 구성되어 있다.
+      // 리턴값에 따라서 다시하기 로직 또는 나가기 로직을 실행한다.
+      final isReGame = await rootRouter.pushAndWait(GameCloseDialog());
+      if (isReGame) {
+        await requestGameJoin(
+          team: PlaySceneWorld.selectedTeam!,
+        );
+      } else {
+        world = LobbySceneWorld();
+      }
+    };
   }
 }

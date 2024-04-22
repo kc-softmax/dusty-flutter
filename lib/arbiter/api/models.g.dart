@@ -86,3 +86,29 @@ const _$LoginTypeEnumMap = {
   LoginType.google: 'google',
   LoginType.tester: 'tester',
 };
+
+RequestGameJoin _$RequestGameJoinFromJson(Map<String, dynamic> json) =>
+    RequestGameJoin(
+      team: json['team'] as String,
+    );
+
+Map<String, dynamic> _$RequestGameJoinToJson(RequestGameJoin instance) =>
+    <String, dynamic>{
+      'team': instance.team,
+    };
+
+GameConfig _$GameConfigFromJson(Map<String, dynamic> json) => GameConfig();
+
+Map<String, dynamic> _$GameConfigToJson(GameConfig instance) =>
+    <String, dynamic>{};
+
+GameInfo _$GameInfoFromJson(Map<String, dynamic> json) => GameInfo(
+      map: json['map'] as String,
+      gameConfig:
+          GameConfig.fromJson(json['game_config'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$GameInfoToJson(GameInfo instance) => <String, dynamic>{
+      'map': instance.map,
+      'game_config': instance.gameConfig,
+    };
