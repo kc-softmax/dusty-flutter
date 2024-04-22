@@ -2,6 +2,7 @@ import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/ui/hud/hud2.dart';
+import 'package:dusty_flutter/worlds/play.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/experimental.dart';
@@ -50,8 +51,8 @@ class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
     setBounds(Rectangle.fromLTWH(
       x * 0.5,
       y * 0.5,
-      gameRef.mapComponent.size.x - x,
-      gameRef.mapComponent.size.y - y,
+      PlaySceneWorld.selectedMap!.size.x - x,
+      PlaySceneWorld.selectedMap!.size.y - y,
     ));
   }
 }

@@ -158,8 +158,8 @@ class LoadingSceneWorld extends World with HasGameRef<DustyIslandGame> {
     // sprites
     gameRef.atlas = await gameRef.fromAtlas('images/dusty-island.atlas');
     // map
-    gameRef.mapComponent =
-        await TiledComponent.load('ultimate_map.tmx', Vector2.all(32));
+    gameRef.defaultMap =
+        await TiledComponent.load('default_map.tmx', Vector2.all(32));
     // auth
     final token = (await SharedPreferences.getInstance()).getString('token');
     gameRef.isVerifiedAuth =

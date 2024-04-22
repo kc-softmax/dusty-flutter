@@ -24,9 +24,9 @@ class DustyIslandGame extends FlameGame
         HasKeyboardHandlerComponents {
   FocusNode? focusNode;
   late TextureAtlas atlas;
-  late TiledComponent mapComponent;
   late bool isVerifiedAuth;
   late RouterComponent rootRouter;
+  late TiledComponent defaultMap;
 
   DustyIslandGame(this.focusNode) : super(world: LoadingSceneWorld()) {
     pauseWhenBackgrounded = false;
@@ -85,7 +85,7 @@ class DustyIslandGame extends FlameGame
       if (world is! PlaySceneWorld || isRegame) {
         // 게임 맵 이름 파싱
         // ..
-        PlaySceneWorld.selectedMap = mapComponent;
+        PlaySceneWorld.selectedMap = defaultMap;
         world = PlaySceneWorld();
 
         //world가 교체되는데 시간이 필요한데 반해, 메시지는 바로 온다.

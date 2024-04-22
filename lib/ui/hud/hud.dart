@@ -9,7 +9,6 @@ import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:dusty_flutter/ui/hud/joystick.dart';
 import 'package:dusty_flutter/ui/hud/kill_logs.dart';
-import 'package:dusty_flutter/ui/hud/minimap.dart';
 import 'package:dusty_flutter/ui/hud/player_info.dart';
 import 'package:dusty_flutter/ui/hud/player_kill_logs.dart';
 import 'package:dusty_flutter/ui/hud/pollution_text.dart';
@@ -41,7 +40,7 @@ class Hud extends Component with HasGameRef<DustyIslandGame>, KeyboardHandler {
   // ScoreText? pollutionScoreText;
   // ScoreText? cleaningScoreText;
 
-  Minimap? minimap;
+  // Minimap? minimap;
   late Sprite waterIcon;
   late Sprite skullIcon;
   late SpriteComponent pollutionIndicator;

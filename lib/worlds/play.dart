@@ -79,8 +79,8 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
 
     // 카메라 셋팅
     gameRef.camera = DICamera(
-      width: gameRef.mapComponent.width,
-      height: gameRef.mapComponent.height,
+      width: PlaySceneWorld.selectedMap!.width,
+      height: PlaySceneWorld.selectedMap!.height,
     );
 
     final snapshot = SnapshotComponent();
