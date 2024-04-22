@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
@@ -27,6 +28,8 @@ class DustyIslandGame extends FlameGame
   late bool isVerifiedAuth;
   late RouterComponent rootRouter;
   late TiledComponent defaultMap;
+  //for Map Select Test
+  late TiledComponent ultimateMap;
 
   DustyIslandGame(this.focusNode) : super(world: LoadingSceneWorld()) {
     pauseWhenBackgrounded = false;
@@ -56,6 +59,12 @@ class DustyIslandGame extends FlameGame
   }
 
   @override
+  void onRemove() {
+    Arbiter.liveService.close();
+    super.onRemove();
+  }
+
+  @override
   Color backgroundColor() => gameBackgroundColor;
 
   void connectGame({
@@ -72,8 +81,8 @@ class DustyIslandGame extends FlameGame
     );
   }
 
-  void disconnectGame() {
-    Arbiter.liveService.close();
+  Future<void> disconnectGame() async {
+    await Arbiter.liveService.close();
   }
 
   MessageCallbackType _startGame(Team team, int playerId, bool isRegame) {
@@ -85,13 +94,20 @@ class DustyIslandGame extends FlameGame
       if (world is! PlaySceneWorld || isRegame) {
         // 게임 맵 이름 파싱
         // ..
-        PlaySceneWorld.selectedMap = defaultMap;
-        world = PlaySceneWorld();
 
-        //world가 교체되는데 시간이 필요한데 반해, 메시지는 바로 온다.
-        //지금 상황에서는 약간의 텀이 필요함.
-        //또는 준비됨 메시지를 서버에게 보내준다.
+        // 맵 선택 테스트용 랜덤 숫자
+        // 다시 하기를 눌러서 맵이 바뀌어서 플레이되는지 테스트
+        if (Random().nextInt(10) % 2 == 0) {
+          PlaySceneWorld.selectedMap = defaultMap;
+        } else {
+          PlaySceneWorld.selectedMap = ultimateMap;
+        }
+        world = PlaySceneWorld();
+        isRegame = false;
       }
+      //world가 교체되는데 시간이 필요한데 반해, 메시지는 바로 온다.
+      //지금 상황에서는 약간의 텀이 필요함.
+      //또는 준비됨 메시지를 서버에게 보내준다.
       (world as PlaySceneWorld).handleGameMessage(GameMessage.fromJson(json));
     };
   }

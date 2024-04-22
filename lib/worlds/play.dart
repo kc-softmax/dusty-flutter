@@ -106,13 +106,6 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     gameRef.focusNode?.requestFocus();
   }
 
-  @override
-  void onRemove() {
-    super.onRemove();
-    gameRef.disconnectGame();
-    FlameAudio.bgm.stop();
-  }
-
   void handleGameMessage(GameMessage gameMessage) {
     if (gameMessage.gameConfig != null) {
       gameConfig = gameMessage.gameConfig!;

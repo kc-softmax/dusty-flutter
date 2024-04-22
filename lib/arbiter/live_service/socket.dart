@@ -14,7 +14,7 @@ abstract class BaseArbiterLiveService {
     void Function(String? reason)? onDone,
   );
   void sendByte(ByteBuffer message);
-  void close();
+  Future<void> close();
 }
 
 typedef MessageCallbackType = void Function(Map<String, dynamic> json);
@@ -56,7 +56,7 @@ class ArbiterLiveService extends BaseArbiterLiveService {
   }
 
   @override
-  void close() async {
+  Future<void> close() async {
     try {
       await _channel.sink.close();
     } catch (e) {
