@@ -1,11 +1,11 @@
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/characters/dusty.dart';
+import 'package:dusty_flutter/extensions/camera.dart';
 import 'package:dusty_flutter/game.dart';
 import 'package:dusty_flutter/ui/hud/hud2.dart';
 import 'package:dusty_flutter/worlds/play.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-import 'package:flame/experimental.dart';
 
 class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
   late final Hud2 hud;
@@ -22,36 +22,29 @@ class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
 
   void start(Dusty player) {
     viewfinder
-      ..add(ScaleEffect.to(
-        Vector2.all(viewport.virtualSize.x / gameRef.canvasSize.x),
-        EffectController(duration: 1, startDelay: 0.5),
-      ))
-      ..add(AnchorEffect.to(
-        Anchor.center,
-        EffectController(duration: 0.5, startDelay: 0.5),
-        onComplete: () {
-          // _setCameraBound();
-        },
-      ))
       ..add(
         MoveEffect.to(
           player.position,
-          EffectController(duration: 0.5, startDelay: 0.5),
+          EffectController(duration: 0.5),
           onComplete: () {
             follow(player);
           },
         ),
-      );
-  }
-
-  void _setCameraBound() {
-    final x = viewport.size.x;
-    final y = viewport.size.y;
-    setBounds(Rectangle.fromLTWH(
-      x * 0.5,
-      y * 0.5,
-      PlaySceneWorld.selectedMap!.size.x - x,
-      PlaySceneWorld.selectedMap!.size.y - y,
-    ));
+      )
+      ..add(ScaleEffect.to(
+        Vector2.all(1),
+        EffectController(duration: 1),
+      ))
+      ..add(AnchorEffect.to(
+        Anchor.center,
+        EffectController(duration: 0.5),
+        onComplete: () {
+          setBoundToMapSize(
+            PlaySceneWorld.selectedMap!.width,
+            PlaySceneWorld.selectedMap!.height,
+            1,
+          );
+        },
+      ));
   }
 }

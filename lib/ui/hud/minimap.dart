@@ -1,6 +1,8 @@
-import 'dart:math';
+import 'dart:math' hide Rectangle;
 
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
+import 'package:dusty_flutter/extensions/camera.dart';
+import 'package:dusty_flutter/worlds/play.dart';
 import 'package:flame/camera.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -85,6 +87,11 @@ class MinimapCamera extends CameraComponent with HasGameRef<DustyIslandGame> {
       ),
     )..setColor(Colors.black);
     viewfinder.zoom = zoomLevel;
+    setBoundToMapSize(
+      PlaySceneWorld.selectedMap!.width,
+      PlaySceneWorld.selectedMap!.height,
+      viewfinder.zoom,
+    );
   }
 
   @override

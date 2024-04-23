@@ -101,7 +101,9 @@ class DustyIslandGame extends FlameGame
   }) async {
     print('_prepareGame');
     final prefs = await SharedPreferences.getInstance();
-    PlaySceneWorld.selectedMap = _getMap(map);
+    // PlaySceneWorld.selectedMap = _getMap(map);
+    // TODO 맵 동적으로 선택하도록 변경
+    PlaySceneWorld.selectedMap = ultimateMap;
     PlaySceneWorld.selectedTeam = team;
     PlaySceneWorld.playerId = prefs.getInt('playerId');
 
