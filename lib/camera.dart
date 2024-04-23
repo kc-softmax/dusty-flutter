@@ -39,7 +39,6 @@ class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
           EffectController(duration: 0.5, startDelay: 0.5),
           onComplete: () {
             follow(player);
-            // _setCameraBound();
           },
         ),
       );

@@ -63,7 +63,7 @@ class DustyIslandGame extends FlameGame
 
   @override
   void onRemove() {
-    Arbiter.liveService.close();
+    _disconnectGame();
     super.onRemove();
   }
 
@@ -73,7 +73,6 @@ class DustyIslandGame extends FlameGame
   Future<void> requestGameJoin({
     required Team team,
   }) async {
-    // TODO ADD Team class
     final gameInfo =
         await Arbiter.api.joinGame(RequestGameJoin(team: team.name));
     await _prepareGame(
@@ -81,9 +80,9 @@ class DustyIslandGame extends FlameGame
       team: team,
       config: gameInfo.gameConfig,
     );
-    await _readyGame(
-      team: team,
-    );
+    await world.loaded;
+    final connectAddress = await _readyGame(team: team);
+    await _connectGame(address: connectAddress, team: team);
   }
 
   TiledComponent _getMap(String map) {
@@ -100,26 +99,23 @@ class DustyIslandGame extends FlameGame
     required Team team,
     required GameConfig config,
   }) async {
+    print('_prepareGame');
     final prefs = await SharedPreferences.getInstance();
     PlaySceneWorld.selectedMap = _getMap(map);
     PlaySceneWorld.selectedTeam = team;
     PlaySceneWorld.playerId = prefs.getInt('playerId');
 
     //TODO game config
+    // ...
+    world = PlaySceneWorld();
   }
 
-  Future<void> _readyGame({
+  Future<String> _readyGame({
     required Team team,
   }) async {
-    world = PlaySceneWorld(
-      onReadyGame: () async {
-        final connectAddress = await Arbiter.api.readyGame();
-        await _connectGame(
-          address: connectAddress,
-          team: team,
-        );
-      },
-    );
+    print('_readyGame');
+    final connectAddress = await Arbiter.api.readyGame();
+    return connectAddress;
   }
 
   Future<void> _connectGame({
@@ -128,6 +124,7 @@ class DustyIslandGame extends FlameGame
   }) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("token");
+    // TODO address 사용
     Arbiter.liveService.on(
       "/di/ws?token=$token&team=${team.code}",
       _startGame(),
@@ -141,7 +138,7 @@ class DustyIslandGame extends FlameGame
 
   MessageCallbackType _startGame() {
     return (Map<String, dynamic> json) async {
-      (world as PlaySceneWorld).handleGameMessage(GameMessage.fromJson(json));
+      playWorld?.handleGameMessage(GameMessage.fromJson(json));
     };
   }
 

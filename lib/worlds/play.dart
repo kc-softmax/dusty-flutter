@@ -60,6 +60,7 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
 
   late final int? followerId;
   late final SpriteComponent autoRange;
+  late final SnapshotComponent mapSnapShot;
 
   bool _isSoundOn = false;
   bool get isSoundOn => _isSoundOn;
@@ -73,37 +74,26 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     _isSoundOn = isSoundOn;
   }
 
-  final Future<void> Function() onReadyGame;
-
-  PlaySceneWorld({required this.onReadyGame});
-
   @override
   FutureOr<void> onLoad() async {
+    print('Play World onLoad!!');
     assert(playerId != null && selectedTeam != null && selectedMap != null);
-
-    // 카메라 셋팅
-    gameRef.camera = DICamera(
-      width: PlaySceneWorld.selectedMap!.width,
-      height: PlaySceneWorld.selectedMap!.height,
-    );
-
-    final snapshot = SnapshotComponent();
-    add(snapshot);
-    snapshot.add(selectedMap!);
-
-    await addAll([
+    addAll([
+      mapSnapShot = SnapshotComponent()..add(selectedMap!),
+      autoRange =
+          SpriteComponent(sprite: gameRef.atlas.findSpriteByName('auto_range'))
+            ..anchor = Anchor.center
+            ..opacity = 0,
       tileFactory,
       dustyFactory,
       activeObjectsFactory,
       passiveObjectsFactory,
     ]);
-    autoRange =
-        SpriteComponent(sprite: gameRef.atlas.findSpriteByName('auto_range'))
-          ..anchor = Anchor.center
-          ..opacity = 0;
-    gameRef.world.add(autoRange);
-
-    await onReadyGame();
+    // 카메라 셋팅
+    gameRef.camera = DICamera(
+      width: PlaySceneWorld.selectedMap!.width,
+      height: PlaySceneWorld.selectedMap!.height,
+    );
   }
 
   @override

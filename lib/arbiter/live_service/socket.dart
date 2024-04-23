@@ -57,6 +57,7 @@ class ArbiterLiveService extends BaseArbiterLiveService {
 
   @override
   Future<void> close() async {
+    if (_channel.closeCode != null) return;
     try {
       await _channel.sink.close();
     } catch (e) {

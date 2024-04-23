@@ -116,7 +116,7 @@ class MinimapCamera extends CameraComponent with HasGameRef<DustyIslandGame> {
   }
 
   void setArrow(Vector2 targetPosition, int objectId) {
-    // 게임 중 화면에 보이는 것은 미니맵에 표시할 필요x
+    // 미니맵 시야에 있으면 화살표로 표시해줄 필요X
     if (_isPositionVisible(targetPosition)) return;
 
     final arrowPosition = _getArrowPosition(targetPosition);
@@ -133,7 +133,7 @@ class MinimapCamera extends CameraComponent with HasGameRef<DustyIslandGame> {
 
   void updateArrow(Vector2 targetPosition, ArrowComponent arrow) {
     if (_isPositionVisible(targetPosition)) {
-      // 미니맵에 나오면 화살표는 없앰
+      // 미니맵 시야에 나오면 기존 화살표는 없앰
       arrow.removeFromParent();
       return;
     }

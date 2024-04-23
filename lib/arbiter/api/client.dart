@@ -56,7 +56,7 @@ class ArbiterApi {
 
   Future<String> readyGame() async {
     // TODO 실제 api 연결
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return 'address';
   }
 }
