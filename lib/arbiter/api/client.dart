@@ -5,7 +5,7 @@ import 'package:dusty_flutter/arbiter/api/models.dart';
 
 const tokenApiPath = '/auth/token';
 const gameUserApiPath = '/auth/game';
-const playApiPath = '/play/join';
+const playApiPath = '/play';
 
 class ArbiterApi {
   final Dio _dio;
@@ -40,23 +40,27 @@ class ArbiterApi {
     return GameUser.fromJson(response.data!.cast());
   }
 
-  Future<GameInfo> joinGame(RequestGameJoin requestBody) async {
-    // TODO 실제 api 연결
-    // final response = await _dio.post<Map>(
-    //   playApiPath,
-    //   data: requestBody.toJson(),
-    // );
-    // return GameInfo.fromJson(response.data!.cast());
-    await Future.delayed(const Duration(seconds: 3));
-    return GameInfo(
-      map: Random().nextInt(10) % 2 == 0 ? 'default' : 'ultimate',
-      gameConfig: GameConfig(),
+  Future<GameInfo> joinGame(String token, RequestGameJoin requestBody) async {
+    final response = await _dio.post<Map>(
+      '$playApiPath/join',
+      options: Options(headers: {
+        'Authorization': 'Bearer $token',
+      }),
+      data: requestBody.toJson(),
     );
+    return GameInfo.fromJson(response.data!.cast());
   }
 
-  Future<String> readyGame() async {
+  Future<GameConnection> readyGame(
+      String token, RequestGameReady requestBody) async {
     // TODO 실제 api 연결
-    await Future.delayed(const Duration(seconds: 1));
-    return 'address';
+    final response = await _dio.post<Map>(
+      '$playApiPath/ready',
+      options: Options(headers: {
+        'Authorization': 'Bearer $token',
+      }),
+      data: requestBody.toJson(),
+    );
+    return GameConnection.fromJson(response.data!.cast());
   }
 }

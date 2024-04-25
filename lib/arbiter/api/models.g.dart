@@ -97,18 +97,32 @@ Map<String, dynamic> _$RequestGameJoinToJson(RequestGameJoin instance) =>
       'team': instance.team,
     };
 
-GameConfig _$GameConfigFromJson(Map<String, dynamic> json) => GameConfig();
+RequestGameReady _$RequestGameReadyFromJson(Map<String, dynamic> json) =>
+    RequestGameReady(
+      gameId: json['game_id'] as int,
+    );
 
-Map<String, dynamic> _$GameConfigToJson(GameConfig instance) =>
-    <String, dynamic>{};
+Map<String, dynamic> _$RequestGameReadyToJson(RequestGameReady instance) =>
+    <String, dynamic>{
+      'game_id': instance.gameId,
+    };
 
 GameInfo _$GameInfoFromJson(Map<String, dynamic> json) => GameInfo(
-      map: json['map'] as String,
-      gameConfig:
-          GameConfig.fromJson(json['game_config'] as Map<String, dynamic>),
+      gameId: json['game_id'] as int,
+      gameMap: json['game_map'] as String,
     );
 
 Map<String, dynamic> _$GameInfoToJson(GameInfo instance) => <String, dynamic>{
-      'map': instance.map,
-      'game_config': instance.gameConfig,
+      'game_id': instance.gameId,
+      'game_map': instance.gameMap,
+    };
+
+GameConnection _$GameConnectionFromJson(Map<String, dynamic> json) =>
+    GameConnection(
+      gameAddress: json['game_address'] as String,
+    );
+
+Map<String, dynamic> _$GameConnectionToJson(GameConnection instance) =>
+    <String, dynamic>{
+      'game_address': instance.gameAddress,
     };

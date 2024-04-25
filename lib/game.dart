@@ -73,16 +73,21 @@ class DustyIslandGame extends FlameGame
   Future<void> requestGameJoin({
     required Team team,
   }) async {
+    final token = (await SharedPreferences.getInstance()).getString('token');
+    if (token == null) return;
     final gameInfo =
-        await Arbiter.api.joinGame(RequestGameJoin(team: team.name));
+        await Arbiter.api.joinGame(token, RequestGameJoin(team: team.name));
+
     await _prepareGame(
-      map: gameInfo.map,
+      gameInfo: gameInfo,
       team: team,
-      config: gameInfo.gameConfig,
     );
     await world.loaded;
-    final connectAddress = await _readyGame(team: team);
-    await _connectGame(address: connectAddress, team: team);
+
+    final gameConnection = await Arbiter.api
+        .readyGame(token, RequestGameReady(gameId: gameInfo.gameId));
+    print(gameConnection);
+    await _connectGame(connection: gameConnection);
   }
 
   TiledComponent _getMap(String map) {
@@ -95,9 +100,8 @@ class DustyIslandGame extends FlameGame
   }
 
   Future<void> _prepareGame({
-    required String map,
+    required GameInfo gameInfo,
     required Team team,
-    required GameConfig config,
   }) async {
     print('_prepareGame');
     final prefs = await SharedPreferences.getInstance();
@@ -112,23 +116,14 @@ class DustyIslandGame extends FlameGame
     world = PlaySceneWorld();
   }
 
-  Future<String> _readyGame({
-    required Team team,
-  }) async {
-    print('_readyGame');
-    final connectAddress = await Arbiter.api.readyGame();
-    return connectAddress;
-  }
-
   Future<void> _connectGame({
-    required String address,
-    required Team team,
+    required GameConnection connection,
   }) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("token");
     // TODO address 사용
     Arbiter.liveService.on(
-      "/di/ws?token=$token&team=${team.code}",
+      "/di/ws?token=$token",
       _startGame(),
       _finishGame(),
     );

@@ -107,28 +107,46 @@ class RequestGameJoin {
 }
 
 @JsonSerializable()
-class GameConfig {
-  GameConfig();
+class RequestGameReady {
+  // temp
+  final int gameId;
 
-  factory GameConfig.fromJson(Map<String, dynamic> json) =>
-      _$GameConfigFromJson(json);
+  RequestGameReady({
+    required this.gameId,
+  });
 
-  Map<String, dynamic> toJson() => _$GameConfigToJson(this);
+  factory RequestGameReady.fromJson(Map<String, dynamic> json) =>
+      _$RequestGameReadyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RequestGameReadyToJson(this);
 }
 
 @JsonSerializable()
 class GameInfo {
-  // temp
-  final String map;
-  final GameConfig gameConfig;
+  final int gameId;
+  final String gameMap;
 
   GameInfo({
-    required this.map,
-    required this.gameConfig,
+    required this.gameId,
+    required this.gameMap,
   });
 
   factory GameInfo.fromJson(Map<String, dynamic> json) =>
       _$GameInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$GameInfoToJson(this);
+}
+
+@JsonSerializable()
+class GameConnection {
+  final String gameAddress;
+
+  GameConnection({
+    required this.gameAddress,
+  });
+
+  factory GameConnection.fromJson(Map<String, dynamic> json) =>
+      _$GameConnectionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GameConnectionToJson(this);
 }
