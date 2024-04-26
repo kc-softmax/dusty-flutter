@@ -12,6 +12,8 @@ class GlobalErrorHandler {
   GlobalErrorHandler._internal();
 
   void handleError(Object error, StackTrace stackTrace) {
+    debugPrint('$error');
+    debugPrint('$stackTrace');
     navigatorKey.currentState?.push(MaterialPageRoute(
       builder: (context) => const GlobalErrorView(),
     ));
