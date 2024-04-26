@@ -1,6 +1,6 @@
 import 'dart:collection';
 import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
-import 'package:dusty_flutter/game.dart';
+import 'package:dusty_flutter/game/game.dart';
 import 'package:flame/components.dart';
 
 mixin HandleGameMessage<T> on Component {

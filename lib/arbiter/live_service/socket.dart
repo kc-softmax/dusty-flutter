@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:flutter/widgets.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 abstract class BaseArbiterLiveService {
@@ -14,7 +13,7 @@ abstract class BaseArbiterLiveService {
     void Function(String? reason)? onDone,
   );
   void sendByte(ByteBuffer message);
-  Future<void> close();
+  Future<void> close([int? code, String? reason]);
 }
 
 typedef MessageCallbackType = void Function(Map<String, dynamic> json);
@@ -48,20 +47,12 @@ class ArbiterLiveService extends BaseArbiterLiveService {
   @override
   void sendByte(ByteBuffer message) async {
     if (_channel.closeCode != null) return;
-    try {
-      _channel.sink.add(message.asUint8List());
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+    _channel.sink.add(message.asUint8List());
   }
 
   @override
-  Future<void> close() async {
+  Future<void> close([int? code, String? reason]) async {
     if (_channel.closeCode != null) return;
-    try {
-      await _channel.sink.close();
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+    await _channel.sink.close(code, reason);
   }
 }

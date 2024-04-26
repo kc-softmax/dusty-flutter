@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dio/dio.dart';
 import 'package:dusty_flutter/arbiter/api/models.dart';
 
@@ -39,6 +37,22 @@ class ArbiterApi {
     );
     return GameUser.fromJson(response.data!.cast());
   }
+
+  // TODO REMOVE
+  // Future<GameInfo> joinGame(String token, RequestGameJoin requestBody) async {
+  //   await Future.delayed(const Duration(seconds: 3));
+  //   return GameInfo(
+  //     gameMap: Random().nextInt(10) % 2 == 0 ? 'default' : 'ultimate',
+  //     gameId: Random().nextInt(999),
+  //   );
+  // }
+
+  // TODO REMOVE
+  // Future<GameConnection> readyGame(
+  //     String token, RequestGameReady requestBody) async {
+  //   await Future.delayed(const Duration(seconds: 1));
+  //   return GameConnection(gameAddress: '');
+  // }
 
   Future<GameInfo> joinGame(String token, RequestGameJoin requestBody) async {
     final response = await _dio.post<Map>(
