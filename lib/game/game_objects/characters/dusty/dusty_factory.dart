@@ -1,4 +1,5 @@
 import 'package:dusty_flutter/game/cameras/camera.dart';
+import 'package:dusty_flutter/models/protocols/parser.dart';
 import 'package:flame/game.dart';
 import 'package:dusty_flutter/game/effects/ui/const.dart';
 import 'package:dusty_flutter/game/effects/ui/default_explosion.dart';
@@ -75,20 +76,19 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyEvent> {
   void onUpdateObject(DustyEvent message) {
     Dusty? dusty = objects[message.objectId];
     if (dusty != null) {
-      if (message.position != null && message.position! > 0) {
-        dusty.updateNextPosition(Vector2(message.x, message.y));
-      }
-      if (message.status != null) {
-        // dusty.directionIndex = message.direction;
-        dusty.setFinishState(message.isFinishing, message.finishType);
-        dusty.setDustyShield(message.isShield);
-        dusty.updateDustyState(message.dustyState, message.position!);
-        if (dusty == user) {
-          gameRef.gameCamera.hud.updateHud(message);
-          //.. update hud
+      message.states?.forEach((stateData) {
+        switch (stateData.state) {
+          case ObjectState.moving:
+            dusty.updateNextPosition(
+              Vector2(
+                PositionParser.x(stateData.value),
+                PositionParser.y(stateData.value),
+              ),
+            );
+            break;
+          default:
         }
-        // data 가 올거라 믿고있기 때문에
-      }
+      });
 
       // for only player
       if (dusty.isPlayer) {
@@ -97,6 +97,29 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyEvent> {
         }
       }
     }
+    // if (dusty != null) {
+    //   if (message.position != null && message.position! > 0) {
+    //     dusty.updateNextPosition(Vector2(message.x, message.y));
+    //   }
+    //   if (message.status != null) {
+    //     // dusty.directionIndex = message.direction;
+    //     dusty.setFinishState(message.isFinishing, message.finishType);
+    //     dusty.setDustyShield(message.isShield);
+    //     dusty.updateDustyState(message.dustyState, message.position!);
+    //     if (dusty == user) {
+    //       gameRef.gameCamera.hud.updateHud(message);
+    //       //.. update hud
+    //     }
+    //     // data 가 올거라 믿고있기 때문에
+    //   }
+
+    //   // for only player
+    //   if (dusty.isPlayer) {
+    //     if (message.targetId != null) {
+    //       dusty.targetId = message.targetId;
+    //     }
+    //   }
+    // }
   }
 
   @override
