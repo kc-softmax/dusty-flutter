@@ -1,4 +1,4 @@
-import 'package:dusty_flutter/game/characters/dusty.dart';
+import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';

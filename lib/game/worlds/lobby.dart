@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
-import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
-import 'package:dusty_flutter/game/characters/dusty.dart';
+import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
+import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
 import 'package:dusty_flutter/game/ui/overlays/pre_start_text.dart';

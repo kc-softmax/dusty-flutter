@@ -1,22 +1,35 @@
-import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
-import 'package:dusty_flutter/game/characters/dusty.dart';
+import 'package:dusty_flutter/arbiter/api/models.dart';
+import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
+import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
 import 'package:dusty_flutter/extensions/camera.dart';
 import 'package:dusty_flutter/game/game.dart';
-import 'package:dusty_flutter/game/ui/hud/hud2.dart';
+import 'package:dusty_flutter/game/ui/hud/hud.dart';
 import 'package:dusty_flutter/game/worlds/play.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame_tiled/flame_tiled.dart';
 
 class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
-  late final Hud2 hud;
+  TiledComponent gameMap;
+  GameInfo gameInfo;
+  late final Hud hud;
 
-  DICamera({required double width, required double height}) {
-    super.viewfinder.anchor = Anchor.topLeft;
-    super.viewfinder.zoom = gameRef.canvasSize.x / width;
+  DICamera(
+      {required this.gameMap,
+      required this.gameInfo,
+      required double width,
+      required double height}) {
+    super.viewfinder.anchor = Anchor.center;
+    // super.viewfinder.zoom = gameRef.canvasSize.x / width;
+    setBoundToMapSize(
+      gameMap.width,
+      gameMap.height,
+      1,
+    );
   }
 
-  void setHud(GameConfig gameConfig) {
-    hud = Hud2(gameConfig: gameConfig, viewport: viewport);
+  void setHud() {
+    hud = Hud(gameInfo: gameInfo, viewport: viewport, gameMap: gameMap);
     add(hud);
   }
 
@@ -26,9 +39,7 @@ class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
         MoveEffect.to(
           player.position,
           EffectController(duration: 0.5),
-          onComplete: () {
-            follow(player);
-          },
+          onComplete: () {},
         ),
       )
       ..add(ScaleEffect.to(
@@ -39,11 +50,7 @@ class DICamera extends CameraComponent with HasGameRef<DustyIslandGame> {
         Anchor.center,
         EffectController(duration: 0.5),
         onComplete: () {
-          setBoundToMapSize(
-            PlaySceneWorld.selectedMap!.width,
-            PlaySceneWorld.selectedMap!.height,
-            1,
-          );
+          follow(player);
         },
       ));
   }

@@ -13,7 +13,7 @@ class SoundOptionButton extends SpriteComponent
 
   SoundOptionButton() {
     sprite = gameRef.atlas.findSpriteByName('rank_bg');
-    size = Hud.smallButtonSize;
+    size = Vector2(44, 44); //TEMP TODO FIX
     anchor = Anchor.center;
     super.x = gameRef.size.x - 64;
     super.y = 40;

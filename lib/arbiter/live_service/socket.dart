@@ -9,14 +9,14 @@ abstract class BaseArbiterLiveService {
 
   Future<void> on(
     String url,
-    Function(dynamic message) onMessage,
+    Function(dynamic message) onEvent,
     void Function(String? reason)? onDone,
   );
   void sendByte(ByteBuffer message);
   Future<void> close([int? code, String? reason]);
 }
 
-typedef MessageCallbackType = void Function(Map<String, dynamic> json);
+typedef EventCallbackType = void Function(Map<String, dynamic> json);
 typedef DonCallbackType = void Function(String? reason)?;
 
 class ArbiterLiveService extends BaseArbiterLiveService {
@@ -27,7 +27,7 @@ class ArbiterLiveService extends BaseArbiterLiveService {
   @override
   Future<void> on(
     String url,
-    MessageCallbackType onMessage,
+    EventCallbackType onEvent,
     DonCallbackType onDone,
   ) async {
     _channel = WebSocketChannel.connect(Uri.parse('$baseSocketUrl$url'));
@@ -37,7 +37,7 @@ class ArbiterLiveService extends BaseArbiterLiveService {
         if (data is Uint8List) {
           final decoded = const Utf8Decoder().convert(data);
           final dataJson = jsonDecode(decoded);
-          onMessage(dataJson);
+          onEvent(dataJson);
         }
       },
       onDone: () => onDone?.call(_channel.closeReason),

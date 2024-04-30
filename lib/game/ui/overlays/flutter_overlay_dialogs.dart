@@ -152,12 +152,12 @@ class GameCloseDialog extends FlutterOverlayDialog {
   }
 }
 
-class RankingDialog extends FlutterOverlayDialog {
-  @override
-  String get name => 'ranking-dialog';
+// class RankingDialog extends FlutterOverlayDialog {
+//   @override
+//   String get name => 'ranking-dialog';
 
-  @override
-  Widget _contendsBuilder() {
-    return RankingTable(rankingList: gameRef.playWorld!.rankingList ?? []);
-  }
-}
+//   @override
+//   Widget _contendsBuilder() {
+//     return RankingTable(rankingList: gameRef.playWorld!.rankingList ?? []);
+//   }
+// }

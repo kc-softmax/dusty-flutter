@@ -47,11 +47,11 @@ class RankPanel extends SpriteComponent
     return super.onLoad();
   }
 
-  @override
-  void onTapUp(TapUpEvent event) async {
-    super.onTapUp(event);
-    await gameRef.rootRouter.pushAndWait(RankingDialog());
-  }
+  // @override
+  // void onTapUp(TapUpEvent event) async {
+  //   super.onTapUp(event);
+  //   // await gameRef.rootRouter.pushAndWait(RankingDialog());
+  // }
 }
 
 class PlayerInfoComponent extends RectangleComponent

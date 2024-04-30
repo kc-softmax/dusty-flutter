@@ -1,18 +1,18 @@
 import 'dart:math';
-import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
+import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/game/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/game/effects/ui/const.dart';
 import 'package:dusty_flutter/game/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
-import 'package:dusty_flutter/game/passive_objects/passive_objects_factory.dart';
+import 'package:dusty_flutter/game/game_objects/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
 import 'package:dusty_flutter/game/ui/gauge_bar.dart';
 import 'package:dusty_flutter/game/ui/name_label.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:dusty_flutter/game/characters/const.dart';
+import 'package:dusty_flutter/game/game_objects/characters/dusty/const.dart';
 import 'package:flame/effects.dart';
 import 'package:flame_audio/flame_audio.dart';
 
@@ -266,24 +266,22 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   }
 
   void updateNextPosition(Vector2 nextPosition) {
-    if (gameRef.playWorld!.gameConfig != null) {
-      lastPosition = _nextPosition;
-      _nextPosition = nextPosition; // 새로운 목표 위치 설정
-      _dustyDirection = (nextPosition - position)
-          .normalized(); // 현재 기준으로 target point 까지 방향을 지정해준다.
-      currentSpeed = (nextPosition - position).length;
-      // angle 의 경우 절대값을 사용한다.
-      final nextAngle = (nextPosition - lastPosition).screenAngle();
-      if (nextAngle != 0) {
-        if (nextAngle >= 0 && isFlippedHorizontally) {
-          flipHorizontally();
-        }
-        if (nextAngle < 0 && !isFlippedHorizontally) {
-          flipHorizontally();
-        }
+    lastPosition = _nextPosition;
+    _nextPosition = nextPosition; // 새로운 목표 위치 설정
+    _dustyDirection = (nextPosition - position)
+        .normalized(); // 현재 기준으로 target point 까지 방향을 지정해준다.
+    currentSpeed = (nextPosition - position).length;
+    // angle 의 경우 절대값을 사용한다.
+    final nextAngle = (nextPosition - lastPosition).screenAngle();
+    if (nextAngle != 0) {
+      if (nextAngle >= 0 && isFlippedHorizontally) {
+        flipHorizontally();
       }
-      elapsedDelta = 0;
+      if (nextAngle < 0 && !isFlippedHorizontally) {
+        flipHorizontally();
+      }
     }
+    elapsedDelta = 0;
   }
 
   void updateTargetDirection(int directionIndex) {

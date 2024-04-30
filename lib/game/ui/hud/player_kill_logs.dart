@@ -1,4 +1,3 @@
-import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
 import 'package:flame/components.dart';
@@ -47,7 +46,7 @@ class PlayerKillLogsComponent extends PositionComponent {
     super.onLoad();
   }
 
-  void addKillLog(Sprite avatar, String name, RemoveBy removeBy) {
+  void addKillLog(Sprite avatar, String name) {
     final killLog = PlayerKillLogComponent(killAvartar: avatar, name: name);
 
     if (killLogs.isNotEmpty) {

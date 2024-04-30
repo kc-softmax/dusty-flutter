@@ -110,11 +110,13 @@ Map<String, dynamic> _$RequestGameReadyToJson(RequestGameReady instance) =>
 GameInfo _$GameInfoFromJson(Map<String, dynamic> json) => GameInfo(
       gameId: json['game_id'] as int,
       gameMap: json['game_map'] as String,
+      frameRate: json['frame_rate'] as int,
     );
 
 Map<String, dynamic> _$GameInfoToJson(GameInfo instance) => <String, dynamic>{
       'game_id': instance.gameId,
       'game_map': instance.gameMap,
+      'frame_rate': instance.frameRate,
     };
 
 GameConnection _$GameConnectionFromJson(Map<String, dynamic> json) =>

@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'dart:math';
-import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
+import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
@@ -42,9 +42,6 @@ class DustyHudButton extends HudButtonComponent
   double progress = 0;
   Function(double)? handleButtonAction;
   LogicalKeyboardKey? keyboardKey;
-
-  PassiveObjectType _equipment = PassiveObjectType.idle;
-  PassiveObjectType get equipment => _equipment;
 
   DustyHudButton({
     super.button,
@@ -124,9 +121,6 @@ class DustyHudButton extends HudButtonComponent
         ));
       }
     }
-    if (_equipment == equipment) {
-      return;
-    }
 
     switch (equipment) {
       // case PassiveObjectType.coconut:
@@ -139,7 +133,6 @@ class DustyHudButton extends HudButtonComponent
         // button =
         break;
     }
-    _equipment = equipment;
   }
 
   void updateManual(double progress) {
@@ -242,9 +235,6 @@ class LongTapDustyHudButton extends DustyHudButton {
 
   @override
   void onLongTapDown(TapDownEvent event) {
-    if (equipment == PassiveObjectType.idle) {
-      return;
-    }
     if (progress != 0) return;
     if (handleLongTapButtonTapAction != null) {
       handleLongTapButtonTapAction!(progress);

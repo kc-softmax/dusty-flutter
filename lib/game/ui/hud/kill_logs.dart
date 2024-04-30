@@ -1,4 +1,3 @@
-import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
@@ -112,7 +111,7 @@ class KillLogsComponent extends PositionComponent
   }
 
   void addKillLog(String winnerName, String loserName, Sprite winnerAvatar,
-      Sprite loserAvatar, RemoveBy removeBy) {
+      Sprite loserAvatar) {
     final log = KillLogComponent(
         winnerName: winnerName,
         loserName: loserName,

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
-import 'package:dusty_flutter/arbiter/live_service/game_message.dart'
+import 'package:dusty_flutter/arbiter/live_service/game_event.dart'
     hide GameConfig;
 import 'package:dusty_flutter/arbiter/live_service/socket.dart';
 import 'package:dusty_flutter/game/atlas/texture_atlas.dart';
@@ -86,7 +86,6 @@ class DustyIslandGame extends FlameGame
 
     final gameConnection = await Arbiter.api
         .readyGame(token, RequestGameReady(gameId: gameInfo.gameId));
-    print(gameConnection);
     await _connectGame(connection: gameConnection);
   }
 
@@ -103,17 +102,8 @@ class DustyIslandGame extends FlameGame
     required GameInfo gameInfo,
     required Team team,
   }) async {
-    print('_prepareGame');
-    final prefs = await SharedPreferences.getInstance();
-    // TODO REMOVE
-    // PlaySceneWorld.selectedMap = ultimateMap;
-    PlaySceneWorld.selectedMap = _getMap(gameInfo.gameMap);
-    PlaySceneWorld.selectedTeam = team;
-    PlaySceneWorld.playerId = prefs.getInt('playerId');
-
-    //TODO game config
-    // ...
-    world = PlaySceneWorld();
+    TiledComponent gameMap = _getMap(gameInfo.gameMap);
+    world = PlaySceneWorld(gameinfo: gameInfo, gameMap: gameMap);
   }
 
   Future<void> _connectGame({
@@ -121,12 +111,6 @@ class DustyIslandGame extends FlameGame
   }) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("token");
-    // TODO REMOVE
-    // Arbiter.liveService.on(
-    //   "/di/ws?token=$token&team=${1}",
-    //   _startGame(),
-    //   _finishGame(),
-    // );
     Arbiter.liveService.on(
       "/di/ws?token=$token",
       _startGame(),
@@ -138,10 +122,10 @@ class DustyIslandGame extends FlameGame
     await Arbiter.liveService.close(null, reason);
   }
 
-  MessageCallbackType _startGame() {
+  EventCallbackType _startGame() {
     return (Map<String, dynamic> json) async {
       try {
-        playWorld?.handleGameMessage(GameMessage.fromJson(json));
+        playWorld?.handleGameEvent(GameEvent.fromJson(json));
       } catch (e) {
         const reason = '게임 소켓 에러';
         _disconnectGame(reason: reason);
@@ -157,9 +141,9 @@ class DustyIslandGame extends FlameGame
       // 리턴값에 따라서 다시하기 로직 또는 나가기 로직을 실행한다.
       final isReGame = await rootRouter.pushAndWait(GameCloseDialog());
       if (isReGame) {
-        await requestGameJoin(
-          team: PlaySceneWorld.selectedTeam!,
-        );
+        // await requestGameJoin(
+        //   team: PlaySceneWorld.selectedTeam!,
+        // );
       } else {
         world = LobbySceneWorld();
       }

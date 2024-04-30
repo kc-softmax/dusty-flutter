@@ -1,34 +1,37 @@
 import 'dart:typed_data';
 
 enum DustyAction {
-  idle(-1),
-  one(1),
-  two(2),
-  three(3),
-  four(4),
-  five(5),
-  six(6),
-  seven(7),
-  eight(8),
-  nine(9),
-  ten(10),
-  eleven(11),
-  twelve(12),
-  rotateLeft(13),
-  rotateRight(14),
-  stop(15),
-  forward(16),
-  activeSkill(18),
-  specialSkill(19),
-  special2Skill(20),
-  boost(21),
-  finishing(22);
+  stop(1),
+  forward(2),
+  rotateLeft(3),
+  rotateRight(4),
+  activeSkill(5),
+  nne(11),
+  ne(12),
+  ene(13),
+  e(14),
+  ese(15),
+  se(16),
+  sse(17),
+  s(18),
+  ssw(19),
+  sw(20),
+  wsw(21),
+  w(22),
+  wnw(23),
+  nw(24),
+  nnw(25),
+  n(26);
 
   final int code;
   const DustyAction(this.code);
 
   ByteBuffer encode({int value = 0}) {
     return Uint8List.fromList([code, value]).buffer;
+  }
+
+  int getDirectionIndex() {
+    return code - 10;
   }
 }
 

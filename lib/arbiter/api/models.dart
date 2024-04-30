@@ -125,11 +125,10 @@ class RequestGameReady {
 class GameInfo {
   final int gameId;
   final String gameMap;
+  final int frameRate;
 
-  GameInfo({
-    required this.gameId,
-    required this.gameMap,
-  });
+  GameInfo(
+      {required this.gameId, required this.gameMap, required this.frameRate});
 
   factory GameInfo.fromJson(Map<String, dynamic> json) =>
       _$GameInfoFromJson(json);

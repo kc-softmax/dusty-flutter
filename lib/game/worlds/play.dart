@@ -2,61 +2,29 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:dusty_flutter/game/active_objects/active_objects_factory.dart';
-import 'package:dusty_flutter/arbiter/live_service/game_message.dart';
-import 'package:dusty_flutter/arbiter/live_service/system_message.dart';
+import 'package:dusty_flutter/arbiter/api/models.dart';
+import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/game/cameras/camera.dart';
-import 'package:dusty_flutter/game/characters/dusty.dart';
-import 'package:dusty_flutter/game/characters/dusty_factory.dart';
+import 'package:dusty_flutter/game/game_objects/active_objects/active_objects_factory.dart';
+import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
+import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty_factory.dart';
 import 'package:dusty_flutter/game/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/game/game.dart';
-import 'package:dusty_flutter/game/passive_objects/passive_objects_factory.dart';
-import 'package:dusty_flutter/game/tiles/tile_factory.dart';
+import 'package:dusty_flutter/game/game_objects/passive_objects/passive_objects_factory.dart';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
 class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
-  static int? playerId;
-  static Team? selectedTeam;
-  static TiledComponent? selectedMap;
-
-  GameConfig? gameConfig;
+  GameInfo gameinfo;
+  TiledComponent gameMap;
   Dusty? player;
-  // 더미데이터
-  List<GamePlayerRecord>? rankingList = [
-    const GamePlayerRecord(
-      userId: 1,
-      userName: 'softmax',
-      team: Team.alpha,
-      kill: 20,
-      death: 30,
-      territory: 100,
-    ),
-    const GamePlayerRecord(
-      userId: 1,
-      userName: 'softmax',
-      team: Team.alpha,
-      kill: 20,
-      death: 30,
-      territory: 100,
-    ),
-    const GamePlayerRecord(
-      userId: 1,
-      userName: 'softmax',
-      team: Team.alpha,
-      kill: 20,
-      death: 30,
-      territory: 100,
-    ),
-  ];
   double serverDelta = 0;
   double playerAngle = 0; // radians
 
   final dustyFactory = DustyFactory();
   final activeObjectsFactory = ActiveObjectsFactory();
   final passiveObjectsFactory = PassiveObjectsFactory();
-  final tileFactory = TileFactory();
 
   late final int? followerId;
   late final SpriteComponent autoRange;
@@ -74,26 +42,32 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     _isSoundOn = isSoundOn;
   }
 
+  PlaySceneWorld({required this.gameinfo, required this.gameMap}) {
+    serverDelta = 1 / gameinfo.frameRate;
+  }
+
   @override
   FutureOr<void> onLoad() async {
     print('Play World onLoad!!');
-    assert(playerId != null && selectedTeam != null && selectedMap != null);
     addAll([
-      mapSnapShot = SnapshotComponent()..add(selectedMap!),
+      mapSnapShot = SnapshotComponent()..add(gameMap),
       autoRange =
           SpriteComponent(sprite: gameRef.atlas.findSpriteByName('auto_range'))
             ..anchor = Anchor.center
             ..opacity = 0,
-      tileFactory,
+      // tileFactory,
       dustyFactory,
       activeObjectsFactory,
       passiveObjectsFactory,
     ]);
     // 카메라 셋팅
     gameRef.camera = DICamera(
-      width: PlaySceneWorld.selectedMap!.width,
-      height: PlaySceneWorld.selectedMap!.height,
+      gameMap: gameMap,
+      gameInfo: gameinfo,
+      width: gameMap.width,
+      height: gameMap.height,
     );
+    gameRef.gameCamera.setHud();
   }
 
   @override
@@ -102,32 +76,23 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     gameRef.focusNode?.requestFocus();
   }
 
-  void handleGameMessage(GameMessage gameMessage) {
-    if (gameMessage.gameConfig != null) {
-      gameConfig = gameMessage.gameConfig!;
-      serverDelta = 1 / gameMessage.gameConfig!.frameRate;
-      followerId = gameConfig?.playerId;
-      gameRef.gameCamera.setHud(gameConfig!);
-    }
+  void handleGameEvent(GameEvent gameEvent) {
+    // if (gameEvent.system != null) {
+    //   gameRef.gameCamera.hud.updateSystemEvent(gameEvent.system!);
+    //   if (gameEvent.system?.isEnd ?? false) {
+    //     gameRef.disconnectGame();
+    //   }
+    // }
+    // if (gameEvent.sys)
 
-    if (gameMessage.system != null) {
-      gameRef.gameCamera.hud.updateSystemMessage(gameMessage.system!);
-      if (gameMessage.system?.isEnd ?? false) {
-        gameRef.disconnectGame();
-      }
+    if (gameEvent.dusties != null) {
+      dustyFactory.addEvents(gameEvent.dusties!);
     }
-
-    if (gameMessage.dusties != null) {
-      dustyFactory.addMessages(gameMessage.dusties!);
+    if (gameEvent.activeObjects != null) {
+      activeObjectsFactory.addEvents(gameEvent.activeObjects!);
     }
-    if (gameMessage.actives != null) {
-      activeObjectsFactory.addMessages(gameMessage.actives!);
-    }
-    if (gameMessage.passives != null) {
-      passiveObjectsFactory.addMessages(gameMessage.passives!);
-    }
-    if (gameMessage.tiles != null) {
-      tileFactory.addMessages(gameMessage.tiles!);
+    if (gameEvent.passiveObjects != null) {
+      passiveObjectsFactory.addEvents(gameEvent.passiveObjects!);
     }
   }
 
@@ -152,7 +117,7 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
   }
 
   void updatePlayerAngle(double dt) {
-    var targetAngle = player!.targetDirectionIndex * pi * 2 / 12;
+    var targetAngle = player!.targetDirectionIndex * pi * 2 / 16;
     final toRotateAngle =
         ((targetAngle - playerAngle + pi) % (2 * pi)) - pi; // -pi ~ pi 범위로 정규화
 
@@ -182,9 +147,9 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     playerAngle %= pi * 2;
     // player angle 이 12시 방향 근처에 있을때는 방향 전환을 하지 않는다.
     // player angle 이 6시 방향 근처에 있을때는 방향 전환을 하지 않는다.
-    if (playerAngle < pi * 13 / 12 && playerAngle > pi * 11 / 12) {
+    if (playerAngle < pi * 17 / 16 && playerAngle > pi * 15 / 16) {
       return;
-    } else if (playerAngle < pi / 12 || playerAngle > pi * 23 / 12) {
+    } else if (playerAngle < pi / 16 || playerAngle > pi * 31 / 16) {
       return;
     } else if (playerAngle < pi && player!.isFlippedHorizontally) {
       player!.flipHorizontally();
