@@ -6,6 +6,29 @@ part of 'game_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$StateDataImpl _$$StateDataImplFromJson(Map<String, dynamic> json) =>
+    _$StateDataImpl(
+      state: $enumDecodeNullable(_$ObjectStateEnumMap, json['state']),
+      target: json['target'] as int?,
+      value: json['value'],
+    );
+
+Map<String, dynamic> _$$StateDataImplToJson(_$StateDataImpl instance) =>
+    <String, dynamic>{
+      'state': _$ObjectStateEnumMap[instance.state],
+      'target': instance.target,
+      'value': instance.value,
+    };
+
+const _$ObjectStateEnumMap = {
+  ObjectState.idle: 1,
+  ObjectState.moving: 2,
+  ObjectState.hitting: 3,
+  ObjectState.casting: 4,
+  ObjectState.damaged: 5,
+  ObjectState.invisible: 6,
+};
+
 _$GameEventImpl _$$GameEventImplFromJson(Map<String, dynamic> json) =>
     _$GameEventImpl(
       dusties: (json['dusties'] as List<dynamic>?)
@@ -46,6 +69,9 @@ _$DustyEventImpl _$$DustyEventImplFromJson(Map<String, dynamic> json) =>
     _$DustyEventImpl(
       objectId: json['object_id'] as int,
       eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
+      states: (json['states'] as List<dynamic>?)
+          ?.map((e) => StateData.fromJson(e as Map<String, dynamic>))
+          .toList(),
       name: json['name'] as String?,
       isPlayer: json['is_player'] as bool?,
       team: $enumDecodeNullable(_$TeamEnumMap, json['team']),
@@ -61,6 +87,7 @@ Map<String, dynamic> _$$DustyEventImplToJson(_$DustyEventImpl instance) =>
     <String, dynamic>{
       'object_id': instance.objectId,
       'event_type': _$EventTypeEnumMap[instance.eventType]!,
+      'states': instance.states,
       'name': instance.name,
       'is_player': instance.isPlayer,
       'team': _$TeamEnumMap[instance.team],

@@ -49,6 +49,30 @@ enum PassiveObjectType {
       PassiveObjectType.values.firstWhere((state) => code == state.code);
 }
 
+enum ObjectState {
+  @JsonValue(1)
+  idle,
+  @JsonValue(2)
+  moving,
+  @JsonValue(3)
+  hitting,
+  @JsonValue(4)
+  casting,
+  @JsonValue(5)
+  damaged,
+  @JsonValue(6)
+  invisible;
+}
+
+@freezed
+class StateData with _$StateData {
+  const factory StateData({ObjectState? state, int? target, dynamic value}) =
+      _StateData;
+
+  factory StateData.fromJson(Map<String, dynamic> json) =>
+      _$StateDataFromJson(json);
+}
+
 mixin BaseEvent {
   EventType get eventType;
 }
@@ -89,6 +113,7 @@ class DustyEvent with _$DustyEvent, BaseEvent, HasPosition {
   factory DustyEvent({
     required int objectId,
     required EventType eventType,
+    List<StateData>? states,
     String? name,
     bool? isPlayer,
     Team? team,

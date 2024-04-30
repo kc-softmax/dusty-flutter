@@ -14,6 +14,177 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+StateData _$StateDataFromJson(Map<String, dynamic> json) {
+  return _StateData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$StateData {
+  ObjectState? get state => throw _privateConstructorUsedError;
+  int? get target => throw _privateConstructorUsedError;
+  dynamic get value => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $StateDataCopyWith<StateData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $StateDataCopyWith<$Res> {
+  factory $StateDataCopyWith(StateData value, $Res Function(StateData) then) =
+      _$StateDataCopyWithImpl<$Res, StateData>;
+  @useResult
+  $Res call({ObjectState? state, int? target, dynamic value});
+}
+
+/// @nodoc
+class _$StateDataCopyWithImpl<$Res, $Val extends StateData>
+    implements $StateDataCopyWith<$Res> {
+  _$StateDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? state = freezed,
+    Object? target = freezed,
+    Object? value = freezed,
+  }) {
+    return _then(_value.copyWith(
+      state: freezed == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as ObjectState?,
+      target: freezed == target
+          ? _value.target
+          : target // ignore: cast_nullable_to_non_nullable
+              as int?,
+      value: freezed == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$StateDataImplCopyWith<$Res>
+    implements $StateDataCopyWith<$Res> {
+  factory _$$StateDataImplCopyWith(
+          _$StateDataImpl value, $Res Function(_$StateDataImpl) then) =
+      __$$StateDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ObjectState? state, int? target, dynamic value});
+}
+
+/// @nodoc
+class __$$StateDataImplCopyWithImpl<$Res>
+    extends _$StateDataCopyWithImpl<$Res, _$StateDataImpl>
+    implements _$$StateDataImplCopyWith<$Res> {
+  __$$StateDataImplCopyWithImpl(
+      _$StateDataImpl _value, $Res Function(_$StateDataImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? state = freezed,
+    Object? target = freezed,
+    Object? value = freezed,
+  }) {
+    return _then(_$StateDataImpl(
+      state: freezed == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as ObjectState?,
+      target: freezed == target
+          ? _value.target
+          : target // ignore: cast_nullable_to_non_nullable
+              as int?,
+      value: freezed == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$StateDataImpl implements _StateData {
+  const _$StateDataImpl({this.state, this.target, this.value});
+
+  factory _$StateDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$StateDataImplFromJson(json);
+
+  @override
+  final ObjectState? state;
+  @override
+  final int? target;
+  @override
+  final dynamic value;
+
+  @override
+  String toString() {
+    return 'StateData(state: $state, target: $target, value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$StateDataImpl &&
+            (identical(other.state, state) || other.state == state) &&
+            (identical(other.target, target) || other.target == target) &&
+            const DeepCollectionEquality().equals(other.value, value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, state, target, const DeepCollectionEquality().hash(value));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StateDataImplCopyWith<_$StateDataImpl> get copyWith =>
+      __$$StateDataImplCopyWithImpl<_$StateDataImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$StateDataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _StateData implements StateData {
+  const factory _StateData(
+      {final ObjectState? state,
+      final int? target,
+      final dynamic value}) = _$StateDataImpl;
+
+  factory _StateData.fromJson(Map<String, dynamic> json) =
+      _$StateDataImpl.fromJson;
+
+  @override
+  ObjectState? get state;
+  @override
+  int? get target;
+  @override
+  dynamic get value;
+  @override
+  @JsonKey(ignore: true)
+  _$$StateDataImplCopyWith<_$StateDataImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 GameEvent _$GameEventFromJson(Map<String, dynamic> json) {
   return _GameEvent.fromJson(json);
 }
@@ -430,6 +601,7 @@ DustyEvent _$DustyEventFromJson(Map<String, dynamic> json) {
 mixin _$DustyEvent {
   int get objectId => throw _privateConstructorUsedError;
   EventType get eventType => throw _privateConstructorUsedError;
+  List<StateData>? get states => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   bool? get isPlayer => throw _privateConstructorUsedError;
   Team? get team => throw _privateConstructorUsedError;
@@ -455,6 +627,7 @@ abstract class $DustyEventCopyWith<$Res> {
   $Res call(
       {int objectId,
       EventType eventType,
+      List<StateData>? states,
       String? name,
       bool? isPlayer,
       Team? team,
@@ -481,6 +654,7 @@ class _$DustyEventCopyWithImpl<$Res, $Val extends DustyEvent>
   $Res call({
     Object? objectId = null,
     Object? eventType = null,
+    Object? states = freezed,
     Object? name = freezed,
     Object? isPlayer = freezed,
     Object? team = freezed,
@@ -500,6 +674,10 @@ class _$DustyEventCopyWithImpl<$Res, $Val extends DustyEvent>
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
               as EventType,
+      states: freezed == states
+          ? _value.states
+          : states // ignore: cast_nullable_to_non_nullable
+              as List<StateData>?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -551,6 +729,7 @@ abstract class _$$DustyEventImplCopyWith<$Res>
   $Res call(
       {int objectId,
       EventType eventType,
+      List<StateData>? states,
       String? name,
       bool? isPlayer,
       Team? team,
@@ -575,6 +754,7 @@ class __$$DustyEventImplCopyWithImpl<$Res>
   $Res call({
     Object? objectId = null,
     Object? eventType = null,
+    Object? states = freezed,
     Object? name = freezed,
     Object? isPlayer = freezed,
     Object? team = freezed,
@@ -594,6 +774,10 @@ class __$$DustyEventImplCopyWithImpl<$Res>
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
               as EventType,
+      states: freezed == states
+          ? _value._states
+          : states // ignore: cast_nullable_to_non_nullable
+              as List<StateData>?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -640,6 +824,7 @@ class _$DustyEventImpl extends _DustyEvent {
   _$DustyEventImpl(
       {required this.objectId,
       required this.eventType,
+      final List<StateData>? states,
       this.name,
       this.isPlayer,
       this.team,
@@ -649,7 +834,8 @@ class _$DustyEventImpl extends _DustyEvent {
       this.killerId,
       this.quantity,
       this.defence})
-      : super._();
+      : _states = states,
+        super._();
 
   factory _$DustyEventImpl.fromJson(Map<String, dynamic> json) =>
       _$$DustyEventImplFromJson(json);
@@ -658,6 +844,16 @@ class _$DustyEventImpl extends _DustyEvent {
   final int objectId;
   @override
   final EventType eventType;
+  final List<StateData>? _states;
+  @override
+  List<StateData>? get states {
+    final value = _states;
+    if (value == null) return null;
+    if (_states is EqualUnmodifiableListView) return _states;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String? name;
   @override
@@ -679,7 +875,7 @@ class _$DustyEventImpl extends _DustyEvent {
 
   @override
   String toString() {
-    return 'DustyEvent(objectId: $objectId, eventType: $eventType, name: $name, isPlayer: $isPlayer, team: $team, status: $status, position: $position, targetId: $targetId, killerId: $killerId, quantity: $quantity, defence: $defence)';
+    return 'DustyEvent(objectId: $objectId, eventType: $eventType, states: $states, name: $name, isPlayer: $isPlayer, team: $team, status: $status, position: $position, targetId: $targetId, killerId: $killerId, quantity: $quantity, defence: $defence)';
   }
 
   @override
@@ -691,6 +887,7 @@ class _$DustyEventImpl extends _DustyEvent {
                 other.objectId == objectId) &&
             (identical(other.eventType, eventType) ||
                 other.eventType == eventType) &&
+            const DeepCollectionEquality().equals(other._states, _states) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isPlayer, isPlayer) ||
                 other.isPlayer == isPlayer) &&
@@ -709,8 +906,20 @@ class _$DustyEventImpl extends _DustyEvent {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, objectId, eventType, name,
-      isPlayer, team, status, position, targetId, killerId, quantity, defence);
+  int get hashCode => Object.hash(
+      runtimeType,
+      objectId,
+      eventType,
+      const DeepCollectionEquality().hash(_states),
+      name,
+      isPlayer,
+      team,
+      status,
+      position,
+      targetId,
+      killerId,
+      quantity,
+      defence);
 
   @JsonKey(ignore: true)
   @override
@@ -730,6 +939,7 @@ abstract class _DustyEvent extends DustyEvent {
   factory _DustyEvent(
       {required final int objectId,
       required final EventType eventType,
+      final List<StateData>? states,
       final String? name,
       final bool? isPlayer,
       final Team? team,
@@ -748,6 +958,8 @@ abstract class _DustyEvent extends DustyEvent {
   int get objectId;
   @override
   EventType get eventType;
+  @override
+  List<StateData>? get states;
   @override
   String? get name;
   @override
