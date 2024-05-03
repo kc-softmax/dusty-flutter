@@ -16,11 +16,9 @@ enum EventType {
 
 enum Team {
   @JsonValue(1)
-  alpha(1),
+  colonists(1),
   @JsonValue(2)
-  beta(2),
-  @JsonValue(3)
-  neutral(3);
+  guardians(2);
 
   final int code;
   const Team(this.code);
@@ -30,11 +28,9 @@ enum Team {
 
 enum ActiveObjectType {
   @JsonValue(1)
-  normalMissaile,
+  axe,
   @JsonValue(2)
-  normalPunch,
-  @JsonValue(3)
-  normalGrenade
+  stone
 }
 
 enum PassiveObjectType {
@@ -150,6 +146,7 @@ class ActiveObjectEvent with _$ActiveObjectEvent, BaseEvent, HasPosition {
   factory ActiveObjectEvent({
     required int objectId,
     required EventType eventType,
+    List<StateData>? states,
     int? team,
     double? directionX,
     double? directionY,
@@ -177,6 +174,7 @@ class PassiveObjectEvent with _$PassiveObjectEvent, BaseEvent, HasPosition {
   factory PassiveObjectEvent({
     required int objectId,
     required EventType eventType,
+    List<StateData>? states,
     int? position,
     PassiveObjectType? objectType,
   }) = _PassiveObjectEvent;

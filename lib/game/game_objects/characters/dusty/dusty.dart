@@ -93,6 +93,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   late final OpacityEffect hideEffect;
   // late final GaugeBar topGaugeBar;
   late final GaugeBar rightGaugeBar;
+  late final HPGaugeBar hpGaugeBar;
   late final SpriteAnimationComponent aim;
   late Vector2 lastPosition;
   late Vector2 _nextPosition;
@@ -199,6 +200,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     glassesEffect = DustyGlassesEffect()..size = size;
     bodyEffect = DustyBodyEffect()..size = size * 1.3;
     nameLabel = DustyNameLabel(dustyName);
+    hpGaugeBar = HPGaugeBar()..width = width;
     // topGaugeBar = GaugeBar()
     //   ..size = Vector2(36, 10)
     //   ..position = Vector2(0, -10);
@@ -208,10 +210,10 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       ..position = Vector2(0, 0)
       ..angle = pi / 2;
     switch (team) {
-      case Team.alpha:
+      case Team.colonists:
         bodyType = DustyBodyType.pollution;
         break;
-      case Team.beta:
+      case Team.guardians:
         bodyType = DustyBodyType.nature;
         break;
       default:
@@ -224,7 +226,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     // hideEffect = OpacityEffect.to(
     //     0.2, EffectController(duration: 0.3, infinite: true, alternate: true));
     // shieldEffect.pause();
-
+    // hpGaugeBar.hide();
     addAll([
       glasses,
       bodyEffect,
@@ -232,6 +234,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
       glassesEffect,
       nameLabel,
       rightGaugeBar,
+      hpGaugeBar,
       aim
     ]);
     add(RectangleHitbox());
@@ -263,6 +266,10 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     speed = elapsedDelta > gameRef.playWorld!.serverDelta ? speed * 0.5 : speed;
     position.add(_dustyDirection * speed * dt / gameRef.playWorld!.serverDelta);
     elapsedDelta += dt;
+  }
+
+  void stop() {
+    currentSpeed = 0;
   }
 
   void updateNextPosition(Vector2 nextPosition) {
@@ -381,7 +388,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         return;
       }
     }
-    final exType = team == Team.alpha
+    final exType = team == Team.colonists
         ? DefaultExplosionType.red
         : DefaultExplosionType.yellow;
     switch (newState) {

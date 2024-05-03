@@ -992,6 +992,7 @@ ActiveObjectEvent _$ActiveObjectEventFromJson(Map<String, dynamic> json) {
 mixin _$ActiveObjectEvent {
   int get objectId => throw _privateConstructorUsedError;
   EventType get eventType => throw _privateConstructorUsedError;
+  List<StateData>? get states => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   double? get directionX => throw _privateConstructorUsedError;
   double? get directionY => throw _privateConstructorUsedError;
@@ -1019,6 +1020,7 @@ abstract class $ActiveObjectEventCopyWith<$Res> {
   $Res call(
       {int objectId,
       EventType eventType,
+      List<StateData>? states,
       int? team,
       double? directionX,
       double? directionY,
@@ -1047,6 +1049,7 @@ class _$ActiveObjectEventCopyWithImpl<$Res, $Val extends ActiveObjectEvent>
   $Res call({
     Object? objectId = null,
     Object? eventType = null,
+    Object? states = freezed,
     Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
@@ -1068,6 +1071,10 @@ class _$ActiveObjectEventCopyWithImpl<$Res, $Val extends ActiveObjectEvent>
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
               as EventType,
+      states: freezed == states
+          ? _value.states
+          : states // ignore: cast_nullable_to_non_nullable
+              as List<StateData>?,
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -1127,6 +1134,7 @@ abstract class _$$ActiveObjectEventImplCopyWith<$Res>
   $Res call(
       {int objectId,
       EventType eventType,
+      List<StateData>? states,
       int? team,
       double? directionX,
       double? directionY,
@@ -1153,6 +1161,7 @@ class __$$ActiveObjectEventImplCopyWithImpl<$Res>
   $Res call({
     Object? objectId = null,
     Object? eventType = null,
+    Object? states = freezed,
     Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
@@ -1174,6 +1183,10 @@ class __$$ActiveObjectEventImplCopyWithImpl<$Res>
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
               as EventType,
+      states: freezed == states
+          ? _value._states
+          : states // ignore: cast_nullable_to_non_nullable
+              as List<StateData>?,
       team: freezed == team
           ? _value.team
           : team // ignore: cast_nullable_to_non_nullable
@@ -1228,6 +1241,7 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
   _$ActiveObjectEventImpl(
       {required this.objectId,
       required this.eventType,
+      final List<StateData>? states,
       this.team,
       this.directionX,
       this.directionY,
@@ -1239,7 +1253,8 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
       this.targetId,
       this.ownerId,
       this.objectType})
-      : super._();
+      : _states = states,
+        super._();
 
   factory _$ActiveObjectEventImpl.fromJson(Map<String, dynamic> json) =>
       _$$ActiveObjectEventImplFromJson(json);
@@ -1248,6 +1263,16 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
   final int objectId;
   @override
   final EventType eventType;
+  final List<StateData>? _states;
+  @override
+  List<StateData>? get states {
+    final value = _states;
+    if (value == null) return null;
+    if (_states is EqualUnmodifiableListView) return _states;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final int? team;
   @override
@@ -1273,7 +1298,7 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
 
   @override
   String toString() {
-    return 'ActiveObjectEvent(objectId: $objectId, eventType: $eventType, team: $team, directionX: $directionX, directionY: $directionY, gravity: $gravity, lifeStep: $lifeStep, speed: $speed, position: $position, destination: $destination, targetId: $targetId, ownerId: $ownerId, objectType: $objectType)';
+    return 'ActiveObjectEvent(objectId: $objectId, eventType: $eventType, states: $states, team: $team, directionX: $directionX, directionY: $directionY, gravity: $gravity, lifeStep: $lifeStep, speed: $speed, position: $position, destination: $destination, targetId: $targetId, ownerId: $ownerId, objectType: $objectType)';
   }
 
   @override
@@ -1285,6 +1310,7 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
                 other.objectId == objectId) &&
             (identical(other.eventType, eventType) ||
                 other.eventType == eventType) &&
+            const DeepCollectionEquality().equals(other._states, _states) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.directionX, directionX) ||
                 other.directionX == directionX) &&
@@ -1311,6 +1337,7 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
       runtimeType,
       objectId,
       eventType,
+      const DeepCollectionEquality().hash(_states),
       team,
       directionX,
       directionY,
@@ -1342,6 +1369,7 @@ abstract class _ActiveObjectEvent extends ActiveObjectEvent {
   factory _ActiveObjectEvent(
       {required final int objectId,
       required final EventType eventType,
+      final List<StateData>? states,
       final int? team,
       final double? directionX,
       final double? directionY,
@@ -1362,6 +1390,8 @@ abstract class _ActiveObjectEvent extends ActiveObjectEvent {
   int get objectId;
   @override
   EventType get eventType;
+  @override
+  List<StateData>? get states;
   @override
   int? get team;
   @override
@@ -1398,6 +1428,7 @@ PassiveObjectEvent _$PassiveObjectEventFromJson(Map<String, dynamic> json) {
 mixin _$PassiveObjectEvent {
   int get objectId => throw _privateConstructorUsedError;
   EventType get eventType => throw _privateConstructorUsedError;
+  List<StateData>? get states => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
   PassiveObjectType? get objectType => throw _privateConstructorUsedError;
 
@@ -1416,6 +1447,7 @@ abstract class $PassiveObjectEventCopyWith<$Res> {
   $Res call(
       {int objectId,
       EventType eventType,
+      List<StateData>? states,
       int? position,
       PassiveObjectType? objectType});
 }
@@ -1435,6 +1467,7 @@ class _$PassiveObjectEventCopyWithImpl<$Res, $Val extends PassiveObjectEvent>
   $Res call({
     Object? objectId = null,
     Object? eventType = null,
+    Object? states = freezed,
     Object? position = freezed,
     Object? objectType = freezed,
   }) {
@@ -1447,6 +1480,10 @@ class _$PassiveObjectEventCopyWithImpl<$Res, $Val extends PassiveObjectEvent>
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
               as EventType,
+      states: freezed == states
+          ? _value.states
+          : states // ignore: cast_nullable_to_non_nullable
+              as List<StateData>?,
       position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
@@ -1470,6 +1507,7 @@ abstract class _$$PassiveObjectEventImplCopyWith<$Res>
   $Res call(
       {int objectId,
       EventType eventType,
+      List<StateData>? states,
       int? position,
       PassiveObjectType? objectType});
 }
@@ -1487,6 +1525,7 @@ class __$$PassiveObjectEventImplCopyWithImpl<$Res>
   $Res call({
     Object? objectId = null,
     Object? eventType = null,
+    Object? states = freezed,
     Object? position = freezed,
     Object? objectType = freezed,
   }) {
@@ -1499,6 +1538,10 @@ class __$$PassiveObjectEventImplCopyWithImpl<$Res>
           ? _value.eventType
           : eventType // ignore: cast_nullable_to_non_nullable
               as EventType,
+      states: freezed == states
+          ? _value._states
+          : states // ignore: cast_nullable_to_non_nullable
+              as List<StateData>?,
       position: freezed == position
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
@@ -1517,9 +1560,11 @@ class _$PassiveObjectEventImpl extends _PassiveObjectEvent {
   _$PassiveObjectEventImpl(
       {required this.objectId,
       required this.eventType,
+      final List<StateData>? states,
       this.position,
       this.objectType})
-      : super._();
+      : _states = states,
+        super._();
 
   factory _$PassiveObjectEventImpl.fromJson(Map<String, dynamic> json) =>
       _$$PassiveObjectEventImplFromJson(json);
@@ -1528,6 +1573,16 @@ class _$PassiveObjectEventImpl extends _PassiveObjectEvent {
   final int objectId;
   @override
   final EventType eventType;
+  final List<StateData>? _states;
+  @override
+  List<StateData>? get states {
+    final value = _states;
+    if (value == null) return null;
+    if (_states is EqualUnmodifiableListView) return _states;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final int? position;
   @override
@@ -1535,7 +1590,7 @@ class _$PassiveObjectEventImpl extends _PassiveObjectEvent {
 
   @override
   String toString() {
-    return 'PassiveObjectEvent(objectId: $objectId, eventType: $eventType, position: $position, objectType: $objectType)';
+    return 'PassiveObjectEvent(objectId: $objectId, eventType: $eventType, states: $states, position: $position, objectType: $objectType)';
   }
 
   @override
@@ -1547,6 +1602,7 @@ class _$PassiveObjectEventImpl extends _PassiveObjectEvent {
                 other.objectId == objectId) &&
             (identical(other.eventType, eventType) ||
                 other.eventType == eventType) &&
+            const DeepCollectionEquality().equals(other._states, _states) &&
             (identical(other.position, position) ||
                 other.position == position) &&
             (identical(other.objectType, objectType) ||
@@ -1555,8 +1611,8 @@ class _$PassiveObjectEventImpl extends _PassiveObjectEvent {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, objectId, eventType, position, objectType);
+  int get hashCode => Object.hash(runtimeType, objectId, eventType,
+      const DeepCollectionEquality().hash(_states), position, objectType);
 
   @JsonKey(ignore: true)
   @override
@@ -1577,6 +1633,7 @@ abstract class _PassiveObjectEvent extends PassiveObjectEvent {
   factory _PassiveObjectEvent(
       {required final int objectId,
       required final EventType eventType,
+      final List<StateData>? states,
       final int? position,
       final PassiveObjectType? objectType}) = _$PassiveObjectEventImpl;
   _PassiveObjectEvent._() : super._();
@@ -1588,6 +1645,8 @@ abstract class _PassiveObjectEvent extends PassiveObjectEvent {
   int get objectId;
   @override
   EventType get eventType;
+  @override
+  List<StateData>? get states;
   @override
   int? get position;
   @override

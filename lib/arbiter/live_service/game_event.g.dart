@@ -106,9 +106,8 @@ const _$EventTypeEnumMap = {
 };
 
 const _$TeamEnumMap = {
-  Team.alpha: 1,
-  Team.beta: 2,
-  Team.neutral: 3,
+  Team.colonists: 1,
+  Team.guardians: 2,
 };
 
 _$ActiveObjectEventImpl _$$ActiveObjectEventImplFromJson(
@@ -116,6 +115,9 @@ _$ActiveObjectEventImpl _$$ActiveObjectEventImplFromJson(
     _$ActiveObjectEventImpl(
       objectId: json['object_id'] as int,
       eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
+      states: (json['states'] as List<dynamic>?)
+          ?.map((e) => StateData.fromJson(e as Map<String, dynamic>))
+          .toList(),
       team: json['team'] as int?,
       directionX: (json['direction_x'] as num?)?.toDouble(),
       directionY: (json['direction_y'] as num?)?.toDouble(),
@@ -135,6 +137,7 @@ Map<String, dynamic> _$$ActiveObjectEventImplToJson(
     <String, dynamic>{
       'object_id': instance.objectId,
       'event_type': _$EventTypeEnumMap[instance.eventType]!,
+      'states': instance.states,
       'team': instance.team,
       'direction_x': instance.directionX,
       'direction_y': instance.directionY,
@@ -149,9 +152,8 @@ Map<String, dynamic> _$$ActiveObjectEventImplToJson(
     };
 
 const _$ActiveObjectTypeEnumMap = {
-  ActiveObjectType.normalMissaile: 1,
-  ActiveObjectType.normalPunch: 2,
-  ActiveObjectType.normalGrenade: 3,
+  ActiveObjectType.axe: 1,
+  ActiveObjectType.stone: 2,
 };
 
 _$PassiveObjectEventImpl _$$PassiveObjectEventImplFromJson(
@@ -159,6 +161,9 @@ _$PassiveObjectEventImpl _$$PassiveObjectEventImplFromJson(
     _$PassiveObjectEventImpl(
       objectId: json['object_id'] as int,
       eventType: $enumDecode(_$EventTypeEnumMap, json['event_type']),
+      states: (json['states'] as List<dynamic>?)
+          ?.map((e) => StateData.fromJson(e as Map<String, dynamic>))
+          .toList(),
       position: json['position'] as int?,
       objectType:
           $enumDecodeNullable(_$PassiveObjectTypeEnumMap, json['object_type']),
@@ -169,6 +174,7 @@ Map<String, dynamic> _$$PassiveObjectEventImplToJson(
     <String, dynamic>{
       'object_id': instance.objectId,
       'event_type': _$EventTypeEnumMap[instance.eventType]!,
+      'states': instance.states,
       'position': instance.position,
       'object_type': _$PassiveObjectTypeEnumMap[instance.objectType],
     };

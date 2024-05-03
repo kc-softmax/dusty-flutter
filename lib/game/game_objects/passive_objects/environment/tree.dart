@@ -3,8 +3,11 @@ import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
+import 'package:dusty_flutter/game/ui/gauge_bar.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
+import 'package:flame_noise/flame_noise.dart';
 import 'package:flame/extensions.dart';
 
 class Tree extends SpriteAnimationComponent
@@ -24,7 +27,11 @@ class Tree extends SpriteAnimationComponent
       spriteList,
       stepTime: 0.05,
     );
-    // add(RectangleHitbox());
+    hpGaugeBar = HPGaugeBar()
+      ..width = width * 0.5
+      ..x = width * 0.25
+      ..y = width * 0.25;
+    add(hpGaugeBar!);
   }
 
   @override
@@ -69,6 +76,20 @@ class Tree extends SpriteAnimationComponent
       }
     });
     //
+  }
+
+  @override
+  void getDamaged() {
+    add(SequenceEffect(
+      [
+        MoveEffect.by(
+          Vector2(-10, 10),
+          NoiseEffectController(duration: 1, noise: PerlinNoise(frequency: 20)),
+        ),
+        MoveEffect.by(Vector2.zero(), LinearEffectController(2)),
+      ],
+      repeatCount: 3,
+    ));
   }
 
   // @override

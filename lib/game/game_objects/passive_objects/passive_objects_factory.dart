@@ -1,4 +1,5 @@
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
+import 'package:dusty_flutter/game/ui/gauge_bar.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/environment/tree.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
@@ -6,6 +7,24 @@ import 'package:flame/components.dart';
 
 abstract mixin class PassiveObjects implements PositionComponent {
   late PassiveObjectType objectType;
+  HPGaugeBar? hpGaugeBar;
+
+  void updateState(List<StateData> states) {
+    for (StateData stateData in states) {
+      switch (stateData.state) {
+        case ObjectState.damaged:
+          getDamaged();
+          if (hpGaugeBar != null) {
+            hpGaugeBar!.updateValue(stateData.value);
+          }
+          break;
+        case ObjectState.idle:
+        default:
+      }
+    }
+  }
+
+  void getDamaged();
 
   factory PassiveObjects.tree(PassiveObjectEvent message) => Tree()
     ..objectType = message.objectType!
@@ -48,6 +67,9 @@ class PassiveObjectsFactory
 
   @override
   void onUpdateObject(PassiveObjectEvent message) {
-    print(message);
+    PassiveObjects? passiveObject = objects[message.objectId];
+    if (passiveObject != null) {
+      if (message.states != null) passiveObject.updateState(message.states!);
+    }
   }
 }

@@ -1,20 +1,39 @@
-import 'dart:ui';
+import 'dart:collection';
 
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
-import 'package:dusty_flutter/game/game_objects/active_objects/temp_rect.dart';
-import 'package:dusty_flutter/game/ui/const.dart';
+import 'package:dusty_flutter/game/game_objects/active_objects/axe.dart';
+import 'package:dusty_flutter/game/game_objects/active_objects/stone.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
+import 'package:dusty_flutter/models/protocols/parser.dart';
 import 'package:flame/components.dart';
 
 abstract mixin class ActiveObjects implements PositionComponent {
   late ActiveObjectType objectType;
+  final Queue<Vector2> positions = Queue<Vector2>();
+  double currentTime = 0.0;
 
-  factory ActiveObjects.temp(ActiveObjectEvent message) => TempRect()
-    ..anchor = Anchor.center
+  void updateState(List<StateData> states) {
+    for (StateData stateData in states) {
+      switch (stateData.state) {
+        case ObjectState.moving:
+          positions.add(Vector2(
+            PositionParser.x(stateData.value),
+            PositionParser.y(stateData.value),
+          ));
+          break;
+        case ObjectState.idle:
+        default:
+      }
+    }
+  }
+
+  factory ActiveObjects.axe(ActiveObjectEvent message) => Axe()
     ..x = message.x
-    ..y = message.y
-    ..size = Vector2.all(24)
-    ..priority = Priority.environment;
+    ..y = message.y;
+
+  factory ActiveObjects.stone(ActiveObjectEvent message) => Stone()
+    ..x = message.x
+    ..y = message.y;
 }
 
 class ActiveObjectsFactory
@@ -24,8 +43,12 @@ class ActiveObjectsFactory
     assert(message.objectType != null, "objectType is null");
     assert(message.position != null, "position is null");
     switch (message.objectType) {
+      case ActiveObjectType.axe:
+        return ActiveObjects.axe(message);
+      case ActiveObjectType.stone:
+        return ActiveObjects.stone(message);
       default:
-        return ActiveObjects.temp(message);
+        return ActiveObjects.axe(message);
     }
   }
 
@@ -51,8 +74,7 @@ class ActiveObjectsFactory
   void onUpdateObject(ActiveObjectEvent message) {
     ActiveObjects? activeObject = objects[message.objectId];
     if (activeObject != null) {
-      activeObject.x = message.x;
-      activeObject.y = message.y;
+      if (message.states != null) activeObject.updateState(message.states!);
     }
   }
 }

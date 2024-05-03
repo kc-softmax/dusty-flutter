@@ -20,3 +20,10 @@ Vector2 findPerpendicularPoint(Vector2 a, Vector2 b, Vector2 p) {
   // 교점 반환
   return Vector2(xIntersection, yIntersection);
 }
+
+Vector2 interpolatePosition(Vector2 start, Vector2 end, double t) {
+  return Vector2(
+    start.x + (end.x - start.x) * t,
+    start.y + (end.y - start.y) * t,
+  );
+}

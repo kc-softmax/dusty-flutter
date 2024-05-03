@@ -89,7 +89,7 @@ const _$LoginTypeEnumMap = {
 
 RequestGameJoin _$RequestGameJoinFromJson(Map<String, dynamic> json) =>
     RequestGameJoin(
-      team: json['team'] as String,
+      team: json['team'] as int,
     );
 
 Map<String, dynamic> _$RequestGameJoinToJson(RequestGameJoin instance) =>

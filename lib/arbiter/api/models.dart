@@ -94,7 +94,7 @@ class GameUser {
 @JsonSerializable()
 class RequestGameJoin {
   // temp
-  final String team;
+  final int team;
 
   RequestGameJoin({
     required this.team,

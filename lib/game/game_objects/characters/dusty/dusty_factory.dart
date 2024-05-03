@@ -44,9 +44,9 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyEvent> {
       debugPrint("onRemoveObject ${message.objectId} ${message.killerId}");
       if (killer != null && killer.isPlayer) {
         final killerAvatarName =
-            killer.team == Team.alpha ? 'po_mask' : 'nature_mask';
+            killer.team == Team.colonists ? 'po_mask' : 'nature_mask';
         final loserAvatarName =
-            deathDusty.team == Team.alpha ? 'po_mask' : 'nature_mask';
+            deathDusty.team == Team.guardians ? 'po_mask' : 'nature_mask';
         final killerAvatar =
             gameRef.atlas.findSpriteByName(killerAvatarName) as Sprite;
         final loserAvatar =
@@ -59,7 +59,7 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyEvent> {
         //     deathDusty.dustyName, killerAvatar, loserAvatar, message.removeBy!);
       }
 
-      final exType = deathDusty.team == Team.alpha
+      final exType = deathDusty.team == Team.colonists
           ? DefaultExplosionType.red
           : DefaultExplosionType.yellow;
       gameRef.world.add(DefaultExplosion(exType)
@@ -86,6 +86,8 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyEvent> {
               ),
             );
             break;
+          case ObjectState.idle:
+            dusty.stop();
           default:
         }
       });

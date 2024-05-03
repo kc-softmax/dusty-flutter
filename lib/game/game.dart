@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
-import 'package:dusty_flutter/arbiter/live_service/game_event.dart'
-    hide GameConfig;
+import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/arbiter/live_service/socket.dart';
 import 'package:dusty_flutter/game/atlas/texture_atlas.dart';
 import 'package:dusty_flutter/game/cameras/camera.dart';
@@ -76,7 +75,7 @@ class DustyIslandGame extends FlameGame
     final token = (await SharedPreferences.getInstance()).getString('token');
     if (token == null) return;
     final gameInfo =
-        await Arbiter.api.joinGame(token, RequestGameJoin(team: team.name));
+        await Arbiter.api.joinGame(token, RequestGameJoin(team: team.code));
 
     await _prepareGame(
       gameInfo: gameInfo,

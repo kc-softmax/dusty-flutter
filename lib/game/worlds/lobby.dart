@@ -33,8 +33,8 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
   }
 
   void setReadyGame() {
-    trashDusty = Dusty('Trash', Team.alpha)..x = -84;
-    nativeDusty = Dusty('Native', Team.beta)..x = 84;
+    trashDusty = Dusty('Colonists', Team.colonists)..x = -84;
+    nativeDusty = Dusty('Guardians', Team.guardians)..x = 84;
     addAll([trashDusty, nativeDusty]);
 
     gameRef.overlays.addEntry('StartButtons', buildStartButtons);
@@ -167,7 +167,7 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
                     // "잠시 후에 게임을 시작합니다" 문구
                     gameRef.overlays.add(PreStartText.name);
                     gameRef.overlays.remove('StartButtons');
-                    await gameRef.requestGameJoin(team: Team.alpha);
+                    await gameRef.requestGameJoin(team: Team.colonists);
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(96, 22),
@@ -185,7 +185,7 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
                   onPressed: () async {
                     gameRef.overlays.add(PreStartText.name);
                     gameRef.overlays.remove('StartButtons');
-                    await gameRef.requestGameJoin(team: Team.alpha);
+                    await gameRef.requestGameJoin(team: Team.guardians);
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(96, 22),
