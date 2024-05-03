@@ -1,13 +1,13 @@
+import 'package:dusty_flutter/game/base/object_factory.dart';
 import 'package:dusty_flutter/game/cameras/camera.dart';
 import 'package:dusty_flutter/game/effects/ui/const.dart';
 import 'package:dusty_flutter/game/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
-import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 
-class DustyFactory extends ObjectFactoryComponent<Dusty, DustyEvent> {
+class DustyFactory extends BaseObjectsFactory<Dusty, DustyEvent> {
 // 사용자 플레이어 저장해두기
   Dusty? user;
 

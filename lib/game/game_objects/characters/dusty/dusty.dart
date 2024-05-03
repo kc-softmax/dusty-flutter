@@ -5,7 +5,7 @@ import 'package:dusty_flutter/game/effects/ui/const.dart';
 import 'package:dusty_flutter/game/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game/game.dart';
-import 'package:dusty_flutter/mixins/object_mixin.dart';
+import 'package:dusty_flutter/game/base/object.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/game/ui/const.dart';

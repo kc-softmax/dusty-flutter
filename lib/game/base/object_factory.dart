@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/game/game.dart';
-import 'package:dusty_flutter/mixins/object_mixin.dart';
+import 'package:dusty_flutter/game/base/object.dart';
 import 'package:flame/components.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -68,5 +68,26 @@ abstract class ObjectFactoryComponent<OT extends DIObject, MT extends BaseEvent>
         object.updateState(message.states!);
       }
     }
+  }
+}
+
+abstract class BaseObjectsFactory<OT extends DIObject, MT extends BaseEvent>
+    extends ObjectFactoryComponent<OT, MT> {
+  @override
+  void onGenerateObject(MT message) {
+    final newObject = facotry(message);
+    objects[message.objectId] = newObject;
+    gameRef.world.add(newObject);
+  }
+
+  @override
+  void onRemoveObject(MT message) {
+    final object = objects[message.objectId];
+    if (object == null) return;
+
+    object.removeFromParent();
+    // 만약 사라지는 애니메이션 등이 있다면
+    // 애니메이션 종료 후 실행할 콜백으로 넘길 수 있다.
+    objects.remove(message.objectId);
   }
 }

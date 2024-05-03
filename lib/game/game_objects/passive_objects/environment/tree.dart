@@ -4,7 +4,7 @@ import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
 import 'package:dusty_flutter/game/ui/gauge_bar.dart';
-import 'package:dusty_flutter/mixins/object_mixin.dart';
+import 'package:dusty_flutter/game/base/object.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
