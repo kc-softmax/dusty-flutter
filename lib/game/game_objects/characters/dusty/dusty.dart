@@ -5,6 +5,7 @@ import 'package:dusty_flutter/game/effects/ui/const.dart';
 import 'package:dusty_flutter/game/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/extensions/sync_animation.dart';
 import 'package:dusty_flutter/game/game.dart';
+import 'package:dusty_flutter/mixins/object_mixin.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
@@ -84,7 +85,7 @@ class DustyGlassesEffect
 }
 
 class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
-    with HasGameRef<DustyIslandGame> {
+    with HasGameRef<DustyIslandGame>, DIObject, MovingObject, HpObject {
   late final DustyGlasses glasses;
   late final DustyGlassesEffect glassesEffect;
   late final DustyBodyEffect bodyEffect;
@@ -93,7 +94,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   late final OpacityEffect hideEffect;
   // late final GaugeBar topGaugeBar;
   late final GaugeBar rightGaugeBar;
-  late final HPGaugeBar hpGaugeBar;
   late final SpriteAnimationComponent aim;
   late Vector2 lastPosition;
   late Vector2 _nextPosition;
@@ -266,6 +266,16 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     speed = elapsedDelta > gameRef.playWorld!.serverDelta ? speed * 0.5 : speed;
     position.add(_dustyDirection * speed * dt / gameRef.playWorld!.serverDelta);
     elapsedDelta += dt;
+  }
+
+  @override
+  void moveTo(Vector2 position) {
+    updateNextPosition(position);
+  }
+
+  @override
+  void idle() {
+    stop();
   }
 
   void stop() {

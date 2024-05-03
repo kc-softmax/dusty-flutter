@@ -1,7 +1,9 @@
 import 'dart:collection';
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/game/game.dart';
+import 'package:dusty_flutter/mixins/object_mixin.dart';
 import 'package:flame/components.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 mixin HandleGameEvent<T> on Component {
   final _messagesChunk = ListQueue<List<T>>();
@@ -24,12 +26,10 @@ mixin HandleGameEvent<T> on Component {
   }
 }
 
-abstract class ObjectFactoryComponent<OT extends Component,
-        MT extends BaseEvent> extends Component
-    with HasGameRef<DustyIslandGame>, HandleGameEvent<MT> {
+abstract class ObjectFactoryComponent<OT extends DIObject, MT extends BaseEvent>
+    extends Component with HasGameRef<DustyIslandGame>, HandleGameEvent<MT> {
   OT facotry(MT message);
   void onGenerateObject(MT message);
-  void onUpdateObject(MT message);
   void onRemoveObject(MT message);
 
   final Map<int, OT> objects = {};
@@ -58,5 +58,15 @@ abstract class ObjectFactoryComponent<OT extends Component,
       }
     }
     objects.clear();
+  }
+
+  @mustCallSuper
+  void onUpdateObject(MT message) {
+    final object = objects[message.objectId];
+    if (object != null) {
+      if (message.states != null) {
+        object.updateState(message.states!);
+      }
+    }
   }
 }

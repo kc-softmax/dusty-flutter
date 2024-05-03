@@ -4,6 +4,7 @@ import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/passive_objects_factory.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
 import 'package:dusty_flutter/game/ui/gauge_bar.dart';
+import 'package:dusty_flutter/mixins/object_mixin.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
@@ -11,7 +12,12 @@ import 'package:flame_noise/flame_noise.dart';
 import 'package:flame/extensions.dart';
 
 class Tree extends SpriteAnimationComponent
-    with HasGameRef<DustyIslandGame>, CollisionCallbacks, PassiveObjects {
+    with
+        HasGameRef<DustyIslandGame>,
+        CollisionCallbacks,
+        DIObject,
+        PassiveObjects,
+        HpObject {
   List<Dusty> hidingDusty = [];
   List<PassiveObjects> hidingObjects = [];
 
@@ -31,7 +37,7 @@ class Tree extends SpriteAnimationComponent
       ..width = width * 0.5
       ..x = width * 0.25
       ..y = width * 0.25;
-    add(hpGaugeBar!);
+    add(hpGaugeBar);
   }
 
   @override
@@ -79,7 +85,8 @@ class Tree extends SpriteAnimationComponent
   }
 
   @override
-  void getDamaged() {
+  void getDamaged(double value) {
+    super.getDamaged(value);
     add(SequenceEffect(
       [
         MoveEffect.by(
@@ -91,6 +98,9 @@ class Tree extends SpriteAnimationComponent
       repeatCount: 3,
     ));
   }
+
+  @override
+  void idle() {}
 
   // @override
   // void onCollisionStart(

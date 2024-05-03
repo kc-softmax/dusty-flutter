@@ -1,6 +1,4 @@
 import 'package:dusty_flutter/game/cameras/camera.dart';
-import 'package:dusty_flutter/models/protocols/parser.dart';
-import 'package:flame/game.dart';
 import 'package:dusty_flutter/game/effects/ui/const.dart';
 import 'package:dusty_flutter/game/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
@@ -12,6 +10,15 @@ import 'package:flutter/material.dart';
 class DustyFactory extends ObjectFactoryComponent<Dusty, DustyEvent> {
 // 사용자 플레이어 저장해두기
   Dusty? user;
+
+  @override
+  Dusty facotry(DustyEvent message) {
+    assert(message.position != null, "position is null");
+    final dusty = Dusty(message.name!, message.team!)
+      ..x = message.x
+      ..y = message.y;
+    return dusty;
+  }
 
   @override
   void onGenerateObject(DustyEvent message) {
@@ -74,24 +81,9 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyEvent> {
 
   @override
   void onUpdateObject(DustyEvent message) {
+    super.onUpdateObject(message);
     Dusty? dusty = objects[message.objectId];
     if (dusty != null) {
-      message.states?.forEach((stateData) {
-        switch (stateData.state) {
-          case ObjectState.moving:
-            dusty.updateNextPosition(
-              Vector2(
-                PositionParser.x(stateData.value),
-                PositionParser.y(stateData.value),
-              ),
-            );
-            break;
-          case ObjectState.idle:
-            dusty.stop();
-          default:
-        }
-      });
-
       // for only player
       if (dusty.isPlayer) {
         if (message.targetId != null) {
@@ -122,15 +114,6 @@ class DustyFactory extends ObjectFactoryComponent<Dusty, DustyEvent> {
     //     }
     //   }
     // }
-  }
-
-  @override
-  Dusty facotry(DustyEvent message) {
-    assert(message.position != null, "position is null");
-    final dusty = Dusty(message.name!, message.team!)
-      ..x = message.x
-      ..y = message.y;
-    return dusty;
   }
 
   void setFollowUser(int userId) {

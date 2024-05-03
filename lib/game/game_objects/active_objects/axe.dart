@@ -1,11 +1,17 @@
 import 'package:dusty_flutter/game/game_objects/active_objects/active_objects_factory.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/game/utils/vector.dart';
+import 'package:dusty_flutter/mixins/object_mixin.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
 class Axe extends SpriteAnimationComponent
-    with HasGameRef<DustyIslandGame>, CollisionCallbacks, ActiveObjects {
+    with
+        HasGameRef<DustyIslandGame>,
+        CollisionCallbacks,
+        DIObject,
+        ActiveObjects,
+        MovingObject {
   double elapsedDelta = 0;
   double currentSpeed = 0;
   late final Vector2 initialPosition;
@@ -50,4 +56,12 @@ class Axe extends SpriteAnimationComponent
       }
     }
   }
+
+  @override
+  void moveTo(Vector2 position) {
+    positions.add(position);
+  }
+
+  @override
+  void idle() {}
 }

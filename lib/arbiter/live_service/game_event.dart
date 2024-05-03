@@ -70,7 +70,9 @@ class StateData with _$StateData {
 }
 
 mixin BaseEvent {
+  int get objectId;
   EventType get eventType;
+  List<StateData>? get states;
 }
 
 mixin HasPosition {

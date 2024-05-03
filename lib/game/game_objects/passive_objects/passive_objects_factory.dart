@@ -1,30 +1,12 @@
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
-import 'package:dusty_flutter/game/ui/gauge_bar.dart';
 import 'package:dusty_flutter/mixins/game_mixin.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/environment/tree.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
+import 'package:dusty_flutter/mixins/object_mixin.dart';
 import 'package:flame/components.dart';
 
-abstract mixin class PassiveObjects implements PositionComponent {
+abstract mixin class PassiveObjects implements DIObject {
   late PassiveObjectType objectType;
-  HPGaugeBar? hpGaugeBar;
-
-  void updateState(List<StateData> states) {
-    for (StateData stateData in states) {
-      switch (stateData.state) {
-        case ObjectState.damaged:
-          getDamaged();
-          if (hpGaugeBar != null) {
-            hpGaugeBar!.updateValue(stateData.value);
-          }
-          break;
-        case ObjectState.idle:
-        default:
-      }
-    }
-  }
-
-  void getDamaged();
 
   factory PassiveObjects.tree(PassiveObjectEvent message) => Tree()
     ..objectType = message.objectType!
@@ -63,13 +45,5 @@ class PassiveObjectsFactory
     // 만약 사라지는 애니메이션 등이 있다면
     // 애니메이션 종료 후 실행할 콜백으로 넘길 수 있다.
     objects.remove(message.objectId);
-  }
-
-  @override
-  void onUpdateObject(PassiveObjectEvent message) {
-    PassiveObjects? passiveObject = objects[message.objectId];
-    if (passiveObject != null) {
-      if (message.states != null) passiveObject.updateState(message.states!);
-    }
   }
 }
