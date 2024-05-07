@@ -95,9 +95,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   // late final GaugeBar topGaugeBar;
   late final GaugeBar rightGaugeBar;
   late final SpriteAnimationComponent aim;
-  late Vector2 lastPosition;
-  late Vector2 _nextPosition;
-  late Vector2 _dustyDirection;
 
   final String dustyName;
   final Team team;
@@ -106,8 +103,6 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   int? targetId;
   int? lockOnId;
   DustyState dustyState = DustyState.normal;
-  double elapsedDelta = 0;
-  double currentSpeed = 0;
   int hasShield = 0;
   int _isFinishing = 0;
 
@@ -170,9 +165,13 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   @override
   Future<void> onLoad() async {
     priority = Priority.dusty;
-    lastPosition = position;
-    _nextPosition = position;
-    _dustyDirection = Vector2(0, 0);
+    nextPosition = Vector2(x, y);
+    direction = Vector2(x, y);
+    if (gameRef.playWorld != null) {
+      serverDelta = gameRef.playWorld!.serverDelta;
+    } else {
+      serverDelta = 10;
+    }
     aim = SpriteAnimationComponent(
         animation: SpriteAnimation.spriteList(
       gameRef.atlas.findSpritesByName('aim'),
@@ -250,7 +249,7 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   @override
   void update(double dt) {
     super.update(dt);
-
+    position.add(movement(dt));
     // sound volume update
     if (finishingStateSound?.state == PlayerState.playing) {
       finishingStateSound?.setVolume(getSoundVolume());
@@ -261,35 +260,12 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     if (lockOnSound?.state == PlayerState.playing) {
       lockOnSound?.setVolume(getSoundVolume());
     }
-    var speed = currentSpeed;
-    if (speed < 1) return;
-    speed = elapsedDelta > gameRef.playWorld!.serverDelta ? speed * 0.5 : speed;
-    position.add(_dustyDirection * speed * dt / gameRef.playWorld!.serverDelta);
-    elapsedDelta += dt;
   }
 
   @override
-  void moveTo(Vector2 position) {
-    updateNextPosition(position);
-  }
-
-  @override
-  void idle() {
-    stop();
-  }
-
-  void stop() {
-    currentSpeed = 0;
-  }
-
-  void updateNextPosition(Vector2 nextPosition) {
-    lastPosition = _nextPosition;
-    _nextPosition = nextPosition; // 새로운 목표 위치 설정
-    _dustyDirection = (nextPosition - position)
-        .normalized(); // 현재 기준으로 target point 까지 방향을 지정해준다.
-    currentSpeed = (nextPosition - position).length;
-    // angle 의 경우 절대값을 사용한다.
-    final nextAngle = (nextPosition - lastPosition).screenAngle();
+  void moveTo(Vector2 currentPosition, Vector2 moveToPosition) {
+    super.moveTo(currentPosition, moveToPosition);
+    final nextAngle = (nextPosition - position).screenAngle();
     if (nextAngle != 0) {
       if (nextAngle >= 0 && isFlippedHorizontally) {
         flipHorizontally();
@@ -298,7 +274,15 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
         flipHorizontally();
       }
     }
-    elapsedDelta = 0;
+  }
+
+  @override
+  void idle() {
+    stop();
+  }
+
+  void stop() {
+    speed = 0;
   }
 
   void updateTargetDirection(int directionIndex) {
