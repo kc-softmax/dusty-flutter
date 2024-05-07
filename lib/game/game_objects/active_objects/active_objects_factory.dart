@@ -7,13 +7,14 @@ import 'package:dusty_flutter/game/base/object.dart';
 abstract mixin class ActiveObjects implements DIObject {
   late ActiveObjectType objectType;
 
-  factory ActiveObjects.axe(ActiveObjectEvent message) => Axe()
+  factory ActiveObjects.axe(ActiveObjectEvent message) => Axe(message.objectId)
     ..x = message.x
     ..y = message.y;
 
-  factory ActiveObjects.stone(ActiveObjectEvent message) => Stone()
-    ..x = message.x
-    ..y = message.y;
+  factory ActiveObjects.stone(ActiveObjectEvent message) =>
+      Stone(message.objectId)
+        ..x = message.x
+        ..y = message.y;
 }
 
 class ActiveObjectsFactory

@@ -17,11 +17,13 @@ class Tree extends SpriteAnimationComponent
         CollisionCallbacks,
         DIObject,
         PassiveObjects,
-        HpObject {
+        DamagedObject {
   List<Dusty> hidingDusty = [];
   List<PassiveObjects> hidingObjects = [];
 
-  Tree();
+  Tree(int objectId) {
+    this.objectId = objectId;
+  }
 
   @override
   Future<void> onLoad() async {

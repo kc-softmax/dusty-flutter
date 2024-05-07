@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
@@ -33,8 +34,10 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
   }
 
   void setReadyGame() {
-    trashDusty = Dusty('Colonists', Team.colonists)..x = -84;
-    nativeDusty = Dusty('Guardians', Team.guardians)..x = 84;
+    trashDusty = Dusty('Colonists', Team.colonists, Random().nextInt(100))
+      ..x = -84;
+    nativeDusty = Dusty('Guardians', Team.guardians, Random().nextInt(100))
+      ..x = 84;
     addAll([trashDusty, nativeDusty]);
 
     gameRef.overlays.addEntry('StartButtons', buildStartButtons);

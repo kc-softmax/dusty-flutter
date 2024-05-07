@@ -1,6 +1,5 @@
 import 'package:dusty_flutter/game/game_objects/active_objects/active_objects_factory.dart';
 import 'package:dusty_flutter/game/game.dart';
-import 'package:dusty_flutter/game/utils/vector.dart';
 import 'package:dusty_flutter/game/base/object.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -12,6 +11,14 @@ class Stone extends SpriteAnimationComponent
         DIObject,
         ActiveObjects,
         MovingObject {
+  double elapsedDelta = 0;
+  double currentSpeed = 0;
+  late final Vector2 initialPosition;
+
+  Stone(int objectId) {
+    this.objectId = objectId;
+  }
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();

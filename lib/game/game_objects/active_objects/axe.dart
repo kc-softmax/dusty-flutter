@@ -1,6 +1,5 @@
 import 'package:dusty_flutter/game/game_objects/active_objects/active_objects_factory.dart';
 import 'package:dusty_flutter/game/game.dart';
-import 'package:dusty_flutter/game/utils/vector.dart';
 import 'package:dusty_flutter/game/base/object.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -13,6 +12,10 @@ class Axe extends SpriteAnimationComponent
         ActiveObjects,
         MovingObject {
   late Vector2 initialPosition;
+
+  Axe(int objectId) {
+    this.objectId = objectId;
+  }
 
   @override
   Future<void> onLoad() async {

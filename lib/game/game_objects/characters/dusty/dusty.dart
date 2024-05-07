@@ -85,7 +85,7 @@ class DustyGlassesEffect
 }
 
 class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
-    with HasGameRef<DustyIslandGame>, DIObject, MovingObject, HpObject {
+    with HasGameRef<DustyIslandGame>, DIObject, MovingObject, DamagedObject {
   late final DustyGlasses glasses;
   late final DustyGlassesEffect glassesEffect;
   late final DustyBodyEffect bodyEffect;
@@ -159,8 +159,10 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
     updateUIState();
   }
 
-  Dusty(this.dustyName, this.team)
-      : super(size: Vector2(36, 36), anchor: Anchor.center);
+  Dusty(this.dustyName, this.team, int id)
+      : super(size: Vector2(36, 36), anchor: Anchor.center) {
+    objectId = id;
+  }
 
   @override
   Future<void> onLoad() async {

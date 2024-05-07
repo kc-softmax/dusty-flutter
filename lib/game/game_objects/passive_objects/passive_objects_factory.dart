@@ -8,13 +8,14 @@ import 'package:flame/components.dart';
 abstract mixin class PassiveObjects implements DIObject {
   late PassiveObjectType objectType;
 
-  factory PassiveObjects.tree(PassiveObjectEvent message) => Tree()
-    ..objectType = message.objectType!
-    ..anchor = Anchor.bottomCenter
-    ..scale = Vector2.all(0.5)
-    ..x = message.x
-    ..y = message.y + 32
-    ..priority = Priority.environment;
+  factory PassiveObjects.tree(PassiveObjectEvent message) =>
+      Tree(message.objectId)
+        ..objectType = message.objectType!
+        ..anchor = Anchor.bottomCenter
+        ..scale = Vector2.all(0.5)
+        ..x = message.x
+        ..y = message.y + 32
+        ..priority = Priority.environment;
 }
 
 class PassiveObjectsFactory

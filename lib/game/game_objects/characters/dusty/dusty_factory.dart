@@ -14,7 +14,7 @@ class DustyFactory extends BaseObjectsFactory<Dusty, DustyEvent> {
   @override
   Dusty facotry(DustyEvent message) {
     assert(message.position != null, "position is null");
-    final dusty = Dusty(message.name!, message.team!)
+    final dusty = Dusty(message.name!, message.team!, message.objectId)
       ..x = message.x
       ..y = message.y;
     return dusty;

@@ -22,11 +22,14 @@ Map<String, dynamic> _$$StateDataImplToJson(_$StateDataImpl instance) =>
 
 const _$ObjectStateEnumMap = {
   ObjectState.idle: 1,
-  ObjectState.moving: 2,
-  ObjectState.hitting: 3,
-  ObjectState.casting: 4,
-  ObjectState.damaged: 5,
-  ObjectState.invisible: 6,
+  ObjectState.generate: 2,
+  ObjectState.moving: 3,
+  ObjectState.hitting: 4,
+  ObjectState.casting: 5,
+  ObjectState.damaged: 6,
+  ObjectState.targeting: 7,
+  ObjectState.targeted: 8,
+  ObjectState.death: 9,
 };
 
 _$GameEventImpl _$$GameEventImplFromJson(Map<String, dynamic> json) =>

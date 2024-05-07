@@ -67,6 +67,10 @@ abstract class ObjectFactoryComponent<OT extends DIObject, MT extends BaseEvent>
       if (message.states != null) {
         object.updateState(message.states!);
       }
+    } else {
+      // TODO
+      // state update 메시지가 왔는데
+      // 생성된 object가 없다.
     }
   }
 }

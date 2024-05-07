@@ -5,6 +5,7 @@ import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/arbiter/live_service/socket.dart';
 import 'package:dusty_flutter/game/atlas/texture_atlas.dart';
+import 'package:dusty_flutter/game/base/object.dart';
 import 'package:dusty_flutter/game/cameras/camera.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
 import 'package:dusty_flutter/game/ui/overlays/flutter_overlay_dialogs.dart';
@@ -68,6 +69,9 @@ class DustyIslandGame extends FlameGame
 
   @override
   Color backgroundColor() => gameBackgroundColor;
+
+  DIObject? findDIObject(int objectId) =>
+      findByKeyName<DIObject>(objectId.toString());
 
   Future<void> requestGameJoin({
     required Team team,
