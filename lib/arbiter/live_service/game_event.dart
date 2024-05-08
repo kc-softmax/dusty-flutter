@@ -152,6 +152,7 @@ class ActiveObjectEvent with _$ActiveObjectEvent, BaseEvent, HasPosition {
     required EventType eventType,
     List<StateData>? states,
     int? angle,
+    int? nextPosition,
     int? team,
     double? directionX,
     double? directionY,

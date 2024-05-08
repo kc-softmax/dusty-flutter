@@ -8,7 +8,7 @@ abstract mixin class ActiveObjects implements DIObject {
   late ActiveObjectType objectType;
 
   factory ActiveObjects.axe(ActiveObjectEvent message) =>
-      Axe(message.objectId, initialAngle: message.angle!)
+      Axe(message.objectId, secondPosition: message.nextPosition!)
         ..x = message.x
         ..y = message.y;
 

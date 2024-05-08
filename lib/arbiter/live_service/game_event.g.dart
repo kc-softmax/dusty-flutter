@@ -120,6 +120,7 @@ _$ActiveObjectEventImpl _$$ActiveObjectEventImplFromJson(
           ?.map((e) => StateData.fromJson(e as Map<String, dynamic>))
           .toList(),
       angle: json['angle'] as int?,
+      nextPosition: json['next_position'] as int?,
       team: json['team'] as int?,
       directionX: (json['direction_x'] as num?)?.toDouble(),
       directionY: (json['direction_y'] as num?)?.toDouble(),
@@ -141,6 +142,7 @@ Map<String, dynamic> _$$ActiveObjectEventImplToJson(
       'event_type': _$EventTypeEnumMap[instance.eventType]!,
       'states': instance.states,
       'angle': instance.angle,
+      'next_position': instance.nextPosition,
       'team': instance.team,
       'direction_x': instance.directionX,
       'direction_y': instance.directionY,

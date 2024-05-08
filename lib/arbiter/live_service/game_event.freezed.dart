@@ -994,6 +994,7 @@ mixin _$ActiveObjectEvent {
   EventType get eventType => throw _privateConstructorUsedError;
   List<StateData>? get states => throw _privateConstructorUsedError;
   int? get angle => throw _privateConstructorUsedError;
+  int? get nextPosition => throw _privateConstructorUsedError;
   int? get team => throw _privateConstructorUsedError;
   double? get directionX => throw _privateConstructorUsedError;
   double? get directionY => throw _privateConstructorUsedError;
@@ -1023,6 +1024,7 @@ abstract class $ActiveObjectEventCopyWith<$Res> {
       EventType eventType,
       List<StateData>? states,
       int? angle,
+      int? nextPosition,
       int? team,
       double? directionX,
       double? directionY,
@@ -1053,6 +1055,7 @@ class _$ActiveObjectEventCopyWithImpl<$Res, $Val extends ActiveObjectEvent>
     Object? eventType = null,
     Object? states = freezed,
     Object? angle = freezed,
+    Object? nextPosition = freezed,
     Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
@@ -1081,6 +1084,10 @@ class _$ActiveObjectEventCopyWithImpl<$Res, $Val extends ActiveObjectEvent>
       angle: freezed == angle
           ? _value.angle
           : angle // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nextPosition: freezed == nextPosition
+          ? _value.nextPosition
+          : nextPosition // ignore: cast_nullable_to_non_nullable
               as int?,
       team: freezed == team
           ? _value.team
@@ -1143,6 +1150,7 @@ abstract class _$$ActiveObjectEventImplCopyWith<$Res>
       EventType eventType,
       List<StateData>? states,
       int? angle,
+      int? nextPosition,
       int? team,
       double? directionX,
       double? directionY,
@@ -1171,6 +1179,7 @@ class __$$ActiveObjectEventImplCopyWithImpl<$Res>
     Object? eventType = null,
     Object? states = freezed,
     Object? angle = freezed,
+    Object? nextPosition = freezed,
     Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
@@ -1199,6 +1208,10 @@ class __$$ActiveObjectEventImplCopyWithImpl<$Res>
       angle: freezed == angle
           ? _value.angle
           : angle // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nextPosition: freezed == nextPosition
+          ? _value.nextPosition
+          : nextPosition // ignore: cast_nullable_to_non_nullable
               as int?,
       team: freezed == team
           ? _value.team
@@ -1256,6 +1269,7 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
       required this.eventType,
       final List<StateData>? states,
       this.angle,
+      this.nextPosition,
       this.team,
       this.directionX,
       this.directionY,
@@ -1290,6 +1304,8 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
   @override
   final int? angle;
   @override
+  final int? nextPosition;
+  @override
   final int? team;
   @override
   final double? directionX;
@@ -1314,7 +1330,7 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
 
   @override
   String toString() {
-    return 'ActiveObjectEvent(objectId: $objectId, eventType: $eventType, states: $states, angle: $angle, team: $team, directionX: $directionX, directionY: $directionY, gravity: $gravity, lifeStep: $lifeStep, speed: $speed, position: $position, destination: $destination, targetId: $targetId, ownerId: $ownerId, objectType: $objectType)';
+    return 'ActiveObjectEvent(objectId: $objectId, eventType: $eventType, states: $states, angle: $angle, nextPosition: $nextPosition, team: $team, directionX: $directionX, directionY: $directionY, gravity: $gravity, lifeStep: $lifeStep, speed: $speed, position: $position, destination: $destination, targetId: $targetId, ownerId: $ownerId, objectType: $objectType)';
   }
 
   @override
@@ -1328,6 +1344,8 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
                 other.eventType == eventType) &&
             const DeepCollectionEquality().equals(other._states, _states) &&
             (identical(other.angle, angle) || other.angle == angle) &&
+            (identical(other.nextPosition, nextPosition) ||
+                other.nextPosition == nextPosition) &&
             (identical(other.team, team) || other.team == team) &&
             (identical(other.directionX, directionX) ||
                 other.directionX == directionX) &&
@@ -1356,6 +1374,7 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
       eventType,
       const DeepCollectionEquality().hash(_states),
       angle,
+      nextPosition,
       team,
       directionX,
       directionY,
@@ -1389,6 +1408,7 @@ abstract class _ActiveObjectEvent extends ActiveObjectEvent {
       required final EventType eventType,
       final List<StateData>? states,
       final int? angle,
+      final int? nextPosition,
       final int? team,
       final double? directionX,
       final double? directionY,
@@ -1413,6 +1433,8 @@ abstract class _ActiveObjectEvent extends ActiveObjectEvent {
   List<StateData>? get states;
   @override
   int? get angle;
+  @override
+  int? get nextPosition;
   @override
   int? get team;
   @override
