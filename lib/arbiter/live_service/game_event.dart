@@ -49,21 +49,17 @@ enum ObjectState {
   @JsonValue(1)
   idle,
   @JsonValue(2)
-  generate,
-  @JsonValue(3)
   moving,
-  @JsonValue(4)
+  @JsonValue(3)
   hitting,
-  @JsonValue(5)
+  @JsonValue(4)
   casting,
-  @JsonValue(6)
+  @JsonValue(5)
   damaged,
-  @JsonValue(7)
+  @JsonValue(6)
   targeting,
-  @JsonValue(8)
+  @JsonValue(7)
   targeted,
-  @JsonValue(9)
-  death;
 }
 
 @freezed

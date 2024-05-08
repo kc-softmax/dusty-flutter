@@ -16,9 +16,7 @@ class Axe extends SpriteAnimationComponent
   late Vector2 initialPosition;
   int initialAngle;
 
-  Axe({required this.initialAngle});
-
-  Axe(int objectId) {
+  Axe(int objectId, {required this.initialAngle}) {
     this.objectId = objectId;
   }
 

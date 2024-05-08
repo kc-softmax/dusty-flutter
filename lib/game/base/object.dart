@@ -115,8 +115,6 @@ mixin DIObject implements PositionComponent, HasObjectState {
           break;
         case ObjectState.idle:
           idle();
-        case ObjectState.generate || ObjectState.death:
-          break;
       }
     }
   }
