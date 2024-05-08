@@ -106,8 +106,14 @@ abstract class ControllerHandler extends Component
 
     if (keysPressed.isNotEmpty &&
         keysPressed.contains(LogicalKeyboardKey.space)) {
-      //temp
-      Arbiter.liveService.sendByte(DustyAction.activeSkill.encode());
+      final isKeyDown = event is KeyDownEvent;
+      final isKeyUp = event is KeyUpEvent;
+
+      if (isKeyDown) {
+        Arbiter.liveService.sendByte(DustyAction.activeSkillDown.encode());
+      } else if (isKeyUp) {
+        Arbiter.liveService.sendByte(DustyAction.activeSkillUp.encode());
+      }
     }
 
     // 더스티 움직임
