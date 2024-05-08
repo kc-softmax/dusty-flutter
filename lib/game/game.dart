@@ -70,8 +70,10 @@ class DustyIslandGame extends FlameGame
   @override
   Color backgroundColor() => gameBackgroundColor;
 
-  DIObject? findDIObject(int objectId) =>
-      findByKeyName<DIObject>(objectId.toString());
+  DIObject? findDIObject(int? objectId) {
+    if (objectId == null) return null;
+    return findByKeyName<DIObject>(objectId.toString());
+  }
 
   Future<void> requestGameJoin({
     required Team team,

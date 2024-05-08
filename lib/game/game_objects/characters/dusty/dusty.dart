@@ -85,7 +85,12 @@ class DustyGlassesEffect
 }
 
 class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
-    with HasGameRef<DustyIslandGame>, DIObject, MovingObject, DamagedObject {
+    with
+        HasGameRef<DustyIslandGame>,
+        DIObject,
+        MovingObject,
+        DamagedObject,
+        HittingObject {
   late final DustyGlasses glasses;
   late final DustyGlassesEffect glassesEffect;
   late final DustyBodyEffect bodyEffect;
@@ -282,6 +287,9 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   void idle() {
     stop();
   }
+
+  @override
+  void hit(DIObject? targetObject) {}
 
   void stop() {
     speed = 0;

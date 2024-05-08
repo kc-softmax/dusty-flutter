@@ -44,15 +44,15 @@ mixin DamagedObject on HasObjectState {
 }
 
 mixin HittingObject on HasObjectState {
-  void hit(DIObject object);
+  void hit(DIObject? targetObject);
 }
 
 mixin CastingObject on HasObjectState {
-  void casting(DIObject object);
+  void casting(DIObject? targetObject);
 }
 
 mixin TargetingObject on HasObjectState {
-  void targeting(DIObject object);
+  void targeting(DIObject targetObject);
 }
 
 mixin TargetedObject on HasObjectState {
@@ -89,22 +89,18 @@ mixin DIObject implements PositionComponent, HasObjectState {
               ));
           break;
         case ObjectState.hitting:
-          assert(this is HittingObject && stateData.target != null);
-          final target = gameRef.findDIObject(stateData.target!);
-          if (target != null) {
-            (this as HittingObject).hit(target);
-          }
+          assert(this is HittingObject);
+          final target = gameRef.findDIObject(stateData.target);
+          (this as HittingObject).hit(target);
           break;
         case ObjectState.casting:
-          assert(this is CastingObject && stateData.target != null);
-          final target = gameRef.findDIObject(stateData.target!);
-          if (target != null) {
-            (this as CastingObject).casting(target);
-          }
+          assert(this is CastingObject);
+          final target = gameRef.findDIObject(stateData.target);
+          (this as CastingObject).casting(target);
           break;
         case ObjectState.targeting:
           assert(this is TargetingObject && stateData.target != null);
-          final target = gameRef.findDIObject(stateData.target!);
+          final target = gameRef.findDIObject(stateData.target);
           if (target != null) {
             (this as TargetingObject).targeting(target);
           }
