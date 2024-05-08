@@ -124,4 +124,15 @@ class DustyFactory extends BaseObjectsFactory<Dusty, DustyEvent> {
     (gameRef.camera as DICamera).hud.minimapCamera.follow(user!);
     debugPrint("setFollowUser ${user!.dustyName}");
   }
+
+  void addUserIngameUpdateEvent(List<StateData> states) {
+    if (user == null) return;
+    addEvents([
+      DustyEvent.ingameUpdateEvent(
+        objectId: user!.objectId,
+        states: states,
+        isPlayer: true,
+      )
+    ]);
+  }
 }

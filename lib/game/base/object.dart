@@ -74,7 +74,7 @@ mixin DIObject implements PositionComponent, HasObjectState {
   void updateState(List<StateData> states) {
     for (StateData stateData in states) {
       if (stateData.state == null) continue;
-      switch (stateData.state!) {
+      switch (stateData.state) {
         case ObjectState.damaged:
           assert(this is DamagedObject);
           (this as DamagedObject).getDamaged(stateData.value);
@@ -111,6 +111,8 @@ mixin DIObject implements PositionComponent, HasObjectState {
           break;
         case ObjectState.idle:
           idle();
+        default:
+          break;
       }
     }
   }

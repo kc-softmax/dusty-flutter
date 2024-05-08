@@ -85,12 +85,7 @@ class DustyGlassesEffect
 }
 
 class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
-    with
-        HasGameRef<DustyIslandGame>,
-        DIObject,
-        MovingObject,
-        DamagedObject,
-        HittingObject {
+    with HasGameRef<DustyIslandGame>, DIObject, MovingObject, DamagedObject {
   late final DustyGlasses glasses;
   late final DustyGlassesEffect glassesEffect;
   late final DustyBodyEffect bodyEffect;
@@ -289,7 +284,18 @@ class Dusty extends SpriteAnimationGroupComponent<DustyBodyType>
   }
 
   @override
-  void hit(DIObject? targetObject) {}
+  void updateState(List<StateData> states) {
+    super.updateState(states);
+    for (var stateData in states) {
+      switch (stateData.state) {
+        case ObjectState.charging:
+          print('charging!!!');
+          break;
+        default:
+          break;
+      }
+    }
+  }
 
   void stop() {
     speed = 0;

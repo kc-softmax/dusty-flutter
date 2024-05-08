@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
+import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/models/protocols/const.dart';
 import 'package:dusty_flutter/game/ui/hud/joystick.dart';
@@ -111,6 +112,9 @@ abstract class ControllerHandler extends Component
 
       if (isKeyDown) {
         Arbiter.liveService.sendByte(DustyAction.activeSkillDown.encode());
+        gameRef.playWorld?.dustyFactory.addUserIngameUpdateEvent(
+          [const StateData(state: ObjectState.charging)],
+        );
       } else if (isKeyUp) {
         Arbiter.liveService.sendByte(DustyAction.activeSkillUp.encode());
       }

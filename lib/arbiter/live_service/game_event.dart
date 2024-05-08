@@ -60,6 +60,8 @@ enum ObjectState {
   targeting,
   @JsonValue(7)
   targeted,
+  // ingame
+  charging,
 }
 
 @freezed
@@ -141,6 +143,18 @@ class DustyEvent with _$DustyEvent, BaseEvent, HasPosition {
 
   factory DustyEvent.fromJson(Map<String, dynamic> json) =>
       _$DustyEventFromJson(json);
+
+  factory DustyEvent.ingameUpdateEvent({
+    required int objectId,
+    required List<StateData> states,
+    bool isPlayer = false,
+  }) =>
+      DustyEvent(
+        objectId: objectId,
+        eventType: EventType.update,
+        isPlayer: isPlayer,
+        states: states,
+      );
 }
 
 @freezed

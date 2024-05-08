@@ -28,6 +28,7 @@ const _$ObjectStateEnumMap = {
   ObjectState.damaged: 5,
   ObjectState.targeting: 6,
   ObjectState.targeted: 7,
+  ObjectState.charging: 'charging',
 };
 
 _$GameEventImpl _$$GameEventImplFromJson(Map<String, dynamic> json) =>

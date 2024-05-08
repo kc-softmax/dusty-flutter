@@ -13,7 +13,8 @@ class Axe extends SpriteAnimationComponent
         CollisionCallbacks,
         DIObject,
         ActiveObjects,
-        MovingObject {
+        MovingObject,
+        HittingObject {
   late Vector2 initialPosition;
   int secondPosition;
 
@@ -50,4 +51,9 @@ class Axe extends SpriteAnimationComponent
 
   @override
   void idle() {}
+
+  @override
+  void hit(DIObject? targetObject) {
+    print('hit!!');
+  }
 }
