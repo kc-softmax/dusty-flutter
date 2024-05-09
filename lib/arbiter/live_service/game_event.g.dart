@@ -188,4 +188,5 @@ Map<String, dynamic> _$$PassiveObjectEventImplToJson(
 const _$PassiveObjectTypeEnumMap = {
   PassiveObjectType.tree: 1,
   PassiveObjectType.artifact: 2,
+  PassiveObjectType.trimmedTree: 3,
 };

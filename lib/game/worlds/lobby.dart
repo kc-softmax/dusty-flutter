@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
   late Dusty trashDusty;
   late Dusty nativeDusty;
+  late SpriteComponent axe;
 
   @override
   FutureOr<void> onLoad() {
@@ -26,6 +27,19 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
     } else {
       setLogin();
     }
+    axe = SpriteComponent(
+      sprite: gameRef.atlas.findSpriteByName('normal_axe'),
+    )
+      // ..x = -84
+      ..size = Vector2(32, 16)
+      ..anchor = const Anchor(0.1, 0.5);
+    add(axe);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    axe.angle += 0.02;
   }
 
   @override

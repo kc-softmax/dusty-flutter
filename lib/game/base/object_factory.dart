@@ -88,10 +88,11 @@ abstract class BaseObjectsFactory<OT extends DIObject, MT extends BaseEvent>
   void onRemoveObject(MT message) {
     final object = objects[message.objectId];
     if (object == null) return;
+    objects.remove(message.objectId);
 
-    object.removeFromParent();
     // 만약 사라지는 애니메이션 등이 있다면
     // 애니메이션 종료 후 실행할 콜백으로 넘길 수 있다.
-    objects.remove(message.objectId);
+    object.removeObject();
+    // object.removeFromParent();
   }
 }

@@ -72,6 +72,7 @@ class HPGaugeBar extends PositionComponent with HasGameRef<DustyIslandGame> {
   late SpriteComponent gauge;
 
   double hpGauge = 10; // default value, when hp is full
+  bool autoHidden = true;
 
   @override
   Future<void> onLoad() async {
@@ -92,21 +93,18 @@ class HPGaugeBar extends PositionComponent with HasGameRef<DustyIslandGame> {
       ..anchor = Anchor.topLeft;
 
     addAll([background, gauge]);
-    // hide();
+    if (autoHidden) hide(true);
   }
 
-  void hide() {
-    background.add(ScaleEffect.to(
-      Vector2.zero(),
-      EffectController(duration: 0.1),
-    ));
-    gauge.add(ScaleEffect.to(
-      Vector2.zero(),
-      EffectController(duration: 0.1),
-    ));
+  void hide(bool hide) {
+    background
+        .add(OpacityEffect.to(hide ? 0 : 1, EffectController(duration: 0.2)));
+    gauge.add(OpacityEffect.to(hide ? 0 : 1, EffectController(duration: 0.2)));
   }
 
   void updateValue(double value) {
+    background.opacity = 1;
+    gauge.opacity = 1;
     hpGauge -= value;
     if (hpGauge < 0) hpGauge = 0;
     if (background.scale.x == 0) {
@@ -120,20 +118,6 @@ class HPGaugeBar extends PositionComponent with HasGameRef<DustyIslandGame> {
       Vector2(value / 10, 1),
       EffectController(duration: 0.2),
     ));
-  }
-
-  void decreaseWithDuration(double duration, Color color) {
-    // if (background.scale.x == 0) {
-    //   background.add(ScaleEffect.to(
-    //     Vector2(0, 1),
-    //     EffectController(duration: 0.1),
-    //   ));
-    //   scale = Vector2(1, 1);
-    // }
-
-    gauge.add(ScaleEffect.to(
-      Vector2(0, 1),
-      EffectController(duration: duration),
-    ));
+    if (autoHidden) hide(true);
   }
 }

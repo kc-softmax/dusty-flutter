@@ -67,6 +67,12 @@ mixin DIObject implements PositionComponent, HasObjectState {
 
   void idle();
 
+  @mustBeOverridden
+  @mustCallSuper
+  void removeObject() {
+    removeFromParent();
+  }
+
   @override
   ComponentKey? get key => ComponentKey.named(objectId.toString());
 

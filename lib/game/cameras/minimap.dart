@@ -68,7 +68,7 @@ class MinimapCamera extends CameraComponent with HasGameRef<DustyIslandGame> {
     });
 
     passiveObjectsFactory.objects.forEach((key, value) {
-      if (value.objectType != PassiveObjectType.tree) return;
+      // if (value.objectType != PassiveObjectType.tree) return;
       final existArrow = viewport.children
           .whereType<ArrowComponent>()
           .where((arrow) => arrow.objectId == key)
