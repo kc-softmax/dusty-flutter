@@ -85,11 +85,7 @@ class DustyFactory extends BaseObjectsFactory<Dusty, DustyEvent> {
     Dusty? dusty = objects[message.objectId];
     if (dusty != null) {
       // for only player
-      if (dusty.isPlayer) {
-        if (message.targetId != null) {
-          dusty.targetId = message.targetId;
-        }
-      }
+      if (dusty.isPlayer) {}
     }
     // if (dusty != null) {
     //   if (message.position != null && message.position! > 0) {

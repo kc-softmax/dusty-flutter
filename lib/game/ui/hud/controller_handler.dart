@@ -165,7 +165,7 @@ abstract class ControllerHandler extends Component
 
     final currentWorld = gameRef.world;
     if (currentWorld is! PlaySceneWorld) throw ('게임 플레이 중이 아닙니다.');
-    currentWorld.player!.targetDirectionIndex = action.getDirectionIndex();
+    currentWorld.player!.updateTargetDirection(action.getDirectionIndex());
 
     Arbiter.liveService.sendByte(action.encode());
     return false;

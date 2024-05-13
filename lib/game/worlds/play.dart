@@ -96,26 +96,6 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     }
   }
 
-  void lockOnTarget() {
-    if (player?.targetId != player?.lockOnId) {
-      final target = dustyFactory.objects[player?.targetId];
-      if (target != null) {
-        target.setAim(true);
-        player?.lockOnId = player?.targetId; //
-      }
-    }
-  }
-
-  void releaseTarget() {
-    if (player?.lockOnId != null) {
-      final lockOnTarget = dustyFactory.objects[player?.lockOnId];
-      if (lockOnTarget != null) {
-        lockOnTarget.setAim(false);
-      }
-      player?.lockOnId = null;
-    }
-  }
-
   void updatePlayerAngle(double dt) {
     var targetAngle = player!.targetDirectionIndex * pi * 2 / 16;
     final toRotateAngle =
@@ -144,6 +124,7 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     playerAngle =
         lerpDouble(playerAngle, expectedPlayerAngle, dt / serverDelta)!;
     autoRange.angle = playerAngle;
+
     playerAngle %= pi * 2;
     // player angle 이 12시 방향 근처에 있을때는 방향 전환을 하지 않는다.
     // player angle 이 6시 방향 근처에 있을때는 방향 전환을 하지 않는다.
@@ -228,13 +209,13 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     //   grenadeTargetArea.setActivated(false);
     //   player?.topGaugeBar.hide();
     // }
-    if (player?.targetId != null) {
-      if (player!.targetId! > 0) {
-        lockOnTarget();
-      } else {
-        releaseTarget();
-      }
-    }
+    // if (player?.targetId != null) {
+    //   if (player!.targetId! > 0) {
+    //     lockOnTarget();
+    //   } else {
+    //     releaseTarget();
+    //   }
+    // }
   }
 }
 

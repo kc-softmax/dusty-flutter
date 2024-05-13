@@ -48,7 +48,7 @@ mixin HittingObject on HasObjectState {
 }
 
 mixin CastingObject on HasObjectState {
-  void casting(DIObject? targetObject);
+  void casting(DIObject? targetObject, int? value);
 }
 
 mixin TargetingObject on HasObjectState {
@@ -102,7 +102,7 @@ mixin DIObject implements PositionComponent, HasObjectState {
         case ObjectState.casting:
           assert(this is CastingObject);
           final target = gameRef.findDIObject(stateData.target);
-          (this as CastingObject).casting(target);
+          (this as CastingObject).casting(target, stateData.value);
           break;
         case ObjectState.targeting:
           assert(this is TargetingObject && stateData.target != null);

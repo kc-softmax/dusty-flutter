@@ -47,6 +47,18 @@ enum PassiveObjectType {
       PassiveObjectType.values.firstWhere((state) => code == state.code);
 }
 
+enum DustyCastingType {
+  @JsonValue(1)
+  verticalAxeSwing(1),
+  @JsonValue(2)
+  throwStone(2);
+
+  final int code;
+  const DustyCastingType(this.code);
+  factory DustyCastingType.parse(int code) =>
+      DustyCastingType.values.firstWhere((state) => code == state.code);
+}
+
 enum ObjectState {
   @JsonValue(1)
   idle,
