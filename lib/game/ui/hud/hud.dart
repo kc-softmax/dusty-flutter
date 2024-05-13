@@ -27,7 +27,6 @@ class Hud extends ControllerHandler {
   late final SkillButton specialSkillButton2;
   late final SkillButton specialSkillButton3;
   late final SkillButton specialSkillButton4;
-  late final MinimapCamera minimapCamera;
 
   Hud({
     required this.gameInfo,
@@ -202,16 +201,10 @@ class Hud extends ControllerHandler {
   }
 
   void _setMinimap() {
-    minimapCamera = MinimapCamera(
-      position: Vector2(
-        gameRef.canvasSize.x - 240 - 20,
-        20,
-      ),
-      width: 240,
-      height: 240,
-      mapWidth: gameMap.width,
-      mapHeight: gameMap.height,
-    );
-    viewport.add(minimapCamera);
+    viewport.add(Minimap(
+      size: Vector2.all(240),
+      position: Vector2(gameRef.canvasSize.x - 240 - 10, 10),
+      range: 1,
+    ));
   }
 }

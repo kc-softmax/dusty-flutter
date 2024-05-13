@@ -28,7 +28,7 @@ class DustyFactory extends BaseObjectsFactory<Dusty, DustyEvent> {
     debugPrint("onGenerateObject ${message.objectId} ${message.name}");
     if (message.isPlayer != null && message.isPlayer!) {
       setFollowUser(message.objectId);
-      gameRef.playWorld!.player = dusty;
+      gameRef.playWorld!.player = dusty..isPlayer = true;
     }
     // if (message.dustyId == gameRef.playWorld!.followerId) {
     // }
@@ -117,7 +117,6 @@ class DustyFactory extends BaseObjectsFactory<Dusty, DustyEvent> {
     assert(user != null, "user not found");
     assert(gameRef.camera is DICamera);
     (gameRef.camera as DICamera).start(user!);
-    (gameRef.camera as DICamera).hud.minimapCamera.follow(user!);
     debugPrint("setFollowUser ${user!.dustyName}");
   }
 

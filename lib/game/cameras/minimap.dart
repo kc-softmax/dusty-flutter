@@ -1,114 +1,203 @@
+import 'dart:async';
 import 'dart:math' hide Rectangle;
 
-import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
-import 'package:dusty_flutter/extensions/camera.dart';
-import 'package:dusty_flutter/game/worlds/play.dart';
-import 'package:flame/camera.dart';
+import 'package:dusty_flutter/game/base/object.dart';
+import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
+import 'package:dusty_flutter/game/game_objects/passive_objects/environment/tree.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/geometry.dart';
+import 'package:flame_tiled_utils/flame_tiled_utils.dart';
 import 'package:flutter/material.dart';
 
-class MinimapCamera extends CameraComponent with HasGameRef<DustyIslandGame> {
-  final Vector2 position;
-  final double width;
-  final double height;
-  final double zoomLevel;
+class Minimap extends PositionComponent with HasGameRef<DustyIslandGame> {
+  static const arrowMarkerIdPrefix = 'arrow_';
+  static const treeMarkerIdPrefix = 'tree_';
+  static const dustyMarkerIdPrefix = 'dusty_';
 
-  late final MinimapCollisionDetection _collisionDetection;
+  late final PositionComponent map;
+  late final ClipComponent clip;
+  late final MinimapCollisionDetection minimapCollisionDetection;
+  final double range;
+  final double minimapZoom;
+  final Vector2 lastPlayerPosition = Vector2.zero();
+  final Map<int, DustyMarker> dustyMarkerMap = {};
+  final Map<int, TreeMarker> treeMarkerMap = {};
+  final Map<int, ArrowMarker> arrowMarkerMap = {};
 
-  Vector2 get center => Vector2(width * 0.5, height * 0.5);
+  Minimap({super.size, super.position, required this.range})
+      : minimapZoom = range * 0.25;
 
-  MinimapCamera({
-    required this.position,
-    required this.width,
-    required this.height,
-    required double mapWidth,
-    required double mapHeight,
-    this.zoomLevel = 0.1,
-  }) {
-    world = gameRef.playWorld;
-    viewport = FixedSizeViewport(width, height)
-      ..position = position
-      ..add(
-        _collisionDetection = MinimapCollisionDetection()
-          ..width = width
-          ..height = height,
-      );
-    backdrop = RectangleComponent.fromRect(
-      Rect.fromLTWH(
-        0,
-        0,
-        width,
-        height,
-      ),
-    )..setColor(Colors.black);
-    viewfinder.zoom = zoomLevel;
-    setBoundToMapSize(
-      mapWidth,
-      mapHeight,
-      viewfinder.zoom,
-    );
+  @override
+  FutureOr<void> onLoad() async {
+    final gameMap = gameRef.playWorld?.gameMap;
+    assert(gameMap != null);
+    final imageCompiler = ImageBatchCompiler();
+    map = imageCompiler.compileMapLayer(
+        tileMap: gameMap!.tileMap,
+        layerNames:
+            gameMap.tileMap.renderableLayers.map((e) => e.layer.name).toList());
+
+    addAll([
+      clip = ClipComponent.rectangle(size: Vector2(width, height))
+        ..addAll([
+          map
+            ..size = Vector2(gameMap.width, gameMap.height)
+            ..scale = Vector2.all(minimapZoom)
+        ]),
+      minimapCollisionDetection =
+          MinimapCollisionDetection(size: Vector2(width, height))
+    ]);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    final paint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke // 테두리만 그리기
+      ..strokeWidth = 2.0; // 테두리의 두께
+
+    canvas.drawRect(size.toRect(), paint);
   }
 
   @override
   void update(double dt) {
-    // TODO 더 효율적인 방법
-    final passiveObjectsFactory = gameRef.playWorld?.passiveObjectsFactory;
-    if (passiveObjectsFactory == null) return;
-
-    final objectKeys = passiveObjectsFactory.objects.keys;
-    viewport.children
-        .whereType<ArrowComponent>()
-        .where((child) => !objectKeys.contains(child.objectId))
-        .forEach((child) {
-      child.removeFromParent();
-    });
-
-    passiveObjectsFactory.objects.forEach((key, value) {
-      // if (value.objectType != PassiveObjectType.tree) return;
-      final existArrow = viewport.children
-          .whereType<ArrowComponent>()
-          .where((arrow) => arrow.objectId == key)
-          .firstOrNull;
-      if (existArrow == null) {
-        setArrow(value.position, key);
-      } else {
-        updateArrow(value.position, existArrow);
-      }
-    });
-  }
-
-  void setArrow(Vector2 targetPosition, int objectId) {
-    // 미니맵 시야에 있으면 화살표로 표시해줄 필요X
-    if (_isPositionVisible(targetPosition)) return;
-
-    final arrowPosition = _getArrowPosition(targetPosition);
-    if (arrowPosition == null) return;
-    // 화살표 표시
-    viewport.add(
-      ArrowComponent(
-        objectId: objectId,
-        radius: 5,
-        position: arrowPosition,
-      )..setColor(Colors.red),
+    _updateMinimapPosition();
+    _updateObjectMarker(
+      gameRef.playWorld!.dustyFactory.objects,
+      dustyMarkerMap,
     );
+    _updateObjectMarker(
+      gameRef.playWorld!.passiveObjectsFactory.objects,
+      treeMarkerMap,
+    );
+    _updateArrowMarker();
   }
 
-  void updateArrow(Vector2 targetPosition, ArrowComponent arrow) {
-    if (_isPositionVisible(targetPosition)) {
-      // 미니맵 시야에 나오면 기존 화살표는 없앰
-      arrow.removeFromParent();
-      return;
+  void _updateMinimapPosition() {
+    final playerPosition = gameRef.playWorld?.player?.position;
+    if (playerPosition == null) return;
+
+    Vector2 scaledPlayerPosition = _positionOfMinimap(playerPosition);
+    Vector2 miniMapCenter = Vector2(width, height) * 0.5;
+    Vector2 newPosition =
+        miniMapCenter - scaledPlayerPosition; // new minimap position
+    double xLimit = map.scaledSize.x - width;
+    double yLimit = map.scaledSize.y - height;
+    newPosition.x = newPosition.x.clamp(-xLimit, 0);
+    newPosition.y = newPosition.y.clamp(-yLimit, 0);
+
+    map.position = newPosition;
+
+    lastPlayerPosition.x = playerPosition.x;
+    lastPlayerPosition.y = playerPosition.y;
+  }
+
+  // NOTE
+  // 각 이벤트에서 호출해주는 것이 좋을까?
+  // 이렇게 하는 것이 나을까?
+  // 효율성 측면에서는 각 이벤트에서 호출해주는 것이 나을 것 같은데
+  // 생각해보니 미니맵의 range는 맵의 range보다 크기 때문에
+  // factory에 없는 오브젝트를 그려줘야함. => 수정이 필요!
+  void _updateObjectMarker(
+      Map<int, DIObject> objectsMap, Map<int, PositionComponent> markerMap) {
+    markerMap.removeWhere((key, value) {
+      final removed = !objectsMap.containsKey(key);
+      if (removed) {
+        value.removeFromParent();
+      }
+      return removed;
+    });
+
+    for (var id in objectsMap.keys) {
+      final object = objectsMap[id];
+      final marker = markerMap[id];
+      if (markerMap.containsKey(id)) {
+        if (!_isVisiblOnMinimap(object!.position)) {
+          markerMap.remove(id);
+          marker!.removeFromParent();
+          continue;
+        }
+        marker!.position = _positionOfMinimap(object.position) + map.position;
+      } else {
+        if (!_isVisiblOnMinimap(object!.position)) continue;
+        PositionComponent? newMarker;
+        if (object is Dusty) {
+          newMarker = DustyMarker(
+            objectId: '$dustyMarkerIdPrefix$id',
+            radius: 5,
+          )..setColor(object.isPlayer ? Colors.blue : Colors.yellow);
+        } else if (object is Tree) {
+          newMarker = TreeMarker(objectId: '$treeMarkerIdPrefix$id', radius: 5);
+        }
+        if (newMarker == null) return;
+        newMarker.position = _positionOfMinimap(object.position) + map.position;
+        add(newMarker);
+        markerMap[id] = newMarker;
+      }
     }
+  }
 
-    final arrowPosition = _getArrowPosition(targetPosition);
-    if (arrowPosition == null) return;
+  void _updateArrowMarker() {
+    final passiveObjectsMap = gameRef.playWorld?.passiveObjectsFactory.objects;
+    if (passiveObjectsMap == null) return;
 
-    // 화살표 위치 갱신
-    arrow.position = arrowPosition;
+    // remove
+    arrowMarkerMap.removeWhere((key, value) {
+      final removed = !passiveObjectsMap.containsKey(key);
+      if (removed) {
+        value.removeFromParent();
+      }
+      return removed;
+    });
+
+    for (var id in passiveObjectsMap.keys) {
+      final object = passiveObjectsMap[id];
+      if (object is! Tree) continue;
+      if (arrowMarkerMap.containsKey(id)) {
+        // update
+        final arrowMarker = arrowMarkerMap[id];
+        if (_isVisiblOnMinimap(object.position)) {
+          // 미니맵 시야에 나오면 기존 화살표는 없앰
+          arrowMarkerMap.remove(id);
+          arrowMarker!.removeFromParent();
+          continue;
+        }
+        final arrowPosition = _getArrowPosition(object.position);
+        if (arrowPosition == null) return;
+        // 화살표 위치 갱신
+        arrowMarker!.position = arrowPosition;
+      } else {
+        // add
+        // 미니맵 시야에 있으면 화살표로 표시해줄 필요X
+        if (_isVisiblOnMinimap(object.position)) continue;
+        final arrowPosition = _getArrowPosition(object.position);
+        if (arrowPosition == null) return;
+        // 화살표 표시
+        final arrowMarker = ArrowMarker(
+          objectId: '$arrowMarkerIdPrefix$id',
+          radius: 5,
+          position: arrowPosition,
+        );
+        arrowMarkerMap[id] = arrowMarker;
+        parent?.add(arrowMarker); //arrowPostion이 world 기준 포지션
+      }
+    }
+  }
+
+  Vector2? _getArrowPosition(final targetPosition) {
+    final result = _caculateIntersectionPoint(
+      _positionOfMinimap(lastPlayerPosition),
+      _positionOfMinimap(targetPosition),
+    );
+    if (result == Vector2.zero()) return null;
+    double xLimit = position.x + width - 10;
+    double yLimit = position.y + height - 10;
+    return Vector2(min(result.x, xLimit), min(result.y, yLimit));
+    // return result;
   }
 
   Vector2 _caculateIntersectionPoint(Vector2 position, Vector2 targetPosition) {
@@ -120,33 +209,26 @@ class MinimapCamera extends CameraComponent with HasGameRef<DustyIslandGame> {
     Vector2 direction = Vector2(cos(angleRadians), sin(angleRadians));
     if (direction.isNaN) return Vector2.zero();
     // 교차점 계산
-    return _collisionDetection.getIntersectionPoint(center, direction);
+    return minimapCollisionDetection.getIntersectionPoint(center, direction);
   }
 
-  bool _isPositionVisible(Vector2 worldPosition) {
+  bool _isVisiblOnMinimap(Vector2 position) {
     final rangeRect = Rect.fromCenter(
       center: gameRef.playWorld!.player!.position.toOffset(),
-      width: width / viewfinder.zoom,
-      height: height / viewfinder.zoom,
+      width: width / minimapZoom,
+      height: height / minimapZoom,
     );
-    return rangeRect.containsPoint(worldPosition);
+    return rangeRect.containsPoint(position);
   }
 
-  Vector2? _getArrowPosition(final targetPosition) {
-    final result = _caculateIntersectionPoint(
-      gameRef.playWorld!.player!.position,
-      targetPosition,
-    );
-    if (result == Vector2.zero()) return null;
-    return Vector2(min(result.x, width - 5 * 2), min(result.y, height - 5 * 2));
-  }
+  Vector2 _positionOfMinimap(Vector2 position) => position * minimapZoom;
 }
 
 class MinimapCollisionDetection extends RectangleComponent
     with HasCollisionDetection {
-  MinimapCollisionDetection() {
+  MinimapCollisionDetection({required super.size}) {
     setColor(Colors.transparent);
-    add(RectangleHitbox());
+    add(RectangleHitbox(size: super.size));
   }
 
   Vector2 getIntersectionPoint(Vector2 position, Vector2 direction) {
@@ -160,8 +242,24 @@ class MinimapCollisionDetection extends RectangleComponent
   }
 }
 
-class ArrowComponent extends CircleComponent {
-  final int objectId;
+class ArrowMarker extends CircleComponent {
+  final String objectId;
 
-  ArrowComponent({required this.objectId, super.radius, super.position});
+  ArrowMarker({required this.objectId, super.radius, super.position}) {
+    setColor(Colors.red);
+  }
+}
+
+class TreeMarker extends CircleComponent {
+  final String objectId;
+
+  TreeMarker({required this.objectId, super.radius, super.position}) {
+    setColor(Colors.purple);
+  }
+}
+
+class DustyMarker extends CircleComponent {
+  final String objectId;
+
+  DustyMarker({required this.objectId, super.radius, super.position});
 }

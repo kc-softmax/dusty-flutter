@@ -28,7 +28,6 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
 
   late final int? followerId;
   late final SpriteComponent autoRange;
-  late final SnapshotComponent mapSnapShot;
 
   bool _isSoundOn = false;
   bool get isSoundOn => _isSoundOn;
@@ -50,7 +49,7 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
   FutureOr<void> onLoad() async {
     print('Play World onLoad!!');
     addAll([
-      mapSnapShot = SnapshotComponent()..add(gameMap),
+      gameMap,
       autoRange =
           SpriteComponent(sprite: gameRef.atlas.findSpriteByName('auto_range'))
             ..anchor = Anchor.center
