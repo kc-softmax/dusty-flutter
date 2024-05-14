@@ -90,6 +90,10 @@ abstract class ControllerHandler extends Component
   @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     if (!kIsWeb) return false;
+    // 미니맵
+    if (event is KeyUpEvent && event.physicalKey == PhysicalKeyboardKey.tab) {
+      gameRef.gameCamera.hud.minimap.scaleToFull();
+    }
     // 스킬 버튼
     if (keysPressed.isNotEmpty &&
         keysPressed.contains(LogicalKeyboardKey.digit1)) {

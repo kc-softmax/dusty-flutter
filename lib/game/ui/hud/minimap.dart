@@ -4,49 +4,49 @@ import 'dart:math' hide Rectangle;
 import 'package:dusty_flutter/game/base/object.dart';
 import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/environment/tree.dart';
+import 'package:dusty_flutter/game/utils/map.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/geometry.dart';
-import 'package:flame_tiled_utils/flame_tiled_utils.dart';
 import 'package:flutter/material.dart';
 
-class Minimap extends PositionComponent with HasGameRef<DustyIslandGame> {
+class Minimap extends PositionComponent
+    with HasGameRef<DustyIslandGame>, HasVisibility {
   static const arrowMarkerIdPrefix = 'arrow_';
   static const treeMarkerIdPrefix = 'tree_';
   static const dustyMarkerIdPrefix = 'dusty_';
 
-  late final PositionComponent map;
+  late final SpriteComponent map;
   late final ClipComponent clip;
   late final MinimapCollisionDetection minimapCollisionDetection;
+  late final Vector2 originalPosition;
+  late double originalZoom;
   final double range;
-  final double minimapZoom;
   final Vector2 lastPlayerPosition = Vector2.zero();
   final Map<int, DustyMarker> dustyMarkerMap = {};
   final Map<int, TreeMarker> treeMarkerMap = {};
   final Map<int, ArrowMarker> arrowMarkerMap = {};
+
+  double minimapZoom;
+  bool isFull = false;
 
   Minimap({super.size, super.position, required this.range})
       : minimapZoom = range * 0.25;
 
   @override
   FutureOr<void> onLoad() async {
+    originalPosition = Vector2.copy(position);
+    originalZoom = minimapZoom;
+
     final gameMap = gameRef.playWorld?.gameMap;
     assert(gameMap != null);
-    final imageCompiler = ImageBatchCompiler();
-    map = imageCompiler.compileMapLayer(
-        tileMap: gameMap!.tileMap,
-        layerNames:
-            gameMap.tileMap.renderableLayers.map((e) => e.layer.name).toList());
-
+    map = SpriteComponent.fromImage(mapToImage(tileMap: gameMap!.tileMap))
+      ..scale = Vector2.all(minimapZoom);
     addAll([
       clip = ClipComponent.rectangle(size: Vector2(width, height))
-        ..addAll([
-          map
-            ..size = Vector2(gameMap.width, gameMap.height)
-            ..scale = Vector2.all(minimapZoom)
-        ]),
+        ..addAll([map]),
       minimapCollisionDetection =
           MinimapCollisionDetection(size: Vector2(width, height))
     ]);
@@ -75,6 +75,11 @@ class Minimap extends PositionComponent with HasGameRef<DustyIslandGame> {
       treeMarkerMap,
     );
     _updateArrowMarker();
+  }
+
+  void scaleToFull() {
+    _scaleToFull(!isFull);
+    isFull = !isFull;
   }
 
   void _updateMinimapPosition() {
@@ -128,10 +133,13 @@ class Minimap extends PositionComponent with HasGameRef<DustyIslandGame> {
         if (object is Dusty) {
           newMarker = DustyMarker(
             objectId: '$dustyMarkerIdPrefix$id',
-            radius: 5,
-          )..setColor(object.isPlayer ? Colors.blue : Colors.yellow);
+            radius: 20,
+          )
+            ..setColor(object.isPlayer ? Colors.blue : Colors.yellow)
+            ..scale = Vector2.all(minimapZoom);
         } else if (object is Tree) {
-          newMarker = TreeMarker(objectId: '$treeMarkerIdPrefix$id', radius: 5);
+          newMarker = TreeMarker(objectId: '$treeMarkerIdPrefix$id', radius: 20)
+            ..scale = Vector2.all(minimapZoom);
         }
         if (newMarker == null) return;
         newMarker.position = _positionOfMinimap(object.position) + map.position;
@@ -215,13 +223,51 @@ class Minimap extends PositionComponent with HasGameRef<DustyIslandGame> {
   bool _isVisiblOnMinimap(Vector2 position) {
     final rangeRect = Rect.fromCenter(
       center: gameRef.playWorld!.player!.position.toOffset(),
-      width: width / minimapZoom,
-      height: height / minimapZoom,
+      width: scaledSize.x / minimapZoom,
+      height: scaledSize.y / minimapZoom,
     );
     return rangeRect.containsPoint(position);
   }
 
   Vector2 _positionOfMinimap(Vector2 position) => position * minimapZoom;
+
+  void _scaleToFull(bool isFull) {
+    if (isFull) {
+      final gameSize = gameRef.canvasSize;
+      final fullSize = Vector2.all(gameSize.y * 0.8);
+
+      final newScale = Vector2(fullSize.x / size.x, fullSize.y / size.y);
+      scale = newScale;
+      minimapCollisionDetection.scale = newScale;
+
+      final newMapScale = Vector2(size.x / map.size.x, size.y / map.size.y);
+      map.scale = newMapScale;
+      minimapZoom = newMapScale.x;
+
+      for (var dustyMarker in dustyMarkerMap.values) {
+        dustyMarker.scale = newMapScale;
+      }
+      for (var treeMarker in treeMarkerMap.values) {
+        treeMarker.scale = newMapScale;
+      }
+      final newX = gameSize.x * 0.5 - scaledSize.x * 0.5;
+      final newY = gameSize.y * 0.5 - scaledSize.y * 0.5;
+      position = Vector2(newX, newY);
+      return;
+    }
+    scale = Vector2.all(1);
+    minimapCollisionDetection.scale = Vector2.all(1);
+    final originalScale = Vector2.all(originalZoom);
+    map.scale = originalScale;
+    minimapZoom = originalZoom;
+    for (var dustyMarker in dustyMarkerMap.values) {
+      dustyMarker.scale = originalScale;
+    }
+    for (var treeMarker in treeMarkerMap.values) {
+      treeMarker.scale = originalScale;
+    }
+    position = Vector2.copy(originalPosition);
+  }
 }
 
 class MinimapCollisionDetection extends RectangleComponent
@@ -242,7 +288,7 @@ class MinimapCollisionDetection extends RectangleComponent
   }
 }
 
-class ArrowMarker extends CircleComponent {
+class ArrowMarker extends CircleComponent with HasVisibility {
   final String objectId;
 
   ArrowMarker({required this.objectId, super.radius, super.position}) {
