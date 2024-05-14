@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
-import 'package:dusty_flutter/game/cameras/minimap.dart';
+import 'package:dusty_flutter/game/ui/hud/minimap.dart';
 import 'package:dusty_flutter/game/ui/hud/skill_button.dart';
 import 'package:dusty_flutter/game/ui/hud/controller_handler.dart';
 import 'package:dusty_flutter/game/ui/hud/kill_logs.dart';
