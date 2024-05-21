@@ -1,16 +1,15 @@
-import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
+import 'package:dusty_flutter/game/game_objects/dusty/dusty.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
 class DustyNameLabel extends TextBoxComponent {
   static const maxWidth = 100.0;
-  static const topMargin = -10.0;
+  static const topMargin = -36.0;
 
   DustyNameLabel(
-    String text, {
-    super.size,
-  }) : super(
+    String text,
+  ) : super(
           text: text,
           align: Anchor.center,
           textRenderer: regularText,

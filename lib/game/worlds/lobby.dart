@@ -4,8 +4,10 @@ import 'dart:math';
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
-import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
+import 'package:dusty_flutter/game/game_objects/dusty/const.dart';
+import 'package:dusty_flutter/game/game_objects/dusty/dusty.dart';
 import 'package:dusty_flutter/game/game.dart';
+import 'package:dusty_flutter/game/game_objects/passive_objects/environment/tree.dart';
 import 'package:dusty_flutter/game/ui/const.dart';
 import 'package:dusty_flutter/game/ui/overlays/pre_start_text.dart';
 import 'package:flame/components.dart';
@@ -14,23 +16,23 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
-  late Dusty trashDusty;
-  late Dusty nativeDusty;
+  late Dusty dusty;
+  late Tree tree;
 
   @override
-  FutureOr<void> onLoad() {
+  Future<FutureOr<void>> onLoad() async {
     gameRef.camera = CameraComponent();
 
     if (gameRef.isVerifiedAuth) {
-      setReadyGame();
+      final prefs = await SharedPreferences.getInstance();
+      final userName = prefs.getString("userName");
+      if (userName == null) {
+        // request username to Server
+      }
+      setReadyGame(userName!);
     } else {
       setLogin();
     }
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
   }
 
   @override
@@ -38,15 +40,13 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
     gameRef.overlays.remove(PreStartText.name);
   }
 
-  void setReadyGame() {
-    trashDusty = Dusty('Colonists', Team.colonists, Random().nextInt(100))
-      ..x = -84
-      ..size = Vector2(56, 56);
-    nativeDusty = Dusty('Guardians', Team.guardians, Random().nextInt(100))
-      ..x = 84;
-
-    addAll([trashDusty, nativeDusty]);
-
+  void setReadyGame(String userName) {
+    dusty = Dusty(userName, Random().nextInt(100));
+    add(dusty);
+    // tree = Tree(Random().nextInt(100), treeType: PassiveObjectType.tree)
+    //   ..x = 100
+    //   ..y = 16;
+    // add(tree);
     gameRef.overlays.addEntry('StartButtons', buildStartButtons);
     gameRef.overlays.add('StartButtons');
   }
@@ -143,7 +143,7 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
                         await prefs.setString("userName", result.userName);
                         gameRef.isVerifiedAuth = true;
                         gameRef.overlays.remove('LoginPannel');
-                        setReadyGame();
+                        setReadyGame(result.userName);
                       },
                       child: const Text(
                         "login",
@@ -175,34 +175,17 @@ class LobbySceneWorld extends World with HasGameRef<DustyIslandGame> {
                 FilledButton(
                   onPressed: () async {
                     // "잠시 후에 게임을 시작합니다" 문구
+                    dusty.glasses.current = DustyGlassesType.damaged;
                     gameRef.overlays.add(PreStartText.name);
                     gameRef.overlays.remove('StartButtons');
-                    await gameRef.requestGameJoin(team: Team.colonists);
+                    await gameRef.requestGameJoin();
                   },
                   style: FilledButton.styleFrom(
                       fixedSize: const Size(96, 22),
                       foregroundColor: Colors.white,
                       backgroundColor: crimsonColor),
                   child: const Text(
-                    "select",
-                    style: TextStyle(
-                      fontFamily: 'ONEMobilePOP',
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 72),
-                FilledButton(
-                  onPressed: () async {
-                    gameRef.overlays.add(PreStartText.name);
-                    gameRef.overlays.remove('StartButtons');
-                    await gameRef.requestGameJoin(team: Team.guardians);
-                  },
-                  style: FilledButton.styleFrom(
-                      fixedSize: const Size(96, 22),
-                      foregroundColor: Colors.black,
-                      backgroundColor: yellowDusty),
-                  child: const Text(
-                    "select",
+                    "play",
                     style: TextStyle(
                       fontFamily: 'ONEMobilePOP',
                     ),

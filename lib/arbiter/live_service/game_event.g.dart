@@ -28,7 +28,14 @@ const _$ObjectStateEnumMap = {
   ObjectState.damaged: 5,
   ObjectState.targeting: 6,
   ObjectState.targeted: 7,
+  ObjectState.knockback: 8,
+  ObjectState.startPickup: 9,
+  ObjectState.cancelPickup: 10,
+  ObjectState.pickup: 11,
+  ObjectState.drop: 12,
   ObjectState.charging: 'charging',
+  ObjectState.charged: 'charged',
+  ObjectState.fullyCharged: 'fullyCharged',
 };
 
 _$GameEventImpl _$$GameEventImplFromJson(Map<String, dynamic> json) =>
@@ -76,7 +83,6 @@ _$DustyEventImpl _$$DustyEventImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       name: json['name'] as String?,
       isPlayer: json['is_player'] as bool?,
-      team: $enumDecodeNullable(_$TeamEnumMap, json['team']),
       status: json['status'] as int?,
       position: json['position'] as int?,
       targetId: json['target_id'] as int?,
@@ -92,7 +98,6 @@ Map<String, dynamic> _$$DustyEventImplToJson(_$DustyEventImpl instance) =>
       'states': instance.states,
       'name': instance.name,
       'is_player': instance.isPlayer,
-      'team': _$TeamEnumMap[instance.team],
       'status': instance.status,
       'position': instance.position,
       'target_id': instance.targetId,
@@ -107,11 +112,6 @@ const _$EventTypeEnumMap = {
   EventType.remove: 3,
 };
 
-const _$TeamEnumMap = {
-  Team.colonists: 1,
-  Team.guardians: 2,
-};
-
 _$ActiveObjectEventImpl _$$ActiveObjectEventImplFromJson(
         Map<String, dynamic> json) =>
     _$ActiveObjectEventImpl(
@@ -120,9 +120,6 @@ _$ActiveObjectEventImpl _$$ActiveObjectEventImplFromJson(
       states: (json['states'] as List<dynamic>?)
           ?.map((e) => StateData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      angle: json['angle'] as int?,
-      nextPosition: json['next_position'] as int?,
-      team: json['team'] as int?,
       directionX: (json['direction_x'] as num?)?.toDouble(),
       directionY: (json['direction_y'] as num?)?.toDouble(),
       gravity: (json['gravity'] as num?)?.toDouble(),
@@ -142,9 +139,6 @@ Map<String, dynamic> _$$ActiveObjectEventImplToJson(
       'object_id': instance.objectId,
       'event_type': _$EventTypeEnumMap[instance.eventType]!,
       'states': instance.states,
-      'angle': instance.angle,
-      'next_position': instance.nextPosition,
-      'team': instance.team,
       'direction_x': instance.directionX,
       'direction_y': instance.directionY,
       'gravity': instance.gravity,
@@ -158,8 +152,8 @@ Map<String, dynamic> _$$ActiveObjectEventImplToJson(
     };
 
 const _$ActiveObjectTypeEnumMap = {
-  ActiveObjectType.axe: 1,
-  ActiveObjectType.stone: 2,
+  ActiveObjectType.swingNormalAxe: 1,
+  ActiveObjectType.throwingNormalAxe: 2,
 };
 
 _$PassiveObjectEventImpl _$$PassiveObjectEventImplFromJson(
@@ -173,6 +167,7 @@ _$PassiveObjectEventImpl _$$PassiveObjectEventImplFromJson(
       position: json['position'] as int?,
       objectType:
           $enumDecodeNullable(_$PassiveObjectTypeEnumMap, json['object_type']),
+      isFacingRight: json['is_facing_right'] as bool?,
     );
 
 Map<String, dynamic> _$$PassiveObjectEventImplToJson(
@@ -183,10 +178,11 @@ Map<String, dynamic> _$$PassiveObjectEventImplToJson(
       'states': instance.states,
       'position': instance.position,
       'object_type': _$PassiveObjectTypeEnumMap[instance.objectType],
+      'is_facing_right': instance.isFacingRight,
     };
 
 const _$PassiveObjectTypeEnumMap = {
   PassiveObjectType.tree: 1,
-  PassiveObjectType.artifact: 2,
-  PassiveObjectType.trimmedTree: 3,
+  PassiveObjectType.trimmedTree: 2,
+  PassiveObjectType.normalAxeItem: 3,
 };

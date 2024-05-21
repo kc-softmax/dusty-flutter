@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math' hide Rectangle;
 
 import 'package:dusty_flutter/game/base/object.dart';
-import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
+import 'package:dusty_flutter/game/game_objects/dusty/dusty.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/environment/tree.dart';
 import 'package:dusty_flutter/game/utils/map.dart';
 import 'package:flame/collisions.dart';

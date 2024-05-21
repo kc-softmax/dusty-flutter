@@ -3,20 +3,23 @@ import 'package:dusty_flutter/game/base/object_factory.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/environment/tree.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/environment/trimmed_tree.dart';
 import 'package:dusty_flutter/game/base/object.dart';
+import 'package:dusty_flutter/game/game_objects/passive_objects/items/normal_axe_item.dart';
 
 abstract mixin class PassiveObjects implements DIObject {
   factory PassiveObjects.tree(PassiveObjectEvent message) =>
       Tree(message.objectId, treeType: message.objectType!)
         ..x = message.x
-        ..y = message.y;
+        ..y = message.y + 16;
 
   factory PassiveObjects.trimmedTree(PassiveObjectEvent message) =>
       TrimmedTree(message.objectId)
         ..x = message.x
-        ..y = message.y;
+        ..y = message.y + 16;
 
-  @override
-  void removeObject() {}
+  factory PassiveObjects.normalAxeItem(PassiveObjectEvent message) =>
+      NormalAxeItem(message.objectId, message.isFacingRight!)
+        ..x = message.x
+        ..y = message.y;
 }
 
 class PassiveObjectsFactory
@@ -30,6 +33,8 @@ class PassiveObjectsFactory
         return PassiveObjects.tree(message);
       case PassiveObjectType.trimmedTree:
         return PassiveObjects.trimmedTree(message);
+      case PassiveObjectType.normalAxeItem:
+        return PassiveObjects.normalAxeItem(message);
       default:
         return PassiveObjects.tree(message);
     }

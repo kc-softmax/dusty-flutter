@@ -29,15 +29,11 @@ class Tree extends SpriteAnimationComponent
       spriteList,
       stepTime: 0.05,
     );
-
     anchor = Anchor.bottomCenter;
-    scale = Vector2.all(0.5);
     priority = Priority.environment;
-    hpGaugeBar = HPGaugeBar()
-      ..width = width * 0.5
-      ..x = width * 0.25
-      ..y = width * 0.25;
-    hpGaugeBar.autoHidden = false;
+    hpGaugeBar = HorizontalGaugeBar(gaugeColor: GaugeBarColor.red)
+      ..anchor = const Anchor(-0.5, 0.5)
+      ..y = height * 0.5;
     add(hpGaugeBar);
   }
 

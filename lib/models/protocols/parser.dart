@@ -33,7 +33,6 @@ class TileAddressParser {
 
 class TileStatusParser {
   static int tileIndex(int status) => status & 0xff;
-  static Team team(int status) => Team.parse(status >> 8 & 0x3);
   static TileState state(int status) => TileState.parse(status >> 12 & 0x3);
   static int pollutionTileIndex(int status) => status >> 16 & 0xff;
 }

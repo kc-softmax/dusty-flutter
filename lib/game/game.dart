@@ -13,6 +13,7 @@ import 'package:dusty_flutter/game/worlds/loading.dart';
 import 'package:dusty_flutter/game/worlds/lobby.dart';
 import 'package:dusty_flutter/game/worlds/play.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart' as new_event;
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_tiled/flame_tiled.dart' hide Text;
@@ -75,17 +76,14 @@ class DustyIslandGame extends FlameGame
     return findByKeyName<DIObject>(objectId.toString());
   }
 
-  Future<void> requestGameJoin({
-    required Team team,
-  }) async {
+  Future<void> requestGameJoin() async {
     final token = (await SharedPreferences.getInstance()).getString('token');
     if (token == null) return;
     final gameInfo =
-        await Arbiter.api.joinGame(token, RequestGameJoin(team: team.code));
+        await Arbiter.api.joinGame(token, RequestGameJoin(team: 1));
 
     await _prepareGame(
       gameInfo: gameInfo,
-      team: team,
     );
     await world.loaded;
 
@@ -105,7 +103,6 @@ class DustyIslandGame extends FlameGame
 
   Future<void> _prepareGame({
     required GameInfo gameInfo,
-    required Team team,
   }) async {
     TiledComponent gameMap = _getMap(gameInfo.gameMap);
     world = PlaySceneWorld(gameinfo: gameInfo, gameMap: gameMap);

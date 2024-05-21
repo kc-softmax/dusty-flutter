@@ -24,7 +24,6 @@ class TrimmedTree extends SpriteAnimationComponent
       stepTime: 0.05,
     );
     anchor = Anchor.bottomCenter;
-    scale = Vector2.all(0.5);
     priority = Priority.environment;
   }
 

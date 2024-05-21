@@ -6,8 +6,8 @@ import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/game/cameras/camera.dart';
 import 'package:dusty_flutter/game/game_objects/active_objects/active_objects_factory.dart';
-import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
-import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty_factory.dart';
+import 'package:dusty_flutter/game/game_objects/dusty/dusty.dart';
+import 'package:dusty_flutter/game/game_objects/dusty/dusty_factory.dart';
 import 'package:dusty_flutter/game/effects/sound/dusty_sound.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/passive_objects_factory.dart';
@@ -27,7 +27,7 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
   final passiveObjectsFactory = PassiveObjectsFactory();
 
   late final int? followerId;
-  late final SpriteComponent autoRange;
+  // late final SpriteComponent autoRange;
 
   bool _isSoundOn = false;
   bool get isSoundOn => _isSoundOn;
@@ -50,10 +50,10 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     print('Play World onLoad!!');
     addAll([
       gameMap,
-      autoRange =
-          SpriteComponent(sprite: gameRef.atlas.findSpriteByName('auto_range'))
-            ..anchor = Anchor.center
-            ..opacity = 0,
+      // autoRange =
+      //     SpriteComponent(sprite: gameRef.atlas.findSpriteByName('auto_range'))
+      //       ..anchor = Anchor.center
+      //       ..opacity = 0,
       // tileFactory,
       dustyFactory,
       activeObjectsFactory,
@@ -122,20 +122,21 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     // 서버 업데이트와 프레임 갱신 사이에서 선형 보간을 사용해 부드러운 회전을 구현
     playerAngle =
         lerpDouble(playerAngle, expectedPlayerAngle, dt / serverDelta)!;
-    autoRange.angle = playerAngle;
+    // autoRange.angle = playerAngle;
+    // player?.throwIndicator.angle = playerAngle - pi * 0.5;
 
     playerAngle %= pi * 2;
     // player angle 이 12시 방향 근처에 있을때는 방향 전환을 하지 않는다.
     // player angle 이 6시 방향 근처에 있을때는 방향 전환을 하지 않는다.
-    if (playerAngle < pi * 17 / 16 && playerAngle > pi * 15 / 16) {
-      return;
-    } else if (playerAngle < pi / 16 || playerAngle > pi * 31 / 16) {
-      return;
-    } else if (playerAngle < pi && player!.isFlippedHorizontally) {
-      player!.flipHorizontally();
-    } else if (playerAngle > pi && !player!.isFlippedHorizontally) {
-      player!.flipHorizontally();
-    }
+    // if (playerAngle < pi * 17 / 16 && playerAngle > pi * 15 / 16) {
+    //   return;
+    // } else if (playerAngle < pi / 16 || playerAngle > pi * 31 / 16) {
+    //   return;
+    // } else if (playerAngle < pi && player!.isFlippedHorizontally) {
+    //   player!.flipHorizontally();
+    // } else if (playerAngle > pi && !player!.isFlippedHorizontally) {
+    //   player!.flipHorizontally();
+    // }
   }
 
   // bool specialSkillActivate() {
@@ -189,7 +190,7 @@ class PlaySceneWorld extends World with HasGameRef<DustyIslandGame> {
     //먼저 플레이어의 방향을 설정한다.
     if (0 < player!.targetDirectionIndex && player!.targetDirectionIndex < 13) {
       updatePlayerAngle(dt);
-      autoRange.position = player!.position;
+      // autoRange.position = player!.position;
     }
 
     // 다음 range & area 도움을 주는 그래픽을 설정한다.

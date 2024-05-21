@@ -3,7 +3,7 @@ import 'package:dusty_flutter/game/cameras/camera.dart';
 import 'package:dusty_flutter/game/effects/ui/const.dart';
 import 'package:dusty_flutter/game/effects/ui/default_explosion.dart';
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
-import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
+import 'package:dusty_flutter/game/game_objects/dusty/dusty.dart';
 import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,7 @@ class DustyFactory extends BaseObjectsFactory<Dusty, DustyEvent> {
   @override
   Dusty facotry(DustyEvent message) {
     assert(message.position != null, "position is null");
-    final dusty = Dusty(message.name!, message.team!, message.objectId)
+    final dusty = Dusty(message.name!, message.objectId)
       ..x = message.x
       ..y = message.y;
     return dusty;
@@ -43,40 +43,27 @@ class DustyFactory extends BaseObjectsFactory<Dusty, DustyEvent> {
   @override
   void onRemoveObject(DustyEvent message) {
     Dusty? deathDusty = objects[message.objectId];
-    if (deathDusty != null) {
-      if (deathDusty.isPlayer) {
-        gameRef.gameCamera.hud.informationText.text = "It revives in 5 seconds";
-      }
-      Dusty? killer = objects[message.killerId];
-      debugPrint("onRemoveObject ${message.objectId} ${message.killerId}");
-      if (killer != null && killer.isPlayer) {
-        final killerAvatarName =
-            killer.team == Team.colonists ? 'po_mask' : 'nature_mask';
-        final loserAvatarName =
-            deathDusty.team == Team.guardians ? 'po_mask' : 'nature_mask';
-        final killerAvatar =
-            gameRef.atlas.findSpriteByName(killerAvatarName) as Sprite;
-        final loserAvatar =
-            gameRef.atlas.findSpriteByName(loserAvatarName) as Sprite;
-        // if (killer.isPlayer) {
-        //   gameRef.gameCamera.hud.playerKillLogs
-        //       .addKillLog(loserAvatar, deathDusty.dustyName, message.removeBy!);
-        // }
-        // gameRef.gameCamera.hud.killLogs.addKillLog(killer.dustyName,
-        //     deathDusty.dustyName, killerAvatar, loserAvatar, message.removeBy!);
-      }
+    if (deathDusty == null) return;
+    gameRef.world.add(DefaultExplosion.generate(deathDusty.absolutePosition));
+    super.onRemoveObject(message);
+    // if (deathDusty.isPlayer) {
+    //   gameRef.gameCamera.hud.informationText.text = "It revives in 5 seconds";
+    // }
+    // Dusty? killer = objects[message.killerId];
+    // debugPrint("onRemoveObject ${message.objectId} ${message.killerId}");
+    // if (killer != null && killer.isPlayer) {
+    //   final killerAvatar = gameRef.atlas.findSpriteByName('po_mask') as Sprite;
+    //   final loserAvatar = gameRef.atlas.findSpriteByName('po_mask') as Sprite;
+    //   // if (killer.isPlayer) {
+    //   //   gameRef.gameCamera.hud.playerKillLogs
+    //   //       .addKillLog(loserAvatar, deathDusty.dustyName, message.removeBy!);
+    //   // }
+    //   // gameRef.gameCamera.hud.killLogs.addKillLog(killer.dustyName,
+    //   //     deathDusty.dustyName, killerAvatar, loserAvatar, message.removeBy!);
+    // }
 
-      final exType = deathDusty.team == Team.colonists
-          ? DefaultExplosionType.red
-          : DefaultExplosionType.yellow;
-      gameRef.world.add(DefaultExplosion(exType)
-        ..x = deathDusty.x
-        ..y = deathDusty.y
-        ..size = deathDusty.size * 2);
-
-      deathDusty.dead();
-      objects.remove(message.objectId);
-    }
+    // deathDusty.dead();
+    // objects.remove(message.objectId);
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/game/ui/gauge_bar.dart';
@@ -35,7 +37,7 @@ mixin MovingObject on HasObjectState {
 mixin DamagedObject on HasObjectState {
   // 또는 late double hp; 식으로 값만 mixin으로 가지고 있고,
   // 랜더링은 구현체에서 해당 값으로 하도록 하기
-  late final HPGaugeBar hpGaugeBar;
+  late final HorizontalGaugeBar hpGaugeBar;
 
   @mustCallSuper
   void getDamaged(double value) {
@@ -51,12 +53,44 @@ mixin CastingObject on HasObjectState {
   void casting(DIObject? targetObject, int? value);
 }
 
+mixin KnockbackedObject on HasObjectState {
+  void knockbacked(DIObject? targetObject, int? value);
+}
+
 mixin TargetingObject on HasObjectState {
   void targeting(DIObject targetObject);
 }
 
 mixin TargetedObject on HasObjectState {
   void targeted();
+}
+
+mixin PickerObject on HasObjectState {
+  void pickup(ItemType item);
+  void drop(ItemType item);
+}
+
+mixin PickupObject on HasObjectState {
+  Paint pickupPaint = Paint()
+    ..color = const Color(0xdd33FF33)
+    ..style = PaintingStyle.fill;
+  Paint pickupBackgroundPaint = Paint()
+    ..color = const Color(0xdd111736)
+    ..style = PaintingStyle.fill;
+
+  bool isAttemptingPickup = false;
+  double attemptTime = 0;
+  double pickupDuration = 1;
+
+  void startPickup(int requireDuration) {
+    isAttemptingPickup = true;
+  }
+
+  void cancelPickup() {
+    isAttemptingPickup = false;
+    attemptTime = 0;
+    pickupDuration = 1;
+  }
 }
 
 mixin DIObject implements PositionComponent, HasObjectState {
@@ -67,7 +101,6 @@ mixin DIObject implements PositionComponent, HasObjectState {
 
   void idle();
 
-  @mustBeOverridden
   @mustCallSuper
   void removeObject() {
     removeFromParent();
@@ -117,6 +150,22 @@ mixin DIObject implements PositionComponent, HasObjectState {
           break;
         case ObjectState.idle:
           idle();
+        case ObjectState.startPickup:
+          assert(this is PickupObject);
+          (this as PickupObject).startPickup(stateData.value);
+        case ObjectState.cancelPickup:
+          assert(this is PickupObject);
+          (this as PickupObject).cancelPickup();
+        case ObjectState.pickup:
+          assert(this is PickerObject);
+          (this as PickerObject).pickup(ItemType.parse(stateData.value));
+        case ObjectState.drop:
+          assert(this is PickerObject);
+          (this as PickerObject).drop(ItemType.parse(stateData.value));
+        case ObjectState.knockback:
+          assert(this is KnockbackedObject);
+          final target = gameRef.findDIObject(stateData.target);
+          (this as KnockbackedObject).knockbacked(target, stateData.value);
         default:
           break;
       }

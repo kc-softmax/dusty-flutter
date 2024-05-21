@@ -14,32 +14,31 @@ enum EventType {
   remove
 }
 
-enum Team {
-  @JsonValue(1)
-  colonists(1),
-  @JsonValue(2)
-  guardians(2);
+enum ItemType {
+  @JsonValue('normal_axe')
+  normalAxe('normal_axe'),
+  none('none');
 
-  final int code;
-  const Team(this.code);
-  factory Team.parse(int code) =>
-      Team.values.firstWhere((state) => code == state.code);
+  final String name;
+  const ItemType(this.name);
+  factory ItemType.parse(String name) =>
+      ItemType.values.firstWhere((state) => name == state.name);
 }
 
 enum ActiveObjectType {
   @JsonValue(1)
-  axe,
+  swingNormalAxe,
   @JsonValue(2)
-  stone
+  throwingNormalAxe,
 }
 
 enum PassiveObjectType {
   @JsonValue(1)
   tree(1),
   @JsonValue(2)
-  artifact(2),
+  trimmedTree(2),
   @JsonValue(3)
-  trimmedTree(3);
+  normalAxeItem(3);
 
   final int code;
   const PassiveObjectType(this.code);
@@ -49,9 +48,9 @@ enum PassiveObjectType {
 
 enum DustyCastingType {
   @JsonValue(1)
-  verticalAxeSwing(1),
+  swingWeapon(1),
   @JsonValue(2)
-  throwStone(2);
+  throwWeapon(2);
 
   final int code;
   const DustyCastingType(this.code);
@@ -74,8 +73,20 @@ enum ObjectState {
   targeting,
   @JsonValue(7)
   targeted,
+  @JsonValue(8)
+  knockback,
+  @JsonValue(9)
+  startPickup,
+  @JsonValue(10)
+  cancelPickup,
+  @JsonValue(11)
+  pickup,
+  @JsonValue(12)
+  drop,
   // ingame
   charging,
+  charged,
+  fullyCharged
 }
 
 @freezed
@@ -132,7 +143,6 @@ class DustyEvent with _$DustyEvent, BaseEvent, HasPosition {
     List<StateData>? states,
     String? name,
     bool? isPlayer,
-    Team? team,
     int? status,
     int? position,
     int? targetId,
@@ -179,9 +189,6 @@ class ActiveObjectEvent with _$ActiveObjectEvent, BaseEvent, HasPosition {
     required int objectId,
     required EventType eventType,
     List<StateData>? states,
-    int? angle,
-    int? nextPosition,
-    int? team,
     double? directionX,
     double? directionY,
     double? gravity,
@@ -205,13 +212,13 @@ class ActiveObjectEvent with _$ActiveObjectEvent, BaseEvent, HasPosition {
 class PassiveObjectEvent with _$PassiveObjectEvent, BaseEvent, HasPosition {
   PassiveObjectEvent._();
 
-  factory PassiveObjectEvent({
-    required int objectId,
-    required EventType eventType,
-    List<StateData>? states,
-    int? position,
-    PassiveObjectType? objectType,
-  }) = _PassiveObjectEvent;
+  factory PassiveObjectEvent(
+      {required int objectId,
+      required EventType eventType,
+      List<StateData>? states,
+      int? position,
+      PassiveObjectType? objectType,
+      bool? isFacingRight}) = _PassiveObjectEvent;
 
   factory PassiveObjectEvent.fromJson(Map<String, dynamic> json) =>
       _$PassiveObjectEventFromJson(json);

@@ -1,5 +1,5 @@
 import 'package:dusty_flutter/arbiter/api/models.dart';
-import 'package:dusty_flutter/game/game_objects/characters/dusty/dusty.dart';
+import 'package:dusty_flutter/game/game_objects/dusty/dusty.dart';
 import 'package:dusty_flutter/extensions/camera.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/game/ui/hud/hud.dart';

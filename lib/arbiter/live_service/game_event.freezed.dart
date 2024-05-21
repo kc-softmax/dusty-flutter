@@ -604,7 +604,6 @@ mixin _$DustyEvent {
   List<StateData>? get states => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   bool? get isPlayer => throw _privateConstructorUsedError;
-  Team? get team => throw _privateConstructorUsedError;
   int? get status => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
   int? get targetId => throw _privateConstructorUsedError;
@@ -630,7 +629,6 @@ abstract class $DustyEventCopyWith<$Res> {
       List<StateData>? states,
       String? name,
       bool? isPlayer,
-      Team? team,
       int? status,
       int? position,
       int? targetId,
@@ -657,7 +655,6 @@ class _$DustyEventCopyWithImpl<$Res, $Val extends DustyEvent>
     Object? states = freezed,
     Object? name = freezed,
     Object? isPlayer = freezed,
-    Object? team = freezed,
     Object? status = freezed,
     Object? position = freezed,
     Object? targetId = freezed,
@@ -686,10 +683,6 @@ class _$DustyEventCopyWithImpl<$Res, $Val extends DustyEvent>
           ? _value.isPlayer
           : isPlayer // ignore: cast_nullable_to_non_nullable
               as bool?,
-      team: freezed == team
-          ? _value.team
-          : team // ignore: cast_nullable_to_non_nullable
-              as Team?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -732,7 +725,6 @@ abstract class _$$DustyEventImplCopyWith<$Res>
       List<StateData>? states,
       String? name,
       bool? isPlayer,
-      Team? team,
       int? status,
       int? position,
       int? targetId,
@@ -757,7 +749,6 @@ class __$$DustyEventImplCopyWithImpl<$Res>
     Object? states = freezed,
     Object? name = freezed,
     Object? isPlayer = freezed,
-    Object? team = freezed,
     Object? status = freezed,
     Object? position = freezed,
     Object? targetId = freezed,
@@ -786,10 +777,6 @@ class __$$DustyEventImplCopyWithImpl<$Res>
           ? _value.isPlayer
           : isPlayer // ignore: cast_nullable_to_non_nullable
               as bool?,
-      team: freezed == team
-          ? _value.team
-          : team // ignore: cast_nullable_to_non_nullable
-              as Team?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -827,7 +814,6 @@ class _$DustyEventImpl extends _DustyEvent {
       final List<StateData>? states,
       this.name,
       this.isPlayer,
-      this.team,
       this.status,
       this.position,
       this.targetId,
@@ -859,8 +845,6 @@ class _$DustyEventImpl extends _DustyEvent {
   @override
   final bool? isPlayer;
   @override
-  final Team? team;
-  @override
   final int? status;
   @override
   final int? position;
@@ -875,7 +859,7 @@ class _$DustyEventImpl extends _DustyEvent {
 
   @override
   String toString() {
-    return 'DustyEvent(objectId: $objectId, eventType: $eventType, states: $states, name: $name, isPlayer: $isPlayer, team: $team, status: $status, position: $position, targetId: $targetId, killerId: $killerId, quantity: $quantity, defence: $defence)';
+    return 'DustyEvent(objectId: $objectId, eventType: $eventType, states: $states, name: $name, isPlayer: $isPlayer, status: $status, position: $position, targetId: $targetId, killerId: $killerId, quantity: $quantity, defence: $defence)';
   }
 
   @override
@@ -891,7 +875,6 @@ class _$DustyEventImpl extends _DustyEvent {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.isPlayer, isPlayer) ||
                 other.isPlayer == isPlayer) &&
-            (identical(other.team, team) || other.team == team) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.position, position) ||
                 other.position == position) &&
@@ -913,7 +896,6 @@ class _$DustyEventImpl extends _DustyEvent {
       const DeepCollectionEquality().hash(_states),
       name,
       isPlayer,
-      team,
       status,
       position,
       targetId,
@@ -942,7 +924,6 @@ abstract class _DustyEvent extends DustyEvent {
       final List<StateData>? states,
       final String? name,
       final bool? isPlayer,
-      final Team? team,
       final int? status,
       final int? position,
       final int? targetId,
@@ -964,8 +945,6 @@ abstract class _DustyEvent extends DustyEvent {
   String? get name;
   @override
   bool? get isPlayer;
-  @override
-  Team? get team;
   @override
   int? get status;
   @override
@@ -993,9 +972,6 @@ mixin _$ActiveObjectEvent {
   int get objectId => throw _privateConstructorUsedError;
   EventType get eventType => throw _privateConstructorUsedError;
   List<StateData>? get states => throw _privateConstructorUsedError;
-  int? get angle => throw _privateConstructorUsedError;
-  int? get nextPosition => throw _privateConstructorUsedError;
-  int? get team => throw _privateConstructorUsedError;
   double? get directionX => throw _privateConstructorUsedError;
   double? get directionY => throw _privateConstructorUsedError;
   double? get gravity => throw _privateConstructorUsedError;
@@ -1023,9 +999,6 @@ abstract class $ActiveObjectEventCopyWith<$Res> {
       {int objectId,
       EventType eventType,
       List<StateData>? states,
-      int? angle,
-      int? nextPosition,
-      int? team,
       double? directionX,
       double? directionY,
       double? gravity,
@@ -1054,9 +1027,6 @@ class _$ActiveObjectEventCopyWithImpl<$Res, $Val extends ActiveObjectEvent>
     Object? objectId = null,
     Object? eventType = null,
     Object? states = freezed,
-    Object? angle = freezed,
-    Object? nextPosition = freezed,
-    Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
     Object? gravity = freezed,
@@ -1081,18 +1051,6 @@ class _$ActiveObjectEventCopyWithImpl<$Res, $Val extends ActiveObjectEvent>
           ? _value.states
           : states // ignore: cast_nullable_to_non_nullable
               as List<StateData>?,
-      angle: freezed == angle
-          ? _value.angle
-          : angle // ignore: cast_nullable_to_non_nullable
-              as int?,
-      nextPosition: freezed == nextPosition
-          ? _value.nextPosition
-          : nextPosition // ignore: cast_nullable_to_non_nullable
-              as int?,
-      team: freezed == team
-          ? _value.team
-          : team // ignore: cast_nullable_to_non_nullable
-              as int?,
       directionX: freezed == directionX
           ? _value.directionX
           : directionX // ignore: cast_nullable_to_non_nullable
@@ -1149,9 +1107,6 @@ abstract class _$$ActiveObjectEventImplCopyWith<$Res>
       {int objectId,
       EventType eventType,
       List<StateData>? states,
-      int? angle,
-      int? nextPosition,
-      int? team,
       double? directionX,
       double? directionY,
       double? gravity,
@@ -1178,9 +1133,6 @@ class __$$ActiveObjectEventImplCopyWithImpl<$Res>
     Object? objectId = null,
     Object? eventType = null,
     Object? states = freezed,
-    Object? angle = freezed,
-    Object? nextPosition = freezed,
-    Object? team = freezed,
     Object? directionX = freezed,
     Object? directionY = freezed,
     Object? gravity = freezed,
@@ -1205,18 +1157,6 @@ class __$$ActiveObjectEventImplCopyWithImpl<$Res>
           ? _value._states
           : states // ignore: cast_nullable_to_non_nullable
               as List<StateData>?,
-      angle: freezed == angle
-          ? _value.angle
-          : angle // ignore: cast_nullable_to_non_nullable
-              as int?,
-      nextPosition: freezed == nextPosition
-          ? _value.nextPosition
-          : nextPosition // ignore: cast_nullable_to_non_nullable
-              as int?,
-      team: freezed == team
-          ? _value.team
-          : team // ignore: cast_nullable_to_non_nullable
-              as int?,
       directionX: freezed == directionX
           ? _value.directionX
           : directionX // ignore: cast_nullable_to_non_nullable
@@ -1268,9 +1208,6 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
       {required this.objectId,
       required this.eventType,
       final List<StateData>? states,
-      this.angle,
-      this.nextPosition,
-      this.team,
       this.directionX,
       this.directionY,
       this.gravity,
@@ -1302,12 +1239,6 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
   }
 
   @override
-  final int? angle;
-  @override
-  final int? nextPosition;
-  @override
-  final int? team;
-  @override
   final double? directionX;
   @override
   final double? directionY;
@@ -1330,7 +1261,7 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
 
   @override
   String toString() {
-    return 'ActiveObjectEvent(objectId: $objectId, eventType: $eventType, states: $states, angle: $angle, nextPosition: $nextPosition, team: $team, directionX: $directionX, directionY: $directionY, gravity: $gravity, lifeStep: $lifeStep, speed: $speed, position: $position, destination: $destination, targetId: $targetId, ownerId: $ownerId, objectType: $objectType)';
+    return 'ActiveObjectEvent(objectId: $objectId, eventType: $eventType, states: $states, directionX: $directionX, directionY: $directionY, gravity: $gravity, lifeStep: $lifeStep, speed: $speed, position: $position, destination: $destination, targetId: $targetId, ownerId: $ownerId, objectType: $objectType)';
   }
 
   @override
@@ -1343,10 +1274,6 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
             (identical(other.eventType, eventType) ||
                 other.eventType == eventType) &&
             const DeepCollectionEquality().equals(other._states, _states) &&
-            (identical(other.angle, angle) || other.angle == angle) &&
-            (identical(other.nextPosition, nextPosition) ||
-                other.nextPosition == nextPosition) &&
-            (identical(other.team, team) || other.team == team) &&
             (identical(other.directionX, directionX) ||
                 other.directionX == directionX) &&
             (identical(other.directionY, directionY) ||
@@ -1373,9 +1300,6 @@ class _$ActiveObjectEventImpl extends _ActiveObjectEvent {
       objectId,
       eventType,
       const DeepCollectionEquality().hash(_states),
-      angle,
-      nextPosition,
-      team,
       directionX,
       directionY,
       gravity,
@@ -1407,9 +1331,6 @@ abstract class _ActiveObjectEvent extends ActiveObjectEvent {
       {required final int objectId,
       required final EventType eventType,
       final List<StateData>? states,
-      final int? angle,
-      final int? nextPosition,
-      final int? team,
       final double? directionX,
       final double? directionY,
       final double? gravity,
@@ -1431,12 +1352,6 @@ abstract class _ActiveObjectEvent extends ActiveObjectEvent {
   EventType get eventType;
   @override
   List<StateData>? get states;
-  @override
-  int? get angle;
-  @override
-  int? get nextPosition;
-  @override
-  int? get team;
   @override
   double? get directionX;
   @override
@@ -1474,6 +1389,7 @@ mixin _$PassiveObjectEvent {
   List<StateData>? get states => throw _privateConstructorUsedError;
   int? get position => throw _privateConstructorUsedError;
   PassiveObjectType? get objectType => throw _privateConstructorUsedError;
+  bool? get isFacingRight => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1492,7 +1408,8 @@ abstract class $PassiveObjectEventCopyWith<$Res> {
       EventType eventType,
       List<StateData>? states,
       int? position,
-      PassiveObjectType? objectType});
+      PassiveObjectType? objectType,
+      bool? isFacingRight});
 }
 
 /// @nodoc
@@ -1513,6 +1430,7 @@ class _$PassiveObjectEventCopyWithImpl<$Res, $Val extends PassiveObjectEvent>
     Object? states = freezed,
     Object? position = freezed,
     Object? objectType = freezed,
+    Object? isFacingRight = freezed,
   }) {
     return _then(_value.copyWith(
       objectId: null == objectId
@@ -1535,6 +1453,10 @@ class _$PassiveObjectEventCopyWithImpl<$Res, $Val extends PassiveObjectEvent>
           ? _value.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
               as PassiveObjectType?,
+      isFacingRight: freezed == isFacingRight
+          ? _value.isFacingRight
+          : isFacingRight // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -1552,7 +1474,8 @@ abstract class _$$PassiveObjectEventImplCopyWith<$Res>
       EventType eventType,
       List<StateData>? states,
       int? position,
-      PassiveObjectType? objectType});
+      PassiveObjectType? objectType,
+      bool? isFacingRight});
 }
 
 /// @nodoc
@@ -1571,6 +1494,7 @@ class __$$PassiveObjectEventImplCopyWithImpl<$Res>
     Object? states = freezed,
     Object? position = freezed,
     Object? objectType = freezed,
+    Object? isFacingRight = freezed,
   }) {
     return _then(_$PassiveObjectEventImpl(
       objectId: null == objectId
@@ -1593,6 +1517,10 @@ class __$$PassiveObjectEventImplCopyWithImpl<$Res>
           ? _value.objectType
           : objectType // ignore: cast_nullable_to_non_nullable
               as PassiveObjectType?,
+      isFacingRight: freezed == isFacingRight
+          ? _value.isFacingRight
+          : isFacingRight // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -1605,7 +1533,8 @@ class _$PassiveObjectEventImpl extends _PassiveObjectEvent {
       required this.eventType,
       final List<StateData>? states,
       this.position,
-      this.objectType})
+      this.objectType,
+      this.isFacingRight})
       : _states = states,
         super._();
 
@@ -1630,10 +1559,12 @@ class _$PassiveObjectEventImpl extends _PassiveObjectEvent {
   final int? position;
   @override
   final PassiveObjectType? objectType;
+  @override
+  final bool? isFacingRight;
 
   @override
   String toString() {
-    return 'PassiveObjectEvent(objectId: $objectId, eventType: $eventType, states: $states, position: $position, objectType: $objectType)';
+    return 'PassiveObjectEvent(objectId: $objectId, eventType: $eventType, states: $states, position: $position, objectType: $objectType, isFacingRight: $isFacingRight)';
   }
 
   @override
@@ -1649,13 +1580,21 @@ class _$PassiveObjectEventImpl extends _PassiveObjectEvent {
             (identical(other.position, position) ||
                 other.position == position) &&
             (identical(other.objectType, objectType) ||
-                other.objectType == objectType));
+                other.objectType == objectType) &&
+            (identical(other.isFacingRight, isFacingRight) ||
+                other.isFacingRight == isFacingRight));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, objectId, eventType,
-      const DeepCollectionEquality().hash(_states), position, objectType);
+  int get hashCode => Object.hash(
+      runtimeType,
+      objectId,
+      eventType,
+      const DeepCollectionEquality().hash(_states),
+      position,
+      objectType,
+      isFacingRight);
 
   @JsonKey(ignore: true)
   @override
@@ -1678,7 +1617,8 @@ abstract class _PassiveObjectEvent extends PassiveObjectEvent {
       required final EventType eventType,
       final List<StateData>? states,
       final int? position,
-      final PassiveObjectType? objectType}) = _$PassiveObjectEventImpl;
+      final PassiveObjectType? objectType,
+      final bool? isFacingRight}) = _$PassiveObjectEventImpl;
   _PassiveObjectEvent._() : super._();
 
   factory _PassiveObjectEvent.fromJson(Map<String, dynamic> json) =
@@ -1694,6 +1634,8 @@ abstract class _PassiveObjectEvent extends PassiveObjectEvent {
   int? get position;
   @override
   PassiveObjectType? get objectType;
+  @override
+  bool? get isFacingRight;
   @override
   @JsonKey(ignore: true)
   _$$PassiveObjectEventImplCopyWith<_$PassiveObjectEventImpl> get copyWith =>

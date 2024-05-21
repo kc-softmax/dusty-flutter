@@ -26,7 +26,7 @@ class RankPanel extends SpriteComponent
 
   RankPanel() {
     size = rankPanelSize;
-    sprite = gameRef.atlas.findSpriteByName('rank_bg');
+    sprite = gameRef.atlas.findSpriteByName('tree');
   }
 
   @override
@@ -38,7 +38,7 @@ class RankPanel extends SpriteComponent
     );
 
     final rankIcon = SpriteComponent(
-      sprite: gameRef.atlas.findSpriteByName('raft'),
+      sprite: gameRef.atlas.findSpriteByName('tree'),
       size: rankIconSize,
     )
       ..x = 10

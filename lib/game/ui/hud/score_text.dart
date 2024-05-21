@@ -9,7 +9,7 @@ class ScoreText extends SpriteComponent with HasGameRef<DustyIslandGame> {
   late TextComponent labelComponent;
 
   ScoreText({required double x, required String label}) {
-    sprite = gameRef.atlas.findSpriteByName('rank_bg');
+    sprite = gameRef.atlas.findSpriteByName('tree');
     size = Vector2(100, 45);
     anchor = Anchor.center;
     super.x = x;

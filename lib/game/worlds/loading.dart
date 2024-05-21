@@ -9,6 +9,7 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flame_svg/flame_svg.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -155,8 +156,9 @@ class LoadingSceneWorld extends World with HasGameRef<DustyIslandGame> {
   void loadAssets() async {
     // sound
     await DustySoundPool.instance.load();
+    // kIsWeb
     // sprites
-    gameRef.atlas = await gameRef.fromAtlas('images/dusty-island.atlas');
+    gameRef.atlas = await gameRef.fromAtlas('images/dusty-island-md.atlas');
     // map
     gameRef.defaultMap =
         await TiledComponent.load('default_map.tmx', Vector2.all(32));

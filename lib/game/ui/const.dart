@@ -4,12 +4,21 @@ import 'package:flutter/material.dart';
 
 enum HudButtonType { circle, smallCircle }
 
+enum GaugeBarColor {
+  red('red_gauge');
+
+  final String value;
+
+  const GaugeBarColor(this.value);
+}
+
 class Priority {
   static const int low = 0;
   static const int normal = 1;
-  static const int dusty = 2;
-  static const int environment = 3;
-  static const int environmentIntersected = 4;
+  static const int weapon = 2;
+  static const int dusty = 3;
+  static const int environment = 4;
+  static const int environmentIntersected = 5;
 }
 
 // Colors
@@ -45,7 +54,6 @@ final regularText = TextPaint(
   ),
 );
 
-// TODO 임시
 enum RankingTableColumnsData {
   userId('ID'),
   userName('NAME'),

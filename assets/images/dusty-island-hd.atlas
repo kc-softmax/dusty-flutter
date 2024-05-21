@@ -1,0 +1,404 @@
+dusty-island-hd-0.png
+size: 1024, 1027
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+active_skill_border
+  rotate: false
+  xy: 917, 484
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
+axe_swing
+  rotate: false
+  xy: 406, 497
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 1
+axe_swing
+  rotate: false
+  xy: 2, 828
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 2
+axe_swing
+  rotate: false
+  xy: 762, 220
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 3
+axe_swing
+  rotate: false
+  xy: 894, 220
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 4
+axe_swing
+  rotate: false
+  xy: 538, 497
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 5
+axe_swing
+  rotate: false
+  xy: 134, 828
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 6
+axe_swing
+  rotate: false
+  xy: 762, 352
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 7
+axe_swing
+  rotate: false
+  xy: 894, 352
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 8
+axe_swing
+  rotate: false
+  xy: 266, 828
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 9
+axe_swing
+  rotate: false
+  xy: 670, 497
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 10
+deactive_skill_border
+  rotate: false
+  xy: 917, 573
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
+default_body
+  rotate: false
+  xy: 2, 960
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 1
+default_body
+  rotate: false
+  xy: 70, 960
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 2
+default_body
+  rotate: false
+  xy: 138, 960
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 3
+default_body
+  rotate: false
+  xy: 206, 960
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 4
+default_body
+  rotate: false
+  xy: 138, 960
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 5
+default_body
+  rotate: false
+  xy: 70, 960
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 6
+default_body
+  rotate: false
+  xy: 2, 960
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 7
+default_body
+  rotate: false
+  xy: 274, 960
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 8
+default_body
+  rotate: false
+  xy: 920, 819
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 9
+default_body
+  rotate: false
+  xy: 274, 960
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 10
+default_explosion
+  rotate: false
+  xy: 406, 629
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 1
+default_explosion
+  rotate: false
+  xy: 521, 629
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 2
+default_explosion
+  rotate: false
+  xy: 636, 629
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 3
+default_explosion
+  rotate: false
+  xy: 802, 484
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 4
+default_explosion
+  rotate: false
+  xy: 398, 828
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 5
+default_explosion
+  rotate: false
+  xy: 802, 584
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 6
+default_explosion
+  rotate: false
+  xy: 398, 928
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 7
+default_explosion
+  rotate: false
+  xy: 575, 729
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 8
+default_explosion
+  rotate: false
+  xy: 690, 729
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 9
+default_explosion
+  rotate: false
+  xy: 805, 684
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 10
+default_explosion
+  rotate: false
+  xy: 805, 784
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 11
+default_explosion
+  rotate: false
+  xy: 513, 829
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 12
+default_explosion
+  rotate: false
+  xy: 513, 929
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 13
+default_explosion
+  rotate: false
+  xy: 628, 829
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 14
+default_explosion
+  rotate: false
+  xy: 628, 929
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 15
+default_explosion
+  rotate: false
+  xy: 743, 884
+  size: 111, 96
+  orig: 111, 96
+  offset: 0, 0
+  index: 16
+g0
+  rotate: false
+  xy: 342, 960
+  size: 36, 18
+  orig: 36, 18
+  offset: 0, 0
+  index: -1
+g0_attack
+  rotate: false
+  xy: 926, 955
+  size: 36, 18
+  orig: 36, 18
+  offset: 0, 0
+  index: -1
+g0_damaged
+  rotate: false
+  xy: 743, 855
+  size: 36, 18
+  orig: 36, 18
+  offset: 0, 0
+  index: -1
+gauge_box
+  rotate: false
+  xy: 743, 984
+  size: 64, 16
+  orig: 64, 16
+  offset: 0, 0
+  index: -1
+indicator
+  rotate: false
+  xy: 751, 629
+  size: 31, 29
+  orig: 31, 29
+  offset: 0, 0
+  index: -1
+joystick_bg
+  rotate: false
+  xy: 920, 662
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
+knob
+  rotate: false
+  xy: 920, 746
+  size: 66, 69
+  orig: 66, 69
+  offset: 0, 0
+  index: -1
+loading_bar
+  rotate: false
+  xy: 2, 741
+  size: 480, 44
+  orig: 480, 44
+  offset: 0, 0
+  index: -1
+loading_bg
+  rotate: false
+  xy: 2, 2
+  size: 756, 491
+  orig: 756, 491
+  offset: 0, 0
+  index: -1
+loading_gauge
+  rotate: false
+  xy: 2, 789
+  size: 471, 35
+  orig: 471, 35
+  offset: 0, 0
+  index: -1
+normal_axe
+  rotate: false
+  xy: 858, 887
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+normal_axe_item
+  rotate: false
+  xy: 926, 887
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+red_gauge
+  rotate: false
+  xy: 743, 1004
+  size: 62, 13
+  orig: 62, 13
+  offset: 0, 0
+  index: -1
+skill_bt_shadow
+  rotate: false
+  xy: 486, 729
+  size: 85, 85
+  orig: 85, 85
+  offset: 0, 0
+  index: -1
+skill_counter_box
+  rotate: false
+  xy: 743, 829
+  size: 37, 22
+  orig: 37, 22
+  offset: 0, 0
+  index: -1
+skill_icon
+  rotate: false
+  xy: 858, 955
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+text_logo
+  rotate: false
+  xy: 2, 497
+  size: 400, 240
+  orig: 400, 240
+  offset: 0, 0
+  index: -1
+tree
+  rotate: false
+  xy: 762, 2
+  size: 128, 214
+  orig: 128, 214
+  offset: 0, 0
+  index: -1
+trimmed_tree
+  rotate: false
+  xy: 894, 2
+  size: 128, 214
+  orig: 128, 214
+  offset: 0, 0
+  index: -1

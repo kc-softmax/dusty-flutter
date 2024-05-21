@@ -1,19 +1,13 @@
 import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/game/base/object_factory.dart';
-import 'package:dusty_flutter/game/game_objects/active_objects/axe.dart';
-import 'package:dusty_flutter/game/game_objects/active_objects/stone.dart';
+import 'package:dusty_flutter/game/game_objects/active_objects/throwing_normal_axe.dart';
 import 'package:dusty_flutter/game/base/object.dart';
 
 abstract mixin class ActiveObjects implements DIObject {
   late ActiveObjectType objectType;
 
-  factory ActiveObjects.axe(ActiveObjectEvent message) =>
-      Axe(message.objectId, secondPosition: message.nextPosition!)
-        ..x = message.x
-        ..y = message.y;
-
-  factory ActiveObjects.stone(ActiveObjectEvent message) =>
-      Stone(message.objectId)
+  factory ActiveObjects.throwingNormalAxe(ActiveObjectEvent message) =>
+      ThrowingNormalAxe(message.objectId)
         ..x = message.x
         ..y = message.y;
 }
@@ -25,12 +19,10 @@ class ActiveObjectsFactory
     assert(message.objectType != null, "objectType is null");
     assert(message.position != null, "position is null");
     switch (message.objectType) {
-      case ActiveObjectType.axe:
-        return ActiveObjects.axe(message);
-      case ActiveObjectType.stone:
-        return ActiveObjects.stone(message);
+      case ActiveObjectType.throwingNormalAxe:
+        return ActiveObjects.throwingNormalAxe(message);
       default:
-        return ActiveObjects.axe(message);
+        return ActiveObjects.throwingNormalAxe(message);
     }
   }
 }
