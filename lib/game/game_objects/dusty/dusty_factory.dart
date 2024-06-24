@@ -1,10 +1,8 @@
 import 'package:dusty_flutter/game/base/object_factory.dart';
 import 'package:dusty_flutter/game/cameras/camera.dart';
-import 'package:dusty_flutter/game/effects/ui/const.dart';
 import 'package:dusty_flutter/game/effects/ui/default_explosion.dart';
-import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
+import 'package:dusty_flutter/arbiter/live_connection/game_event.dart';
 import 'package:dusty_flutter/game/game_objects/dusty/dusty.dart';
-import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
 
 class DustyFactory extends BaseObjectsFactory<Dusty, DustyEvent> {

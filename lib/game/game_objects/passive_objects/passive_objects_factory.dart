@@ -1,4 +1,4 @@
-import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
+import 'package:dusty_flutter/arbiter/live_connection/game_event.dart';
 import 'package:dusty_flutter/game/base/object_factory.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/environment/tree.dart';
 import 'package:dusty_flutter/game/game_objects/passive_objects/environment/trimmed_tree.dart';

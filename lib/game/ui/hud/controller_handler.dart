@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
 import 'package:dusty_flutter/game/game.dart';
@@ -146,9 +145,8 @@ abstract class ControllerHandler extends Component
     final currentWorld = gameRef.world;
     if (currentWorld is! PlaySceneWorld) throw ('게임 플레이 중이 아닙니다.');
     // currentWorld.player!.updateTargetDirection(action.getDirectionIndex());
-
-    Arbiter.liveService
-        .sendByte(ControlAction.immediateControl.encode(value: direction.code));
+    gameRef.gameSocketConnection
+        .send(ControlAction.immediateControl.encode(value: direction.code));
     return false;
   }
 }

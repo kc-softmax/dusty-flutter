@@ -1,5 +1,4 @@
 import 'package:dusty_flutter/game/game.dart';
-import 'package:dusty_flutter/game/ui/hud/hud.dart';
 import 'package:dusty_flutter/game/worlds/play.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';

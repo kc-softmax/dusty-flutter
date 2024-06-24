@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
-import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
-import 'package:dusty_flutter/arbiter/live_service/socket.dart';
+import 'package:dusty_flutter/arbiter/live_connection/base/connection.dart';
+import 'package:dusty_flutter/arbiter/live_connection/game_event.dart';
+import 'package:dusty_flutter/arbiter/live_connection/web_socket/connection.dart';
 import 'package:dusty_flutter/game/atlas/texture_atlas.dart';
 import 'package:dusty_flutter/game/base/object.dart';
 import 'package:dusty_flutter/game/cameras/camera.dart';
@@ -13,7 +14,6 @@ import 'package:dusty_flutter/game/worlds/loading.dart';
 import 'package:dusty_flutter/game/worlds/lobby.dart';
 import 'package:dusty_flutter/game/worlds/play.dart';
 import 'package:flame/components.dart';
-import 'package:flame/events.dart' as new_event;
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_tiled/flame_tiled.dart' hide Text;
@@ -32,6 +32,7 @@ class DustyIslandGame extends FlameGame
   late TiledComponent defaultMap;
   //for Map Select Test
   late TiledComponent ultimateMap;
+  late ArbiterWebSocketConnection gameSocketConnection;
 
   DustyIslandGame([this.focusNode]) : super(world: LoadingSceneWorld()) {
     pauseWhenBackgrounded = false;
@@ -113,18 +114,19 @@ class DustyIslandGame extends FlameGame
   }) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString("token");
-    Arbiter.liveService.on(
-      "/di/ws?token=$token",
-      _startGame(),
-      _finishGame(),
-    );
+    gameSocketConnection = Arbiter.createWebSocketConnection()
+      ..on(
+        "/di/ws?token=$token",
+        _startGame(),
+        onDone: _finishGame(),
+      );
   }
 
   Future<void> _disconnectGame({String? reason}) async {
-    await Arbiter.liveService.close(null, reason);
+    await gameSocketConnection.close(null, reason);
   }
 
-  EventCallbackType _startGame() {
+  JsonEventCallbackType _startGame() {
     return (Map<String, dynamic> json) async {
       try {
         playWorld?.handleGameEvent(GameEvent.fromJson(json));
@@ -136,7 +138,7 @@ class DustyIslandGame extends FlameGame
     };
   }
 
-  DonCallbackType _finishGame() {
+  DoneCallbackType _finishGame() {
     return (String? reason) async {
       // 게임 닫기 다이얼로그를 보여준다.
       // 게임 닫기 다이얼로그는 랭킹 테이블, 다시하기 버튼, 나가기 버튼 으로 구성되어 있다.

@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'dart:math';
-import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
+import 'package:dusty_flutter/arbiter/live_connection/game_event.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';

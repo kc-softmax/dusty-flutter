@@ -1,4 +1,4 @@
-import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
+import 'package:dusty_flutter/arbiter/live_connection/game_event.dart';
 import 'package:dusty_flutter/game/base/object_factory.dart';
 import 'package:dusty_flutter/game/game_objects/active_objects/throwing_normal_axe.dart';
 import 'package:dusty_flutter/game/base/object.dart';

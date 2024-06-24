@@ -44,5 +44,9 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+		<string>Dusty Island Camera Usage!</string>
+	<key>NSMicrophoneUsageDescription</key>
+		<string>Dusty Island Microphone Usage!</string>
 </dict>
 </plist>

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:dusty_flutter/game/game.dart';
-import 'package:dusty_flutter/game/ui/overlays/flutter_overlay_dialogs.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/palette.dart';

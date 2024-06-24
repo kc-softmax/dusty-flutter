@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
-import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
 import 'package:dusty_flutter/game/game_objects/dusty/const.dart';
 import 'package:dusty_flutter/game/game_objects/dusty/dusty.dart';
 import 'package:dusty_flutter/game/game.dart';

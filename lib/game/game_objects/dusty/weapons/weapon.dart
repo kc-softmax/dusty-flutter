@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
+import 'package:dusty_flutter/arbiter/live_connection/game_event.dart';
 import 'package:dusty_flutter/game/base/object.dart';
 import 'package:dusty_flutter/game/game.dart';
 import 'package:dusty_flutter/game/game_objects/dusty/weapons/normal_axe.dart';

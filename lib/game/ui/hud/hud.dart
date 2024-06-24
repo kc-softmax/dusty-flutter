@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dusty_flutter/arbiter/api/models.dart';
 import 'package:dusty_flutter/arbiter/arbiter_client.dart';
-import 'package:dusty_flutter/arbiter/live_service/game_event.dart';
+import 'package:dusty_flutter/arbiter/live_connection/game_event.dart';
 import 'package:dusty_flutter/game/ui/hud/minimap.dart';
 import 'package:dusty_flutter/game/ui/hud/skill_button.dart';
 import 'package:dusty_flutter/game/ui/hud/controller_handler.dart';
@@ -54,10 +54,10 @@ class Hud extends ControllerHandler {
   @override
   void onPressedDigit1(KeyEvent event) {
     if (event is KeyDownEvent) {
-      Arbiter.liveService.sendByte(
+      gameRef.gameSocketConnection.send(
           ControlAction.active.encode(value: DustyAction.activeSkillDown.code));
     } else if (event is KeyUpEvent) {
-      Arbiter.liveService.sendByte(
+      gameRef.gameSocketConnection.send(
           ControlAction.active.encode(value: DustyAction.activeSkillUp.code));
     }
     // specialSkillButton1.onPressed?.call();
@@ -66,13 +66,13 @@ class Hud extends ControllerHandler {
   @override
   void onPressedDigit2(KeyEvent event) {
     if (event is KeyDownEvent) {
-      Arbiter.liveService.sendByte(ControlAction.active
+      gameRef.gameSocketConnection.send(ControlAction.active
           .encode(value: DustyAction.specialSkillDown.code));
       gameRef.playWorld?.dustyFactory.addUserIngameUpdateEvent(
         [const StateData(state: ObjectState.charging)],
       );
     } else if (event is KeyUpEvent) {
-      Arbiter.liveService.sendByte(
+      gameRef.gameSocketConnection.send(
           ControlAction.active.encode(value: DustyAction.specialSkillUp.code));
     }
   }
