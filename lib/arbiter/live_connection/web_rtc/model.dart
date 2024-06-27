@@ -36,6 +36,8 @@ WebRTCSignalData
 enum SignalingMessageType {
   @JsonValue('offer')
   offer,
+  @JsonValue('answer')
+  answer,
   @JsonValue('candidate')
   candidate,
 }
@@ -46,6 +48,9 @@ class WebRTCSignalData with _$WebRTCSignalData {
   const factory WebRTCSignalData({
     required SignalingMessageType type,
     String? sdp,
+    String? candidate,
+    String? id,
+    int? label,
   }) = _WebRTCSignalData;
 
   factory WebRTCSignalData.fromJson(Map<String, dynamic> json) =>

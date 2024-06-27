@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:dusty_flutter/arbiter/live_connection/base/connection.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:dusty_flutter/arbiter/live_connection/base/connection.dart';
 import 'package:dusty_flutter/arbiter/live_connection/web_rtc/extension.dart';
 import 'package:dusty_flutter/arbiter/live_connection/web_rtc/model.dart';
-import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 class ArbiterWebRTCConnection
     extends BaseArbiterLiveConnection<WebRTCEventCallbackType> {
   final _config = {
+    'sdpSemantics': 'unified-plan',
     'iceServers': [
       {
         "urls": "turn:211.119.91.210:3478?transport=tcp",
@@ -18,15 +19,22 @@ class ArbiterWebRTCConnection
       },
     ]
   };
+  final _defaultMediaConstraints = {"video": true, "audio": true};
+  final _localRenderer = RTCVideoRenderer();
+  final _remoteRenderer = RTCVideoRenderer();
+
   late final StreamController<ArbiterWebRTCEvent> _streamController;
   late final WebSocketChannel _webSocketChannel;
   late final RTCPeerConnection _pc;
   late final RTCDataChannel _rtcDataChannel;
+  late MediaStream _localMediaStream;
 
   RTCSignalingState? get signalingState => _pc.signalingState;
   RTCPeerConnectionState? get peerConnectionState => _pc.connectionState;
   RTCIceConnectionState? get iceConnectionState => _pc.iceConnectionState;
   RTCDataChannelState? get dataChannelState => _rtcDataChannel.state;
+  RTCVideoRenderer get localVideoRenderer => _localRenderer;
+  RTCVideoRenderer get remoteVideoRenderer => _remoteRenderer;
 
   ArbiterWebRTCConnection({required super.baseSocketUrl});
 
@@ -58,9 +66,27 @@ class ArbiterWebRTCConnection
         _rtcDataChannel = channel;
         channel.onDataChannelState = _onDataChannelStateChanged;
         channel.onMessage = _onDataChannelMessageReceived;
+      }
+      ..onTrack = (event) async {
+        print('on track ${event.track.id}');
+        if (event.track.kind == 'video') {
+          await readyRemoteMediaStream(event.streams.first);
+        }
       };
-    await _webSocketChannel.ready;
+
+    _localMediaStream.getTracks().forEach((track) async {
+      print('local track: $track');
+      await _pc.addTrack(track, _localMediaStream);
+    });
+
     _streamController.stream.listen(onEvent, onDone: () => onDone?.call(null));
+
+    await _webSocketChannel.ready;
+
+    // final offer = await _pc.createOffer();
+    // print('offer: $offer');
+    // _pc.setLocalDescription(offer);
+    // _webSocketChannel.sink.add(jsonEncode(offer.toMap()));
   }
 
   @override
@@ -78,11 +104,28 @@ class ArbiterWebRTCConnection
     _rtcDataChannel.send(RTCDataChannelMessage(message));
   }
 
-  // 서버에서 offer를 만들어서 받을 경우 기준
+  void clear() {
+    _localRenderer.dispose();
+  }
+
+  Future<void> readyLocalMediaStream(
+      {Map<String, dynamic>? constraints}) async {
+    await _localRenderer.initialize();
+    final mediaConstraints = constraints ?? _defaultMediaConstraints;
+    _localMediaStream =
+        await navigator.mediaDevices.getUserMedia(mediaConstraints);
+    _localRenderer.srcObject = _localMediaStream;
+  }
+
+  Future<void> readyRemoteMediaStream(MediaStream stream) async {
+    await _remoteRenderer.initialize();
+    _remoteRenderer.srcObject = stream;
+  }
+
   void _onSignalingMessageReceived(Map<String, dynamic> json) async {
     final signalingData = WebRTCSignalData.fromJson(json);
     switch (signalingData.type) {
-      case SignalingMessageType.offer:
+      case SignalingMessageType.offer || SignalingMessageType.answer:
         if (signalingData.sdp == null) return;
         await _pc.setRemoteDescription(
           RTCSessionDescription(
@@ -90,11 +133,19 @@ class ArbiterWebRTCConnection
             signalingData.type.name,
           ),
         );
-        final answer = await _pc.createAnswer({});
-        await _pc.setLocalDescription(answer);
-        _webSocketChannel.sink.add(jsonEncode(answer.toMap()));
+        if (signalingData.type == SignalingMessageType.offer) {
+          final answer = await _pc.createAnswer();
+          await _pc.setLocalDescription(answer);
+          _webSocketChannel.sink.add(jsonEncode(answer.toMap()));
+          return;
+        }
         break;
-      default:
+      case SignalingMessageType.candidate:
+        _pc.addCandidate(RTCIceCandidate(
+          signalingData.candidate,
+          signalingData.id,
+          signalingData.label,
+        ));
     }
   }
 

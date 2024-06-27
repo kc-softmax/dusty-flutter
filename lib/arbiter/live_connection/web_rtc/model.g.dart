@@ -11,6 +11,9 @@ _$WebRTCSignalDataImpl _$$WebRTCSignalDataImplFromJson(
     _$WebRTCSignalDataImpl(
       type: $enumDecode(_$SignalingMessageTypeEnumMap, json['type']),
       sdp: json['sdp'] as String?,
+      candidate: json['candidate'] as String?,
+      id: json['id'] as String?,
+      label: json['label'] as int?,
     );
 
 Map<String, dynamic> _$$WebRTCSignalDataImplToJson(
@@ -18,10 +21,14 @@ Map<String, dynamic> _$$WebRTCSignalDataImplToJson(
     <String, dynamic>{
       'type': _$SignalingMessageTypeEnumMap[instance.type]!,
       'sdp': instance.sdp,
+      'candidate': instance.candidate,
+      'id': instance.id,
+      'label': instance.label,
     };
 
 const _$SignalingMessageTypeEnumMap = {
   SignalingMessageType.offer: 'offer',
+  SignalingMessageType.answer: 'answer',
   SignalingMessageType.candidate: 'candidate',
 };
 

@@ -22,6 +22,9 @@ WebRTCSignalData _$WebRTCSignalDataFromJson(Map<String, dynamic> json) {
 mixin _$WebRTCSignalData {
   SignalingMessageType get type => throw _privateConstructorUsedError;
   String? get sdp => throw _privateConstructorUsedError;
+  String? get candidate => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
+  int? get label => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +38,12 @@ abstract class $WebRTCSignalDataCopyWith<$Res> {
           WebRTCSignalData value, $Res Function(WebRTCSignalData) then) =
       _$WebRTCSignalDataCopyWithImpl<$Res, WebRTCSignalData>;
   @useResult
-  $Res call({SignalingMessageType type, String? sdp});
+  $Res call(
+      {SignalingMessageType type,
+      String? sdp,
+      String? candidate,
+      String? id,
+      int? label});
 }
 
 /// @nodoc
@@ -53,6 +61,9 @@ class _$WebRTCSignalDataCopyWithImpl<$Res, $Val extends WebRTCSignalData>
   $Res call({
     Object? type = null,
     Object? sdp = freezed,
+    Object? candidate = freezed,
+    Object? id = freezed,
+    Object? label = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -63,6 +74,18 @@ class _$WebRTCSignalDataCopyWithImpl<$Res, $Val extends WebRTCSignalData>
           ? _value.sdp
           : sdp // ignore: cast_nullable_to_non_nullable
               as String?,
+      candidate: freezed == candidate
+          ? _value.candidate
+          : candidate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      label: freezed == label
+          ? _value.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -75,7 +98,12 @@ abstract class _$$WebRTCSignalDataImplCopyWith<$Res>
       __$$WebRTCSignalDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({SignalingMessageType type, String? sdp});
+  $Res call(
+      {SignalingMessageType type,
+      String? sdp,
+      String? candidate,
+      String? id,
+      int? label});
 }
 
 /// @nodoc
@@ -91,6 +119,9 @@ class __$$WebRTCSignalDataImplCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
     Object? sdp = freezed,
+    Object? candidate = freezed,
+    Object? id = freezed,
+    Object? label = freezed,
   }) {
     return _then(_$WebRTCSignalDataImpl(
       type: null == type
@@ -101,6 +132,18 @@ class __$$WebRTCSignalDataImplCopyWithImpl<$Res>
           ? _value.sdp
           : sdp // ignore: cast_nullable_to_non_nullable
               as String?,
+      candidate: freezed == candidate
+          ? _value.candidate
+          : candidate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      label: freezed == label
+          ? _value.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -108,7 +151,8 @@ class __$$WebRTCSignalDataImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$WebRTCSignalDataImpl implements _WebRTCSignalData {
-  const _$WebRTCSignalDataImpl({required this.type, this.sdp});
+  const _$WebRTCSignalDataImpl(
+      {required this.type, this.sdp, this.candidate, this.id, this.label});
 
   factory _$WebRTCSignalDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$WebRTCSignalDataImplFromJson(json);
@@ -117,10 +161,16 @@ class _$WebRTCSignalDataImpl implements _WebRTCSignalData {
   final SignalingMessageType type;
   @override
   final String? sdp;
+  @override
+  final String? candidate;
+  @override
+  final String? id;
+  @override
+  final int? label;
 
   @override
   String toString() {
-    return 'WebRTCSignalData(type: $type, sdp: $sdp)';
+    return 'WebRTCSignalData(type: $type, sdp: $sdp, candidate: $candidate, id: $id, label: $label)';
   }
 
   @override
@@ -129,12 +179,16 @@ class _$WebRTCSignalDataImpl implements _WebRTCSignalData {
         (other.runtimeType == runtimeType &&
             other is _$WebRTCSignalDataImpl &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.sdp, sdp) || other.sdp == sdp));
+            (identical(other.sdp, sdp) || other.sdp == sdp) &&
+            (identical(other.candidate, candidate) ||
+                other.candidate == candidate) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.label, label) || other.label == label));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type, sdp);
+  int get hashCode => Object.hash(runtimeType, type, sdp, candidate, id, label);
 
   @JsonKey(ignore: true)
   @override
@@ -154,7 +208,10 @@ class _$WebRTCSignalDataImpl implements _WebRTCSignalData {
 abstract class _WebRTCSignalData implements WebRTCSignalData {
   const factory _WebRTCSignalData(
       {required final SignalingMessageType type,
-      final String? sdp}) = _$WebRTCSignalDataImpl;
+      final String? sdp,
+      final String? candidate,
+      final String? id,
+      final int? label}) = _$WebRTCSignalDataImpl;
 
   factory _WebRTCSignalData.fromJson(Map<String, dynamic> json) =
       _$WebRTCSignalDataImpl.fromJson;
@@ -163,6 +220,12 @@ abstract class _WebRTCSignalData implements WebRTCSignalData {
   SignalingMessageType get type;
   @override
   String? get sdp;
+  @override
+  String? get candidate;
+  @override
+  String? get id;
+  @override
+  int? get label;
   @override
   @JsonKey(ignore: true)
   _$$WebRTCSignalDataImplCopyWith<_$WebRTCSignalDataImpl> get copyWith =>
